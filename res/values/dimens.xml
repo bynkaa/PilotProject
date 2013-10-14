@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="tvHome">25dp</dimen>
+    <dimen name="btLauchWidth">80dp</dimen>
+    <dimen name="btLauchHeight">50dp</dimen>
+    <dimen name="btLauchMarginTop">380dp</dimen>
+</resources>

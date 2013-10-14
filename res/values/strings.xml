@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">OnlineDio</string>
+    <string name="note">
+        <u>I forgot my password.</u>
+    </string>
+    <string name="tvHome">HOME</string>
+    <string name="tvContentFeed">content feeds</string>
+    <string name="tvLauchFirstHeader">ONE PICTURE SAYS A THOUSAND WORD</string>
+    <string name="tvLauchSecondHeader">WHAT IF ONE CLIP CAN SAY YOU</string>
+    <string name="tvLauchBottom">By joining OnlineDio you agree to the
+        <b>Terms of Service</b>
+        and
+        <b>Privacy Policy</b>
+    </string>
+</resources>
