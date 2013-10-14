@@ -10,25 +10,23 @@
     <RelativeLayout
             android:orientation="vertical"
             android:layout_width="fill_parent"
-            android:layout_height="29dp"
+            android:layout_height="35dp"
             android:background="@drawable/navbar" android:id="@+id/navibar">
 
         <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="30dp"
                 android:id="@+id/imageBack"
-                android:layout_alignTop="@+id/imageButton1"
                 android:src="@drawable/soundboard_btnback"
-                android:paddingLeft="8dp" android:contentDescription=""/>
+                android:paddingLeft="8dp" android:contentDescription="" android:layout_alignParentBottom="true"
+                android:layout_alignParentTop="true"/>
         <ImageView
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="35dp"
                 android:id="@+id/imDone"
                 android:src="@drawable/soundboard_btn_done"
                 android:layout_alignParentRight="true"
-                android:layout_alignParentTop="true"
-                android:layout_marginTop="6dp"
-                android:paddingRight="8dp" android:contentDescription=""/>
+                android:paddingRight="8dp" android:contentDescription="" android:layout_alignTop="@+id/imageBack"/>
     </RelativeLayout>
 
     <LinearLayout
@@ -41,7 +39,7 @@
                 android:layout_width="fill_parent"
                 android:layout_height="149dp" android:layout_gravity="center_horizontal|top"
                 android:id="@+id/user_pass"
-                >
+                android:gravity="center">
             <ImageView
                     android:layout_height="wrap_content"
                     android:layout_width="wrap_content"

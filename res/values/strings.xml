@@ -13,5 +13,12 @@
         and
         <b>Privacy Policy</b>
     </string>
-    <string name="Profile"><bold>Profile</bold></string>
+    <string name="Profile"><b>Profile</b></string>
+    <string name="accInformation"><b>Account Information</b></string>
+    <string name="displayName"><b>Display name</b></string>
+    <string name="fullName"><b>Full name</b></string>
+    <string name="phone"><b>Phone no.</b></string>
+    <string name="birthday"><b>Birthday</b></string>
+    <string name="country"><b>Country</b></string>
+    <string name="description"><b>Description</b></string>
 </resources>
