@@ -1,0 +1,186 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:background="@color/background"
+        >
+
+    <RelativeLayout
+            android:layout_height="fill_parent"
+            android:layout_width="match_parent" android:id="@+id/relativeLayout"
+            android:layout_alignRight="@+id/relativeLayout1" android:layout_alignBottom="@+id/imageView">
+    </RelativeLayout>
+            <ImageView
+                    android:layout_height="172dp"
+                    android:layout_width="214dp"
+                    android:src="@drawable/cover_profile_setup"
+                    android:contentDescription=""
+                    android:id="@+id/imageView" android:layout_alignRight="@+id/relativeLayout1"
+                    android:layout_alignLeft="@+id/relativeLayout1"/>
+            <ImageView
+                    android:layout_height="wrap_content"
+                    android:layout_width="wrap_content"
+                    android:src="@drawable/image_profile"
+                    android:contentDescription="" android:layout_alignLeft="@+id/relativeLayout"
+                    android:layout_alignBottom="@+id/imageView" android:id="@+id/imageView1"/>
+    <RelativeLayout
+        android:layout_height="55dp"
+        android:layout_width="fill_parent"
+        android:id="@+id/relativeLayout1"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@+id/imageView1">
+        <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/Profile"
+                android:id="@+id/textView" android:layout_alignParentLeft="true"
+                android:layout_alignParentTop="true" android:layout_marginLeft="13dp"/>
+        <RelativeLayout
+            android:layout_height="33dp"
+            android:layout_width="214dp"
+            android:background="@drawable/display_name"
+            android:layout_alignParentLeft="true" android:layout_below="@+id/textView"
+            android:layout_alignParentBottom="true" android:layout_alignParentRight="true"
+            android:layout_marginLeft="2dp">
+            <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Display name"
+                    android:id="@+id/textView1" android:layout_alignParentLeft="true" android:layout_marginLeft="17dp"
+                    android:layout_centerVertical="true"/>
+            <EditText
+                    android:layout_width="226dp"
+                    android:layout_height="wrap_content"
+                    android:hint="your name"
+                    android:id="@+id/editText"
+                    android:background="@null"
+                    android:layout_alignParentRight="true"
+                    android:layout_toRightOf="@+id/textView1" android:layout_marginTop="5dp"
+                    android:layout_marginRight="10dp" android:padding="2dp" android:layout_marginLeft="10dp"/>
+        </RelativeLayout>
+    </RelativeLayout>
+
+    <RelativeLayout
+            android:layout_width="fill_parent"
+            android:layout_height="200dp"
+            android:layout_below="@+id/relativeLayout1" android:layout_alignLeft="@+id/relativeLayout"
+            android:id="@+id/relativeLayout2">
+        <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:text="Account Information"
+                android:id="@+id/accInfo" android:layout_alignParentLeft="true" android:layout_alignParentTop="true"
+                android:layout_marginLeft="13dp"/>
+        <RelativeLayout
+                android:layout_width="fill_parent"
+                android:layout_height="267dp"
+                android:layout_below="@+id/accInfo">
+            <ImageView
+                    android:layout_width="fill_parent"
+                    android:layout_height="248dp"
+                    android:id="@+id/imageView2"
+                    android:layout_below="@+id/accInfo" android:background="@drawable/acc_information"
+                    android:layout_alignRight="@+id/accInfo"
+                    android:layout_alignParentLeft="true" android:layout_margin="3dp"
+                    />
+            <RelativeLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="34dp"
+                    android:layout_alignLeft="@+id/accInfo" android:layout_alignTop="@+id/imageView2"
+                    android:layout_marginRight="10dp" android:id="@+id/relativeLayout4"
+                    android:layout_marginLeft="5dp">
+                <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Full name"
+                        android:id="@+id/textView2" android:layout_alignParentLeft="true" android:layout_marginLeft="17dp"
+                        android:layout_alignParentTop="true" android:layout_marginTop="12dp"/>
+                <EditText
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="New EditText"
+                        android:background="@null"
+                        android:id="@+id/editText1"
+                        android:layout_alignBottom="@+id/textView2" android:layout_alignTop="@+id/textView2"
+                        android:layout_alignParentLeft="true" android:layout_marginLeft="109dp"
+                        android:layout_marginRight="10dp"/>
+            </RelativeLayout>
+            <RelativeLayout android:layout_width="fill_parent" android:layout_height="34dp"
+                            android:id="@+id/relativeLayout3"
+                            android:layout_alignLeft="@+id/relativeLayout4" android:layout_below="@+id/relativeLayout4"
+                            android:layout_marginRight="10dp">
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                          android:text="Phone no." android:id="@+id/textView3" android:layout_alignParentLeft="true"
+                          android:layout_marginLeft="17dp" android:layout_alignParentTop="true"
+                          android:layout_marginTop="12dp"/>
+                <EditText android:layout_width="fill_parent" android:layout_height="wrap_content"
+                          android:hint="New EditText" android:background="@null" android:id="@+id/editText2"
+                          android:layout_alignBottom="@+id/textView3" android:layout_alignTop="@+id/textView3"
+                          android:layout_alignParentLeft="true" android:layout_marginLeft="109dp"
+                          android:layout_marginRight="10dp"/>
+            </RelativeLayout>
+            <RelativeLayout android:layout_width="fill_parent" android:layout_height="34dp"
+                            android:id="@+id/relativeLayout5"
+                            android:layout_alignLeft="@+id/relativeLayout4" android:layout_centerVertical="true"
+                            android:layout_marginRight="10dp" android:layout_below="@+id/relativeLayout3">
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                          android:text="Birthday" android:id="@+id/textView4" android:layout_alignParentLeft="true"
+                          android:layout_marginLeft="17dp" android:layout_alignParentTop="true"
+                          android:layout_marginTop="12dp"/>
+                <EditText android:layout_width="fill_parent" android:layout_height="wrap_content"
+                          android:hint="New EditText" android:background="@null" android:id="@+id/editText3"
+                          android:layout_alignBottom="@+id/textView4" android:layout_alignTop="@+id/textView4"
+                          android:layout_alignParentLeft="true" android:layout_marginLeft="109dp"
+                          android:layout_marginRight="10dp"/>
+            </RelativeLayout>
+            <RelativeLayout android:layout_width="fill_parent" android:layout_height="38dp"
+                            android:id="@+id/relativeLayout6"
+                            android:layout_below="@+id/relativeLayout5" android:layout_marginRight="10dp"
+                            android:layout_alignLeft="@+id/relativeLayout4">
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                          android:text="Gender" android:id="@+id/textView5" android:layout_alignParentLeft="true"
+                          android:layout_marginLeft="17dp" android:layout_alignParentTop="true"
+                          android:layout_marginTop="12dp"/>
+                <RelativeLayout
+                        android:layout_width="295dp"
+                        android:layout_height="fill_parent"
+                        android:layout_toRightOf="@+id/textView5" android:layout_alignParentBottom="true">
+                    <ImageButton
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/imageButton"
+                            android:src="@drawable/profile_btn_unselect_left"
+                            android:background="@null"
+                            android:layout_alignParentLeft="true" android:layout_marginLeft="48dp"
+                            android:layout_alignTop="@+id/imageButton1"/>
+                    <ImageButton
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/imageButton1"
+                            android:src="@drawable/pr_btn_unselect_right"
+                            android:background="@null"
+                            android:layout_alignParentLeft="true" android:layout_marginLeft="81dp"
+                            android:layout_centerVertical="true"/>
+                </RelativeLayout>
+            </RelativeLayout>
+            <RelativeLayout android:layout_width="395dp" android:layout_height="wrap_content"
+                            android:id="@+id/relativeLayout7"
+                            android:layout_alignLeft="@+id/relativeLayout4" android:layout_alignBottom="@+id/imageView2"
+                            android:layout_marginRight="35dp" android:layout_below="@+id/relativeLayout6">
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                          android:text="Country" android:id="@+id/textView6" android:layout_alignParentLeft="true"
+                          android:layout_marginLeft="17dp" android:layout_alignParentTop="true"
+                          android:layout_marginTop="6dp"/>
+                <EditText android:layout_width="fill_parent" android:layout_height="wrap_content"
+                          android:hint="New EditText" android:background="@null" android:id="@+id/editText5"
+                          android:layout_alignBottom="@+id/textView6" android:layout_alignTop="@+id/textView6"
+                          android:layout_alignParentLeft="true" android:layout_marginLeft="109dp"
+                          android:layout_marginRight="10dp"/>
+            </RelativeLayout>
+        </RelativeLayout>
+    </RelativeLayout>
+
+
+</RelativeLayout>

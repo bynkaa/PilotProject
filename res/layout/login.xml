@@ -19,7 +19,7 @@
                 android:id="@+id/imageBack"
                 android:layout_alignTop="@+id/imageButton1"
                 android:src="@drawable/soundboard_btnback"
-                android:paddingLeft="8dp"/>
+                android:paddingLeft="8dp" android:contentDescription=""/>
         <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -28,7 +28,7 @@
                 android:layout_alignParentRight="true"
                 android:layout_alignParentTop="true"
                 android:layout_marginTop="6dp"
-                android:paddingRight="8dp"/>
+                android:paddingRight="8dp" android:contentDescription=""/>
     </RelativeLayout>
 
     <LinearLayout
@@ -46,8 +46,8 @@
                     android:layout_height="wrap_content"
                     android:layout_width="wrap_content"
                     android:src="@drawable/username"
-                    android:id="@+id/imageView" android:layout_alignParentLeft="true"
-                    android:layout_alignBottom="@+id/userName"/>
+                    android:id="@+id/imUsername" android:layout_alignParentLeft="true"
+                    android:layout_alignBottom="@+id/userName" android:contentDescription=""/>
             <EditText
                     android:layout_width="396dp"
                     android:layout_height="wrap_content"
@@ -61,7 +61,8 @@
                     android:layout_height="wrap_content"
                     android:layout_width="wrap_content"
                     android:src="@drawable/password"
-                    android:layout_alignLeft="@+id/imageView" android:layout_alignBottom="@+id/password"/>
+                    android:layout_alignLeft="@+id/imPass" android:layout_alignBottom="@+id/password"
+                    android:contentDescription=""/>
 
             <EditText
                     android:layout_width="396dp"

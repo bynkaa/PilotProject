@@ -15,6 +15,7 @@ public class LoginActivity extends Activity
 {
     ImageView imDone;
 
+
     public void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
