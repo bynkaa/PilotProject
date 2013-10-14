@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/FL_background">
+
+
+    <Button
+            android:layout_width="@dimen/btLauchWidth"
+            android:layout_height="@dimen/btLauchHeight"
+            android:id="@+id/btLogin"
+            android:background="@drawable/FL_btn_login"
+            android:layout_centerHorizontal="true" android:layout_alignParentTop="true"
+            android:layout_marginTop="@dimen/btLauchMarginTop"/>
+    <Button android:layout_width="@dimen/btLauchWidth"
+            android:layout_height="@dimen/btLauchHeight"
+            android:id="@+id/btLoginFB"
+            android:background="@drawable/FL_btn_loginFB"
+            android:layout_alignParentLeft="true" android:layout_alignTop="@+id/btLogin"
+            android:layout_marginLeft="20dp"/>
+    <Button android:layout_width="@dimen/btLauchWidth"
+            android:layout_height="@dimen/btLauchHeight"
+            android:id="@+id/btSignUp"
+            android:background="@drawable/FL_btn_SignUp"
+            android:layout_toRightOf="@id/btLogin"
+            android:layout_alignTop="@id/btLogin"
+            android:layout_marginLeft="20dp"/>
+</RelativeLayout>
