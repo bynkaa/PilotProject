@@ -1,4 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="background">#eeeeee</color>
+    <color name="tvLauchFirstHeader">#a46e00</color>
+    <color name="tvLauchSecondHeader">#774f00</color>
+    <color name="tvLauchBottom">#885b00</color>
+
 </resources>

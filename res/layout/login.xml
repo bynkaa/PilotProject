@@ -11,20 +11,20 @@
             android:orientation="vertical"
             android:layout_width="fill_parent"
             android:layout_height="29dp"
-            android:background="@drawable/navBar" android:id="@+id/navibar">
+            android:background="@drawable/navbar" android:id="@+id/navibar">
 
         <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="30dp"
                 android:id="@+id/imageBack"
                 android:layout_alignTop="@+id/imageButton1"
-                android:src="@drawable/soundBoard_btnBack"
+                android:src="@drawable/soundboard_btnback"
                 android:paddingLeft="8dp"/>
         <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/imageLogin"
-                android:src="@drawable/SoundBoard_btn_Done"
+                android:src="@drawable/soundboard_btn_done"
                 android:layout_alignParentRight="true"
                 android:layout_alignParentTop="true"
                 android:layout_marginTop="6dp"
@@ -33,15 +33,15 @@
     </RelativeLayout>
 
     <LinearLayout
-        android:layout_height="fill_parent"
-        android:layout_width="fill_parent"
-        android:orientation="vertical"
-        android:layout_alignLeft="@+id/navibar"
-        android:layout_below="@+id/navibar">
+            android:layout_height="fill_parent"
+            android:layout_width="fill_parent"
+            android:orientation="vertical"
+            android:layout_alignLeft="@+id/navibar"
+            android:layout_below="@+id/navibar">
         <RelativeLayout
                 android:layout_width="fill_parent"
                 android:layout_height="149dp" android:layout_gravity="center_horizontal|top"
-                android:id="user_pass"
+                android:id="@+id/user_pass"
                 >
             <ImageView
                     android:layout_height="wrap_content"
