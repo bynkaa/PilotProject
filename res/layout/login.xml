@@ -41,8 +41,14 @@
         <RelativeLayout
                 android:layout_width="fill_parent"
                 android:layout_height="149dp" android:layout_gravity="center_horizontal|top"
-                android:background="@drawable/LG_LoginAccPass" android:id="user_pass"
+                android:id="user_pass"
                 >
+            <ImageView
+                    android:layout_height="wrap_content"
+                    android:layout_width="wrap_content"
+                    android:src="@drawable/username"
+                    android:id="@+id/imageView" android:layout_alignParentLeft="true"
+                    android:layout_alignBottom="@+id/userName"/>
             <EditText
                     android:layout_width="396dp"
                     android:layout_height="wrap_content"
@@ -51,6 +57,13 @@
                     android:textColor="#5b5b5b"
                     android:layout_alignParentLeft="true" android:layout_marginLeft="60dp"
                     android:layout_alignParentTop="true" android:layout_marginTop="17dp"/>
+
+            <ImageView
+                    android:layout_height="wrap_content"
+                    android:layout_width="wrap_content"
+                    android:src="@drawable/password"
+                    android:layout_alignLeft="@+id/imageView" android:layout_alignBottom="@+id/password"/>
+
             <EditText
                     android:layout_width="396dp"
                     android:layout_height="wrap_content"
