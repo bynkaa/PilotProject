@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">PilotProject</string>
+    <string name="note"><u> I forgot my password.</u></string>
     <string name="tvHome">HOME</string>
 </resources>

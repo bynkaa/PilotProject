@@ -1,10 +1,74 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:orientation="vertical"
-              android:layout_width="fill_parent"
-              android:layout_height="fill_parent"
-              android:background="#eeeeee"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:background="@color/background"
         >
 
-</LinearLayout>
+
+    <RelativeLayout
+            android:orientation="vertical"
+            android:layout_width="fill_parent"
+            android:layout_height="29dp"
+            android:background="@drawable/navBar" android:id="@+id/navibar">
+
+        <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="30dp"
+                android:id="@+id/imageBack"
+                android:layout_alignTop="@+id/imageButton1"
+                android:src="@drawable/soundBoard_btnBack"
+                android:paddingLeft="8dp"/>
+        <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/imageLogin"
+                android:src="@drawable/SoundBoard_btn_Done"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentTop="true"
+                android:layout_marginTop="6dp"
+                android:paddingRight="8dp"/>
+
+    </RelativeLayout>
+
+    <LinearLayout
+        android:layout_height="fill_parent"
+        android:layout_width="fill_parent"
+        android:orientation="vertical"
+        android:layout_alignLeft="@+id/navibar"
+        android:layout_below="@+id/navibar">
+        <RelativeLayout
+                android:layout_width="fill_parent"
+                android:layout_height="149dp" android:layout_gravity="center_horizontal|top"
+                android:background="@drawable/LG_LoginAccPass" android:id="user_pass"
+                >
+            <EditText
+                    android:layout_width="396dp"
+                    android:layout_height="wrap_content"
+                    android:text="Email"
+                    android:id="@+id/userName"
+                    android:textColor="#5b5b5b"
+                    android:layout_alignParentLeft="true" android:layout_marginLeft="60dp"
+                    android:layout_alignParentTop="true" android:layout_marginTop="17dp"/>
+            <EditText
+                    android:layout_width="396dp"
+                    android:layout_height="wrap_content"
+                    android:text="Password"
+                    android:id="@+id/password"
+                    android:layout_alignLeft="@+id/userName"
+                    android:textColor="#5b5b5b"
+                    android:layout_alignParentTop="true"
+                    android:layout_marginTop="87dp"/>
+        </RelativeLayout>
+        <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="31dp"
+                android:text="@string/note"
+                android:id="@+id/forgotPass"
+                android:gravity="center"
+                android:textColor="#b1b1b1"
+                />
+    </LinearLayout>
+
+</RelativeLayout>
