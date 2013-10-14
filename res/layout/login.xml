@@ -51,7 +51,7 @@
             <EditText
                     android:layout_width="396dp"
                     android:layout_height="wrap_content"
-                    android:text="Email"
+                    android:hint="Email"
                     android:id="@+id/userName"
                     android:textColor="#5b5b5b"
                     android:layout_alignParentLeft="true" android:layout_marginLeft="60dp"
