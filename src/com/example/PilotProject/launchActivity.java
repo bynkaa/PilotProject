@@ -30,7 +30,7 @@ public class LaunchActivity extends Activity
         @Override
         public void onClick(View view)
         {
-            Intent intent = new Intent(LaunchActivity.this, LoginActivity.class);
+            Intent intent = new Intent(LaunchActivity.this, LoginFragment.class);
             startActivity(intent);
         }
     };

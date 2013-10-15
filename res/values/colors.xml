@@ -4,5 +4,7 @@
     <color name="tvLauchFirstHeader">#a46e00</color>
     <color name="tvLauchSecondHeader">#774f00</color>
     <color name="tvLauchBottom">#885b00</color>
+    <color name="tvListFeeds">#333333</color>
+    <color name="tvLikeFeed">#777777</color>
 
 </resources>

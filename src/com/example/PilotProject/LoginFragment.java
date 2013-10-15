@@ -1,8 +1,8 @@
 package com.example.PilotProject;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.FragmentActivity;
 import android.view.View;
 import android.widget.ImageView;
 
@@ -11,7 +11,7 @@ import android.widget.ImageView;
  * Date: 10/14/13
  * Time: 2:34 PM
  */
-public class LoginActivity extends Activity
+public class LoginFragment extends FragmentActivity
 {
     ImageView imDone;
 
@@ -30,7 +30,7 @@ public class LoginActivity extends Activity
         public void onClick(View view)
         {
             // validate user and password
-            Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
+            Intent intent = new Intent(LoginFragment.this, HomeFragment.class);
             startActivity(intent);
         }
     };
