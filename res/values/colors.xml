@@ -4,5 +4,7 @@
     <color name="tvLauchFirstHeader">#a46e00</color>
     <color name="tvLauchSecondHeader">#774f00</color>
     <color name="tvLauchBottom">#885b00</color>
+    <color name="white">#FFFFFF</color>
+    <color name="gray">#B5B5B5</color>
 
 </resources>

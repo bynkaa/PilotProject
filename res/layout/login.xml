@@ -10,76 +10,120 @@
     <RelativeLayout
             android:orientation="vertical"
             android:layout_width="fill_parent"
-            android:layout_height="35dp"
-            android:background="@drawable/navbar" android:id="@+id/navibar">
+            android:layout_height="55dp"
+            android:background="@drawable/login_menubar" android:id="@+id/navibar">
 
         <ImageView
                 android:layout_width="wrap_content"
-                android:layout_height="30dp"
-                android:id="@+id/imageBack"
-                android:src="@drawable/soundboard_btnback"
-                android:paddingLeft="8dp" android:contentDescription="" android:layout_alignParentBottom="true"
-                android:layout_alignParentTop="true"/>
-        <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="35dp"
+                android:layout_height="93dp"
                 android:id="@+id/imDone"
                 android:src="@drawable/soundboard_btn_done"
                 android:layout_alignParentRight="true"
-                android:paddingRight="8dp" android:contentDescription="" android:layout_alignTop="@+id/imageBack"/>
+                android:paddingRight="8dp" android:contentDescription="" android:layout_alignTop="@+id/imBack"
+                android:layout_alignBottom="@+id/relativeLayout1"/>
+        <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" android:id="@+id/relativeLayout1">
+            <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="30dp"
+                    android:id="@+id/imBack"
+                    android:src="@drawable/soundboard_btnback"
+                    android:paddingLeft="8dp" android:contentDescription="" android:layout_alignParentBottom="true"
+                    android:layout_alignParentTop="true" android:paddingTop="8dp" android:paddingBottom="8dp"
+                    android:layout_centerVertical="true" android:adjustViewBounds="false" android:clickable="false"
+                    android:focusable="false" android:focusableInTouchMode="false"/>
+            <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/imTextBack" android:src="@drawable/text_back"
+                    android:layout_alignParentLeft="true"
+                    android:layout_centerVertical="true" android:layout_alignParentTop="false"
+                    android:layout_alignParentBottom="false" android:layout_alignParentRight="false"
+                    android:adjustViewBounds="false" android:layout_marginLeft="37dp"/>
+        </RelativeLayout>
     </RelativeLayout>
 
     <LinearLayout
-            android:layout_height="fill_parent"
+            android:layout_height="707dp"
             android:layout_width="fill_parent"
             android:orientation="vertical"
             android:layout_alignLeft="@+id/navibar"
             android:layout_below="@+id/navibar">
         <RelativeLayout
                 android:layout_width="fill_parent"
-                android:layout_height="149dp" android:layout_gravity="center_horizontal|top"
+                android:layout_height="110dp" android:layout_gravity="center_horizontal|top"
                 android:id="@+id/user_pass"
-                android:gravity="center">
+                android:gravity="center" android:background="@drawable/background_login"
+                android:layout_marginTop="10dp" android:layout_marginRight="9dp" android:layout_marginBottom="10dp"
+                android:layout_marginLeft="12dp">
+
+            <RelativeLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="55dp" android:id="@+id/relativeLayout" android:layout_alignParentLeft="true"
+                    android:layout_alignParentTop="true">
+                <ImageView
+                        android:layout_height="fill_parent"
+                        android:layout_width="40dp"
+                        android:src="@drawable/username"
+                        android:id="@+id/imUsername" android:layout_alignParentLeft="true"
+                        android:contentDescription=""
+                        android:layout_alignTop="@+id/mail" android:layout_marginLeft="35dp"
+                        android:layout_marginBottom="1dp"/>
+                <EditText
+                        android:layout_width="101dp"
+                        android:layout_height="wrap_content"
+                        android:hint="Email"
+                        android:id="@+id/mail"
+                        android:textColor="#5b5b5b"
+                        android:layout_alignParentLeft="true" android:layout_marginLeft="80dp"
+                        android:layout_alignParentBottom="true" android:layout_alignParentTop="true"
+                        android:layout_alignParentRight="true" android:layout_marginRight="8dp"
+                        android:layout_marginTop="5dp"/>
+            </RelativeLayout>
             <ImageView
                     android:layout_height="wrap_content"
                     android:layout_width="wrap_content"
-                    android:src="@drawable/username"
-                    android:id="@+id/imUsername" android:layout_alignParentLeft="true"
-                    android:layout_alignBottom="@+id/userName" android:contentDescription=""/>
-            <EditText
-                    android:layout_width="396dp"
-                    android:layout_height="wrap_content"
-                    android:hint="Email"
-                    android:id="@+id/userName"
-                    android:textColor="#5b5b5b"
-                    android:layout_alignParentLeft="true" android:layout_marginLeft="60dp"
-                    android:layout_alignParentTop="true" android:layout_marginTop="17dp"/>
+                    android:src="@drawable/line_center_login"
 
-            <ImageView
-                    android:layout_height="wrap_content"
-                    android:layout_width="wrap_content"
-                    android:src="@drawable/password"
-                    android:layout_alignLeft="@+id/imPass" android:layout_alignBottom="@+id/password"
-                    android:contentDescription=""/>
-
-            <EditText
-                    android:layout_width="396dp"
-                    android:layout_height="wrap_content"
-                    android:hint="Password"
-                    android:id="@+id/password"
-                    android:layout_alignLeft="@+id/userName"
-                    android:textColor="#5b5b5b"
-                    android:layout_alignParentTop="true"
-                    android:layout_marginTop="87dp"/>
+                    android:id="@+id/imageView"
+                    android:layout_centerVertical="true" android:layout_below="@+id/relativeLayout"/>
+            <RelativeLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="match_parent" android:layout_alignLeft="@+id/relativeLayout"
+                    android:layout_alignTop="@+id/imageView" android:layout_alignParentBottom="true">
+                <ImageView
+                        android:layout_height="fill_parent"
+                        android:layout_width="40dp"
+                        android:src="@drawable/password"
+                        android:contentDescription=""
+                        android:layout_alignParentLeft="true" android:layout_alignTop="@+id/password"
+                        android:layout_marginLeft="35dp" android:layout_marginBottom="5dp"/>
+                <EditText
+                        android:layout_width="102dp"
+                        android:layout_height="wrap_content"
+                        android:hint="Password"
+                        android:id="@+id/password"
+                        android:textColor="#5b5b5b"
+                        android:layout_alignParentLeft="true" android:layout_marginLeft="80dp"
+                        android:layout_centerVertical="true" android:layout_alignParentRight="true"
+                        android:layout_marginRight="8dp" android:layout_marginTop="1dp"
+                        />
+            </RelativeLayout>
         </RelativeLayout>
-        <TextView
+        <LinearLayout
+                android:orientation="vertical"
                 android:layout_width="fill_parent"
-                android:layout_height="31dp"
-                android:hint="@string/note"
-                android:id="@+id/forgotPass"
-                android:gravity="center"
-                android:textColor="#b1b1b1"
-                />
+                android:layout_height="fill_parent">
+            <TextView
+                    android:layout_width="fill_parent"
+                    android:layout_height="31dp"
+                    android:hint="@string/note"
+                    android:id="@+id/forgotPass"
+                    android:gravity="center"
+                    android:textColor="#b1b1b1"
+                    android:layout_gravity="left|center_vertical"/>
+        </LinearLayout>
     </LinearLayout>
 
 </RelativeLayout>

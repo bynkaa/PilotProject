@@ -2,7 +2,7 @@
 <resources>
     <string name="app_name">OnlineDio</string>
     <string name="note">
-        <u>I forgot my password.</u>
+        <b>I forgot my password.</b>
     </string>
     <string name="tvHome">HOME</string>
     <string name="tvContentFeed">content feeds</string>

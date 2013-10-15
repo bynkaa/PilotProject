@@ -1,37 +1,197 @@
 package com.example.PilotProject;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
+import android.net.wifi.WifiManager;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.Gravity;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.TextView;
+import android.widget.Toast;
+import org.apache.http.HttpClientConnection;
+import org.apache.http.client.ClientProtocolException;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.params.BasicHttpParams;
+import org.apache.http.params.HttpConnectionParams;
+import org.apache.http.params.HttpParams;
+
+import java.io.IOException;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * User: binhtv
  * Date: 10/14/13
  * Time: 2:34 PM
  */
-public class LoginActivity extends Activity
-{
-    ImageView imDone;
+public class LoginActivity extends Activity {
+    private static final String TAG = "LoginActivity";
+    private ImageView imDone;
+    private ImageView imBack;
+    private EditText mail;
+    private EditText password;
+    private TextView forgotPass;
+    final String EMAIL_PATTERN =
+            "^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@"
+                    + "[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$";
 
-
-    public void onCreate(Bundle savedInstanceState)
-    {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.login);
+        imBack = (ImageView) findViewById(R.id.imBack);
         imDone = (ImageView) findViewById(R.id.imDone);
+        imBack.setOnClickListener(btBackClickListener);
         imDone.setOnClickListener(btDoneClickListener);
+        mail = (EditText) findViewById(R.id.mail);
+        password = (EditText) findViewById(R.id.password);
+        forgotPass = (TextView) findViewById(R.id.forgotPass);
+        forgotPass.setOnClickListener(btForgotPassListener);
+
     }
 
-    View.OnClickListener btDoneClickListener = new View.OnClickListener()
-    {
+    View.OnClickListener btBackClickListener = new View.OnClickListener() {
         @Override
-        public void onClick(View view)
-        {
-            // validate user and password
-            Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
-            startActivity(intent);
+        public void onClick(View view) {
+            Intent intentBack = new Intent(LoginActivity.this, LaunchActivity.class);
+            startActivity(intentBack);
+            Log.d(TAG,"come back to launch screen");
         }
     };
+
+    View.OnClickListener btDoneClickListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+            if(isOnlineNetwork() && validateMailAndPassword(mail, password))
+            {
+                Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
+                startActivity(intent);
+                Log.d(TAG,"Login successfully");
+            }
+        }
+    };
+
+    View.OnClickListener btForgotPassListener = new View.OnClickListener(){
+        @Override
+        public void onClick(View view){
+            AlertDialog dialog = showAlertDialogResetPassword("Forgot Password", "To reset your password, please enter your" +
+                    " email address");
+        }
+    };
+
+
+
+    private boolean isOnlineNetwork() {
+       // checkTimeoutService();
+        ConnectivityManager cm = (ConnectivityManager)getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo netInfo = cm.getActiveNetworkInfo();
+        if(netInfo != null && netInfo.isConnectedOrConnecting()){
+            Log.d(TAG, "network available");
+            return true;
+        }else{
+            AlertDialog dialog = showAlertDialog("Error Signing In","There is no connection to the internet.");
+            dialog.show();
+            Log.d(TAG,"network no connection");
+            return false;
+        }
+    }
+
+    private void checkTimeoutService() {
+        HttpGet httpGet = new HttpGet("http://www.google.com");
+        HttpParams httpParameters = new BasicHttpParams();
+        int timeoutConnection = 15000;
+        HttpConnectionParams.setConnectionTimeout(httpParameters, timeoutConnection);
+        int timeoutSocket = 15000;
+        HttpConnectionParams.setSoTimeout(httpParameters, timeoutSocket);
+        DefaultHttpClient httpClient = new DefaultHttpClient(httpParameters);
+        try {
+            Log.d(TAG, "Checking connection...");
+            httpClient.execute(httpGet);
+            Log.d(TAG, "request service successfully");
+            return;
+        }
+        catch (ClientProtocolException e)
+        {
+            e.printStackTrace();
+        }
+        catch (IOException e)
+        {
+            e.printStackTrace();
+        }
+        Log.d(TAG, "Connection timeout");
+    }
+
+    private boolean validateMailAndPassword(EditText mail, EditText password) {
+        String _mail = mail.getText().toString();
+        String _password = password.getText().toString();
+        if (_mail.matches(EMAIL_PATTERN) == false) {
+            AlertDialog dialog = showAlertDialog("Error Signing In","Email address is incorrect.");
+            dialog.show();
+            mail.requestFocus();
+            return false;
+        } else if(_password.length() <= 0){
+            AlertDialog dialog = showAlertDialog("Error Signing In","Password is incorrect.");
+            dialog.show();
+            password.requestFocus();
+            return false;
+        }else{
+            return true;
+        }
+    }
+
+    private AlertDialog showAlertDialog(String txtTitle, String message) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        final TextView title = new TextView(this);
+        title.setText(txtTitle);
+        title.setTextSize(20);
+        title.setTextColor(Color.WHITE);
+        title.setGravity(Gravity.CENTER);
+        builder.setCustomTitle(title);
+        builder.setMessage(message);
+        builder.setPositiveButton("OK", null);
+        AlertDialog dialog = builder.show();
+        TextView messageText = (TextView)dialog.findViewById(android.R.id.message);
+        messageText.setGravity(Gravity.CENTER);
+        return dialog;
+    }
+    private AlertDialog showAlertDialogResetPassword(String txtTitle, String message) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        final EditText emailAddress = new EditText(this);
+        final TextView title = new TextView(this);
+        emailAddress.setHint("Email Address");
+        builder.setView(emailAddress);
+        title.setText(txtTitle);
+        title.setTextSize(20);
+        title.setTextColor(Color.WHITE);
+        title.setGravity(Gravity.CENTER);
+        builder.setCustomTitle(title);
+        builder.setMessage(message);
+        builder.setPositiveButton("Cancel", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int which) {
+            }
+        });
+        builder.setNegativeButton("Reset", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int which) {
+                String _emailAddress = emailAddress.getText().toString();
+                if (_emailAddress.matches(EMAIL_PATTERN) == false) {
+                    AlertDialog dialogError = showAlertDialog("Request Error", "Invalid email address");
+                    dialogError.show();
+                    mail.requestFocus();
+                }
+            }
+        });
+        AlertDialog dialog = builder.show();
+        TextView messageText = (TextView)dialog.findViewById(android.R.id.message);
+        messageText.setGravity(Gravity.CENTER);
+        return dialog;
+    }
 }
