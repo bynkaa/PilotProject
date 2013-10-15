@@ -8,5 +8,7 @@
     <color name="gray">#B5B5B5</color>
     <color name="tvListFeeds">#333333</color>
     <color name="tvLikeFeed">#777777</color>
+    <color name="tvMyStation">#333333</color>
+    <color name="tvMyStationComposer">#434343</color>
 
 </resources>

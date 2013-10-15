@@ -1,6 +1,5 @@
 package com.example.PilotProject;
 
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -30,7 +29,8 @@ import java.io.IOException;
  * Date: 10/14/13
  * Time: 2:34 PM
  */
-public class LoginFragment extends FragmentActivity {
+public class LoginFragment extends FragmentActivity
+{
     private static final String TAG = "LoginActivity";
     private ImageView imDone;
     private ImageView imBack;
@@ -40,11 +40,13 @@ public class LoginFragment extends FragmentActivity {
     final String EMAIL_PATTERN =
             "^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@"
                     + "[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$";
-    public void onCreate(Bundle savedInstanceState) {
+
+    public void onCreate(Bundle savedInstanceState)
+    {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.login);
         imBack = (ImageView) findViewById(R.id.imBack);
-        imDone = (ImageView) findViewById(R.id.imDone);
+        imDone = (ImageView) findViewById(R.id.imNext);
         imBack.setOnClickListener(btBackClickListener);
         imDone.setOnClickListener(btDoneClickListener);
         mail = (EditText) findViewById(R.id.mail);
@@ -54,53 +56,63 @@ public class LoginFragment extends FragmentActivity {
 
     }
 
-    View.OnClickListener btBackClickListener = new View.OnClickListener() {
+    View.OnClickListener btBackClickListener = new View.OnClickListener()
+    {
         @Override
-        public void onClick(View view) {
+        public void onClick(View view)
+        {
             Intent intentBack = new Intent(LoginFragment.this, LaunchActivity.class);
             startActivity(intentBack);
-            Log.d(TAG,"come back to launch screen");
+            Log.d(TAG, "come back to launch screen");
         }
     };
 
-    View.OnClickListener btDoneClickListener = new View.OnClickListener() {
+    View.OnClickListener btDoneClickListener = new View.OnClickListener()
+    {
         @Override
-        public void onClick(View view) {
-            if(isOnlineNetwork() && validateMailAndPassword(mail, password))
+        public void onClick(View view)
+        {
+            if (isOnlineNetwork() && validateMailAndPassword(mail, password))
             {
                 Intent intent = new Intent(LoginFragment.this, HomeFragment.class);
                 startActivity(intent);
-                Log.d(TAG,"Login successfully");
+                Log.d(TAG, "Login successfully");
             }
         }
     };
 
-    View.OnClickListener btForgotPassListener = new View.OnClickListener(){
+    View.OnClickListener btForgotPassListener = new View.OnClickListener()
+    {
         @Override
-        public void onClick(View view){
+        public void onClick(View view)
+        {
             AlertDialog dialog = showAlertDialogResetPassword("Forgot Password", "To reset your password, please enter your" +
                     " email address");
         }
     };
 
 
-
-    private boolean isOnlineNetwork() {
-       // checkTimeoutService();
-        ConnectivityManager cm = (ConnectivityManager)getSystemService(Context.CONNECTIVITY_SERVICE);
+    private boolean isOnlineNetwork()
+    {
+        // checkTimeoutService();
+        ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo netInfo = cm.getActiveNetworkInfo();
-        if(netInfo != null && netInfo.isConnectedOrConnecting()){
+        if (netInfo != null && netInfo.isConnectedOrConnecting())
+        {
             Log.d(TAG, "network available");
             return true;
-        }else{
-            AlertDialog dialog = showAlertDialog("Error Signing In","There is no connection to the internet.");
+        }
+        else
+        {
+            AlertDialog dialog = showAlertDialog("Error Signing In", "There is no connection to the internet.");
             dialog.show();
-            Log.d(TAG,"network no connection");
+            Log.d(TAG, "network no connection");
             return false;
         }
     }
 
-    private void checkTimeoutService() {
+    private void checkTimeoutService()
+    {
         HttpGet httpGet = new HttpGet("http://www.google.com");
         HttpParams httpParameters = new BasicHttpParams();
         int timeoutConnection = 15000;
@@ -108,7 +120,8 @@ public class LoginFragment extends FragmentActivity {
         int timeoutSocket = 15000;
         HttpConnectionParams.setSoTimeout(httpParameters, timeoutSocket);
         DefaultHttpClient httpClient = new DefaultHttpClient(httpParameters);
-        try {
+        try
+        {
             Log.d(TAG, "Checking connection...");
             httpClient.execute(httpGet);
             Log.d(TAG, "request service successfully");
@@ -125,25 +138,32 @@ public class LoginFragment extends FragmentActivity {
         Log.d(TAG, "Connection timeout");
     }
 
-    private boolean validateMailAndPassword(EditText mail, EditText password) {
+    private boolean validateMailAndPassword(EditText mail, EditText password)
+    {
         String _mail = mail.getText().toString();
         String _password = password.getText().toString();
-        if (_mail.matches(EMAIL_PATTERN) == false) {
-            AlertDialog dialog = showAlertDialog("Error Signing In","Email address is incorrect.");
+        if (_mail.matches(EMAIL_PATTERN) == false)
+        {
+            AlertDialog dialog = showAlertDialog("Error Signing In", "Email address is incorrect.");
             dialog.show();
             mail.requestFocus();
             return false;
-        } else if(_password.length() <= 0){
-            AlertDialog dialog = showAlertDialog("Error Signing In","Password is incorrect.");
+        }
+        else if (_password.length() <= 0)
+        {
+            AlertDialog dialog = showAlertDialog("Error Signing In", "Password is incorrect.");
             dialog.show();
             password.requestFocus();
             return false;
-        }else{
+        }
+        else
+        {
             return true;
         }
     }
 
-    private AlertDialog showAlertDialog(String txtTitle, String message) {
+    private AlertDialog showAlertDialog(String txtTitle, String message)
+    {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         final TextView title = new TextView(this);
         title.setText(txtTitle);
@@ -154,11 +174,13 @@ public class LoginFragment extends FragmentActivity {
         builder.setMessage(message);
         builder.setPositiveButton("OK", null);
         AlertDialog dialog = builder.show();
-        TextView messageText = (TextView)dialog.findViewById(android.R.id.message);
+        TextView messageText = (TextView) dialog.findViewById(android.R.id.message);
         messageText.setGravity(Gravity.CENTER);
         return dialog;
     }
-    private AlertDialog showAlertDialogResetPassword(String txtTitle, String message) {
+
+    private AlertDialog showAlertDialogResetPassword(String txtTitle, String message)
+    {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         final EditText emailAddress = new EditText(this);
         final TextView title = new TextView(this);
@@ -170,14 +192,19 @@ public class LoginFragment extends FragmentActivity {
         title.setGravity(Gravity.CENTER);
         builder.setCustomTitle(title);
         builder.setMessage(message);
-        builder.setPositiveButton("Cancel", new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int which) {
+        builder.setPositiveButton("Cancel", new DialogInterface.OnClickListener()
+        {
+            public void onClick(DialogInterface dialog, int which)
+            {
             }
         });
-        builder.setNegativeButton("Reset", new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int which) {
+        builder.setNegativeButton("Reset", new DialogInterface.OnClickListener()
+        {
+            public void onClick(DialogInterface dialog, int which)
+            {
                 String _emailAddress = emailAddress.getText().toString();
-                if (_emailAddress.matches(EMAIL_PATTERN) == false) {
+                if (_emailAddress.matches(EMAIL_PATTERN) == false)
+                {
                     AlertDialog dialogError = showAlertDialog("Request Error", "Invalid email address");
                     dialogError.show();
                     mail.requestFocus();
@@ -185,7 +212,7 @@ public class LoginFragment extends FragmentActivity {
             }
         });
         AlertDialog dialog = builder.show();
-        TextView messageText = (TextView)dialog.findViewById(android.R.id.message);
+        TextView messageText = (TextView) dialog.findViewById(android.R.id.message);
         messageText.setGravity(Gravity.CENTER);
         return dialog;
     }

@@ -18,8 +18,8 @@
             android:layout_height="@dimen/btLauchHeight"
             android:id="@+id/btLoginFB"
             android:background="@drawable/fl_btn_loginfb"
-            android:layout_alignParentLeft="true" android:layout_alignTop="@+id/btLogin"
-            android:layout_marginLeft="20dp"/>
+            android:layout_toLeftOf="@id/btLogin" android:layout_alignTop="@+id/btLogin"
+            android:layout_marginRight="20dp"/>
     <Button android:layout_width="@dimen/btLauchWidth"
             android:layout_height="@dimen/btLauchHeight"
             android:id="@+id/btSignUp"

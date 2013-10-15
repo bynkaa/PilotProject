@@ -16,7 +16,7 @@
         <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="93dp"
-                android:id="@+id/imDone"
+                android:id="@+id/imNext"
                 android:src="@drawable/soundboard_btn_done"
                 android:layout_alignParentRight="true"
                 android:paddingRight="8dp" android:contentDescription="" android:layout_alignTop="@+id/imBack"
@@ -109,6 +109,7 @@
                         android:layout_alignParentLeft="true" android:layout_marginLeft="80dp"
                         android:layout_centerVertical="true" android:layout_alignParentRight="true"
                         android:layout_marginRight="8dp" android:layout_marginTop="1dp"
+                        android:password="true"
                         />
             </RelativeLayout>
         </RelativeLayout>

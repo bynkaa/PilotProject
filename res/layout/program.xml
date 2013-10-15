@@ -8,7 +8,7 @@
             android:layout_width="fill_parent"
             android:layout_height="30dp"
             android:layout_gravity="center_horizontal|top"
-            android:background="@drawable/login_menubar" android:id="@+id/relativeLayout">
+            android:background="@drawable/navbar" android:id="@+id/relativeLayout">
         <ImageButton
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -30,12 +30,12 @@
             android:layout_height="95dp"
             android:layout_alignLeft="@+id/relativeLayout"
             android:layout_below="@+id/relativeLayout"
-            android:background="@drawable/stations_image_cover" android:id="@+id/relativeLayout1">
+            android:background="@drawable/staions_imagecover" android:id="@+id/rlMyStation">
     </RelativeLayout>
     <RelativeLayout
             android:layout_width="fill_parent"
             android:layout_height="40dp" android:layout_alignLeft="@+id/relativeLayout"
-            android:layout_below="@+id/relativeLayout1" android:id="@+id/relativeLayout2">
+            android:layout_below="@+id/rlMyStation" android:id="@+id/relativeLayout2">
         <MediaController
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

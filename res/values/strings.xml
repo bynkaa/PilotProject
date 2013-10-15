@@ -2,7 +2,9 @@
 <resources>
     <string name="app_name">OnlineDio</string>
     <string name="note">
-        <b>I forgot my password.</b>
+        <u>
+            <b>I forgot my password.</b>
+        </u>
     </string>
     <string name="tvHome">HOME</string>
     <string name="tvContentFeed">content feeds</string>
@@ -38,4 +40,8 @@
         <b>Description</b>
     </string>
     <string name="tvProgram">Program</string>
+    <string name="drawer_open">open</string>
+    <string name="drawer_close">close</string>
+    <string name="tvMyStation">My Station</string>
+    <string name="tvMyStationComposer">Composer</string>
 </resources>
