@@ -8,16 +8,14 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
-import android.net.wifi.WifiManager;
 import android.os.Bundle;
+import android.support.v4.app.FragmentActivity;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
-import org.apache.http.HttpClientConnection;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.DefaultHttpClient;
@@ -26,15 +24,13 @@ import org.apache.http.params.HttpConnectionParams;
 import org.apache.http.params.HttpParams;
 
 import java.io.IOException;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 /**
  * User: binhtv
  * Date: 10/14/13
  * Time: 2:34 PM
  */
-public class LoginActivity extends Activity {
+public class LoginFragment extends FragmentActivity {
     private static final String TAG = "LoginActivity";
     private ImageView imDone;
     private ImageView imBack;
@@ -44,7 +40,6 @@ public class LoginActivity extends Activity {
     final String EMAIL_PATTERN =
             "^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@"
                     + "[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$";
-
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.login);
@@ -62,7 +57,7 @@ public class LoginActivity extends Activity {
     View.OnClickListener btBackClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
-            Intent intentBack = new Intent(LoginActivity.this, LaunchActivity.class);
+            Intent intentBack = new Intent(LoginFragment.this, LaunchActivity.class);
             startActivity(intentBack);
             Log.d(TAG,"come back to launch screen");
         }
@@ -73,7 +68,7 @@ public class LoginActivity extends Activity {
         public void onClick(View view) {
             if(isOnlineNetwork() && validateMailAndPassword(mail, password))
             {
-                Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
+                Intent intent = new Intent(LoginFragment.this, HomeFragment.class);
                 startActivity(intent);
                 Log.d(TAG,"Login successfully");
             }

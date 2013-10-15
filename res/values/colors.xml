@@ -6,5 +6,7 @@
     <color name="tvLauchBottom">#885b00</color>
     <color name="white">#FFFFFF</color>
     <color name="gray">#B5B5B5</color>
+    <color name="tvListFeeds">#333333</color>
+    <color name="tvLikeFeed">#777777</color>
 
 </resources>

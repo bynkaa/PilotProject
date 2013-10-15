@@ -68,7 +68,7 @@
                         android:src="@drawable/username"
                         android:id="@+id/imUsername" android:layout_alignParentLeft="true"
                         android:contentDescription=""
-                        android:layout_alignTop="@+id/mail" android:layout_marginLeft="35dp"
+                        android:layout_alignTop="@+id/mail" android:layout_marginLeft="23dp"
                         android:layout_marginBottom="1dp"/>
                 <EditText
                         android:layout_width="101dp"
@@ -87,7 +87,8 @@
                     android:src="@drawable/line_center_login"
 
                     android:id="@+id/imageView"
-                    android:layout_centerVertical="true" android:layout_below="@+id/relativeLayout"/>
+                    android:layout_centerVertical="true" android:layout_below="@+id/relativeLayout"
+                    android:layout_marginLeft="10dp" android:layout_marginRight="10dp"/>
             <RelativeLayout
                     android:layout_width="fill_parent"
                     android:layout_height="match_parent" android:layout_alignLeft="@+id/relativeLayout"
@@ -98,7 +99,7 @@
                         android:src="@drawable/password"
                         android:contentDescription=""
                         android:layout_alignParentLeft="true" android:layout_alignTop="@+id/password"
-                        android:layout_marginLeft="35dp" android:layout_marginBottom="5dp"/>
+                        android:layout_marginLeft="23dp" android:layout_marginBottom="5dp"/>
                 <EditText
                         android:layout_width="102dp"
                         android:layout_height="wrap_content"

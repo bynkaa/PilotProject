@@ -13,7 +13,7 @@
             android:id="@+id/btLogin"
             android:background="@drawable/fl_btn_login"
             android:layout_centerHorizontal="true"
-            android:layout_above="@+id/tvLauchBottom"/>
+            android:layout_above="@+id/tvLauchBottom" android:clickable="true"/>
     <Button android:layout_width="@dimen/btLauchWidth"
             android:layout_height="@dimen/btLauchHeight"
             android:id="@+id/btLoginFB"
@@ -54,9 +54,8 @@
             android:id="@+id/tvLauchBottom"
             android:layout_marginBottom="10dp"
             android:gravity="center"
-            android:layout_marginTop="10dp"
             android:typeface="sans"
             android:textColor="@color/tvLauchBottom"
             android:layout_alignLeft="@+id/tvLauchBottom" android:layout_alignParentBottom="true"
-            android:layout_alignRight="@+id/tvLauchBottom"/>
+            android:layout_alignRight="@+id/tvLauchBottom" android:layout_marginTop="10dp"/>
 </RelativeLayout>
