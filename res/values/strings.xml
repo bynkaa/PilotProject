@@ -33,6 +33,10 @@
     <string name="birthday">
         <b>Birthday</b>
     </string>
+    <string name="gender">
+        <b>Gender</b>
+    </string>
+
     <string name="country">
         <b>Country</b>
     </string>
@@ -46,4 +50,11 @@
     <string name="tvMyStationComposer">Composer</string>
     <string name="password_hint">Password</string>
     <string name="email_hint">Email</string>
+    <string name="hint_description">Description</string>
+    <string name="hint_yourCountry">Your country</string>
+    <string name="contentDescription">content description</string>
+    <string name="hint_birthday">Your birthday</string>
+    <string name="hint_phone">Your phone no.</string>
+    <string name="hint_name">Your full name</string>
+    <string name="hint_display_name">Your display name</string>
 </resources>
