@@ -15,5 +15,6 @@
         </activity>
         <activity android:name="com.qsoft.pilotproject.activity.HomeFragment"/>
         <activity android:name="com.qsoft.pilotproject.activity.LoginFragment"/>
+        <activity android:name="com.qsoft.pilotproject.activity.ProfileSetupFragment"/>
     </application>
 </manifest> 

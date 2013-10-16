@@ -146,9 +146,12 @@
                           android:layout_marginLeft="17dp" android:layout_alignParentTop="true"
                           android:layout_marginTop="7dp"/>
                 <EditText android:layout_width="fill_parent" android:layout_height="wrap_content"
-                          android:hint="@string/hint_birthday" android:background="@null" android:id="@+id/profile_et_birthday"
-                          android:layout_alignBottom="@+id/profile_tv_birthday" android:layout_alignTop="@+id/profile_tv_birthday"
-                          android:layout_alignParentLeft="true" android:layout_marginLeft="109dp"
+                          android:hint="@string/hint_birthday" android:background="@null"
+                          android:id="@+id/profile_et_birthday"
+                          android:layout_alignBottom="@+id/profile_tv_birthday"
+                          android:layout_alignTop="@+id/profile_tv_birthday"
+                          android:layout_alignParentLeft="true"
+                          android:layout_marginLeft="109dp"
                           android:layout_marginRight="10dp"/>
             </RelativeLayout>
             <RelativeLayout android:layout_width="match_parent" android:layout_height="29dp"
@@ -232,5 +235,12 @@
                 android:layout_marginLeft="4dp" android:paddingLeft="15dp" android:layout_marginRight="4dp"/>
     </RelativeLayout>
 
+
+    <DatePicker
+            android:id="@+id/dpResult"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            />
 
 </RelativeLayout>
