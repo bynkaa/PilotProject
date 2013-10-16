@@ -77,7 +77,7 @@
         <RelativeLayout
                 android:layout_width="wrap_content"
                 android:layout_height="40dp"
-                android:background="@drawable/sidebar_imagebuttonsearch"
+                android:background="@drawable/sidebar_image_button_search"
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentTop="true" android:id="@+id/relativeLayout">
             <EditText
@@ -137,7 +137,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:id="@+id/ivMyStation"
-                        android:background="@drawable/sidebar_imagemystation"
+                        android:background="@drawable/sidebar_image_mystation"
                         android:layout_alignParentLeft="true" android:layout_centerInParent="true"/>
                 <ImageView
                         android:layout_width="wrap_content"
