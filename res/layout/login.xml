@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:background="@color/background"
                 android:orientation="vertical"
@@ -9,7 +9,7 @@
     <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/login_menubar"
+            android:background="@drawable/menubar"
             android:id="@+id/navibar">
         <ImageView
                 android:layout_width="wrap_content"
@@ -32,14 +32,16 @@
     </RelativeLayout>
     <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/login_frame" android:layout_margin="10dp">
+                    android:layout_height="92dp"
+                    android:background="@drawable/login_frame"
+                    android:layout_margin="10dp"
+            >
         <EditText
             android:id="@+id/login_etMail"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:hint="@string/email_hint"
-            android:layout_marginTop="5dp"
+            android:layout_marginTop="12dp"
             android:layout_marginLeft="60dp"
             android:background="@null"
                 />
@@ -48,8 +50,8 @@
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:hint="@string/password_hint"
-            android:layout_marginTop="34dp"
-            android:layout_marginLeft="60dp"
+            android:layout_alignLeft="@id/login_etMail"
+            android:layout_marginTop="56dp"
             android:background="@null"
             android:password="true"
                 />
