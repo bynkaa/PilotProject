@@ -46,13 +46,13 @@ public class LoginFragment extends FragmentActivity
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.login);
-        imBack = (ImageView) findViewById(R.id.imBack);
-        imDone = (ImageView) findViewById(R.id.imNext);
+        imBack = (ImageView) findViewById(R.id.login_ivBack);
+        imDone = (ImageView) findViewById(R.id.login_ivLogin);
         imBack.setOnClickListener(btBackClickListener);
         imDone.setOnClickListener(btDoneClickListener);
-        mail = (EditText) findViewById(R.id.mail);
-        password = (EditText) findViewById(R.id.password);
-        forgotPass = (TextView) findViewById(R.id.forgotPass);
+        mail = (EditText) findViewById(R.id.login_etMail);
+        password = (EditText) findViewById(R.id.login_etPassword);
+        forgotPass = (TextView) findViewById(R.id.login_tvForgotPass);
         forgotPass.setOnClickListener(btForgotPassListener);
 
     }
