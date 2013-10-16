@@ -10,5 +10,6 @@
     <color name="tvLikeFeed">#777777</color>
     <color name="tvMyStation">#333333</color>
     <color name="tvMyStationComposer">#434343</color>
+    <color name="tvSideBarItem">#e6e6e6</color>
 
 </resources>

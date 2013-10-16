@@ -4,7 +4,6 @@ import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.widget.DrawerLayout;
 import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
 
@@ -18,11 +17,24 @@ import java.util.List;
  */
 public class HomeFragment extends FragmentActivity
 {
+    private static final String[] SIDE_BAR_ITEMS = new String[]{"Home", "Favorite", "Following", "Audience",
+            "Genres", "Setting", "Help Center", "Sign Out"};
+    public static final Integer[] SIDE_BAR_ICONS = new Integer[]{
+            R.drawable.sidebar_imageicon_home,
+            R.drawable.sidebar_image_icon_favorite,
+            R.drawable.sidebar_image_icon_following,
+            R.drawable.sidebar_image_icon_audience,
+            R.drawable.sidebar_image_icon_genres,
+            R.drawable.sidebar_image_icon_setting,
+            R.drawable.sidebar_image_icon_helpcenter,
+            R.drawable.sidebar_image_icon_logout
+    };
     private ListView lvFeeds;
     private ListView lvSlideBar;
     private View drawerView;
     private DrawerLayout dlSlideBar;
     Button btMenu;
+    private ListView lvSideBar;
 
     public void onCreate(Bundle savedInstanceState)
     {
@@ -51,8 +63,8 @@ public class HomeFragment extends FragmentActivity
 
     public void setListViewSlideBar()
     {
-        String[] items = new String[]{"My Station", "Home", "Favorite", "Setting"};
-        lvSlideBar.setAdapter(new ArrayAdapter<String>(this, R.layout.list_menu, items));
+        SideBarItemAdapter sideBarItemAdapter = new SideBarItemAdapter(this, R.layout.menu, SIDE_BAR_ITEMS);
+        lvSlideBar.setAdapter(sideBarItemAdapter);
     }
 
     private List<Feed> getModel()
