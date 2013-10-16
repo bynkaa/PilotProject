@@ -19,7 +19,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="New Text"
-                android:textColor="@color/tvMyStation"
+                android:textColor="@color/sidebar_colortext_mystation"
                 android:id="@+id/tvSideBarItem" android:layout_alignParentLeft="true" android:layout_marginLeft="60dp"
                 android:layout_centerVertical="true" android:textSize="16dp" android:textStyle="bold"/>
         <ImageView

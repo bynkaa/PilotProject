@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.widget.DrawerLayout;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
 import com.example.PilotProject.R;
@@ -38,7 +39,6 @@ public class HomeFragment extends FragmentActivity
     private View drawerView;
     private DrawerLayout dlSlideBar;
     Button btMenu;
-    private ListView lvSideBar;
 
     public void onCreate(Bundle savedInstanceState)
     {
@@ -51,10 +51,21 @@ public class HomeFragment extends FragmentActivity
         lvSlideBar = (ListView) findViewById(R.id.lvSlideBar);
         drawerView = findViewById(R.id.left_drawer);
         setListViewSlideBar();
+        lvSlideBar.setOnItemClickListener(itemSideBarClickListner);
         btMenu = (Button) findViewById(R.id.btMenu);
         btMenu.setOnClickListener(btMenuClickListener);
 
     }
+
+    AdapterView.OnItemClickListener itemSideBarClickListner = new AdapterView.OnItemClickListener()
+    {
+
+        @Override
+        public void onItemClick(AdapterView<?> adapterView, View view, int i, long l)
+        {
+            // on item click
+        }
+    };
 
     public View.OnClickListener btMenuClickListener = new View.OnClickListener()
     {

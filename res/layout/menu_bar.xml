@@ -14,7 +14,7 @@
             android:id="@+id/left_drawer">
         <RelativeLayout
                 android:layout_width="wrap_content"
-                android:layout_height="40dp"
+                android:layout_height="wrap_content"
                 android:background="@drawable/sidebar_image_button_search"
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentTop="true" android:id="@+id/relativeLayout">
@@ -52,7 +52,7 @@
                         android:layout_height="wrap_content"
                         android:text="@string/tvMyStation"
                         android:textStyle="bold"
-                        android:textColor="@color/tvMyStation"
+                        android:textColor="@color/sidebar_colortext_mystation"
                         android:id="@+id/tvMyStation" android:layout_gravity="left|center_vertical"
                         android:layout_marginLeft="5dp" android:textSize="14dp" android:layout_marginTop="5dp"/>
                 <TextView
@@ -60,7 +60,7 @@
                         android:layout_height="wrap_content"
                         android:text="@string/tvMyStationComposer"
                         android:id="@+id/tvMyStationComposer"
-                        android:textColor="@color/tvMyStationComposer"
+                        android:textColor="@color/sidebar_colortext_mystationcomposer"
                         android:layout_gravity="left|center_vertical"
                         android:layout_marginLeft="5dp" android:textSize="10dp"/>
             </LinearLayout>
@@ -89,10 +89,10 @@
         </RelativeLayout>
         <RelativeLayout
                 android:layout_width="fill_parent"
-                android:layout_height="24dp"
+                android:layout_height="wrap_content"
                 android:layout_below="@+id/rlMyStation"
-                android:background="@drawable/toolbar"
                 android:id="@+id/rlMenu">
+            <!--android:background="@drawable/toolbar"-->
             <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -107,7 +107,7 @@
         </RelativeLayout>
         <ListView
                 android:id="@+id/lvSlideBar"
-                android:layout_width="180dp"
+                android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:choiceMode="singleChoice"
                 android:background="@android:color/white"

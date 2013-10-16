@@ -6,10 +6,9 @@
     <color name="tvLauchBottom">#885b00</color>
     <color name="white">#FFFFFF</color>
     <color name="gray">#B5B5B5</color>
-    <color name="tvListFeeds">#333333</color>
-    <color name="tvLikeFeed">#777777</color>
-    <color name="tvMyStation">#333333</color>
-    <color name="tvMyStationComposer">#434343</color>
-    <color name="tvSideBarItem">#e6e6e6</color>
+    <color name="feed_colortext_listfeeds">#333333</color>
+    <color name="feed_colortext_like">#777777</color>
+    <color name="sidebar_colortext_mystation">#333333</color>
+    <color name="sidebar_colortext_mystationcomposer">#434343</color>
 
 </resources>

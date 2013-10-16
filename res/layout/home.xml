@@ -11,11 +11,11 @@
 
         <RelativeLayout
                 android:layout_width="fill_parent"
-                android:layout_height="40dp"
+                android:layout_height="wrap_content"
                 android:background="@drawable/navbar"
                 android:layout_gravity="left|center_vertical">
             <Button
-                    android:layout_width="40dp"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:background="@drawable/myfavorite_btn_option"
                     android:id="@+id/btMenu"
@@ -23,7 +23,7 @@
                     android:layout_centerVertical="true"
                     android:layout_marginLeft="8dp" android:layout_marginTop="3dp" android:layout_marginBottom="3dp"/>
             <Button
-                    android:layout_width="40dp"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:background="@drawable/home_buttonnotification"
                     android:id="@+id/btNotification"
@@ -68,7 +68,7 @@
     <!--navigation drawer-->
 
     <RelativeLayout
-            android:layout_width="240dp"
+            android:layout_width="@dimen/sidebar_width"
             android:layout_height="wrap_content"
             android:layout_gravity="left|center"
             android:dividerHeight="0dp"
@@ -115,7 +115,7 @@
                         android:layout_height="wrap_content"
                         android:text="@string/tvMyStation"
                         android:textStyle="bold"
-                        android:textColor="@color/tvMyStation"
+                        android:textColor="@color/sidebar_colortext_mystation"
                         android:id="@+id/tvMyStation" android:layout_gravity="left|center_vertical"
                         android:layout_marginLeft="5dp" android:textSize="14dp" android:layout_marginTop="5dp"/>
                 <TextView
@@ -123,7 +123,7 @@
                         android:layout_height="wrap_content"
                         android:text="@string/tvMyStationComposer"
                         android:id="@+id/tvMyStationComposer"
-                        android:textColor="@color/tvMyStationComposer"
+                        android:textColor="@color/sidebar_colortext_mystationcomposer"
                         android:layout_gravity="left|center_vertical"
                         android:layout_marginLeft="5dp" android:textSize="10dp"/>
             </LinearLayout>
