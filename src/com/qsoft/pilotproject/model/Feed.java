@@ -1,4 +1,4 @@
-package com.example.PilotProject;
+package com.qsoft.pilotproject.model;
 
 /**
  * User: binhtv

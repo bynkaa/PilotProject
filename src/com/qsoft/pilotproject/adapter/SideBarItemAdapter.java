@@ -1,4 +1,4 @@
-package com.example.PilotProject;
+package com.qsoft.pilotproject.adapter;
 
 import android.app.Activity;
 import android.view.LayoutInflater;
@@ -7,6 +7,8 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
+import com.example.PilotProject.R;
+import com.qsoft.pilotproject.activity.HomeFragment;
 
 /**
  * User: binhtv

@@ -1,4 +1,4 @@
-package com.example.PilotProject;
+package com.qsoft.pilotproject.activity;
 
 import android.app.AlertDialog;
 import android.content.Context;
@@ -15,6 +15,7 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+import com.example.PilotProject.R;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.DefaultHttpClient;

@@ -1,4 +1,4 @@
-package com.example.PilotProject;
+package com.qsoft.pilotproject.activity;
 
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
@@ -6,6 +6,10 @@ import android.support.v4.widget.DrawerLayout;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ListView;
+import com.example.PilotProject.R;
+import com.qsoft.pilotproject.adapter.ArrayFeedAdapter;
+import com.qsoft.pilotproject.adapter.SideBarItemAdapter;
+import com.qsoft.pilotproject.model.Feed;
 
 import java.util.ArrayList;
 import java.util.List;
