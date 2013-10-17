@@ -17,5 +17,8 @@
         <activity android:name="com.qsoft.pilotproject.activity.LoginFragment"/>
         <activity android:name="com.qsoft.pilotproject.activity.ProfileSetupFragment"/>
         <activity android:name="com.qsoft.pilotproject.activity.ProgramFragment"/>
+        <activity android:name="com.qsoft.pilotproject.activity.ThumbnailFragment"/>
+        <activity android:name="com.qsoft.pilotproject.activity.DetailFragment"/>
+        <activity android:name="com.qsoft.pilotproject.activity.CommentFragment"/>
     </application>
 </manifest> 
