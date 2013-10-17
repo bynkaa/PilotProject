@@ -9,6 +9,8 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
@@ -54,8 +56,31 @@ public class LoginFragment extends FragmentActivity
         password = (EditText) findViewById(R.id.login_etPassword);
         forgotPass = (TextView) findViewById(R.id.login_tvForgotPass);
         forgotPass.setOnClickListener(btForgotPassListener);
-
+        mail.addTextChangedListener(textChangeListener);
+        password.addTextChangedListener(textChangeListener);
     }
+
+    private final TextWatcher textChangeListener = new TextWatcher() {
+        @Override
+        public void beforeTextChanged(CharSequence charSequence, int i, int i2, int i3) {
+            //To change body of implemented methods use File | Settings | File Templates.
+        }
+
+        @Override
+        public void onTextChanged(CharSequence charSequence, int i, int i2, int i3) {
+            //To change body of implemented methods use File | Settings | File Templates.
+        }
+
+        @Override
+        public void afterTextChanged(Editable editable) {
+            if(mail.getText().toString().isEmpty() || password.getText().toString().isEmpty() )
+            {
+                imDone.setBackgroundDrawable(getResources().getDrawable(R.drawable.login_btlogin_visible));
+            }else{
+                imDone.setBackgroundDrawable(getResources().getDrawable(R.drawable.login_btlogin));
+            }
+        }
+    };
 
     View.OnClickListener btBackClickListener = new View.OnClickListener()
     {

@@ -9,16 +9,16 @@
     <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/menubar"
+            android:background="@drawable/login_menubar"
             android:id="@+id/navibar">
         <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/login_ivLogin"
-                android:background="@drawable/login_btlogin"
+                android:background="@drawable/login_btlogin_visible"
                 android:layout_alignParentRight="true"
                 android:layout_margin="5dp"
-                android:contentDescription=""
+                android:contentDescription="@string/description"
                 />
 
         <ImageView
@@ -27,7 +27,7 @@
                 android:id="@+id/login_ivBack"
                 android:background="@drawable/login_btback"
                 android:layout_margin="5dp"
-                android:contentDescription=""
+                android:contentDescription="@string/description"
                 />
     </RelativeLayout>
     <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -41,6 +41,7 @@
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:hint="@string/email_hint"
+            android:singleLine="true"
             android:layout_marginTop="12dp"
             android:layout_marginLeft="60dp"
             android:background="@null"
@@ -50,6 +51,7 @@
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:hint="@string/password_hint"
+            android:singleLine="true"
             android:layout_alignLeft="@id/login_etMail"
             android:layout_marginTop="56dp"
             android:background="@null"
