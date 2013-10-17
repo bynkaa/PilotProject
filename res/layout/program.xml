@@ -1,0 +1,237 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+    <RelativeLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal|top"
+            android:background="@drawable/navbar" android:id="@+id/relativeLayout">
+        <ImageButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/imageButton"
+                android:layout_alignParentLeft="true"
+                android:layout_centerVertical="true"
+                android:background="@drawable/sound_board_btn_back" android:layout_marginLeft="8dp"
+                />
+        <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/tvProgram"
+                android:id="@+id/tvProgram"
+                android:textStyle="bold"
+                android:textColor="@android:color/white"
+                android:layout_centerHorizontal="true" android:layout_alignTop="@+id/imageButton"/>
+    </RelativeLayout>
+    <RelativeLayout
+            android:layout_width="fill_parent"
+            android:layout_height="137dp"
+            android:layout_alignLeft="@+id/relativeLayout"
+            android:background="@android:color/white"
+            android:padding="5dp"
+            android:layout_below="@+id/relativeLayout"
+            android:id="@+id/rlMyStation">
+        <ImageView
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:id="@+id/imageView"
+                android:background="@android:color/darker_gray"
+                android:layout_alignParentLeft="true" android:layout_alignParentTop="true"
+                android:layout_marginLeft="5dp" android:layout_marginRight="5dp"/>
+        <EditText
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Edit|Delete"
+                android:textColor="@android:color/darker_gray"
+                android:id="@+id/editText"
+                android:textSize="10dp"
+                android:layout_alignLeft="@+id/imageView" android:layout_alignBottom="@+id/relativeLayout3"
+                android:layout_alignRight="@+id/imageView"/>
+        <RelativeLayout
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent" android:layout_toRightOf="@+id/imageView"
+                android:layout_alignTop="@+id/imageView" android:id="@+id/relativeLayout3">
+            <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="1h ago"
+                    android:id="@+id/tvLastUpdate" android:layout_alignParentRight="true"
+                    android:layout_alignParentTop="true" android:textSize="10dp" android:layout_marginRight="5dp"/>
+            <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Composer"
+                    android:textColor="@color/program_textcolor_composer"
+                    android:id="@+id/tvComposer" android:layout_alignParentLeft="true"
+                    android:layout_below="@+id/tvLastUpdate"/>
+            <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Title"
+                    android:textStyle="bold"
+                    android:textColor="@color/program_textcolor_title"
+                    android:id="@+id/tvProgramTitle" android:layout_alignLeft="@+id/tvComposer"
+                    android:layout_below="@+id/tvComposer"/>
+            <RelativeLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content" android:layout_alignLeft="@+id/tvComposer"
+                    android:layout_below="@+id/tvProgramTitle" android:id="@+id/relativeLayout1">
+                <RelativeLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" android:layout_alignParentLeft="true"
+                        android:layout_alignParentTop="true" android:id="@+id/rlContentLook"
+                        android:layout_marginRight="10dp">
+                    <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:background="@drawable/content_image_look"
+                            android:id="@+id/imContentLook" android:layout_alignParentLeft="true"
+                            android:layout_centerVertical="true" android:layout_marginRight="5dp"/>
+                    <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="800"
+                            android:textColor="@color/program_textcolor_contentlook"
+                            android:id="@+id/tvContentLook" android:layout_toRightOf="@+id/imContentLook"
+                            android:layout_centerVertical="true"/>
+                </RelativeLayout>
+                <RelativeLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_toRightOf="@+id/rlContentLook" android:layout_alignTop="@+id/rlContentLook"
+                        android:id="@+id/rlContentPlay"
+                        android:layout_marginRight="10dp">
+                    <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:background="@drawable/content_image_play"
+                            android:id="@+id/ivContentPlay" android:layout_alignParentLeft="true"
+                            android:layout_centerVertical="true" android:layout_marginRight="5dp"/>
+                    <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="800"
+                            android:id="@+id/tvContentPlay" android:layout_toRightOf="@+id/ivContentPlay"
+                            android:layout_centerVertical="true"/>
+                </RelativeLayout>
+                <RelativeLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_toRightOf="@+id/rlContentPlay" android:layout_alignTop="@+id/rlContentLook">
+                    <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:background="@drawable/content_image_like"
+                            android:id="@+id/ivContentLike" android:layout_alignParentLeft="true"
+                            android:layout_centerVertical="true" android:layout_marginRight="5dp"/>
+                    <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="800"
+                            android:id="@+id/tvContentLike" android:layout_toRightOf="@+id/ivContentLike"
+                            android:layout_centerVertical="true"/>
+                </RelativeLayout>
+            </RelativeLayout>
+            <RelativeLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content" android:layout_alignLeft="@+id/textView1"
+                    android:layout_below="@+id/relativeLayout1" android:layout_marginTop="3dp">
+                <ImageButton
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/content_button_starselect"
+                        android:id="@+id/ibContentStarSelect" android:layout_alignParentLeft="true"
+                        android:layout_alignParentTop="true"/>
+                <ImageButton
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/content_button_likeselect"
+                        android:id="@+id/ibContentLikeSelect" android:layout_toRightOf="@+id/ibContentStarSelect"
+                        android:layout_alignTop="@+id/ibContentStarSelect" android:layout_marginLeft="5dp"/>
+                <ImageButton
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/content_button_facebook"
+                        android:id="@+id/ibContentFacebook" android:layout_alignParentRight="true"
+                        android:layout_centerInParent="true" android:layout_marginRight="5dp"/>
+                <ImageButton
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/content_button_twitter"
+                        android:id="@+id/ibContentTwitter" android:layout_toLeftOf="@+id/ibContentFacebook"
+                        android:layout_centerInParent="true"
+                        android:layout_marginRight="5dp"/>
+            </RelativeLayout>
+        </RelativeLayout>
+    </RelativeLayout>
+    <RelativeLayout
+            android:layout_width="fill_parent"
+            android:layout_height="40dp" android:layout_alignLeft="@+id/relativeLayout"
+            android:layout_below="@+id/rlMyStation" android:id="@+id/relativeLayout2">
+        <MediaController
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/mediaController"
+                android:layout_alignParentLeft="true"
+                android:background="@drawable/playbt"
+                android:layout_alignParentBottom="true"/>
+        <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="fill_parent"
+                android:layout_height="20dp" android:layout_toRightOf="@+id/mediaController"
+                android:layout_alignTop="@+id/mediaController" android:id="@+id/linearLayout">
+            <SeekBar
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/seekBar" android:layout_gravity="left|center_vertical"/>
+        </LinearLayout>
+        <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent" android:layout_toRightOf="@+id/mediaController"
+                android:layout_below="@+id/linearLayout">
+            <SeekBar
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/seekBar1" android:layout_gravity="left|center_vertical"/>
+        </LinearLayout>
+    </RelativeLayout>
+    <TabHost
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent" android:id="@+id/tabHost"
+            android:layout_alignLeft="@+id/relativeLayout" android:layout_below="@+id/relativeLayout2">
+        <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:orientation="vertical">
+            <TabWidget
+                    android:id="@android:id/tabs"
+                    android:layout_width="fill_parent"
+                    android:layout_height="35dp">
+            </TabWidget>
+            <FrameLayout
+                    android:id="@android:id/tabcontent"
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent">
+                <LinearLayout
+                        android:id="@+id/tab1"
+                        android:layout_width="fill_parent"
+                        android:layout_height="fill_parent">
+                </LinearLayout>
+                <LinearLayout
+                        android:id="@+id/tab2"
+                        android:layout_width="fill_parent"
+                        android:layout_height="fill_parent">
+                </LinearLayout>
+                <LinearLayout
+                        android:id="@+id/tab3"
+                        android:layout_width="fill_parent"
+                        android:layout_height="fill_parent">
+                </LinearLayout>
+            </FrameLayout>
+        </LinearLayout>
+    </TabHost>
+</RelativeLayout>
