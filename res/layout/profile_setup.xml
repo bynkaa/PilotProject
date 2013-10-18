@@ -44,35 +44,29 @@
         <RelativeLayout
                 android:layout_height="wrap_content"
                 android:layout_width="match_parent"
-                android:id="@+id/relativeLayout"
+                android:id="@+id/profile_relativeLayout"
                 android:layout_alignRight="@+id/rlMyStation"
-                android:layout_alignBottom="@+id/profile_iv_cover" android:layout_below="@+id/relativeLayout1">
-            <ImageView
-                    android:layout_height="139dp"
-                    android:layout_width="261dp"
-                    android:contentDescription="@string/contentDescription"
-                    android:background="@drawable/profile_cover"
-                    android:id="@+id/profile_iv_cover"
-                    android:longClickable="true" android:src="@drawable/profile_cover"
-                    android:layout_alignParentLeft="true" android:layout_alignParentRight="true"/>
+                android:layout_below="@+id/relativeLayout1"
+                android:background="@drawable/profile_cover"
+                >
             <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:id="@+id/imageView"
-                    android:layout_alignLeft="@+id/profile_iv_cover"
-                    android:layout_alignBottom="@+id/profile_iv_cover"
                     android:background="@drawable/content_button_like"
-                    android:src="@drawable/profile_avatar"
-                    android:layout_marginLeft="13dp"
-                    android:layout_marginBottom="6dp"
-                    android:contentDescription="@string/description"/>
+                    android:src="@drawable/profile_icon"
+                    android:contentDescription="@string/description"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentBottom="true"
+                    android:layout_marginLeft="5dp"
+                    />
         </RelativeLayout>
         <RelativeLayout
                 android:layout_height="wrap_content"
                 android:layout_width="fill_parent"
                 android:id="@+id/rlMyStation"
                 android:layout_centerHorizontal="true"
-                android:layout_below="@+id/relativeLayout">
+                android:layout_below="@+id/profile_relativeLayout">
             <TextView
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
@@ -120,7 +114,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/rlMyStation"
-                android:layout_alignLeft="@+id/relativeLayout"
+                android:layout_alignLeft="@+id/profile_relativeLayout"
                 android:id="@+id/relativeLayout2">
             <TextView
                     android:layout_width="match_parent"

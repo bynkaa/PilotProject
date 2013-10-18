@@ -3,18 +3,29 @@ package com.qsoft.pilotproject.activity;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.ResolveInfo;
 import android.database.Cursor;
+import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.v4.app.FragmentActivity;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.*;
 import com.example.PilotProject.R;
+
+import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * User: thanhtd
@@ -29,7 +40,7 @@ public class ProfileSetupFragment extends FragmentActivity {
     private int month;
     private int day;
     private DatePicker dpResult;
-    private ImageView ivCover;
+    private RelativeLayout ivCover;
     private EditText tvBirthday;
     private EditText tvCountry;
     private ImageButton ibLeft;
@@ -42,7 +53,7 @@ public class ProfileSetupFragment extends FragmentActivity {
         setContentView(R.layout.profile_setup);
         tvBirthday = (EditText) findViewById(R.id.profile_et_birthday);
         dpResult = (DatePicker) findViewById(R.id.dpResult);
-        ivCover = (ImageView) findViewById(R.id.profile_iv_cover);
+        ivCover = (RelativeLayout) findViewById(R.id.profile_relativeLayout);
         ivCover.setOnClickListener(ivCoverListener);
         tvBirthday.setOnClickListener(tvBirthdayListener);
         ibLeft = (ImageButton) findViewById(R.id.profile_ibleft);
@@ -54,16 +65,7 @@ public class ProfileSetupFragment extends FragmentActivity {
         tvCountry = (EditText) findViewById(R.id.profile_et_country);
         tvCountry.setOnClickListener(btArrowCountryListener);
         etDescription = (EditText)findViewById(R.id.profile_et_desciption);
-        etDescription.setOnClickListener(etDescriptionListener);
-
     }
-
-    View.OnClickListener etDescriptionListener = new View.OnClickListener() {
-        @Override
-        public void onClick(View view) {
-            svDescription.fullScroll(ScrollView.FOCUS_UP);
-        }
-    };
 
     View.OnClickListener ibLeftListener = new View.OnClickListener() {
         @Override
@@ -122,11 +124,12 @@ public class ProfileSetupFragment extends FragmentActivity {
             String picturePath = cursor.getString(columnIndex);
             cursor.close();
 
-            ivCover.setImageBitmap(BitmapFactory.decodeFile(picturePath));
-
+            Bitmap bmImg = BitmapFactory.decodeFile(picturePath);
+            Bitmap bMapScaled = Bitmap.createScaledBitmap(bmImg, ivCover.getWidth(), ivCover.getHeight(), true);
+            Drawable drawable = new BitmapDrawable(bMapScaled);
+            ivCover.setBackgroundDrawable(drawable);
         }
     }
-
     View.OnClickListener tvBirthdayListener = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
@@ -160,14 +163,10 @@ public class ProfileSetupFragment extends FragmentActivity {
             year = selectedYear;
             month = selectedMonth;
             day = selectedDay;
-
-            // set selected date into textview
             tvBirthday.setText(new StringBuilder().append(month + 1)
                     .append("-").append(day).append("-").append(year)
                     .append(" "));
-            // set selected date into datepicker also
             dpResult.init(year, month, day, null);
-
         }
     };
 
