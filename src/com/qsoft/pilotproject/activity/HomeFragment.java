@@ -10,7 +10,9 @@ import android.widget.Button;
 import android.widget.ListView;
 import com.example.PilotProject.R;
 import com.qsoft.pilotproject.adapter.ArrayFeedAdapter;
+import com.qsoft.pilotproject.adapter.CommentAdapter;
 import com.qsoft.pilotproject.adapter.SideBarItemAdapter;
+import com.qsoft.pilotproject.model.Comment;
 import com.qsoft.pilotproject.model.Feed;
 
 import java.util.ArrayList;
@@ -23,7 +25,7 @@ import java.util.List;
  */
 public class HomeFragment extends FragmentActivity
 {
-    private static final String[] SIDE_BAR_ITEMS = new String[]{"Home", "Favorite", "Following", "Audience",
+    public static final String[] SIDE_BAR_ITEMS = new String[]{"Home", "Favorite", "Following", "Audience",
             "Genres", "Setting", "Help Center", "Sign Out"};
     public static final Integer[] SIDE_BAR_ICONS = new Integer[]{
             R.drawable.sidebar_imageicon_home,

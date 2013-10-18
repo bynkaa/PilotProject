@@ -32,7 +32,7 @@ public class CommentAdapter extends ArrayAdapter<Comment>
 
     public CommentAdapter(Activity context, List<Comment> comments)
     {
-        super(context, R.layout.program_comment_list);
+        super(context, R.layout.program_comment_list,comments);
         this.context = context;
         this.comments = comments;
     }

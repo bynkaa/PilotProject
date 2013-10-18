@@ -4,9 +4,14 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.widget.DrawerLayout;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ImageButton;
+import android.widget.ListView;
+import android.widget.RadioGroup;
 import com.example.PilotProject.R;
+import com.qsoft.pilotproject.adapter.SideBarItemAdapter;
 import com.qsoft.pilotproject.model.ProgramTab;
 
 /**
@@ -18,6 +23,10 @@ public class ProgramFragment extends FragmentActivity
 {
 
     FragmentManager manager;
+    private ListView lvSlideBar;
+    private View drawerView;
+    private DrawerLayout dlSlideBar;
+
     ProgramTab currentTab = ProgramTab.THUMB_NAIL;
     View.OnClickListener btCommentOnclickListner = new View.OnClickListener()
     {
@@ -56,24 +65,61 @@ public class ProgramFragment extends FragmentActivity
             }
         }
     };
-    private ImageButton btThumbnail;
-    private ImageButton btDetail;
-    private ImageButton btComment;
+    private RadioGroup rgProgramTab;
 
     public void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.program);
-        btThumbnail = (ImageButton) findViewById(R.id.ibThumbnail);
         manager = getSupportFragmentManager();
-        btThumbnail.setOnClickListener(btThumbnailOnclickListener);
-        btDetail = (ImageButton) findViewById(R.id.ibDetail);
-        btDetail.setOnClickListener(btDetailOnclickListener);
-        btComment = (ImageButton) findViewById(R.id.ibComment);
-        btComment.setOnClickListener(btCommentOnclickListner);
-        updateProgramFragment();
+        rgProgramTab = (RadioGroup) findViewById(R.id.rgProgramTab);
+        rgProgramTab.setOnCheckedChangeListener(programTabOnCheckChangeListener);
+        rgProgramTab.check(R.id.rbThumbnail);
+        dlSlideBar = (DrawerLayout) findViewById(R.id.drawer_layout);
+        lvSlideBar = (ListView) findViewById(R.id.lvSlideBar);
+        drawerView = findViewById(R.id.left_drawer);
+        setListViewSlideBar();
+        lvSlideBar.setOnItemClickListener(itemSideBarClickListner);
+
         startContentPlayerFragment();
     }
+    AdapterView.OnItemClickListener itemSideBarClickListner = new AdapterView.OnItemClickListener()
+    {
+
+        @Override
+        public void onItemClick(AdapterView<?> adapterView, View view, int i, long l)
+        {
+            // on item click
+        }
+    };
+
+    public void setListViewSlideBar()
+    {
+        SideBarItemAdapter sideBarItemAdapter = new SideBarItemAdapter(this, R.layout.menu, HomeFragment.SIDE_BAR_ITEMS);
+        lvSlideBar.setAdapter(sideBarItemAdapter);
+    }
+
+    RadioGroup.OnCheckedChangeListener programTabOnCheckChangeListener = new RadioGroup.OnCheckedChangeListener()
+    {
+        @Override
+        public void onCheckedChanged(RadioGroup radioGroup, int i)
+        {
+            int checkedRbTab = rgProgramTab.getCheckedRadioButtonId();
+            switch (checkedRbTab)
+            {
+                case R.id.rbThumbnail:
+                    currentTab = ProgramTab.THUMB_NAIL;
+                    break;
+                case R.id.rbDetail:
+                    currentTab = ProgramTab.DETAIL;
+                    break;
+                case R.id.rbComment:
+                    currentTab = ProgramTab.COMMENT;
+                    break;
+            }
+            updateProgramFragment();
+        }
+    };
 
     private void startContentPlayerFragment()
     {
@@ -101,6 +147,7 @@ public class ProgramFragment extends FragmentActivity
                 fragmentContainer = new ThumbnailFragment();
                 break;
         }
+
         manager.beginTransaction().replace(R.id.fragmentContainer, fragmentContainer).commit();
 
     }

@@ -1,12 +1,14 @@
 package com.qsoft.pilotproject.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.TextView;
 import com.example.PilotProject.R;
 import com.qsoft.pilotproject.adapter.CommentAdapter;
 import com.qsoft.pilotproject.model.Comment;
@@ -21,19 +23,30 @@ import java.util.List;
  */
 public class CommentFragment extends Fragment
 {
-    private EditText etNewComment;
+    private TextView tvAddNewComment;
     private ListView lvComment;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
         View view = inflater.inflate(R.layout.program_comment, container, false);
-        etNewComment = (EditText) view.findViewById(R.id.etNewComment);
+        tvAddNewComment = (TextView) view.findViewById(R.id.tvNewComment);
+        tvAddNewComment.setOnClickListener(tvAddNewCommentOnClickListener);
         lvComment = (ListView) view.findViewById(R.id.lvComment);
         CommentAdapter commentAdapter = new CommentAdapter(getActivity(), getModel());
         lvComment.setAdapter(commentAdapter);
         return view;
     }
+
+    View.OnClickListener tvAddNewCommentOnClickListener = new View.OnClickListener()
+    {
+        @Override
+        public void onClick(View view)
+        {
+            Intent intent = new Intent(CommentFragment.this.getActivity(),NewCommentFragment.class);
+            startActivity(intent);
+        }
+    };
 
     List<Comment> getModel()
     {
@@ -50,7 +63,7 @@ public class CommentFragment extends Fragment
     {
         Comment comment = new Comment();
         comment.setTitle("Mr. Michale");
-        comment.setTitle("The Phrase Became a fundamental element");
+        comment.setContent("The Phrase Became a fundamental element");
         comment.setTimeCreated("1 minute ago");
         return comment;
     }

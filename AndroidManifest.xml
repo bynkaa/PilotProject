@@ -21,5 +21,6 @@
         <activity android:name="com.qsoft.pilotproject.activity.DetailFragment"/>
         <activity android:name="com.qsoft.pilotproject.activity.CommentFragment"/>
         <activity android:name="com.qsoft.pilotproject.activity.ContentPlayerFragment"/>
+        <activity android:name="com.qsoft.pilotproject.activity.NewCommentFragment"/>
     </application>
 </manifest> 
