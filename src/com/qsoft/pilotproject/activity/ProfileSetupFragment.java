@@ -34,6 +34,8 @@ public class ProfileSetupFragment extends FragmentActivity {
     private EditText tvCountry;
     private ImageButton ibLeft;
     private ImageButton ibRight;
+    private ScrollView svDescription;
+    private EditText etDescription;
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -51,8 +53,17 @@ public class ProfileSetupFragment extends FragmentActivity {
         ibRight.setOnClickListener(ibRightListener);
         tvCountry = (EditText) findViewById(R.id.profile_et_country);
         tvCountry.setOnClickListener(btArrowCountryListener);
+        etDescription = (EditText)findViewById(R.id.profile_et_desciption);
+        etDescription.setOnClickListener(etDescriptionListener);
 
     }
+
+    View.OnClickListener etDescriptionListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+            svDescription.fullScroll(ScrollView.FOCUS_UP);
+        }
+    };
 
     View.OnClickListener ibLeftListener = new View.OnClickListener() {
         @Override

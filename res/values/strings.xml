@@ -57,4 +57,7 @@
     <string name="hint_phone">Your phone no.</string>
     <string name="hint_name">Your full name</string>
     <string name="hint_display_name">Your display name</string>
+
+    <string name="tvProfileSetup">Profile Setup</string>
+
 </resources>

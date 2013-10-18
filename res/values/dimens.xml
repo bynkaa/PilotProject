@@ -10,6 +10,7 @@
     <dimen name="feed_textsize_composer">14dp</dimen>
     <dimen name="feed_textsize_lastUpdate">12dp</dimen>
     <dimen name="feed_textsize_like_comment">12dp</dimen>
+    <dimen name="tvProfileSetup">25dp</dimen>
 
     <dimen name="sidebar_width">240dp</dimen>
 </resources>
