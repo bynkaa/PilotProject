@@ -63,7 +63,6 @@ public class CommentFragment extends Fragment
                commentList.add(comment);
 
            }
-
        }
     }
 

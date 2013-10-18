@@ -9,7 +9,7 @@
     <ImageView
             android:layout_width="@dimen/feed_size_avatar"
             android:layout_height="@dimen/feed_size_avatar"
-            android:background="@drawable/img_3"
+            android:background="@drawable/image_icon"
             android:id="@+id/imProfile" android:layout_alignParentLeft="true" android:layout_alignParentTop="true"
             android:layout_margin="@dimen/feed_margin_avatar"/>
     <RelativeLayout
