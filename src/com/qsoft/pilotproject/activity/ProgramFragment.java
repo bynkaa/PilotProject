@@ -1,5 +1,6 @@
 package com.qsoft.pilotproject.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
@@ -25,46 +26,10 @@ public class ProgramFragment extends FragmentActivity
     FragmentManager manager;
     private ListView lvSlideBar;
     private View drawerView;
+    private ImageButton ibProgramBack;
     private DrawerLayout dlSlideBar;
 
     ProgramTab currentTab = ProgramTab.THUMB_NAIL;
-    View.OnClickListener btCommentOnclickListner = new View.OnClickListener()
-    {
-        @Override
-        public void onClick(View view)
-        {
-            if (currentTab != ProgramTab.COMMENT)
-            {
-                currentTab = ProgramTab.COMMENT;
-                updateProgramFragment();
-            }
-        }
-
-    };
-    View.OnClickListener btDetailOnclickListener = new View.OnClickListener()
-    {
-        @Override
-        public void onClick(View view)
-        {
-            if (currentTab != ProgramTab.DETAIL)
-            {
-                currentTab = ProgramTab.DETAIL;
-                updateProgramFragment();
-            }
-        }
-    };
-    View.OnClickListener btThumbnailOnclickListener = new View.OnClickListener()
-    {
-        @Override
-        public void onClick(View view)
-        {
-            if (currentTab != ProgramTab.THUMB_NAIL)
-            {
-                currentTab = ProgramTab.THUMB_NAIL;
-                updateProgramFragment();
-            }
-        }
-    };
     private RadioGroup rgProgramTab;
 
     public void onCreate(Bundle savedInstanceState)
@@ -80,9 +45,20 @@ public class ProgramFragment extends FragmentActivity
         drawerView = findViewById(R.id.left_drawer);
         setListViewSlideBar();
         lvSlideBar.setOnItemClickListener(itemSideBarClickListner);
+        ibProgramBack = (ImageButton) findViewById(R.id.ibProgramBack);
 
+        ibProgramBack.setOnClickListener(ibProgramBackOnClickListener);
         startContentPlayerFragment();
     }
+    View.OnClickListener ibProgramBackOnClickListener = new View.OnClickListener()
+    {
+        @Override
+        public void onClick(View view)
+        {
+            Intent intent = new Intent(ProgramFragment.this, HomeFragment.class);
+            startActivity(intent);
+        }
+    };
     AdapterView.OnItemClickListener itemSideBarClickListner = new AdapterView.OnItemClickListener()
     {
 
