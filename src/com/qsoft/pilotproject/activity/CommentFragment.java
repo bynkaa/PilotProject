@@ -1,5 +1,6 @@
 package com.qsoft.pilotproject.activity;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -44,9 +45,16 @@ public class CommentFragment extends Fragment
         public void onClick(View view)
         {
             Intent intent = new Intent(CommentFragment.this.getActivity(),NewCommentFragment.class);
-            startActivity(intent);
+            startActivityForResult(intent, Activity.RESULT_FIRST_USER);
         }
     };
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data)
+    {
+        super.onActivityResult(requestCode, resultCode, data);    //To change body of overridden methods use File | Settings | File Templates.
+       // here
+    }
 
     List<Comment> getModel()
     {
