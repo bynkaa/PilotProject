@@ -20,5 +20,6 @@
         <activity android:name="com.qsoft.pilotproject.activity.ThumbnailFragment"/>
         <activity android:name="com.qsoft.pilotproject.activity.DetailFragment"/>
         <activity android:name="com.qsoft.pilotproject.activity.CommentFragment"/>
+        <activity android:name="com.qsoft.pilotproject.activity.ContentPlayerFragment"/>
     </application>
 </manifest> 

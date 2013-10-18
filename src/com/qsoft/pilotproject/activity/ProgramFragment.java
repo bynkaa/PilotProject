@@ -72,6 +72,18 @@ public class ProgramFragment extends FragmentActivity
         btComment = (ImageButton) findViewById(R.id.ibComment);
         btComment.setOnClickListener(btCommentOnclickListner);
         updateProgramFragment();
+        startContentPlayerFragment();
+    }
+
+    private void startContentPlayerFragment()
+    {
+        Fragment playerFragment = manager.findFragmentById(R.id.contentPlayerFragment);
+        if (playerFragment == null)
+        {
+            playerFragment = new ContentPlayerFragment();
+            manager.beginTransaction().add(R.id.contentPlayerFragment, playerFragment).commit();
+        }
+
     }
 
     private void updateProgramFragment()
