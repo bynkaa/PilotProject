@@ -41,11 +41,11 @@
                     android:layout_marginTop="5dp"
                     android:background="@drawable/addcomment_buttonpost"
                     android:layout_marginBottom="5dp"
-                    android:id="@+id/ibPost" android:layout_alignParentRight="true"/>
+                    android:id="@+id/ibNewCommentPost" android:layout_alignParentRight="true"/>
         </RelativeLayout>
         <EditText
-                android:layout_width="wrap_content"
-                android:layout_height="212dp"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
                 android:hint="add new comment"
                 android:gravity="top"
                 android:id="@+id/etAddNewComment" android:layout_alignLeft="@+id/relativeLayout"

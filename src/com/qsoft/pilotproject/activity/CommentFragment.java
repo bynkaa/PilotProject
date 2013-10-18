@@ -24,8 +24,10 @@ import java.util.List;
  */
 public class CommentFragment extends Fragment
 {
+    public static final int REQUEST_CODE = 1;
     private TextView tvAddNewComment;
     private ListView lvComment;
+    private List<Comment> commentList;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
@@ -34,7 +36,8 @@ public class CommentFragment extends Fragment
         tvAddNewComment = (TextView) view.findViewById(R.id.tvNewComment);
         tvAddNewComment.setOnClickListener(tvAddNewCommentOnClickListener);
         lvComment = (ListView) view.findViewById(R.id.lvComment);
-        CommentAdapter commentAdapter = new CommentAdapter(getActivity(), getModel());
+        commentList = getModel();
+        CommentAdapter commentAdapter = new CommentAdapter(getActivity(), commentList);
         lvComment.setAdapter(commentAdapter);
         return view;
     }
@@ -45,15 +48,23 @@ public class CommentFragment extends Fragment
         public void onClick(View view)
         {
             Intent intent = new Intent(CommentFragment.this.getActivity(),NewCommentFragment.class);
-            startActivityForResult(intent, Activity.RESULT_FIRST_USER);
+            startActivityForResult(intent, REQUEST_CODE);
         }
     };
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data)
     {
-        super.onActivityResult(requestCode, resultCode, data);    //To change body of overridden methods use File | Settings | File Templates.
-       // here
+       if (resultCode == Activity.RESULT_OK && requestCode == REQUEST_CODE)
+       {
+           if (data.hasExtra(NewCommentFragment.COMMENT_EXTRA))
+           {
+               Comment comment = (Comment) data.getExtras().get(NewCommentFragment.COMMENT_EXTRA);
+               commentList.add(comment);
+
+           }
+
+       }
     }
 
     List<Comment> getModel()
