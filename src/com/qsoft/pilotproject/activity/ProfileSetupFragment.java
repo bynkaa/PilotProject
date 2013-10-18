@@ -3,11 +3,9 @@ package com.qsoft.pilotproject.activity;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
-import android.content.ComponentName;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.pm.ResolveInfo;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -17,15 +15,9 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.v4.app.FragmentActivity;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.*;
 import com.example.PilotProject.R;
-
-import java.io.File;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * User: thanhtd
@@ -40,11 +32,13 @@ public class ProfileSetupFragment extends FragmentActivity {
     private int month;
     private int day;
     private DatePicker dpResult;
-    private RelativeLayout ivCover;
+    private RelativeLayout rlCover;
+    private ImageView ivProfile;
     private EditText tvBirthday;
     private EditText tvCountry;
     private ImageButton ibLeft;
     private ImageButton ibRight;
+    private Boolean flag = null;
     private ScrollView svDescription;
     private EditText etDescription;
 
@@ -53,8 +47,10 @@ public class ProfileSetupFragment extends FragmentActivity {
         setContentView(R.layout.profile_setup);
         tvBirthday = (EditText) findViewById(R.id.profile_et_birthday);
         dpResult = (DatePicker) findViewById(R.id.dpResult);
-        ivCover = (RelativeLayout) findViewById(R.id.profile_relativeLayout);
-        ivCover.setOnClickListener(ivCoverListener);
+        rlCover = (RelativeLayout) findViewById(R.id.profile_relativeLayout);
+        rlCover.setOnClickListener(ivCoverListener);
+        ivProfile = (ImageView) findViewById(R.id.profile_iv_icon);
+        ivProfile.setOnClickListener(ivProfileListener);
         tvBirthday.setOnClickListener(tvBirthdayListener);
         ibLeft = (ImageButton) findViewById(R.id.profile_ibleft);
         ibLeft.setSelected(true);
@@ -64,17 +60,15 @@ public class ProfileSetupFragment extends FragmentActivity {
         ibRight.setOnClickListener(ibRightListener);
         tvCountry = (EditText) findViewById(R.id.profile_et_country);
         tvCountry.setOnClickListener(btArrowCountryListener);
-        etDescription = (EditText)findViewById(R.id.profile_et_desciption);
+        etDescription = (EditText) findViewById(R.id.profile_et_desciption);
     }
 
     View.OnClickListener ibLeftListener = new View.OnClickListener() {
         @Override
-        public void onClick(View view)
-        {
-            if(ibLeft.isSelected())
-            {
+        public void onClick(View view) {
+            if (ibLeft.isSelected()) {
 
-            }    else{
+            } else {
                 ibLeft.setSelected(true);
                 ibLeft.setImageDrawable(getApplicationContext().getResources().getDrawable(R.drawable.profile_btn_select_left));
                 ibRight.setImageDrawable(getApplicationContext().getResources().getDrawable(R.drawable.profile_btn_unselect_right));
@@ -86,9 +80,9 @@ public class ProfileSetupFragment extends FragmentActivity {
     View.OnClickListener ibRightListener = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
-            if (ibRight.isSelected()){
+            if (ibRight.isSelected()) {
 
-            }   else{
+            } else {
                 ibRight.setSelected(true);
                 ibRight.setImageDrawable(getApplicationContext().getResources().getDrawable(R.drawable.profile_btn_select_right));
                 ibLeft.setImageDrawable(getApplicationContext().getResources().getDrawable(R.drawable.profile_btn_unselect_left));
@@ -100,19 +94,34 @@ public class ProfileSetupFragment extends FragmentActivity {
     View.OnClickListener ivCoverListener = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
-            Intent i = new Intent(
-                    Intent.ACTION_PICK,
-                    android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-
-            startActivityForResult(i, RESULT_LOAD_IMAGE);
+            flag = true;
+            uploadImage();
         }
     };
+
+    View.OnClickListener ivProfileListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            flag = false;
+            uploadImage();
+        }
+    };
+
+    private void uploadImage() {
+        Intent i = new Intent(
+                Intent.ACTION_PICK,
+                MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+
+        startActivityForResult(i, RESULT_LOAD_IMAGE);
+    }
+
+
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        if (requestCode == RESULT_LOAD_IMAGE && resultCode == RESULT_OK && null != data) {
+        if (requestCode == RESULT_LOAD_IMAGE && resultCode == RESULT_OK && null != data && flag == true) {
             Uri selectedImage = data.getData();
             String[] filePathColumn = {MediaStore.Images.Media.DATA};
 
@@ -125,11 +134,32 @@ public class ProfileSetupFragment extends FragmentActivity {
             cursor.close();
 
             Bitmap bmImg = BitmapFactory.decodeFile(picturePath);
-            Bitmap bMapScaled = Bitmap.createScaledBitmap(bmImg, ivCover.getWidth(), ivCover.getHeight(), true);
+            Bitmap bMapScaled = Bitmap.createScaledBitmap(bmImg, rlCover.getWidth(), rlCover.getHeight(), true);
             Drawable drawable = new BitmapDrawable(bMapScaled);
-            ivCover.setBackgroundDrawable(drawable);
+            rlCover.setBackgroundDrawable(drawable);
+        }else if (requestCode == RESULT_LOAD_IMAGE && resultCode == RESULT_OK && null != data && flag == false)
+        {
+            Uri selectedImage = data.getData();
+            String[] filePathColumn = {MediaStore.Images.Media.DATA};
+
+            Cursor cursor = getContentResolver().query(selectedImage,
+                    filePathColumn, null, null, null);
+            cursor.moveToFirst();
+
+            int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
+            String picturePath = cursor.getString(columnIndex);
+            cursor.close();
+
+            Bitmap bmImg = BitmapFactory.decodeFile(picturePath);
+            Bitmap bMapScaled = Bitmap.createScaledBitmap(bmImg, ivProfile.getWidth(), ivProfile.getHeight(), true);
+            Drawable drawable = new BitmapDrawable(bMapScaled);
+
+            ivProfile.setImageDrawable(drawable);
+
+//            ivProfile.setImageBitmap(BitmapFactory.decodeFile(picturePath));
         }
     }
+
     View.OnClickListener tvBirthdayListener = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
@@ -180,7 +210,6 @@ public class ProfileSetupFragment extends FragmentActivity {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 tvCountry.setText(countryList[which]);
-
             }
         });
         builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
