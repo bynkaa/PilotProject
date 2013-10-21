@@ -1,5 +1,6 @@
 package com.qsoft.pilotproject.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.app.Fragment;
@@ -7,6 +8,7 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.widget.DrawerLayout;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.ImageButton;
 import android.widget.ListView;
 import com.example.PilotProject.R;
 import com.qsoft.pilotproject.adapter.SideBarItemAdapter;
@@ -36,6 +38,7 @@ public class SlideBar extends FragmentActivity
     private View leftDrawerView;
     private DrawerLayout dlSlideBar;
     private ActionBarDrawerToggle actionBarDrawerToggle;
+    private ImageButton ibMyStation;
 
     public void onCreate(Bundle savedInstanceState)
     {
@@ -57,8 +60,20 @@ public class SlideBar extends FragmentActivity
         Fragment homeFragment = new HomeFragment();
         getSupportFragmentManager().beginTransaction().replace(R.id.content_fragment, homeFragment).commit();
         dlSlideBar.setDrawerListener(actionBarDrawerToggle);
+        ibMyStation = (ImageButton) findViewById(R.id.ibMyStation);
+
+        ibMyStation.setOnClickListener(ibMyStationOnClickListener);
     }
 
+    View.OnClickListener ibMyStationOnClickListener = new View.OnClickListener()
+    {
+        @Override
+        public void onClick(View view)
+        {
+            Intent intent = new Intent(SlideBar.this,ProfileSetupFragment.class);
+            startActivity(intent);
+        }
+    };
 
     AdapterView.OnItemClickListener itemSideBarClickListner = new AdapterView.OnItemClickListener()
     {

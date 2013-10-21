@@ -75,10 +75,10 @@
                     android:layout_toRightOf="@+id/linearLayout"
                     android:layout_alignTop="@+id/imageView"
                     android:layout_margin="5dp">
-                <ImageView
+                <ImageButton
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:id="@+id/ivMyStation"
+                        android:id="@+id/ibMyStation"
                         android:background="@drawable/sidebar_image_mystation"
                         android:layout_alignParentLeft="true" android:layout_centerInParent="true"/>
                 <ImageView
@@ -87,7 +87,7 @@
                         android:id="@+id/ivArrows"
                         android:layout_alignParentRight="true"
                         android:background="@drawable/arrows"
-                        android:layout_alignTop="@+id/ivMyStation"
+                        android:layout_alignTop="@+id/ibMyStation"
                         android:adjustViewBounds="false" android:layout_centerInParent="true"
                         android:layout_marginTop="2dp"/>
             </RelativeLayout>
