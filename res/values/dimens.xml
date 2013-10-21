@@ -1,15 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <dimen name="tvHome">25dp</dimen>
-    <dimen name="btLauchWidth">80dp</dimen>
-    <dimen name="btLauchHeight">50dp</dimen>
-    <dimen name="btLauchMarginTop">380dp</dimen>
-    <dimen name="feed_size_avatar">50dp</dimen>
-    <dimen name="feed_margin_avatar">5dp</dimen>
-    <dimen name="feed_textsize_title">16dp</dimen>
-    <dimen name="feed_textsize_composer">14dp</dimen>
-    <dimen name="feed_textsize_lastUpdate">12dp</dimen>
-    <dimen name="feed_textsize_like_comment">12dp</dimen>
+
+
+    <!--profile setup-->
     <dimen name="tvProfileSetup">25dp</dimen>
     <dimen name="profileSetup_profile_icon_margin_left">10dp</dimen>
     <dimen name="profileSetup_navibar_menu_margin_right">5dp</dimen>
@@ -63,4 +56,28 @@
     <dimen name="profileSetup_etDescription_paddingLeft">15dp</dimen>
     <dimen name="profileSetup_etDescription_marginRight">4dp</dimen>
     <dimen name="sidebar_width">240dp</dimen>
+    <!--feed layout-->
+    <dimen name="feed_padding">5dp</dimen>
+    <dimen name="feed_imArrow_marginRight">5dp</dimen>
+    <dimen name="feed_imArrow_marginTop">2dp</dimen>
+    <dimen name="feed_tvLastUpdateStatus_marginRight">5dp</dimen>
+    <dimen name="feed_size_avatar">50dp</dimen>
+    <dimen name="feed_margin_avatar">5dp</dimen>
+    <dimen name="feed_textsize_title">16dp</dimen>
+    <dimen name="feed_textsize_composer">14dp</dimen>
+    <dimen name="feed_textsize_lastUpdate">12dp</dimen>
+    <dimen name="feed_textsize_like_comment">12dp</dimen>
+    <!--home layout-->
+    <dimen name="home_btMenu_marginLeft">8dp</dimen>
+    <dimen name="home_btMenu_marginTop">3dp</dimen>
+    <dimen name="home_btMenu_marginBottom">3dp</dimen>
+    <dimen name="home_btNotification_marginRight">5dp</dimen>
+    <dimen name="home_btNotification_marginTop">3dp</dimen>
+    <dimen name="home_btNotification_marginBottom">3dp</dimen>
+    <dimen name="home_tvContentFeed_textsize">14dp</dimen>
+    <dimen name="home_button_layout_height">35dp</dimen>
+    <dimen name="tvHome">25dp</dimen>
+    <dimen name="btLauchWidth">80dp</dimen>
+    <dimen name="btLauchHeight">50dp</dimen>
+    <dimen name="btLauchMarginTop">380dp</dimen>
 </resources>
