@@ -36,7 +36,7 @@
                        android:layout_height="wrap_content"
                        android:id="@+id/imageView3"
                        android:layout_alignParentLeft="true"
-                       android:src="@drawable/profile_btmenu"
+                       android:src="@drawable/profile_tb_cancel"
                        android:layout_centerVertical="true"
                        android:contentDescription="@string/description"
                        android:layout_marginLeft="@dimen/profileSetup_navibar_save_margin_left"/>
