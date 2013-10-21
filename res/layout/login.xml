@@ -32,11 +32,11 @@
                 android:contentDescription="@string/description"
                 />
     </RelativeLayout>
-    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    <RelativeLayout
                     android:layout_width="wrap_content"
-                    android:layout_height="92dp"
+                    android:layout_height="@dimen/login_frame_layout_height"
                     android:background="@drawable/login_frame"
-                    android:layout_margin="10dp"
+                    android:layout_margin="@dimen/login_frame_layout_margin"
             >
         <EditText
             android:id="@+id/login_etMail"
@@ -44,8 +44,8 @@
             android:layout_height="wrap_content"
             android:hint="@string/email_hint"
             android:singleLine="true"
-            android:layout_marginTop="12dp"
-            android:layout_marginLeft="60dp"
+            android:layout_marginTop="@dimen/login_etMail_marginTop"
+            android:layout_marginLeft="@dimen/login_etMail_marginLeft"
             android:background="@null"
                 />
         <EditText
@@ -55,7 +55,7 @@
             android:hint="@string/password_hint"
             android:singleLine="true"
             android:layout_alignLeft="@id/login_etMail"
-            android:layout_marginTop="56dp"
+            android:layout_marginTop="@dimen/login_etPassword_marginTop"
             android:background="@null"
             android:password="true"
                 />
@@ -66,7 +66,7 @@
             android:hint="@string/note"
             android:id="@+id/login_tvForgotPass"
             android:gravity="center"
-            android:textColor="#b1b1b1"
+            android:textColor="@color/login_tvForgotPass_textColor"
             android:layout_gravity="center"
                     />
 </LinearLayout>

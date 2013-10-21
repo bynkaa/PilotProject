@@ -75,12 +75,15 @@ public class SlideBar extends FragmentActivity
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data)
     {
-        if (resultCode == Activity.RESULT_OK && requestCode == REQUEST_CODE)
+        if (requestCode == REQUEST_CODE)
         {
-            // do something here
+            if (resultCode == Activity.RESULT_OK)
+            {
+                // do something here
 
+            }
+            setOpenOption();
         }
-        setOpenOption();
     }
 
     AdapterView.OnItemClickListener itemSideBarClickListner = new AdapterView.OnItemClickListener()

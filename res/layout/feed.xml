@@ -3,7 +3,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
                 android:layout_width="match_parent"
                 android:background="@drawable/sidebar_selection"
-                android:padding="5dp"
+                android:padding="@dimen/feed_padding"
                 android:layout_height="match_parent">
 
     <ImageView
@@ -53,14 +53,14 @@
                 android:layout_below="@+id/tvComposer"/>
         <ImageView android:layout_width="wrap_content" android:layout_height="wrap_content"
                    android:background="@drawable/arrows"
-                   android:id="@+id/imageView"
+                   android:id="@+id/imArrow"
                    android:layout_alignRight="@+id/tvTitleFeed"
                    android:layout_alignTop="@+id/tvComposer"
-                   android:layout_marginRight="5dp" android:layout_marginTop="2dp"/>
+                   android:layout_marginRight="@dimen/feed_imArrow_marginRight" android:layout_marginTop="@dimen/feed_imArrow_marginTop"/>
         <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="New Text"
                   android:id="@+id/tvLastUpdateStatus"
                   android:textSize="@dimen/feed_textsize_lastUpdate"
-                  android:layout_toLeftOf="@+id/imageView" android:layout_alignTop="@+id/tvComposer"
-                  android:layout_marginRight="5dp"/>
+                  android:layout_toLeftOf="@+id/imArrow" android:layout_alignTop="@+id/tvComposer"
+                  android:layout_marginRight="@dimen/feed_tvLastUpdateStatus_marginRight"/>
     </RelativeLayout>
 </RelativeLayout>

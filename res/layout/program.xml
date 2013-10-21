@@ -36,15 +36,15 @@
         </RelativeLayout>
         <RelativeLayout
                 android:layout_width="fill_parent"
-                android:layout_height="137dp"
+                android:layout_height="@dimen/program_relativeLayout_height"
                 android:layout_alignLeft="@+id/relativeLayout"
                 android:background="@android:color/white"
                 android:padding="5dp"
                 android:layout_below="@+id/relativeLayout"
                 android:id="@+id/rlMyStation">
             <ImageView
-                    android:layout_width="60dp"
-                    android:layout_height="60dp"
+                    android:layout_width="@dimen/program_imageView_width"
+                    android:layout_height="@dimen/program_imageView_height"
                     android:id="@+id/imageView"
                     android:background="@drawable/content_image_icon"
                     android:layout_alignParentLeft="true" android:layout_marginLeft="10dp"
@@ -79,7 +79,7 @@
                         android:textStyle="bold"
                         android:textColor="@color/program_textcolor_title"
                         android:id="@+id/tvProgramTitle" android:layout_alignLeft="@+id/tvComposer"
-                        android:layout_below="@+id/tvComposer" android:textSize="18dp"/>
+                        android:layout_below="@+id/tvComposer" android:textSize="@dimen/program_tvProgramTitle_textSize"/>
                 <RelativeLayout
                         android:layout_width="fill_parent"
                         android:layout_height="wrap_content" android:layout_alignLeft="@+id/tvComposer"
@@ -99,7 +99,7 @@
                         <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="800"
+                                android:text="@string/program_tvContentLook_value"
                                 android:textColor="@color/program_textcolor_contentlook"
                                 android:id="@+id/tvContentLook" android:layout_toRightOf="@+id/imContentLook"
                                 android:layout_centerVertical="true"/>
@@ -149,28 +149,28 @@
                         android:layout_below="@+id/relativeLayout1" android:layout_marginTop="5dp"
                         >
                     <CheckBox
-                            android:layout_width="30dp"
-                            android:layout_height="30dp"
+                            android:layout_width="@dimen/program_ibContentStarSelect_width"
+                            android:layout_height="@dimen/program_ibContentStarSelect_height"
                             android:background="@drawable/checkbox_star"
                             android:button="@null"
                             android:id="@+id/ibContentStarSelect" android:layout_alignParentLeft="true"
                             android:layout_alignParentTop="true"/>
                     <CheckBox
-                            android:layout_width="30dp"
-                            android:layout_height="30dp"
+                            android:layout_width="@dimen/program_ibContentLikeSelect_width"
+                            android:layout_height="@dimen/program_ibContentLikeSelect_height"
                             android:background="@drawable/checkbox_like"
                             android:button="@null"
                             android:id="@+id/ibContentLikeSelect" android:layout_toRightOf="@+id/ibContentStarSelect"
                             android:layout_alignTop="@+id/ibContentStarSelect" android:layout_marginLeft="5dp"/>
                     <ImageButton
-                            android:layout_width="30dp"
-                            android:layout_height="30dp"
+                            android:layout_width="@dimen/program_ibContentFacebook_width"
+                            android:layout_height="@dimen/program_ibContentFacebook_height"
                             android:background="@drawable/content_button_facebook"
                             android:id="@+id/ibContentFacebook" android:layout_alignParentRight="true"
                             android:layout_centerInParent="true" android:layout_marginRight="5dp"/>
                     <ImageButton
-                            android:layout_width="30dp"
-                            android:layout_height="30dp"
+                            android:layout_width="@dimen/program_ibContentTwitter_width"
+                            android:layout_height="@dimen/program_ibContentTwitter_height"
                             android:background="@drawable/content_button_twitter"
                             android:id="@+id/ibContentTwitter" android:layout_toLeftOf="@+id/ibContentFacebook"
                             android:layout_centerInParent="true"
@@ -202,31 +202,31 @@
                 android:layout_alignLeft="@+id/relativeLayout"
                 android:layout_below="@+id/contentPlayerFragment" android:id="@+id/rgProgramTab">
             <RadioButton
-                    android:layout_width="106dp"
+                    android:layout_width="@dimen/program_rbThumbnail_width"
                     android:layout_height="wrap_content"
                     android:id="@+id/rbThumbnail"
                     android:button="@null"
                     android:text="Thumbnail"
                     android:textColor="@color/program_tab_selection"
-                    android:textSize="14dp"
+                    android:textSize="@dimen/program_rbThumbnail_textSize"
                     android:textStyle="bold"
                     android:background="@drawable/program_comment_selection"
                     android:gravity="center"/>
 
             <RadioButton
-                    android:layout_width="106dp"
+                    android:layout_width="@dimen/program_rbDetail_width"
                     android:layout_height="wrap_content"
                     android:id="@+id/rbDetail"
                     android:button="@null"
                     android:text="Detail"
                     android:textColor="@color/program_tab_selection"
-                    android:textSize="14dp"
+                    android:textSize="@dimen/program_rbDetail_textSize"
                     android:textStyle="bold"
                     android:gravity="center"
                     android:background="@drawable/program_comment_selection"/>
 
             <RadioButton
-                    android:layout_width="106dp"
+                    android:layout_width="@dimen/program_rbComment_width"
                     android:layout_height="wrap_content"
                     android:id="@+id/rbComment"
                     android:text=" Comment (90)"
@@ -234,7 +234,7 @@
                     android:textColor="@color/program_tab_selection"
                     android:textStyle="bold"
                     android:button="@null"
-                    android:textSize="14dp"
+                    android:textSize="@dimen/program_rbComment_textSize"
                     android:background="@drawable/program_comment_selection"/>
         </RadioGroup>
         <FrameLayout
@@ -262,8 +262,8 @@
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentTop="true" android:id="@+id/relativeLayout">
             <EditText
-                    android:layout_width="180dp"
-                    android:layout_height="24dp"
+                    android:layout_width="@dimen/program_etSearch_width"
+                    android:layout_height="@dimen/program_etSearch_height"
                     android:id="@+id/etSearch"
                     android:hint="search"
                     android:layout_alignParentLeft="true"
@@ -333,7 +333,7 @@
         </RelativeLayout>
         <RelativeLayout
                 android:layout_width="fill_parent"
-                android:layout_height="24dp"
+                android:layout_height="@dimen/program_rlMenu_height"
                 android:layout_below="@+id/rlMyStation"
                 android:background="@drawable/toolbar"
                 android:id="@+id/rlMenu">
@@ -351,7 +351,7 @@
         </RelativeLayout>
         <ListView
                 android:id="@+id/lvSlideBar"
-                android:layout_width="180dp"
+                android:layout_width="@dimen/program_lvSlideBar_width"
                 android:layout_height="match_parent"
                 android:choiceMode="singleChoice"
                 android:background="@android:color/white"
