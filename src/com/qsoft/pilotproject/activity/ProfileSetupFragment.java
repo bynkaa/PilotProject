@@ -7,8 +7,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
+import android.graphics.*;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
@@ -122,42 +121,48 @@ public class ProfileSetupFragment extends FragmentActivity {
         super.onActivityResult(requestCode, resultCode, data);
 
         if (requestCode == RESULT_LOAD_IMAGE && resultCode == RESULT_OK && null != data && flag == true) {
-            Uri selectedImage = data.getData();
-            String[] filePathColumn = {MediaStore.Images.Media.DATA};
-
-            Cursor cursor = getContentResolver().query(selectedImage,
-                    filePathColumn, null, null, null);
-            cursor.moveToFirst();
-
-            int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
-            String picturePath = cursor.getString(columnIndex);
-            cursor.close();
-
-            Bitmap bmImg = BitmapFactory.decodeFile(picturePath);
+            Bitmap bmImg = getBitmap(data);
             Bitmap bMapScaled = Bitmap.createScaledBitmap(bmImg, rlCover.getWidth(), rlCover.getHeight(), true);
             Drawable drawable = new BitmapDrawable(bMapScaled);
             rlCover.setBackgroundDrawable(drawable);
         }else if (requestCode == RESULT_LOAD_IMAGE && resultCode == RESULT_OK && null != data && flag == false)
         {
-            Uri selectedImage = data.getData();
-            String[] filePathColumn = {MediaStore.Images.Media.DATA};
-
-            Cursor cursor = getContentResolver().query(selectedImage,
-                    filePathColumn, null, null, null);
-            cursor.moveToFirst();
-
-            int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
-            String picturePath = cursor.getString(columnIndex);
-            cursor.close();
-
-            Bitmap bmImg = BitmapFactory.decodeFile(picturePath);
-            Bitmap bMapScaled = Bitmap.createScaledBitmap(bmImg, ivProfile.getWidth(), ivProfile.getHeight(), true);
-            Drawable drawable = new BitmapDrawable(bMapScaled);
-
-            ivProfile.setImageDrawable(drawable);
-
-//            ivProfile.setImageBitmap(BitmapFactory.decodeFile(picturePath));
+            Bitmap bmImg = getBitmap(data);
+            setImageProfile(bmImg);
         }
+    }
+
+    private void setImageProfile(Bitmap bmImg) {
+        Bitmap mask = BitmapFactory.decodeResource(getResources(), R.drawable.profile_mask);
+
+        Bitmap result = Bitmap.createBitmap(mask.getWidth(), mask.getHeight(), Bitmap.Config.ARGB_8888);
+
+        Bitmap photoBitmapScale = Bitmap.createScaledBitmap(bmImg, mask.getWidth(), mask.getHeight(), false);
+
+        Canvas mCanvas = new Canvas(result);
+        Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG);
+        paint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.DST_IN));
+        mCanvas.drawBitmap(photoBitmapScale, 0, 0, null);
+        mCanvas.drawBitmap(mask, 0, 0, paint);
+        paint.setXfermode(null);
+        ivProfile.setImageBitmap(result);
+        ivProfile.setScaleType(ImageView.ScaleType.FIT_CENTER);
+        ivProfile.setBackgroundResource(R.drawable.profile_frame);
+    }
+
+    private Bitmap getBitmap(Intent data) {
+        Uri selectedImage = data.getData();
+        String[] filePathColumn = {MediaStore.Images.Media.DATA};
+
+        Cursor cursor = getContentResolver().query(selectedImage,
+                filePathColumn, null, null, null);
+        cursor.moveToFirst();
+
+        int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
+        String picturePath = cursor.getString(columnIndex);
+        cursor.close();
+
+        return BitmapFactory.decodeFile(picturePath);
     }
 
     View.OnClickListener tvBirthdayListener = new View.OnClickListener() {

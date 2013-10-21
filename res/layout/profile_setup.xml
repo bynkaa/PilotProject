@@ -56,9 +56,8 @@
                     android:background="@drawable/content_button_like"
                     android:src="@drawable/profile_icon"
                     android:contentDescription="@string/description"
-                    android:layout_alignParentLeft="true"
+                    android:layout_marginLeft="10dp"
                     android:layout_alignParentBottom="true"
-                    android:layout_marginLeft="5dp"
                     />
         </RelativeLayout>
         <RelativeLayout
