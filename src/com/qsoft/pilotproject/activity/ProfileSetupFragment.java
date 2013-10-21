@@ -20,7 +20,6 @@ import android.util.Log;
 import android.view.View;
 import android.widget.*;
 import com.example.PilotProject.R;
-import com.qsoft.pilotproject.adapter.Crop;
 import com.qsoft.pilotproject.adapter.CropOption;
 import com.qsoft.pilotproject.adapter.CropOptionAdapter;
 
@@ -204,10 +203,6 @@ public class ProfileSetupFragment extends FragmentActivity {
         int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
         String picturePath = cursor.getString(columnIndex);
         cursor.close();
-        Crop crop = new Crop();
-        Intent intent = new Intent("com.android.camera.action.CROP");
-        intent.setType("image/*");
-        crop.doCrop(picturePath);
 //        return bitmap;
         doCrop(picturePath);
         return BitmapFactory.decodeFile(picturePath);
