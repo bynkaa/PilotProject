@@ -199,7 +199,7 @@ public class ContentPlayerFragment extends Fragment
         {
             return file.getPath();
         }
-        return null;
+        return "\\data\\a.mp3";
     }
 
     class FileExtensionFilter implements FilenameFilter

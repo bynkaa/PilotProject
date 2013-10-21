@@ -19,11 +19,6 @@
         <activity android:name="com.qsoft.pilotproject.activity.SlideBar"/>
         <activity android:name="com.qsoft.pilotproject.activity.LoginFragment"/>
         <activity android:name="com.qsoft.pilotproject.activity.ProfileSetupFragment"/>
-        <activity android:name="com.qsoft.pilotproject.activity.ProgramFragment"/>
-        <activity android:name="com.qsoft.pilotproject.activity.ThumbnailFragment"/>
-        <activity android:name="com.qsoft.pilotproject.activity.DetailFragment"/>
-        <activity android:name="com.qsoft.pilotproject.activity.CommentFragment"/>
-        <activity android:name="com.qsoft.pilotproject.activity.ContentPlayerFragment"/>
         <activity android:name="com.qsoft.pilotproject.activity.NewCommentFragment"/>
     </application>
 </manifest> 
