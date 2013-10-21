@@ -59,5 +59,6 @@
     <string name="hint_display_name">Your display name</string>
 
     <string name="tvProfileSetup">Profile Setup</string>
+    <string name="program_tvContentLook_value">800</string>
 
 </resources>
