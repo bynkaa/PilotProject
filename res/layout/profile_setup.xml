@@ -11,11 +11,11 @@
             android:background="@color/white"
         >
 
-    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                    android:orientation="vertical"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:background="@color/background"
+    <RelativeLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/background"
             >
 
 
@@ -25,7 +25,7 @@
                         android:id="@+id/relativeLayout1">
             <ImageView android:layout_width="wrap_content"
                        android:layout_height="wrap_content"
-                       android:id="@+id/imageView1"
+                       android:id="@+id/ibProfileSave"
                        android:layout_alignParentRight="true"
                        android:layout_alignParentTop="true"
                        android:background="@drawable/profile_btsave"
@@ -34,7 +34,7 @@
                        android:layout_marginRight="@dimen/profileSetup_navibar_menu_margin_right"/>
             <ImageView android:layout_width="wrap_content"
                        android:layout_height="wrap_content"
-                       android:id="@+id/imageView3"
+                       android:id="@+id/ibProfileCancel"
                        android:layout_alignParentLeft="true"
                        android:src="@drawable/profile_tb_cancel"
                        android:layout_centerVertical="true"

@@ -14,6 +14,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.v4.app.FragmentActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.*;
 import com.example.PilotProject.R;
@@ -24,6 +25,7 @@ import com.example.PilotProject.R;
  * Time: 3:48 PM
  */
 public class ProfileSetupFragment extends FragmentActivity {
+    private static final String TAG = "ProfileSetupFragment";
     final Context context = this;
     static final int DATE_DIALOG_ID = 999;
     private static int RESULT_LOAD_IMAGE = 1;
@@ -40,6 +42,8 @@ public class ProfileSetupFragment extends FragmentActivity {
     private Boolean flag = null;
     private ScrollView svDescription;
     private EditText etDescription;
+    private ImageView ibProfileCancel;
+    private ImageView ibProfileSave;
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -60,7 +64,33 @@ public class ProfileSetupFragment extends FragmentActivity {
         tvCountry = (EditText) findViewById(R.id.profile_et_country);
         tvCountry.setOnClickListener(btArrowCountryListener);
         etDescription = (EditText) findViewById(R.id.profile_et_desciption);
+        ibProfileCancel = (ImageView) findViewById(R.id.ibProfileCancel);
+        ibProfileCancel.setOnClickListener(ibProfileCancelOnClickListener);
+        ibProfileSave = (ImageView) findViewById(R.id.ibProfileSave);
+        ibProfileSave.setOnClickListener(ibProfileSaveOnClickListener);
     }
+    View.OnClickListener ibProfileSaveOnClickListener = new View.OnClickListener()
+    {
+        @Override
+        public void onClick(View view)
+        {
+            Log.d(TAG,"save ok");
+            Intent intent = getIntent();
+            setResult(RESULT_OK,intent);
+            finish();
+        }
+    };
+    View.OnClickListener ibProfileCancelOnClickListener = new View.OnClickListener()
+    {
+        @Override
+        public void onClick(View view)
+        {
+            Log.d(TAG,"cancel ok");
+            Intent intent = getIntent();
+            setResult(RESULT_CANCELED,intent);
+            finish();
+        }
+    };
 
     View.OnClickListener ibLeftListener = new View.OnClickListener() {
         @Override

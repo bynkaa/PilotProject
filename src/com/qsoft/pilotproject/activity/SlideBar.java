@@ -1,17 +1,20 @@
 package com.qsoft.pilotproject.activity;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.widget.DrawerLayout;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ImageButton;
 import android.widget.ListView;
 import com.example.PilotProject.R;
 import com.qsoft.pilotproject.adapter.SideBarItemAdapter;
+import com.qsoft.pilotproject.model.Comment;
 
 /**
  * User: binhtv
@@ -20,6 +23,8 @@ import com.qsoft.pilotproject.adapter.SideBarItemAdapter;
  */
 public class SlideBar extends FragmentActivity
 {
+    private static final String TAG = "SlideBar";
+    public static final int REQUEST_CODE = 0;
     public static final String[] SIDE_BAR_ITEMS = new String[]{"HomeFragment", "Favorite", "Following", "Audience",
             "Genres", "Setting", "Help Center", "Sign Out"};
     public static final Integer[] SIDE_BAR_ICONS = new Integer[]{
@@ -37,43 +42,46 @@ public class SlideBar extends FragmentActivity
     private ListView lvSlideBar;
     private View leftDrawerView;
     private DrawerLayout dlSlideBar;
-    private ActionBarDrawerToggle actionBarDrawerToggle;
     private ImageButton ibMyStation;
 
     public void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.slidebar);
-
         dlSlideBar = (DrawerLayout) findViewById(R.id.drawer_layout);
         lvSlideBar = (ListView) findViewById(R.id.lvSlideBar);
         leftDrawerView = findViewById(R.id.left_drawer_home);
         setListViewSlideBar();
         lvSlideBar.setOnItemClickListener(itemSideBarClickListner);
-        actionBarDrawerToggle = new ActionBarDrawerToggle(
-                this,                  /* host Activity */
-                dlSlideBar,         /* DrawerLayout object */
-                R.drawable.ic_launcher,  /* nav drawer icon to replace 'Up' caret */
-                R.string.drawer_open,  /* "open drawer" description */
-                R.string.drawer_close  /* "close drawer" description */);
-
         Fragment homeFragment = new HomeFragment();
         getSupportFragmentManager().beginTransaction().replace(R.id.content_fragment, homeFragment).commit();
-        dlSlideBar.setDrawerListener(actionBarDrawerToggle);
         ibMyStation = (ImageButton) findViewById(R.id.ibMyStation);
-
         ibMyStation.setOnClickListener(ibMyStationOnClickListener);
     }
 
     View.OnClickListener ibMyStationOnClickListener = new View.OnClickListener()
     {
+
+
         @Override
         public void onClick(View view)
         {
+            Log.d(TAG,"profile setup");
             Intent intent = new Intent(SlideBar.this,ProfileSetupFragment.class);
-            startActivity(intent);
+            startActivityForResult(intent, REQUEST_CODE);
         }
     };
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data)
+    {
+        if (resultCode == Activity.RESULT_OK && requestCode == REQUEST_CODE)
+        {
+            // do something here
+
+        }
+        setOpenOption();
+    }
 
     AdapterView.OnItemClickListener itemSideBarClickListner = new AdapterView.OnItemClickListener()
     {
