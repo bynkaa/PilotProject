@@ -3,9 +3,11 @@ package com.qsoft.pilotproject.activity;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.ResolveInfo;
 import android.database.Cursor;
 import android.graphics.*;
 import android.graphics.drawable.BitmapDrawable;
@@ -18,6 +20,13 @@ import android.util.Log;
 import android.view.View;
 import android.widget.*;
 import com.example.PilotProject.R;
+import com.qsoft.pilotproject.adapter.Crop;
+import com.qsoft.pilotproject.adapter.CropOption;
+import com.qsoft.pilotproject.adapter.CropOptionAdapter;
+
+import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * User: thanhtd
@@ -44,6 +53,10 @@ public class ProfileSetupFragment extends FragmentActivity {
     private EditText etDescription;
     private ImageView ibProfileCancel;
     private ImageView ibProfileSave;
+    private Uri mImageCaptureUri;
+    private static final int PICK_FROM_CAMERA = 1;
+    private static final int CROP_FROM_CAMERA = 2;
+    private static final int PICK_FROM_FILE = 3;
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -191,8 +204,92 @@ public class ProfileSetupFragment extends FragmentActivity {
         int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
         String picturePath = cursor.getString(columnIndex);
         cursor.close();
-
+        Crop crop = new Crop();
+        Intent intent = new Intent("com.android.camera.action.CROP");
+        intent.setType("image/*");
+        crop.doCrop(picturePath);
+//        return bitmap;
+        doCrop(picturePath);
         return BitmapFactory.decodeFile(picturePath);
+    }
+
+    public void doCrop(String filePath) {
+        try{
+            //New Flow
+            mImageCaptureUri = Uri.fromFile(new File(filePath));
+
+            final ArrayList<CropOption> cropOptions = new ArrayList<CropOption>();
+            Intent intent = new Intent("com.android.camera.action.CROP");
+            intent.setType("image/*");
+            List<ResolveInfo> list = getPackageManager().queryIntentActivities( intent, 0 );
+
+            int size = list.size();
+            if (size == 0)
+            {
+                Toast.makeText(this, "Can not find image crop app", Toast.LENGTH_SHORT).show();
+                return;
+            }
+            else
+            {
+                intent.setData(mImageCaptureUri);
+                intent.putExtra("outputX", 300);
+                intent.putExtra("outputY", 300);
+                intent.putExtra("aspectX", 1);
+                intent.putExtra("aspectY", 1);
+                intent.putExtra("scale", true);
+                intent.putExtra("return-data", true);
+
+                if (size == 1)
+                {
+                    Intent i = new Intent(intent);
+                    ResolveInfo res = list.get(0);
+                    i.setComponent( new ComponentName(res.activityInfo.packageName, res.activityInfo.name));
+                    startActivityForResult(i, CROP_FROM_CAMERA);
+                }
+
+                else
+                {
+                    for (ResolveInfo res : list)
+                    {
+                        final CropOption co = new CropOption();
+                        co.title = getPackageManager().getApplicationLabel(res.activityInfo.applicationInfo);
+                        co.icon = getPackageManager().getApplicationIcon(res.activityInfo.applicationInfo);
+                        co.appIntent= new Intent(intent);
+                        co.appIntent.setComponent( new ComponentName(res.activityInfo.packageName, res.activityInfo.name));
+                        cropOptions.add(co);
+                    }
+
+                    CropOptionAdapter adapter = new CropOptionAdapter(getApplicationContext(), cropOptions);
+                    AlertDialog.Builder builder = new AlertDialog.Builder(this);
+                    builder.setTitle("Choose Crop App");
+                    builder.setAdapter( adapter, new DialogInterface.OnClickListener()
+                    {
+                        public void onClick( DialogInterface dialog, int item )
+                        {
+                            startActivityForResult( cropOptions.get(item).appIntent, CROP_FROM_CAMERA);
+                        }
+                    });
+
+                    builder.setOnCancelListener( new DialogInterface.OnCancelListener()
+                    {
+                        public void onCancel( DialogInterface dialog )
+                        {
+                            if (mImageCaptureUri != null )
+                            {
+                                getContentResolver().delete(mImageCaptureUri, null, null );
+                                mImageCaptureUri = null;
+                            }
+                        }
+                    } );
+                    AlertDialog alert = builder.create();
+                    alert.show();
+                }
+            }
+        }
+        catch (Exception ex)
+        {
+//            genHelper.showErrorLog("Error in Crop Function-->"+ex.toString());
+        }
     }
 
     View.OnClickListener tvBirthdayListener = new View.OnClickListener() {
@@ -222,7 +319,6 @@ public class ProfileSetupFragment extends FragmentActivity {
 
     private DatePickerDialog.OnDateSetListener datePickerListener = new DatePickerDialog.OnDateSetListener() {
 
-        // when dialog box is closed, below method will be called.
         public void onDateSet(DatePicker view, int selectedYear,
                               int selectedMonth, int selectedDay) {
             year = selectedYear;
