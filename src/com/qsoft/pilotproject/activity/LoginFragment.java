@@ -87,7 +87,7 @@ public class LoginFragment extends FragmentActivity
         @Override
         public void onClick(View view)
         {
-            Intent intentBack = new Intent(LoginFragment.this, ProfileSetupFragment.class);
+            Intent intentBack = new Intent(LoginFragment.this, LaunchActivity.class);
             startActivity(intentBack);
             Log.d(TAG, "come back to launch screen");
         }
