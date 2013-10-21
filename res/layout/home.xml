@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+    <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+        <RelativeLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/navbar"
+                android:layout_gravity="left|center_vertical">
+            <Button
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/myfavorite_btn_option"
+                    android:id="@+id/btMenu"
+                    android:layout_alignParentLeft="true"
+                    android:layout_marginLeft="8dp" android:layout_marginTop="3dp" android:layout_marginBottom="3dp"
+                    android:layout_centerVertical="true"/>
+            <Button
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/home_buttonnotification"
+                    android:id="@+id/btNotification"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_alignTop="@+id/btMenu" android:layout_marginRight="5dp"
+                    android:layout_marginTop="3dp" android:layout_marginBottom="3dp"/>
+            <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/tvHome"
+                    android:textStyle="bold"
+                    android:id="@+id/tvHome" android:layout_centerHorizontal="true"
+                    android:layout_alignBottom="@+id/btMenu" android:singleLine="false"
+                    android:textColor="@android:color/white" android:textSize="@dimen/tvHome"/>
+        </RelativeLayout>
+        <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/tvContentFeed"
+                android:textStyle="bold"
+                android:textSize="14dp"
+                android:background="@android:color/background_dark"
+                android:id="@+id/tvContentFeed" android:layout_gravity="left|center_vertical" android:typeface="sans"/>
+        <RelativeLayout
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent">
+            <ListView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@android:color/white"
+                    android:id="@+id/lvFeeds" android:layout_alignParentLeft="true" android:layout_alignParentTop="true"
+                    android:layout_alignParentBottom="true"/>
+            <Button
+                    android:layout_width="wrap_content"
+                    android:layout_height="35dp"
+                    android:background="@drawable/home_buttonrecorder4"
+                    android:id="@+id/button" android:layout_centerHorizontal="true"
+                    android:layout_alignBottom="@+id/lvFeeds"/>
+        </RelativeLayout>
+    </LinearLayout>
+
+</RelativeLayout>
