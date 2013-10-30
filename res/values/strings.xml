@@ -60,5 +60,6 @@
 
     <string name="tvProfileSetup">Profile Setup</string>
     <string name="program_tvContentLook_value">800</string>
+    <string name="label">Online Dio</string>
 
 </resources>

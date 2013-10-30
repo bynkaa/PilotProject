@@ -4,7 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,6 +12,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 import com.example.PilotProject.R;
 import com.qsoft.pilotproject.adapter.CommentAdapter;
+import com.qsoft.pilotproject.database_helper.CommentDataSource;
 import com.qsoft.pilotproject.model.Comment;
 
 import java.util.ArrayList;
@@ -25,45 +26,44 @@ import java.util.List;
 public class CommentFragment extends Fragment
 {
     public static final int REQUEST_CODE = 1;
-    private TextView tvAddNewComment;
-    private ListView lvComment;
-    private List<Comment> commentList;
-
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
-    {
-        View view = inflater.inflate(R.layout.program_comment, container, false);
-        tvAddNewComment = (TextView) view.findViewById(R.id.tvNewComment);
-        tvAddNewComment.setOnClickListener(tvAddNewCommentOnClickListener);
-        lvComment = (ListView) view.findViewById(R.id.lvComment);
-        commentList = getModel();
-        CommentAdapter commentAdapter = new CommentAdapter(getActivity(), commentList);
-        lvComment.setAdapter(commentAdapter);
-        return view;
-    }
-
     View.OnClickListener tvAddNewCommentOnClickListener = new View.OnClickListener()
     {
         @Override
         public void onClick(View view)
         {
-            Intent intent = new Intent(CommentFragment.this.getActivity(),NewCommentFragment.class);
+            Intent intent = new Intent(CommentFragment.this.getActivity(), NewCommentFragment.class);
             startActivityForResult(intent, REQUEST_CODE);
         }
     };
+    private TextView tvAddNewComment;
+    private ListView lvComment;
+    private List<Comment> commentList;
+    private CommentDataSource commentDataSource;
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
+    {
+        View view = inflater.inflate(R.layout.program_comment, container, false);
+        commentDataSource = new CommentDataSource(getActivity());
+        commentDataSource.open();
+
+        tvAddNewComment = (TextView) view.findViewById(R.id.tvNewComment);
+        tvAddNewComment.setOnClickListener(tvAddNewCommentOnClickListener);
+        lvComment = (ListView) view.findViewById(R.id.lvComment);
+        //
+        commentList = commentDataSource.getAllComment();
+        CommentAdapter commentAdapter = new CommentAdapter(getActivity(), commentList);
+        lvComment.setAdapter(commentAdapter);
+        return view;
+    }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data)
     {
-       if (resultCode == Activity.RESULT_OK && requestCode == REQUEST_CODE)
-       {
-           if (data.hasExtra(NewCommentFragment.COMMENT_EXTRA))
-           {
-               Comment comment = (Comment) data.getExtras().get(NewCommentFragment.COMMENT_EXTRA);
-               commentList.add(comment);
+        super.onActivityResult(requestCode,resultCode,data);
+        Log.d(CommentFragment.class.getName(), "on activity result");
 
-           }
-       }
+
     }
 
     List<Comment> getModel()

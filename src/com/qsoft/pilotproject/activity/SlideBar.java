@@ -14,6 +14,7 @@ import android.widget.ImageButton;
 import android.widget.ListView;
 import com.example.PilotProject.R;
 import com.qsoft.pilotproject.adapter.SideBarItemAdapter;
+import com.qsoft.pilotproject.database_helper.CommentDataSource;
 import com.qsoft.pilotproject.model.Comment;
 
 /**
@@ -23,6 +24,7 @@ import com.qsoft.pilotproject.model.Comment;
  */
 public class SlideBar extends FragmentActivity
 {
+    private CommentDataSource commentDataSource;
     private static final String TAG = "SlideBar";
     public static final int REQUEST_CODE = 0;
     public static final String[] SIDE_BAR_ITEMS = new String[]{"HomeFragment", "Favorite", "Following", "Audience",
@@ -48,6 +50,8 @@ public class SlideBar extends FragmentActivity
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.slidebar);
+        commentDataSource = new CommentDataSource(this);
+        commentDataSource.open();
         dlSlideBar = (DrawerLayout) findViewById(R.id.drawer_layout);
         lvSlideBar = (ListView) findViewById(R.id.lvSlideBar);
         leftDrawerView = findViewById(R.id.left_drawer_home);
@@ -83,6 +87,14 @@ public class SlideBar extends FragmentActivity
 
             }
             setOpenOption();
+        }
+        if (resultCode == Activity.RESULT_OK && requestCode == CommentFragment.REQUEST_CODE)
+        {
+            if (data.hasExtra(NewCommentFragment.COMMENT_EXTRA))
+            {
+                Comment comment = (Comment) data.getExtras().get(NewCommentFragment.COMMENT_EXTRA);
+                commentDataSource.createComment(comment);
+            }
         }
     }
 

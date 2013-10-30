@@ -9,9 +9,20 @@ import java.io.Serializable;
  */
 public class Comment implements Serializable
 {
+    private Long id;
     private String title;
     private String content;
     private String timeCreated;
+
+    public Long getId()
+    {
+        return id;
+    }
+
+    public void setId(Long id)
+    {
+        this.id = id;
+    }
 
     public String getTitle()
     {

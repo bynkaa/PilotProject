@@ -9,7 +9,7 @@
     <uses-sdk android:minSdkVersion="10"/>
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
     <application android:label="@string/app_name">
-        <activity android:name="com.qsoft.pilotproject.activity.LaunchActivity"
+        <activity android:name="com.qsoft.pilotproject.activity.StartActivity"
                   android:label="@string/app_name">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
@@ -20,5 +20,18 @@
         <activity android:name="com.qsoft.pilotproject.activity.LoginFragment"/>
         <activity android:name="com.qsoft.pilotproject.activity.ProfileSetupFragment"/>
         <activity android:name="com.qsoft.pilotproject.activity.NewCommentFragment"/>
+        <activity android:name="com.qsoft.pilotproject.activity.LaunchActivity"/>
+        <service android:name="com.qsoft.pilotproject.authenticator.AuthenticatorService">
+            <intent-filter>
+                <action android:name="android.accounts.AccountAuthenticator"/>
+            </intent-filter>
+            <meta-data android:name="android.accounts.AccountAuthenticator"
+                       android:resource="@xml/authenticator"/>
+        </service>
     </application>
+
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.MANAGE_ACCOUNTS"/>
+    <uses-permission android:name="android.permission.GET_ACCOUNTS"/>
+    <uses-permission android:name="android.permission.AUTHENTICATE_ACCOUNTS"/>
 </manifest> 
