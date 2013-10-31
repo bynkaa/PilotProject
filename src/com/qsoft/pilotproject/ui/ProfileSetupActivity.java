@@ -1,4 +1,4 @@
-package com.qsoft.pilotproject.activity;
+package com.qsoft.pilotproject.ui;
 
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
@@ -32,8 +32,9 @@ import java.util.List;
  * Date: 10/14/13
  * Time: 3:48 PM
  */
-public class ProfileSetupFragment extends FragmentActivity {
-    private static final String TAG = "ProfileSetupFragment";
+public class ProfileSetupActivity extends FragmentActivity
+{
+    private static final String TAG = "ProfileSetupActivity";
     final Context context = this;
     static final int DATE_DIALOG_ID = 999;
     private static int RESULT_LOAD_IMAGE = 1;
@@ -57,7 +58,8 @@ public class ProfileSetupFragment extends FragmentActivity {
     private static final int CROP_FROM_CAMERA = 2;
     private static final int PICK_FROM_FILE = 3;
 
-    public void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState)
+    {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.profile_setup);
         tvBirthday = (EditText) findViewById(R.id.profile_et_birthday);
@@ -81,14 +83,15 @@ public class ProfileSetupFragment extends FragmentActivity {
         ibProfileSave = (ImageView) findViewById(R.id.ibProfileSave);
         ibProfileSave.setOnClickListener(ibProfileSaveOnClickListener);
     }
+
     View.OnClickListener ibProfileSaveOnClickListener = new View.OnClickListener()
     {
         @Override
         public void onClick(View view)
         {
-            Log.d(TAG,"save ok");
+            Log.d(TAG, "save ok");
             Intent intent = getIntent();
-            setResult(RESULT_OK,intent);
+            setResult(RESULT_OK, intent);
             finish();
         }
     };
@@ -97,19 +100,24 @@ public class ProfileSetupFragment extends FragmentActivity {
         @Override
         public void onClick(View view)
         {
-            Log.d(TAG,"cancel ok");
+            Log.d(TAG, "cancel ok");
             Intent intent = getIntent();
-            setResult(RESULT_CANCELED,intent);
+            setResult(RESULT_CANCELED, intent);
             finish();
         }
     };
 
-    View.OnClickListener ibLeftListener = new View.OnClickListener() {
+    View.OnClickListener ibLeftListener = new View.OnClickListener()
+    {
         @Override
-        public void onClick(View view) {
-            if (ibLeft.isSelected()) {
+        public void onClick(View view)
+        {
+            if (ibLeft.isSelected())
+            {
 
-            } else {
+            }
+            else
+            {
                 ibLeft.setSelected(true);
                 ibLeft.setImageDrawable(getApplicationContext().getResources().getDrawable(R.drawable.profile_btn_select_left));
                 ibRight.setImageDrawable(getApplicationContext().getResources().getDrawable(R.drawable.profile_btn_unselect_right));
@@ -118,12 +126,17 @@ public class ProfileSetupFragment extends FragmentActivity {
         }
     };
 
-    View.OnClickListener ibRightListener = new View.OnClickListener() {
+    View.OnClickListener ibRightListener = new View.OnClickListener()
+    {
         @Override
-        public void onClick(View view) {
-            if (ibRight.isSelected()) {
+        public void onClick(View view)
+        {
+            if (ibRight.isSelected())
+            {
 
-            } else {
+            }
+            else
+            {
                 ibRight.setSelected(true);
                 ibRight.setImageDrawable(getApplicationContext().getResources().getDrawable(R.drawable.profile_btn_select_right));
                 ibLeft.setImageDrawable(getApplicationContext().getResources().getDrawable(R.drawable.profile_btn_unselect_left));
@@ -132,23 +145,28 @@ public class ProfileSetupFragment extends FragmentActivity {
         }
     };
 
-    View.OnClickListener ivCoverListener = new View.OnClickListener() {
+    View.OnClickListener ivCoverListener = new View.OnClickListener()
+    {
         @Override
-        public void onClick(View view) {
+        public void onClick(View view)
+        {
             flag = true;
             uploadImage();
         }
     };
 
-    View.OnClickListener ivProfileListener = new View.OnClickListener() {
+    View.OnClickListener ivProfileListener = new View.OnClickListener()
+    {
         @Override
-        public void onClick(View v) {
+        public void onClick(View v)
+        {
             flag = false;
             uploadImage();
         }
     };
 
-    private void uploadImage() {
+    private void uploadImage()
+    {
         Intent i = new Intent(
                 Intent.ACTION_PICK,
                 MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
@@ -157,24 +175,27 @@ public class ProfileSetupFragment extends FragmentActivity {
     }
 
 
-
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+    protected void onActivityResult(int requestCode, int resultCode, Intent data)
+    {
         super.onActivityResult(requestCode, resultCode, data);
 
-        if (requestCode == RESULT_LOAD_IMAGE && resultCode == RESULT_OK && null != data && flag == true) {
+        if (requestCode == RESULT_LOAD_IMAGE && resultCode == RESULT_OK && null != data && flag == true)
+        {
             Bitmap bmImg = getBitmap(data);
             Bitmap bMapScaled = Bitmap.createScaledBitmap(bmImg, rlCover.getWidth(), rlCover.getHeight(), true);
             Drawable drawable = new BitmapDrawable(bMapScaled);
             rlCover.setBackgroundDrawable(drawable);
-        }else if (requestCode == RESULT_LOAD_IMAGE && resultCode == RESULT_OK && null != data && flag == false)
+        }
+        else if (requestCode == RESULT_LOAD_IMAGE && resultCode == RESULT_OK && null != data && flag == false)
         {
             Bitmap bmImg = getBitmap(data);
             setImageProfile(bmImg);
         }
     }
 
-    private void setImageProfile(Bitmap bmImg) {
+    private void setImageProfile(Bitmap bmImg)
+    {
         Bitmap mask = BitmapFactory.decodeResource(getResources(), R.drawable.profile_mask);
 
         Bitmap result = Bitmap.createBitmap(mask.getWidth(), mask.getHeight(), Bitmap.Config.ARGB_8888);
@@ -192,7 +213,8 @@ public class ProfileSetupFragment extends FragmentActivity {
         ivProfile.setBackgroundResource(R.drawable.profile_frame);
     }
 
-    private Bitmap getBitmap(Intent data) {
+    private Bitmap getBitmap(Intent data)
+    {
         Uri selectedImage = data.getData();
         String[] filePathColumn = {MediaStore.Images.Media.DATA};
 
@@ -208,15 +230,17 @@ public class ProfileSetupFragment extends FragmentActivity {
         return BitmapFactory.decodeFile(picturePath);
     }
 
-    public void doCrop(String filePath) {
-        try{
+    public void doCrop(String filePath)
+    {
+        try
+        {
             //New Flow
             mImageCaptureUri = Uri.fromFile(new File(filePath));
 
             final ArrayList<CropOption> cropOptions = new ArrayList<CropOption>();
             Intent intent = new Intent("com.android.camera.action.CROP");
             intent.setType("image/*");
-            List<ResolveInfo> list = getPackageManager().queryIntentActivities( intent, 0 );
+            List<ResolveInfo> list = getPackageManager().queryIntentActivities(intent, 0);
 
             int size = list.size();
             if (size == 0)
@@ -238,7 +262,7 @@ public class ProfileSetupFragment extends FragmentActivity {
                 {
                     Intent i = new Intent(intent);
                     ResolveInfo res = list.get(0);
-                    i.setComponent( new ComponentName(res.activityInfo.packageName, res.activityInfo.name));
+                    i.setComponent(new ComponentName(res.activityInfo.packageName, res.activityInfo.name));
                     startActivityForResult(i, CROP_FROM_CAMERA);
                 }
 
@@ -249,33 +273,33 @@ public class ProfileSetupFragment extends FragmentActivity {
                         final CropOption co = new CropOption();
                         co.title = getPackageManager().getApplicationLabel(res.activityInfo.applicationInfo);
                         co.icon = getPackageManager().getApplicationIcon(res.activityInfo.applicationInfo);
-                        co.appIntent= new Intent(intent);
-                        co.appIntent.setComponent( new ComponentName(res.activityInfo.packageName, res.activityInfo.name));
+                        co.appIntent = new Intent(intent);
+                        co.appIntent.setComponent(new ComponentName(res.activityInfo.packageName, res.activityInfo.name));
                         cropOptions.add(co);
                     }
 
                     CropOptionAdapter adapter = new CropOptionAdapter(getApplicationContext(), cropOptions);
                     AlertDialog.Builder builder = new AlertDialog.Builder(this);
                     builder.setTitle("Choose Crop App");
-                    builder.setAdapter( adapter, new DialogInterface.OnClickListener()
+                    builder.setAdapter(adapter, new DialogInterface.OnClickListener()
                     {
-                        public void onClick( DialogInterface dialog, int item )
+                        public void onClick(DialogInterface dialog, int item)
                         {
-                            startActivityForResult( cropOptions.get(item).appIntent, CROP_FROM_CAMERA);
+                            startActivityForResult(cropOptions.get(item).appIntent, CROP_FROM_CAMERA);
                         }
                     });
 
-                    builder.setOnCancelListener( new DialogInterface.OnCancelListener()
+                    builder.setOnCancelListener(new DialogInterface.OnCancelListener()
                     {
-                        public void onCancel( DialogInterface dialog )
+                        public void onCancel(DialogInterface dialog)
                         {
-                            if (mImageCaptureUri != null )
+                            if (mImageCaptureUri != null)
                             {
-                                getContentResolver().delete(mImageCaptureUri, null, null );
+                                getContentResolver().delete(mImageCaptureUri, null, null);
                                 mImageCaptureUri = null;
                             }
                         }
-                    } );
+                    });
                     AlertDialog alert = builder.create();
                     alert.show();
                 }
@@ -287,23 +311,29 @@ public class ProfileSetupFragment extends FragmentActivity {
         }
     }
 
-    View.OnClickListener tvBirthdayListener = new View.OnClickListener() {
+    View.OnClickListener tvBirthdayListener = new View.OnClickListener()
+    {
         @Override
-        public void onClick(View view) {
+        public void onClick(View view)
+        {
             showDialog(DATE_DIALOG_ID);
         }
     };
 
-    View.OnClickListener btArrowCountryListener = new View.OnClickListener() {
+    View.OnClickListener btArrowCountryListener = new View.OnClickListener()
+    {
         @Override
-        public void onClick(View view) {
+        public void onClick(View view)
+        {
             viewListCountry();
         }
     };
 
     @Override
-    protected Dialog onCreateDialog(int id) {
-        switch (id) {
+    protected Dialog onCreateDialog(int id)
+    {
+        switch (id)
+        {
             case DATE_DIALOG_ID:
                 // set date picker as current date
                 return new DatePickerDialog(this, datePickerListener, year, month,
@@ -312,10 +342,12 @@ public class ProfileSetupFragment extends FragmentActivity {
         return null;
     }
 
-    private DatePickerDialog.OnDateSetListener datePickerListener = new DatePickerDialog.OnDateSetListener() {
+    private DatePickerDialog.OnDateSetListener datePickerListener = new DatePickerDialog.OnDateSetListener()
+    {
 
         public void onDateSet(DatePicker view, int selectedYear,
-                              int selectedMonth, int selectedDay) {
+                              int selectedMonth, int selectedDay)
+        {
             year = selectedYear;
             month = selectedMonth;
             day = selectedDay;
@@ -326,22 +358,27 @@ public class ProfileSetupFragment extends FragmentActivity {
         }
     };
 
-    private void viewListCountry() {
+    private void viewListCountry()
+    {
         final String[] countryList = getResources().getStringArray(R.array.country);
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
         builder.setTitle("list country");
 
-        builder.setSingleChoiceItems(countryList, -1, new DialogInterface.OnClickListener() {
+        builder.setSingleChoiceItems(countryList, -1, new DialogInterface.OnClickListener()
+        {
 
             @Override
-            public void onClick(DialogInterface dialog, int which) {
+            public void onClick(DialogInterface dialog, int which)
+            {
                 tvCountry.setText(countryList[which]);
             }
         });
-        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+        builder.setPositiveButton("OK", new DialogInterface.OnClickListener()
+        {
 
             @Override
-            public void onClick(DialogInterface dialog, int which) {
+            public void onClick(DialogInterface dialog, int which)
+            {
             }
         });
         builder.show();

@@ -1,9 +1,8 @@
-package com.qsoft.pilotproject.activity;
+package com.qsoft.pilotproject.ui;
 
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.widget.DrawerLayout;
@@ -14,20 +13,20 @@ import android.widget.ImageButton;
 import android.widget.ListView;
 import com.example.PilotProject.R;
 import com.qsoft.pilotproject.adapter.SideBarItemAdapter;
-import com.qsoft.pilotproject.database_helper.CommentDataSource;
 import com.qsoft.pilotproject.model.Comment;
+import com.qsoft.pilotproject.provider.CommentDataSource;
 
 /**
  * User: binhtv
  * Date: 10/14/13
  * Time: 10:47 AM
  */
-public class SlideBar extends FragmentActivity
+public class SlideBarActivity extends FragmentActivity
 {
     private CommentDataSource commentDataSource;
-    private static final String TAG = "SlideBar";
+    private static final String TAG = "SlideBarActivity";
     public static final int REQUEST_CODE = 0;
-    public static final String[] SIDE_BAR_ITEMS = new String[]{"HomeFragment", "Favorite", "Following", "Audience",
+    public static final String[] SIDE_BAR_ITEMS = new String[]{"Home", "Favorite", "Following", "Audience",
             "Genres", "Setting", "Help Center", "Sign Out"};
     public static final Integer[] SIDE_BAR_ICONS = new Integer[]{
             R.drawable.sidebar_imageicon_home,
@@ -70,8 +69,8 @@ public class SlideBar extends FragmentActivity
         @Override
         public void onClick(View view)
         {
-            Log.d(TAG,"profile setup");
-            Intent intent = new Intent(SlideBar.this,ProfileSetupFragment.class);
+            Log.d(TAG, "profile setup");
+            Intent intent = new Intent(SlideBarActivity.this, ProfileSetupActivity.class);
             startActivityForResult(intent, REQUEST_CODE);
         }
     };
@@ -90,9 +89,9 @@ public class SlideBar extends FragmentActivity
         }
         if (resultCode == Activity.RESULT_OK && requestCode == CommentFragment.REQUEST_CODE)
         {
-            if (data.hasExtra(NewCommentFragment.COMMENT_EXTRA))
+            if (data.hasExtra(NewCommentActivity.COMMENT_EXTRA))
             {
-                Comment comment = (Comment) data.getExtras().get(NewCommentFragment.COMMENT_EXTRA);
+                Comment comment = (Comment) data.getExtras().get(NewCommentActivity.COMMENT_EXTRA);
                 commentDataSource.createComment(comment);
             }
         }
@@ -119,6 +118,7 @@ public class SlideBar extends FragmentActivity
         dlSlideBar.openDrawer(leftDrawerView);
 
     }
+
     public void setCloseOption()
     {
         dlSlideBar.closeDrawer(leftDrawerView);

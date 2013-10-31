@@ -1,11 +1,9 @@
-package com.qsoft.pilotproject.activity;
+package com.qsoft.pilotproject.ui;
 
-import android.accounts.Account;
 import android.accounts.AccountManager;
 import android.accounts.AccountManagerCallback;
 import android.accounts.AccountManagerFuture;
 import android.app.Activity;
-import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -32,7 +30,7 @@ public class LaunchActivity extends Activity
         setContentView(R.layout.laucher);
         btLogin = (Button) findViewById(R.id.btLogin);
         btLogin.setOnClickListener(btLoginClickListener);
-        accountManager =  AccountManager.get(this);
+        accountManager = AccountManager.get(this);
     }
 
     private View.OnClickListener btLoginClickListener = new View.OnClickListener()
@@ -44,19 +42,24 @@ public class LaunchActivity extends Activity
         }
     };
 
-    private void addNewAccount() {
-        final AccountManagerFuture<Bundle> future = accountManager.addAccount(AccountGeneral.ACCOUNT_TYPE,AccountGeneral.AUTHTOKEN_TYPE_FULL_ACCESS,null,null,this,new AccountManagerCallback<Bundle>() {
+    private void addNewAccount()
+    {
+        final AccountManagerFuture<Bundle> future = accountManager.addAccount(AccountGeneral.ACCOUNT_TYPE, AccountGeneral.AUTHTOKEN_TYPE_FULL_ACCESS, null, null, this, new AccountManagerCallback<Bundle>()
+        {
             @Override
-            public void run(AccountManagerFuture<Bundle> bundleAccountManagerFuture) {
-                try{
+            public void run(AccountManagerFuture<Bundle> bundleAccountManagerFuture)
+            {
+                try
+                {
                     Bundle bundle = bundleAccountManagerFuture.getResult();
                     Log.d(TAG, "Account was created");
-                }catch (Exception e)
+                }
+                catch (Exception e)
                 {
                     e.printStackTrace();
                 }
 
             }
-        },null);
+        }, null);
     }
 }

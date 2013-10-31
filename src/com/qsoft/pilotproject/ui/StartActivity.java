@@ -1,4 +1,4 @@
-package com.qsoft.pilotproject.activity;
+package com.qsoft.pilotproject.ui;
 
 import android.accounts.Account;
 import android.accounts.AccountManager;
@@ -13,26 +13,36 @@ import com.qsoft.pilotproject.authenticator.AccountGeneral;
  * Date: 10/30/13
  * Time: 5:32 PM
  */
-public class StartActivity extends Activity {
+public class StartActivity extends Activity
+{
     public static final String TAG = "StartActivity";
-    public void onCreate(Bundle savedInstanceState) {
+
+    public void onCreate(Bundle savedInstanceState)
+    {
         super.onCreate(savedInstanceState);
         AccountManager accountManager = AccountManager.get(this);
         Account[] accounts = accountManager.getAccountsByType(AccountGeneral.ACCOUNT_TYPE);
-        if (accounts.length > 1)
-        {
-            Log.d(TAG, "there are more than 2 account of OnlineDio");
-        }
-        else if (accounts.length == 1)
+
+        if (accounts.length == 1)
         {
             Account account = accounts[0];
-            Intent intent = new Intent(this,SlideBar.class);
+            Intent intent = new Intent(this, SlideBarActivity.class);
             startActivity(intent);
             finish();
         }
-        else {
-            Intent intent = new Intent(this,LaunchActivity.class);
+        else
+        {
+            if (accounts.length > 1)
+            {
+                Log.d(TAG, "there are more than 2 account of OnlineDio");
+                for (int i = 0; i < accounts.length; i++)
+                {
+                    accountManager.removeAccount(accounts[i], null, null);
+                }
+            }
+            Intent intent = new Intent(this, LaunchActivity.class);
             startActivity(intent);
         }
+
     }
 }

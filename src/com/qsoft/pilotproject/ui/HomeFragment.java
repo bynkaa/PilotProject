@@ -1,10 +1,8 @@
-package com.qsoft.pilotproject.activity;
+package com.qsoft.pilotproject.ui;
 
-import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v4.widget.DrawerLayout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -27,10 +25,11 @@ public class HomeFragment extends Fragment
 {
     Button btMenu;
     private ListView lvFeeds;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
-        View view = inflater.inflate(R.layout.home,container,false);
+        View view = inflater.inflate(R.layout.home, container, false);
         lvFeeds = (ListView) view.findViewById(R.id.lvFeeds);
         ArrayFeedAdapter arrayFeedAdapter = new ArrayFeedAdapter(getActivity(), getModel());
         lvFeeds.setAdapter(arrayFeedAdapter);
@@ -46,7 +45,7 @@ public class HomeFragment extends Fragment
         public void onItemClick(AdapterView<?> adapterView, View view, int i, long l)
         {
             FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
-            fragmentTransaction.replace(R.id.content_fragment,new ProgramFragment());
+            fragmentTransaction.replace(R.id.content_fragment, new ProgramFragment());
             fragmentTransaction.commit();
         }
     };
@@ -55,9 +54,10 @@ public class HomeFragment extends Fragment
         @Override
         public void onClick(View view)
         {
-            ((SlideBar)getActivity()).setOpenOption();
+            ((SlideBarActivity) getActivity()).setOpenOption();
         }
     };
+
     private List<Feed> getModel()
     {
         List<Feed> feeds = new ArrayList<Feed>();

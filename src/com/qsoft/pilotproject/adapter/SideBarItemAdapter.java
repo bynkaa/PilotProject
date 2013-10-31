@@ -8,7 +8,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 import com.example.PilotProject.R;
-import com.qsoft.pilotproject.activity.SlideBar;
+import com.qsoft.pilotproject.ui.SlideBarActivity;
 
 /**
  * User: binhtv
@@ -60,7 +60,7 @@ public class SideBarItemAdapter extends ArrayAdapter<String>
         }
 
         ItemHolder itemHolder = (ItemHolder) rowItem.getTag();
-        itemHolder.ivIcon.setImageResource(SlideBar.SIDE_BAR_ICONS[position]);
+        itemHolder.ivIcon.setImageResource(SlideBarActivity.SIDE_BAR_ICONS[position]);
         itemHolder.tvName.setText(name[position]);
         return rowItem;
     }

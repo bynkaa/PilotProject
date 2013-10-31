@@ -1,20 +1,16 @@
-package com.qsoft.pilotproject.activity;
+package com.qsoft.pilotproject.ui;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.widget.DrawerLayout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ImageButton;
-import android.widget.ListView;
 import android.widget.RadioGroup;
 import com.example.PilotProject.R;
-import com.qsoft.pilotproject.adapter.SideBarItemAdapter;
 import com.qsoft.pilotproject.model.ProgramTab;
 
 /**
@@ -34,7 +30,7 @@ public class ProgramFragment extends Fragment
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
-        View view = inflater.inflate(R.layout.program,container,false);
+        View view = inflater.inflate(R.layout.program, container, false);
         rgProgramTab = (RadioGroup) view.findViewById(R.id.rgProgramTab);
         rgProgramTab.setOnCheckedChangeListener(programTabOnCheckChangeListener);
         rgProgramTab.check(R.id.rbThumbnail);
@@ -51,7 +47,7 @@ public class ProgramFragment extends Fragment
         @Override
         public void onClick(View view)
         {
-            Intent intent = new Intent(getActivity(), SlideBar.class);
+            Intent intent = new Intent(getActivity(), SlideBarActivity.class);
             startActivity(intent);
         }
     };

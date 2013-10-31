@@ -1,6 +1,5 @@
-package com.qsoft.pilotproject.activity;
+package com.qsoft.pilotproject.ui;
 
-import android.app.Activity;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -18,7 +17,7 @@ public class DetailFragment extends Fragment
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
-        View view = inflater.inflate(R.layout.program_detail,container,false);
+        View view = inflater.inflate(R.layout.program_detail, container, false);
         return view;
     }
 }

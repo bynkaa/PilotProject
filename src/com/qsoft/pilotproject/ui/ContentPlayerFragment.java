@@ -1,4 +1,4 @@
-package com.qsoft.pilotproject.activity;
+package com.qsoft.pilotproject.ui;
 
 import android.content.Context;
 import android.media.AudioManager;
@@ -81,7 +81,7 @@ public class ContentPlayerFragment extends Fragment
     private Handler handler = new Handler();
     private SeekBar volumeProgressBar;
     private ImageButton btPlay;
-    AudioManager  audioManager = null;
+    AudioManager audioManager = null;
     private TextView tvTotalDuration;
     private TextView tvCurrentDuration;
     private Runnable updateTimeTask = new Runnable()
@@ -137,12 +137,13 @@ public class ContentPlayerFragment extends Fragment
 
 
     }
+
     SeekBar.OnSeekBarChangeListener volumeProgressBarOnChangeListener = new SeekBar.OnSeekBarChangeListener()
     {
         @Override
         public void onProgressChanged(SeekBar seekBar, int progress, boolean b)
         {
-            audioManager.setStreamVolume(AudioManager.STREAM_MUSIC,progress,0);
+            audioManager.setStreamVolume(AudioManager.STREAM_MUSIC, progress, 0);
 
         }
 

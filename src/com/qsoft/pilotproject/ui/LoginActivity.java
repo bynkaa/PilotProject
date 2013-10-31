@@ -1,6 +1,8 @@
-package com.qsoft.pilotproject.activity;
+package com.qsoft.pilotproject.ui;
 
-import android.accounts.*;
+import android.accounts.Account;
+import android.accounts.AccountAuthenticatorActivity;
+import android.accounts.AccountManager;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -10,7 +12,6 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.v4.app.FragmentActivity;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -21,11 +22,10 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 import com.example.PilotProject.R;
-import com.qsoft.pilotproject.Service.Impl.OnlineDioServiceImpl;
-import com.qsoft.pilotproject.Service.OnlineDioService;
-import com.qsoft.pilotproject.authenticator.AccountGeneral;
 import com.qsoft.pilotproject.authenticator.OnlineDioAuthenticator;
-import com.qsoft.pilotproject.model.SignInDTO;
+import com.qsoft.pilotproject.handler.AuthenticatorHandler;
+import com.qsoft.pilotproject.handler.impl.AuthenticatorHandlerImpl;
+import com.qsoft.pilotproject.model.dto.SignInDTO;
 import com.qsoft.pilotproject.utils.Utilities;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.methods.HttpGet;
@@ -35,17 +35,16 @@ import org.apache.http.params.HttpConnectionParams;
 import org.apache.http.params.HttpParams;
 
 import java.io.IOException;
-import java.security.NoSuchAlgorithmException;
 
 /**
  * User: binhtv
  * Date: 10/14/13
  * Time: 2:34 PM
  */
-public class LoginFragment extends AccountAuthenticatorActivity
+public class LoginActivity extends AccountAuthenticatorActivity
 {
     private static final String TAG = "LoginActivity";
-    public static final OnlineDioService onLineDioService = new OnlineDioServiceImpl();
+    public static final AuthenticatorHandler onLineDioService = new AuthenticatorHandlerImpl();
     private static final String USER_ID = "UserId";
     private static final String ERROR_MESSAGE = "Error_Message";
     private static final String ACCESS_TOKEN = "ACCESS_TOKEN";
@@ -62,6 +61,7 @@ public class LoginFragment extends AccountAuthenticatorActivity
 
     private AccountManager accountManager;
     private String authTokenType;
+
     public void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
@@ -69,7 +69,9 @@ public class LoginFragment extends AccountAuthenticatorActivity
         accountManager = AccountManager.get(this);
         authTokenType = getIntent().getStringExtra(OnlineDioAuthenticator.AUTH_TYPE_KEY);
         if (authTokenType == null)
+        {
             authTokenType = AUTHTOKEN_TYPE_FULL_ACCESS;
+        }
         imBack = (ImageView) findViewById(R.id.login_ivBack);
         imDone = (ImageView) findViewById(R.id.login_ivLogin);
         imBack.setOnClickListener(btBackClickListener);
@@ -82,22 +84,28 @@ public class LoginFragment extends AccountAuthenticatorActivity
         etPassword.addTextChangedListener(textChangeListener);
     }
 
-    private final TextWatcher textChangeListener = new TextWatcher() {
+    private final TextWatcher textChangeListener = new TextWatcher()
+    {
         @Override
-        public void beforeTextChanged(CharSequence charSequence, int i, int i2, int i3) {
+        public void beforeTextChanged(CharSequence charSequence, int i, int i2, int i3)
+        {
         }
 
         @Override
-        public void onTextChanged(CharSequence charSequence, int i, int i2, int i3) {
+        public void onTextChanged(CharSequence charSequence, int i, int i2, int i3)
+        {
         }
 
         @Override
-        public void afterTextChanged(Editable editable) {
-            if(etEmail.getText().toString().isEmpty() || etPassword.getText().toString().isEmpty() )
+        public void afterTextChanged(Editable editable)
+        {
+            if (etEmail.getText().toString().isEmpty() || etPassword.getText().toString().isEmpty())
             {
                 imDone.setBackgroundDrawable(getResources().getDrawable(R.drawable.login_btdone_invisible));
                 imDone.setClickable(false);
-            }else{
+            }
+            else
+            {
                 imDone.setBackgroundDrawable(getResources().getDrawable(R.drawable.login_btdone));
                 imDone.setClickable(true);
             }
@@ -109,7 +117,7 @@ public class LoginFragment extends AccountAuthenticatorActivity
         @Override
         public void onClick(View view)
         {
-            Intent intentBack = new Intent(LoginFragment.this, LaunchActivity.class);
+            Intent intentBack = new Intent(LoginActivity.this, LaunchActivity.class);
             startActivity(intentBack);
             Log.d(TAG, "come back to launch screen");
         }
@@ -126,21 +134,30 @@ public class LoginFragment extends AccountAuthenticatorActivity
                 final String email = etEmail.getText().toString();
                 final String pass = Utilities.stringToMD5(etPassword.getText().toString());
                 final String accountType = getIntent().getStringExtra(OnlineDioAuthenticator.ACCOUNT_TYPE_KEY);
-                new AsyncTask<String,Void,Intent>(){
+                new AsyncTask<String, Void, Intent>()
+                {
 
                     @Override
-                    protected Intent doInBackground(String... strings) {
-                        Log.d(TAG,"started authenticating ...");
+                    protected Intent doInBackground(String... strings)
+                    {
+                        Log.d(TAG, "started authenticating ...");
                         Bundle data = new Bundle();
-                        try{
-                            SignInDTO signInDTO = onLineDioService.signIn(email,pass,authTokenType);
-                            data.putInt(USER_ID,Integer.valueOf(signInDTO.getUser_id()));
-                            data.putString(ACCESS_TOKEN,signInDTO.getAccess_token());
-                            data.putString(AccountManager.KEY_ACCOUNT_NAME,email);
-                            data.putString(AccountManager.KEY_ACCOUNT_TYPE,accountType);
-                            data.putString(KEY_USER_PASSWORD,pass);
-                        } catch (Exception e) {
-                            data.putString(ERROR_MESSAGE,e.getMessage());
+                        try
+                        {
+                            SignInDTO signInDTO = onLineDioService.signIn(email, pass, authTokenType);
+                            if (signInDTO == null)
+                            {
+                                throw new Exception();
+                            }
+                            data.putInt(USER_ID, Integer.valueOf(signInDTO.getUserId()));
+                            data.putString(ACCESS_TOKEN, signInDTO.getAccessToken());
+                            data.putString(AccountManager.KEY_ACCOUNT_NAME, email);
+                            data.putString(AccountManager.KEY_ACCOUNT_TYPE, accountType);
+                            data.putString(KEY_USER_PASSWORD, pass);
+                        }
+                        catch (Exception e)
+                        {
+                            data.putString(ERROR_MESSAGE, "User and password are incorrect!");
                         }
                         final Intent res = new Intent();
                         res.putExtras(data);
@@ -152,9 +169,10 @@ public class LoginFragment extends AccountAuthenticatorActivity
                     {
                         if (intent.hasExtra(ERROR_MESSAGE))
                         {
-                            Toast.makeText(getBaseContext(),intent.getStringExtra(ERROR_MESSAGE),Toast.LENGTH_LONG).show();
+                            Toast.makeText(getBaseContext(), intent.getStringExtra(ERROR_MESSAGE), Toast.LENGTH_LONG).show();
                         }
-                        else {
+                        else
+                        {
                             finishLogin(intent);
                         }
                     }
@@ -164,25 +182,26 @@ public class LoginFragment extends AccountAuthenticatorActivity
     };
 
 
-
-    private void finishLogin(Intent intent) {
-        Log.d(TAG,"finishLogin(intent)");
+    private void finishLogin(Intent intent)
+    {
+        Log.d(TAG, "finishLogin(intent)");
         String accountName = intent.getStringExtra(AccountManager.KEY_ACCOUNT_NAME);
         String accountPassword = intent.getStringExtra(KEY_USER_PASSWORD);
-        Account account = new Account(accountName,intent.getStringExtra(AccountManager.KEY_ACCOUNT_TYPE));
-        if (getIntent().getBooleanExtra(OnlineDioAuthenticator.IS_ADDED_ACCOUNT_KEY,false))
+        Account account = new Account(accountName, intent.getStringExtra(AccountManager.KEY_ACCOUNT_TYPE));
+        if (getIntent().getBooleanExtra(OnlineDioAuthenticator.IS_ADDED_ACCOUNT_KEY, false))
         {
             Log.d(TAG, "finishLogin > addAccountExplicitly");
             String authToken = intent.getStringExtra(AccountManager.KEY_INTENT);
-            accountManager.addAccountExplicitly(account,accountPassword,null);
-            accountManager.setAuthToken(account,authTokenType,authToken);
+            accountManager.addAccountExplicitly(account, accountPassword, null);
+            accountManager.setAuthToken(account, authTokenType, authToken);
         }
-        else{
+        else
+        {
             Log.d(TAG, "finish Login > set password");
-            accountManager.setPassword(account,accountPassword);
+            accountManager.setPassword(account, accountPassword);
         }
         setAccountAuthenticatorResult(intent.getExtras());
-        Intent slideBarIntent = new Intent(LoginFragment.this, SlideBar.class);
+        Intent slideBarIntent = new Intent(LoginActivity.this, SlideBarActivity.class);
         startActivity(slideBarIntent);
         Log.d(TAG, "Login successfully");
     }

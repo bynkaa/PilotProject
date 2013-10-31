@@ -9,18 +9,18 @@
     <uses-sdk android:minSdkVersion="10"/>
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
     <application android:label="@string/app_name">
-        <activity android:name="com.qsoft.pilotproject.activity.StartActivity"
+        <activity android:name="com.qsoft.pilotproject.ui.StartActivity"
                   android:label="@string/app_name">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-        <activity android:name="com.qsoft.pilotproject.activity.SlideBar"/>
-        <activity android:name="com.qsoft.pilotproject.activity.LoginFragment"/>
-        <activity android:name="com.qsoft.pilotproject.activity.ProfileSetupFragment"/>
-        <activity android:name="com.qsoft.pilotproject.activity.NewCommentFragment"/>
-        <activity android:name="com.qsoft.pilotproject.activity.LaunchActivity"/>
+        <activity android:name="com.qsoft.pilotproject.ui.SlideBarActivity"/>
+        <activity android:name="com.qsoft.pilotproject.ui.LoginActivity"/>
+        <activity android:name="com.qsoft.pilotproject.ui.ProfileSetupActivity"/>
+        <activity android:name="com.qsoft.pilotproject.ui.NewCommentActivity"/>
+        <activity android:name="com.qsoft.pilotproject.ui.LaunchActivity"/>
         <service android:name="com.qsoft.pilotproject.authenticator.AuthenticatorService">
             <intent-filter>
                 <action android:name="android.accounts.AccountAuthenticator"/>
@@ -33,5 +33,6 @@
     <uses-permission android:name="android.permission.INTERNET"/>
     <uses-permission android:name="android.permission.MANAGE_ACCOUNTS"/>
     <uses-permission android:name="android.permission.GET_ACCOUNTS"/>
+    <uses-permission android:name="android.permission.WRITE_SYNC_SETTINGS"/>
     <uses-permission android:name="android.permission.AUTHENTICATE_ACCOUNTS"/>
 </manifest> 

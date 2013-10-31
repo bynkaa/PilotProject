@@ -1,6 +1,5 @@
-package com.qsoft.pilotproject.activity;
+package com.qsoft.pilotproject.ui;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -12,8 +11,8 @@ import android.widget.ListView;
 import android.widget.TextView;
 import com.example.PilotProject.R;
 import com.qsoft.pilotproject.adapter.CommentAdapter;
-import com.qsoft.pilotproject.database_helper.CommentDataSource;
 import com.qsoft.pilotproject.model.Comment;
+import com.qsoft.pilotproject.provider.CommentDataSource;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,7 +30,7 @@ public class CommentFragment extends Fragment
         @Override
         public void onClick(View view)
         {
-            Intent intent = new Intent(CommentFragment.this.getActivity(), NewCommentFragment.class);
+            Intent intent = new Intent(CommentFragment.this.getActivity(), NewCommentActivity.class);
             startActivityForResult(intent, REQUEST_CODE);
         }
     };
@@ -60,8 +59,8 @@ public class CommentFragment extends Fragment
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data)
     {
-        super.onActivityResult(requestCode,resultCode,data);
-        Log.d(CommentFragment.class.getName(), "on activity result");
+        super.onActivityResult(requestCode, resultCode, data);
+        Log.d(CommentFragment.class.getName(), "on ui result");
 
 
     }

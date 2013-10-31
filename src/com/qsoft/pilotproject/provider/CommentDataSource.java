@@ -1,4 +1,4 @@
-package com.qsoft.pilotproject.database_helper;
+package com.qsoft.pilotproject.provider;
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -18,7 +18,7 @@ public class CommentDataSource
 {
     private SQLiteDatabase sqLiteDatabase;
     private CommentSqliteHelper commentSqliteHelper;
-    private String[] allColumns = {CommentSqliteHelper.COLUMN_ID,CommentSqliteHelper.COLUMN_TITLE, CommentSqliteHelper.COLUMN_CONTENT, CommentSqliteHelper.COLUMN_DATECREATED};
+    private String[] allColumns = {CommentSqliteHelper.COLUMN_ID, CommentSqliteHelper.COLUMN_TITLE, CommentSqliteHelper.COLUMN_CONTENT, CommentSqliteHelper.COLUMN_DATECREATED};
 
     public CommentDataSource(Context context)
     {
@@ -29,23 +29,26 @@ public class CommentDataSource
     {
         sqLiteDatabase = commentSqliteHelper.getWritableDatabase();
     }
+
     public void close()
     {
         commentSqliteHelper.close();
     }
+
     public long createComment(Comment comment)
     {
         ContentValues contentValues = new ContentValues();
-        contentValues.put(CommentSqliteHelper.COLUMN_TITLE,comment.getTitle());
-        contentValues.put(CommentSqliteHelper.COLUMN_DATECREATED,comment.getTimeCreated());
-        contentValues.put(CommentSqliteHelper.COLUMN_CONTENT,comment.getContent());
-        return sqLiteDatabase.insert(CommentSqliteHelper.TABLE_COMMENT,null,contentValues);
+        contentValues.put(CommentSqliteHelper.COLUMN_TITLE, comment.getTitle());
+        contentValues.put(CommentSqliteHelper.COLUMN_DATECREATED, comment.getTimeCreated());
+        contentValues.put(CommentSqliteHelper.COLUMN_CONTENT, comment.getContent());
+        return sqLiteDatabase.insert(CommentSqliteHelper.TABLE_COMMENT, null, contentValues);
 
     }
+
     public List<Comment> getAllComment()
     {
         List<Comment> comments = new ArrayList<Comment>();
-        Cursor cursor = sqLiteDatabase.query(CommentSqliteHelper.TABLE_COMMENT,allColumns,null,null,null,null,null);
+        Cursor cursor = sqLiteDatabase.query(CommentSqliteHelper.TABLE_COMMENT, allColumns, null, null, null, null, null);
         cursor.moveToFirst();
         while (!cursor.isAfterLast())
         {

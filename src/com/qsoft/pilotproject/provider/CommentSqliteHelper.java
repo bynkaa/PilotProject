@@ -1,4 +1,4 @@
-package com.qsoft.pilotproject.database_helper;
+package com.qsoft.pilotproject.provider;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
@@ -27,7 +27,7 @@ public class CommentSqliteHelper extends SQLiteOpenHelper
 
     public CommentSqliteHelper(Context context)
     {
-        super(context,DATABASE_NAME,null,DATABASE_VERSION);
+        super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
 
     @Override

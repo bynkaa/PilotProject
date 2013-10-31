@@ -1,4 +1,4 @@
-package com.qsoft.pilotproject.activity;
+package com.qsoft.pilotproject.ui;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -14,12 +14,13 @@ import com.qsoft.pilotproject.model.Comment;
  * Date: 10/18/13
  * Time: 1:42 PM
  */
-public class NewCommentFragment extends Activity
+public class NewCommentActivity extends Activity
 {
-    public  static final String COMMENT_EXTRA = "comment";
+    public static final String COMMENT_EXTRA = "comment";
     private ImageButton ibCancel;
     private ImageButton ibPost;
     private EditText etNewComment;
+
     public void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
@@ -30,13 +31,14 @@ public class NewCommentFragment extends Activity
         ibPost.setOnClickListener(ibPostOnClickListener);
         etNewComment = (EditText) findViewById(R.id.etAddNewComment);
     }
+
     View.OnClickListener ibCancelOnClickListener = new View.OnClickListener()
     {
         @Override
         public void onClick(View view)
         {
             Intent intent = getIntent();
-            setResult(RESULT_CANCELED,intent);
+            setResult(RESULT_CANCELED, intent);
             finish();
         }
     };
@@ -51,7 +53,7 @@ public class NewCommentFragment extends Activity
             newComment.setTitle("User");
             newComment.setContent(etNewComment.getText().toString());
             newComment.setTimeCreated("1 month ago");
-            intent.putExtra(COMMENT_EXTRA,newComment);
+            intent.putExtra(COMMENT_EXTRA, newComment);
             setResult(RESULT_OK, intent);
             finish();
         }
