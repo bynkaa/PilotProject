@@ -16,6 +16,7 @@ import com.qsoft.pilotproject.authenticator.AccountGeneral;
 public class StartActivity extends Activity
 {
     public static final String TAG = "StartActivity";
+    public static final String ACCOUNT_KEY = "account";
 
     public void onCreate(Bundle savedInstanceState)
     {
@@ -27,6 +28,7 @@ public class StartActivity extends Activity
         {
             Account account = accounts[0];
             Intent intent = new Intent(this, SlideBarActivity.class);
+            intent.putExtra(ACCOUNT_KEY, account);
             startActivity(intent);
             finish();
         }

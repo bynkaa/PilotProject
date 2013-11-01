@@ -1,6 +1,9 @@
 package com.qsoft.pilotproject.model.dto;
 
+import android.content.ContentValues;
+import android.database.Cursor;
 import com.google.gson.annotations.SerializedName;
+import com.qsoft.pilotproject.provider.OnlineDioContract;
 
 import java.io.Serializable;
 
@@ -202,5 +205,49 @@ public class FeedDTO implements Serializable
     public void setAvatar(String avatar)
     {
         this.avatar = avatar;
+    }
+
+    public static FeedDTO fromCursor(Cursor cursorFeed)
+    {
+        FeedDTO feedDTO = new FeedDTO();
+        feedDTO.setId(cursorFeed.getLong(cursorFeed.getColumnIndex(OnlineDioContract.Feed.COLUMN_ID)));
+        feedDTO.setUserId(cursorFeed.getLong(cursorFeed.getColumnIndex(OnlineDioContract.Feed.COLUMN_USER_ID)));
+        feedDTO.setTitle(cursorFeed.getString(cursorFeed.getColumnIndex(OnlineDioContract.Feed.COLUMN_TITLE)));
+        feedDTO.setThumbnail(cursorFeed.getString(cursorFeed.getColumnIndex(OnlineDioContract.Feed.COLUMN_THUMBNAIL)));
+        feedDTO.setDescription(cursorFeed.getString(cursorFeed.getColumnIndex(OnlineDioContract.Feed.COLUMN_DESCRIPTION)));
+        feedDTO.setSoundPath(cursorFeed.getString(cursorFeed.getColumnIndex(OnlineDioContract.Feed.COLUMN_SOUND_PATH)));
+        feedDTO.setDuration(cursorFeed.getString(cursorFeed.getColumnIndex(OnlineDioContract.Feed.COLUMN_DURATION)));
+        feedDTO.setPlayed(cursorFeed.getString(cursorFeed.getColumnIndex(OnlineDioContract.Feed.COLUMN_PLAYED)));
+        feedDTO.setCreatedAt(cursorFeed.getString(cursorFeed.getColumnIndex(OnlineDioContract.Feed.COLUMN_CREATED_AT)));
+        feedDTO.setUpdatedAt(cursorFeed.getString(cursorFeed.getColumnIndex(OnlineDioContract.Feed.COLUMN_UPDATED_AT)));
+        feedDTO.setLikes(cursorFeed.getInt(cursorFeed.getColumnIndex(OnlineDioContract.Feed.COLUMN_LIKES)));
+        feedDTO.setViewed(cursorFeed.getInt(cursorFeed.getColumnIndex(OnlineDioContract.Feed.COLUMN_VIEWED)));
+        feedDTO.setUserName(cursorFeed.getString(cursorFeed.getColumnIndex(OnlineDioContract.Feed.COLUMN_USER_NAME)));
+        feedDTO.setDisplayName(cursorFeed.getString(cursorFeed.getColumnIndex(OnlineDioContract.Feed.COLUMN_DISPLAY_NAME)));
+        feedDTO.setAvatar(cursorFeed.getString(cursorFeed.getColumnIndex(OnlineDioContract.Feed.COLUMN_AVATAR)));
+        feedDTO.setComments(cursorFeed.getInt(cursorFeed.getColumnIndex(OnlineDioContract.Feed.COLUMN_COMMENTS)));
+        return feedDTO;
+    }
+
+    public ContentValues getContentValues()
+    {
+        ContentValues values = new ContentValues();
+        values.put(OnlineDioContract.Feed.COLUMN_ID, id);
+        values.put(OnlineDioContract.Feed.COLUMN_USER_ID, userId);
+        values.put(OnlineDioContract.Feed.COLUMN_TITLE, title);
+        values.put(OnlineDioContract.Feed.COLUMN_THUMBNAIL, thumbnail);
+        values.put(OnlineDioContract.Feed.COLUMN_DESCRIPTION, description);
+        values.put(OnlineDioContract.Feed.COLUMN_SOUND_PATH, soundPath);
+        values.put(OnlineDioContract.Feed.COLUMN_DURATION, duration);
+        values.put(OnlineDioContract.Feed.COLUMN_PLAYED, played);
+        values.put(OnlineDioContract.Feed.COLUMN_CREATED_AT, createdAt);
+        values.put(OnlineDioContract.Feed.COLUMN_UPDATED_AT, updatedAt);
+        values.put(OnlineDioContract.Feed.COLUMN_AVATAR, avatar);
+        values.put(OnlineDioContract.Feed.COLUMN_COMMENTS, comments);
+        values.put(OnlineDioContract.Feed.COLUMN_DISPLAY_NAME, displayName);
+        values.put(OnlineDioContract.Feed.COLUMN_LIKES, likes);
+        values.put(OnlineDioContract.Feed.COLUMN_USER_NAME, userName);
+        values.put(OnlineDioContract.Feed.COLUMN_VIEWED, viewed);
+        return values;
     }
 }

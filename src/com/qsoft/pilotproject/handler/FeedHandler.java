@@ -11,5 +11,5 @@ import java.util.List;
  */
 public interface FeedHandler
 {
-    public List<FeedDTO> getFeeds();
+    public List<FeedDTO> getFeeds(String authToken);
 }

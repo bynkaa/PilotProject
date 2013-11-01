@@ -47,7 +47,8 @@ public class OnlineDioDatabase extends SQLiteOpenHelper
                 + OnlineDioContract.Feed.COLUMN_COMMENTS + " INTEGER,"
                 + OnlineDioContract.Feed.COLUMN_USER_NAME + " TEXT,"
                 + OnlineDioContract.Feed.COLUMN_DISPLAY_NAME + " TEXT,"
-                + OnlineDioContract.Feed.COLUMN_AVATAR + " TEXT");
+                + OnlineDioContract.Feed.COLUMN_AVATAR + " TEXT"
+                + " );");
 
         db.execSQL("CREATE TABLE " + Table.COMMENTS + " ("
                 + OnlineDioContract.Comment._ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"
@@ -60,6 +61,7 @@ public class OnlineDioDatabase extends SQLiteOpenHelper
                 + OnlineDioContract.Comment.COLUMN_USER_NAME + " TEXT, "
                 + OnlineDioContract.Comment.COLUMN_DISPLAY_NAME + " TEXT, "
                 + OnlineDioContract.Comment.COLUMN_AVATAR + " TEXT"
+                + " );"
         );
 
     }

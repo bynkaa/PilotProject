@@ -19,10 +19,10 @@ public class OnlineDioContract
 
     public static class Feed implements BaseColumns
     {
-        public static final String CONTENT_TYPE = ContentResolver.CURSOR_DIR_BASE_TYPE + "/vnd.sqlite.feeds";
-        public static final String CONTENT_ITEM_TYPE = ContentResolver.CURSOR_ITEM_BASE_TYPE + "/vnd.sqlite.feed";
+        public static final String CONTENT_TYPE = ContentResolver.CURSOR_DIR_BASE_TYPE + "/vnd.pilotproject.feeds";
+        public static final String CONTENT_ITEM_TYPE = ContentResolver.CURSOR_ITEM_BASE_TYPE + "/vnd.pilotproject.feed";
         public static final Uri CONTENT_URI = BASE_CONTENT_URI.buildUpon().appendPath(PATH_FEEDS).build();
-        public static final String TABLE_NAME = "feed";
+        public static final String TABLE_NAME = "feeds";
         public static final String COLUMN_ID = "feed_sound_id";
         public static final String COLUMN_USER_ID = "feed_user_id";
         public static final String COLUMN_TITLE = "feed_title";

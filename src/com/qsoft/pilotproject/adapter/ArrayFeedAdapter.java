@@ -48,11 +48,11 @@ public class ArrayFeedAdapter extends ArrayAdapter<Feed>
             LayoutInflater inflater = context.getLayoutInflater();
             rowFeed = inflater.inflate(R.layout.feed, null);
             FeedHolder feedHolder = new FeedHolder();
-            feedHolder.imProfile = (ImageView) rowFeed.findViewById(R.id.imProfile);
+            feedHolder.imProfile = (ImageView) rowFeed.findViewById(R.id.imAvatarFeed);
             feedHolder.tvTitle = (TextView) rowFeed.findViewById(R.id.tvTitleFeed);
-            feedHolder.tvComposer = (TextView) rowFeed.findViewById(R.id.tvComposer);
-            feedHolder.tvLikeStatus = (TextView) rowFeed.findViewById(R.id.tvLike);
-            feedHolder.tvCommentStatus = (TextView) rowFeed.findViewById(R.id.tvComment);
+            feedHolder.tvComposer = (TextView) rowFeed.findViewById(R.id.tvDisplayNameFeed);
+            feedHolder.tvLikeStatus = (TextView) rowFeed.findViewById(R.id.tvLikeFeed);
+            feedHolder.tvCommentStatus = (TextView) rowFeed.findViewById(R.id.tvCommentFeed);
             feedHolder.tvLastUpdate = (TextView) rowFeed.findViewById(R.id.tvLastUpdateStatus);
             rowFeed.setTag(feedHolder);
         }

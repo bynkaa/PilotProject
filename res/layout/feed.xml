@@ -10,14 +10,14 @@
             android:layout_width="@dimen/feed_size_avatar"
             android:layout_height="@dimen/feed_size_avatar"
             android:background="@drawable/image_icon"
-            android:id="@+id/imProfile" android:layout_alignParentLeft="true" android:layout_alignParentTop="true"
+            android:id="@+id/imAvatarFeed" android:layout_alignParentLeft="true" android:layout_alignParentTop="true"
             android:layout_margin="@dimen/feed_margin_avatar"/>
     <RelativeLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_toRightOf="@+id/imProfile"
-            android:layout_alignTop="@+id/imProfile"
-            android:layout_alignBottom="@+id/imProfile"
+            android:layout_toRightOf="@+id/imAvatarFeed"
+            android:layout_alignTop="@+id/imAvatarFeed"
+            android:layout_alignBottom="@+id/imAvatarFeed"
             android:id="@+id/relativeLayout">
         <TextView
                 android:layout_width="wrap_content"
@@ -33,7 +33,7 @@
                 android:layout_height="wrap_content"
                 android:text="composer"
                 android:textColor="@color/feed_colortext_listfeeds"
-                android:id="@+id/tvComposer" android:layout_alignLeft="@+id/tvTitleFeed"
+                android:id="@+id/tvDisplayNameFeed" android:layout_alignLeft="@+id/tvTitleFeed"
                 android:layout_centerVertical="true" android:layout_alignRight="@+id/tvTitleFeed"
                 android:textSize="@dimen/feed_textsize_composer"/>
         <TextView
@@ -41,26 +41,27 @@
                 android:layout_height="wrap_content"
                 android:text="Like"
                 android:textColor="@color/feed_colortext_like"
-                android:id="@+id/tvLike" android:layout_alignLeft="@+id/tvTitleFeed"
-                android:layout_below="@+id/tvComposer" android:textSize="@dimen/feed_textsize_like_comment"/>
+                android:id="@+id/tvLikeFeed" android:layout_alignLeft="@+id/tvTitleFeed"
+                android:layout_below="@+id/tvDisplayNameFeed" android:textSize="@dimen/feed_textsize_like_comment"/>
         <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Comment"
                 android:textColor="@color/feed_colortext_like"
-                android:id="@+id/tvComment"
+                android:id="@+id/tvCommentFeed"
                 android:textSize="@dimen/feed_textsize_like_comment" android:layout_centerHorizontal="true"
-                android:layout_below="@+id/tvComposer"/>
+                android:layout_below="@+id/tvDisplayNameFeed"/>
         <ImageView android:layout_width="wrap_content" android:layout_height="wrap_content"
                    android:background="@drawable/arrows"
                    android:id="@+id/imArrow"
                    android:layout_alignRight="@+id/tvTitleFeed"
-                   android:layout_alignTop="@+id/tvComposer"
-                   android:layout_marginRight="@dimen/feed_imArrow_marginRight" android:layout_marginTop="@dimen/feed_imArrow_marginTop"/>
+                   android:layout_alignTop="@+id/tvDisplayNameFeed"
+                   android:layout_marginRight="@dimen/feed_imArrow_marginRight"
+                   android:layout_marginTop="@dimen/feed_imArrow_marginTop"/>
         <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="New Text"
                   android:id="@+id/tvLastUpdateStatus"
                   android:textSize="@dimen/feed_textsize_lastUpdate"
-                  android:layout_toLeftOf="@+id/imArrow" android:layout_alignTop="@+id/tvComposer"
+                  android:layout_toLeftOf="@+id/imArrow" android:layout_alignTop="@+id/tvDisplayNameFeed"
                   android:layout_marginRight="@dimen/feed_tvLastUpdateStatus_marginRight"/>
     </RelativeLayout>
 </RelativeLayout>

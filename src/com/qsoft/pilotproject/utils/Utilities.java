@@ -1,5 +1,11 @@
 package com.qsoft.pilotproject.utils;
 
+import android.accounts.AccountManager;
+import android.accounts.AccountManagerCallback;
+import android.accounts.AccountManagerFuture;
+import android.app.Activity;
+import android.os.Bundle;
+
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
@@ -83,11 +89,15 @@ public class Utilities
         return currentDuration * 1000;
     }
 
-    public static String stringToMD5(String message){
+    public static String stringToMD5(String message)
+    {
         MessageDigest md = null;
-        try {
+        try
+        {
             md = MessageDigest.getInstance("MD5");
-        } catch (NoSuchAlgorithmException e) {
+        }
+        catch (NoSuchAlgorithmException e)
+        {
             e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
         }
         md.update(message.getBytes());
@@ -103,10 +113,38 @@ public class Utilities
         {
             String hex = Integer.toHexString(0xff & byteData[i]);
             if (hex.length() == 1)
+            {
                 hexString.append('0');
+            }
             hexString.append(hex);
         }
         return hexString.toString();
     }
+
+    public static String getTokenForAccountCreateIfNeeded(Activity activity, AccountManager accountManager, String accountType, String authTokenType)
+    {
+        final String[] authToken = new String[1];
+        final AccountManagerFuture<Bundle> future = accountManager.getAuthTokenByFeatures(accountType, authTokenType, null, activity, null, null,
+                new AccountManagerCallback<Bundle>()
+                {
+                    @Override
+                    public void run(AccountManagerFuture<Bundle> future)
+                    {
+                        Bundle bnd = null;
+                        try
+                        {
+                            bnd = future.getResult();
+                            authToken[0] = bnd.getString(AccountManager.KEY_AUTHTOKEN);
+                        }
+                        catch (Exception e)
+                        {
+                            e.printStackTrace();
+                        }
+                    }
+                }
+                , null);
+        return authToken[0];
+    }
+
 }
 

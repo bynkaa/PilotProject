@@ -1,5 +1,7 @@
 package com.qsoft.pilotproject.ui;
 
+import android.accounts.Account;
+import android.accounts.AccountManager;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -23,6 +25,9 @@ import com.qsoft.pilotproject.provider.CommentDataSource;
  */
 public class SlideBarActivity extends FragmentActivity
 {
+    private Account account;
+    private String authToken;
+    private AccountManager accountManager;
     private CommentDataSource commentDataSource;
     private static final String TAG = "SlideBarActivity";
     public static final int REQUEST_CODE = 0;
@@ -49,6 +54,8 @@ public class SlideBarActivity extends FragmentActivity
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.slidebar);
+        accountManager = AccountManager.get(getApplicationContext());
+        account = getIntent().getParcelableExtra(StartActivity.ACCOUNT_KEY);
         commentDataSource = new CommentDataSource(this);
         commentDataSource.open();
         dlSlideBar = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -56,7 +63,7 @@ public class SlideBarActivity extends FragmentActivity
         leftDrawerView = findViewById(R.id.left_drawer_home);
         setListViewSlideBar();
         lvSlideBar.setOnItemClickListener(itemSideBarClickListner);
-        Fragment homeFragment = new HomeFragment();
+        Fragment homeFragment = new Home();
         getSupportFragmentManager().beginTransaction().replace(R.id.content_fragment, homeFragment).commit();
         ibMyStation = (ImageButton) findViewById(R.id.ibMyStation);
         ibMyStation.setOnClickListener(ibMyStationOnClickListener);
@@ -123,4 +130,11 @@ public class SlideBarActivity extends FragmentActivity
     {
         dlSlideBar.closeDrawer(leftDrawerView);
     }
+
+    public Account getAccount()
+    {
+        return account;
+    }
+
+
 }

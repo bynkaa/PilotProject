@@ -19,7 +19,9 @@
                     android:background="@drawable/myfavorite_btn_option"
                     android:id="@+id/btMenu"
                     android:layout_alignParentLeft="true"
-                    android:layout_marginLeft="@dimen/home_btMenu_marginLeft" android:layout_marginTop="@dimen/home_btMenu_marginTop" android:layout_marginBottom="@dimen/home_btMenu_marginBottom"
+                    android:layout_marginLeft="@dimen/home_btMenu_marginLeft"
+                    android:layout_marginTop="@dimen/home_btMenu_marginTop"
+                    android:layout_marginBottom="@dimen/home_btMenu_marginBottom"
                     android:layout_centerVertical="true"/>
             <Button
                     android:layout_width="wrap_content"
@@ -28,8 +30,10 @@
                     android:id="@+id/btNotification"
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
-                    android:layout_alignTop="@+id/btMenu" android:layout_marginRight="@dimen/home_btNotification_marginRight"
-                    android:layout_marginTop="@dimen/home_btNotification_marginTop" android:layout_marginBottom="@dimen/home_btNotification_marginBottom"/>
+                    android:layout_alignTop="@+id/btMenu"
+                    android:layout_marginRight="@dimen/home_btNotification_marginRight"
+                    android:layout_marginTop="@dimen/home_btNotification_marginTop"
+                    android:layout_marginBottom="@dimen/home_btNotification_marginBottom"/>
             <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -50,18 +54,19 @@
         <RelativeLayout
                 android:layout_width="fill_parent"
                 android:layout_height="fill_parent">
-            <ListView
+            <FrameLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:background="@android:color/white"
-                    android:id="@+id/lvFeeds" android:layout_alignParentLeft="true" android:layout_alignParentTop="true"
+                    android:id="@+id/fragmentListFeeds" android:layout_alignParentLeft="true"
+                    android:layout_alignParentTop="true"
                     android:layout_alignParentBottom="true"/>
             <Button
                     android:layout_width="wrap_content"
                     android:layout_height="@dimen/home_button_layout_height"
                     android:background="@drawable/home_buttonrecorder4"
                     android:id="@+id/button" android:layout_centerHorizontal="true"
-                    android:layout_alignBottom="@+id/lvFeeds"/>
+                    android:layout_alignBottom="@+id/fragmentListFeeds"/>
         </RelativeLayout>
     </LinearLayout>
 

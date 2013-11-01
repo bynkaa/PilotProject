@@ -54,6 +54,9 @@ public class OnlineDioProvider extends ContentProvider
         int uriMatch = uriMatcher.match(uri);
         switch (uriMatch)
         {
+            case FEEDS_ID:
+                String id = uri.getLastPathSegment();
+                builder.where(OnlineDioContract.Feed._ID + "=?" + id);
             case FEEDS:
                 builder.table(OnlineDioContract.Feed.TABLE_NAME).where(selection, selectionArgs);
                 Cursor cursor = builder.query(db, projection, sortOrder);
@@ -61,9 +64,7 @@ public class OnlineDioProvider extends ContentProvider
                 assert context != null;
                 cursor.setNotificationUri(context.getContentResolver(), uri);
                 return cursor;
-            case FEEDS_ID:
-                String id = uri.getLastPathSegment();
-                builder.where(OnlineDioContract.Feed._ID + "=?" + id);
+
 
         }
         return null;

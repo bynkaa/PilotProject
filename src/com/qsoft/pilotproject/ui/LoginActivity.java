@@ -202,6 +202,7 @@ public class LoginActivity extends AccountAuthenticatorActivity
         }
         setAccountAuthenticatorResult(intent.getExtras());
         Intent slideBarIntent = new Intent(LoginActivity.this, SlideBarActivity.class);
+        slideBarIntent.putExtra(StartActivity.ACCOUNT_KEY, account);
         startActivity(slideBarIntent);
         Log.d(TAG, "Login successfully");
     }
