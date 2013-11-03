@@ -56,15 +56,19 @@ public class OnlineDioProvider extends ContentProvider
         {
             case FEEDS_ID:
                 String id = uri.getLastPathSegment();
-                builder.where(OnlineDioContract.Feed._ID + "=?" + id);
+                builder.table(OnlineDioContract.Feed.TABLE_NAME).where(OnlineDioContract.Feed._ID + "=?" + id);
+                Cursor cursor = builder.query(db,projection,sortOrder);
+                Context context1 = getContext();
+                assert context1 != null;
+                cursor.setNotificationUri(context1.getContentResolver(),uri);
+                return cursor;
             case FEEDS:
                 builder.table(OnlineDioContract.Feed.TABLE_NAME).where(selection, selectionArgs);
-                Cursor cursor = builder.query(db, projection, sortOrder);
+                Cursor cursors = builder.query(db, projection, sortOrder);
                 Context context = getContext();
                 assert context != null;
-                cursor.setNotificationUri(context.getContentResolver(), uri);
-                return cursor;
-
+                cursors.setNotificationUri(context.getContentResolver(), uri);
+                return cursors;
 
         }
         return null;

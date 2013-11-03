@@ -5,12 +5,14 @@ import android.content.ContentResolver;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.Button;
 import com.example.PilotProject.R;
+import com.qsoft.pilotproject.authenticator.AccountGeneral;
 import com.qsoft.pilotproject.model.Feed;
 import com.qsoft.pilotproject.provider.OnlineDioContract;
 
@@ -24,23 +26,33 @@ import java.util.List;
  */
 public class Home extends Fragment
 {
+    private static final String TAG = "Home";
     Button btMenu;
+    Button btNotification;
+    String accountName;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
         View view = inflater.inflate(R.layout.home, container, false);
+        Account account = ((SlideBarActivity)getActivity()).getAccount();
+        accountName = account.name;
         btMenu = (Button) view.findViewById(R.id.btMenu);
         btMenu.setOnClickListener(btMenuClickListener);
+        btNotification = (Button) view.findViewById(R.id.btNotification);
+        btNotification.setOnClickListener(btNotificationClickListener);
         Fragment feedListFragment = new HomeListFragment();
-        Bundle bundle = new Bundle();
-        bundle.putBoolean(ContentResolver.SYNC_EXTRAS_MANUAL, true);
-        bundle.putBoolean(ContentResolver.SYNC_EXTRAS_EXPEDITED, true);
-        Account account = ((SlideBarActivity) getActivity()).getAccount();
-        ContentResolver.requestSync(account, OnlineDioContract.CONTENT_AUTHORITY, bundle);
         getFragmentManager().beginTransaction().replace(R.id.fragmentListFeeds, feedListFragment).commit();
         return view;
     }
+    View.OnClickListener btNotificationClickListener = new View.OnClickListener()
+    {
+        @Override
+        public void onClick(View view)
+        {
+            triggerSync();
+        }
+    };
 
     AdapterView.OnItemClickListener feedClickListener = new AdapterView.OnItemClickListener()
     {
@@ -80,5 +92,16 @@ public class Home extends Fragment
         feed.setCommentNumber(9);
         feed.setUpdateStatus("5 days ago");
         return feed;
+    }
+
+    public void triggerSync()
+    {
+        Account account = new Account(accountName,AccountGeneral.ACCOUNT_TYPE);
+        Log.d(TAG,"TriggerSync > account");
+        Bundle bundle = new Bundle();
+        bundle.putBoolean(ContentResolver.SYNC_EXTRAS_MANUAL,true);
+        bundle.putBoolean(ContentResolver.SYNC_EXTRAS_EXPEDITED,true);
+        ContentResolver.requestSync(account,OnlineDioContract.CONTENT_AUTHORITY,bundle);
+
     }
 }

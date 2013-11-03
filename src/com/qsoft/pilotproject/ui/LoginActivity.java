@@ -150,7 +150,7 @@ public class LoginActivity extends AccountAuthenticatorActivity
                                 throw new Exception();
                             }
                             data.putInt(USER_ID, Integer.valueOf(signInDTO.getUserId()));
-                            data.putString(ACCESS_TOKEN, signInDTO.getAccessToken());
+                            data.putString(AccountManager.KEY_AUTHTOKEN, signInDTO.getAccessToken());
                             data.putString(AccountManager.KEY_ACCOUNT_NAME, email);
                             data.putString(AccountManager.KEY_ACCOUNT_TYPE, accountType);
                             data.putString(KEY_USER_PASSWORD, pass);
@@ -191,7 +191,7 @@ public class LoginActivity extends AccountAuthenticatorActivity
         if (getIntent().getBooleanExtra(OnlineDioAuthenticator.IS_ADDED_ACCOUNT_KEY, false))
         {
             Log.d(TAG, "finishLogin > addAccountExplicitly");
-            String authToken = intent.getStringExtra(AccountManager.KEY_INTENT);
+            String authToken = intent.getStringExtra(AccountManager.KEY_AUTHTOKEN);
             accountManager.addAccountExplicitly(account, accountPassword, null);
             accountManager.setAuthToken(account, authTokenType, authToken);
         }

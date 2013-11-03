@@ -29,7 +29,7 @@ public class AuthenticatorHandlerImpl implements AuthenticatorHandler
     @Override
     public SignInDTO signIn(String userName, String pass, String authTokenType) throws Exception
     {
-        String url = "http://192.168.1.222/testing/ica467/trunk/public/auth-rest";
+        String url = "http://113.160.50.84:1009/testing/ica467/trunk/public/auth-rest";
         DefaultHttpClient httpClient = new DefaultHttpClient();
         HttpPost httpPost = new HttpPost(url);
         httpPost.addHeader("Content-Type", "application/x-www-form-urlencoded");

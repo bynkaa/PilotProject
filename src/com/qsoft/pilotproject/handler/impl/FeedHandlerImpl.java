@@ -1,6 +1,9 @@
 package com.qsoft.pilotproject.handler.impl;
 
 import android.util.Log;
+import com.google.gson.Gson;
+import com.google.gson.JsonElement;
+import com.google.gson.reflect.TypeToken;
 import com.qsoft.pilotproject.handler.FeedHandler;
 import com.qsoft.pilotproject.model.dto.FeedDTO;
 import org.apache.http.HttpResponse;
@@ -8,8 +11,11 @@ import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.util.EntityUtils;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.IOException;
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -26,9 +32,8 @@ public class FeedHandlerImpl implements FeedHandler
     public List<FeedDTO> getFeeds(String authToken)
     {
         Log.d(TAG, "getFeeds()");
-        List<FeedDTO> feedDTOs = new ArrayList<FeedDTO>();
         DefaultHttpClient httpClient = new DefaultHttpClient();
-        String url = "http://192.168.1.222/testing/ica467/trunk/public/home-rest";
+        String url = "http://113.160.50.84:1009/testing/ica467/trunk/public/home-rest";
         String requestQuery = null;
         int limit = 20;
         requestQuery = String.format("limit=%s&offset=%s&time_from=%s&time_to=%s", limit, "", "", "");
@@ -39,6 +44,14 @@ public class FeedHandlerImpl implements FeedHandler
         {
             HttpResponse response = httpClient.execute(httpGet);
             String responseString = EntityUtils.toString(response.getEntity());
+            JSONObject jsonObject = new JSONObject(responseString);
+            if (jsonObject.has("code") && (Integer)jsonObject.get("code") == 200)
+            {
+                Type listOfFeedType = new TypeToken<List<FeedDTO>>(){}.getType();
+                ArrayList<FeedDTO> feedDTOs = new Gson().fromJson(jsonObject.get("data").toString(),listOfFeedType);
+                Log.d(TAG,"feeds size: " + feedDTOs.size());
+                return feedDTOs;
+            }
             Log.d(TAG, responseString);
         }
         catch (ClientProtocolException e)
@@ -46,6 +59,10 @@ public class FeedHandlerImpl implements FeedHandler
             e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
         }
         catch (IOException e)
+        {
+            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+        }
+        catch (JSONException e)
         {
             e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
         }

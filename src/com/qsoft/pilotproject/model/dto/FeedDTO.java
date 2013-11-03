@@ -14,8 +14,9 @@ import java.io.Serializable;
  */
 public class FeedDTO implements Serializable
 {
-    @SerializedName("id")
     private long id;
+    @SerializedName("id")
+    private long feedId;
     @SerializedName("user_id")
     private long userId;
     @SerializedName("title")
@@ -50,6 +51,16 @@ public class FeedDTO implements Serializable
     public long getId()
     {
         return id;
+    }
+
+    public long getFeedId()
+    {
+        return feedId;
+    }
+
+    public void setFeedId(long feedId)
+    {
+        this.feedId = feedId;
     }
 
     public void setId(long id)
@@ -210,7 +221,8 @@ public class FeedDTO implements Serializable
     public static FeedDTO fromCursor(Cursor cursorFeed)
     {
         FeedDTO feedDTO = new FeedDTO();
-        feedDTO.setId(cursorFeed.getLong(cursorFeed.getColumnIndex(OnlineDioContract.Feed.COLUMN_ID)));
+        feedDTO.setId(cursorFeed.getLong(cursorFeed.getColumnIndex(OnlineDioContract.Feed._ID)));
+        feedDTO.setFeedId(cursorFeed.getLong(cursorFeed.getColumnIndex(OnlineDioContract.Feed.COLUMN_ID)));
         feedDTO.setUserId(cursorFeed.getLong(cursorFeed.getColumnIndex(OnlineDioContract.Feed.COLUMN_USER_ID)));
         feedDTO.setTitle(cursorFeed.getString(cursorFeed.getColumnIndex(OnlineDioContract.Feed.COLUMN_TITLE)));
         feedDTO.setThumbnail(cursorFeed.getString(cursorFeed.getColumnIndex(OnlineDioContract.Feed.COLUMN_THUMBNAIL)));

@@ -19,6 +19,8 @@ public class SyncService extends Service
     @Override
     public void onCreate()
     {
+        super.onCreate();
+        Log.d(TAG,"service created...");
         synchronized (syncAdapterLock)
         {
             if (syncAdapter == null)

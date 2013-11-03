@@ -80,7 +80,7 @@ public class OnlineDioAuthenticator extends AbstractAccountAuthenticator
                     e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
                 }
             }
-            if (TextUtils.isEmpty(authToken))
+            if (!TextUtils.isEmpty(authToken))
             {
                 final Bundle result = new Bundle();
                 result.putString(AccountManager.KEY_ACCOUNT_NAME, account.name);
