@@ -1,64 +1,53 @@
 package com.qsoft.pilotproject.adapter;
 
-import android.app.Activity;
-import android.widget.ArrayAdapter;
+import android.content.Context;
+import android.database.Cursor;
+import android.support.v4.widget.SimpleCursorAdapter;
+import android.util.Log;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 import com.example.PilotProject.R;
-import com.qsoft.pilotproject.model.Feed;
-
-import java.util.List;
+import com.qsoft.pilotproject.provider.OnlineDioContract;
+import com.qsoft.pilotproject.utils.Utilities;
 
 /**
  * User: binhtv
  * Date: 10/15/13
  * Time: 8:35 AM
  */
-public class ArrayFeedAdapter extends ArrayAdapter<Feed>
+public class ArrayFeedAdapter extends SimpleCursorAdapter
 {
-    private final Activity context;
-    private final List<Feed> feeds;
 
-    static class FeedHolder
+    public ArrayFeedAdapter(Context context, int layout, Cursor c, String[] from, int[] to)
     {
-        public ImageView imProfile;
-        public TextView tvTitle;
-        public TextView tvComposer;
-        public TextView tvLikeStatus;
-        public TextView tvCommentStatus;
-        public TextView tvLastUpdate;
+        super(context, layout, c, from, to);
     }
 
-    public ArrayFeedAdapter(Activity context, List<Feed> feeds)
+    @Override
+    public void bindView(View view, Context context, Cursor cursor)
     {
-        super(context, R.layout.feed, feeds);
-        this.context = context;
-        this.feeds = feeds;
+        super.bindView(view, context, cursor);    //To change body of overridden methods use File | Settings | File Templates.
+        TextView tvTitle = (TextView) view.findViewById(R.id.tvTitleFeed);
+        TextView tvDisplayName = (TextView) view.findViewById(R.id.tvDisplayNameFeed);
+        TextView tvLike = (TextView) view.findViewById(R.id.tvLikeFeed);
+        TextView tvComment = (TextView) view.findViewById(R.id.tvCommentFeed);
+        TextView tvLastUpdate = (TextView) view.findViewById(R.id.tvLastUpdateStatus);
+        ImageView imProfile = (ImageView) view.findViewById(R.id.imAvatarFeed);
+        int titleIndex = cursor.getColumnIndexOrThrow(OnlineDioContract.Feed.COLUMN_TITLE);
+        tvTitle.setText(cursor.getString(titleIndex));
+        int displayNameIndex = cursor.getColumnIndexOrThrow(OnlineDioContract.Feed.COLUMN_DISPLAY_NAME);
+        tvDisplayName.setText(cursor.getString(displayNameIndex));
+        int likeIndex = cursor.getColumnIndexOrThrow(OnlineDioContract.Feed.COLUMN_LIKES);
+        tvLike.setText("Like: " + cursor.getInt(likeIndex));
+        int commentIndex = cursor.getColumnIndexOrThrow(OnlineDioContract.Feed.COLUMN_COMMENTS);
+        tvComment.setText("Comment: " + cursor.getInt(commentIndex));
+        int lastUpdateIndex = cursor.getColumnIndexOrThrow(OnlineDioContract.Feed.COLUMN_UPDATED_AT);
+        String updateTime = cursor.getString(lastUpdateIndex);
+        tvLastUpdate.setText(Utilities.calculatorUpdateTime(updateTime));
+        int idIndex = cursor.getColumnIndexOrThrow(OnlineDioContract.Feed._ID);
+        Log.e("BYNKAA", "id: " + cursor.getInt(idIndex));
+
     }
 
-//    @Override
-//    public View getView(int position, View convertView, ViewGroup parent)
-//    {
-//        View rowFeed = convertView;
-//        if (convertView == null)
-//        {
-//            LayoutInflater inflater = context.getLayoutInflater();
-//            rowFeed = inflater.inflate(R.layout.feed, null);
-//            FeedHolder feedHolder = new FeedHolder();
-//            feedHolder.imProfile = (ImageView) rowFeed.findViewById(R.id.imAvatarFeed);
-//            feedHolder.tvTitle = (TextView) rowFeed.findViewById(R.id.tvTitleFeed);
-//            feedHolder.tvComposer = (TextView) rowFeed.findViewById(R.id.tvDisplayNameFeed);
-//            feedHolder.tvLikeStatus = (TextView) rowFeed.findViewById(R.id.tvLikeFeed);
-//            feedHolder.tvCommentStatus = (TextView) rowFeed.findViewById(R.id.tvCommentFeed);
-//            feedHolder.tvLastUpdate = (TextView) rowFeed.findViewById(R.id.tvLastUpdateStatus);
-//            rowFeed.setTag(feedHolder);
-//        }
-//        FeedHolder feedHolder = (FeedHolder) rowFeed.getTag();
-//        feedHolder.tvTitle.setText(feeds.get(position).getTitle());
-//        feedHolder.tvComposer.setText(feeds.get(position).getComposer());
-//        feedHolder.tvLikeStatus.setText(new StringBuilder().append("Like: ").append(feeds.get(position).getLikeNumber()));
-//        feedHolder.tvCommentStatus.setText(new StringBuilder().append("Comment: ").append(feeds.get(position).getCommentNumber()));
-//        feedHolder.tvLastUpdate.setText(feeds.get(position).getUpdateStatus());
-//        return rowFeed;
-//    }
 }

@@ -22,6 +22,7 @@ public class OnlineDioDatabase extends SQLiteOpenHelper
     {
         String COMMENTS = "comments";
         String FEEDS = "feeds";
+        Object PROFILES = "profiles";
     }
 
     public OnlineDioDatabase(Context context)
@@ -66,6 +67,8 @@ public class OnlineDioDatabase extends SQLiteOpenHelper
                 + OnlineDioContract.Comment.COLUMN_AVATAR + " TEXT"
                 + " );"
         );
+
+        db.execSQL("CREATE TABLE " + Table.PROFILES);
 
     }
 

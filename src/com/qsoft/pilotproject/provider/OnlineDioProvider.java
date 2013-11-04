@@ -22,6 +22,8 @@ public class OnlineDioProvider extends ContentProvider
     private static final int FEEDS_ID = 101;
     private static final int COMMENTS = 200;
     private static final int COMMENTS_ID = 201;
+    private static final int PROFILES = 300;
+    private static final int PROFILES_ID = 301;
     OnlineDioDatabase onlineDioHelper;
     private static final UriMatcher uriMatcher = buildUriMatcher();
 
@@ -34,6 +36,9 @@ public class OnlineDioProvider extends ContentProvider
 
         matcher.addURI(authority, "comments", COMMENTS);
         matcher.addURI(authority, "comments/*", COMMENTS_ID);
+
+        matcher.addURI(authority, "profiles", PROFILES);
+        matcher.addURI(authority, "profiles/*", PROFILES_ID);
 
         return matcher;
     }
@@ -56,7 +61,7 @@ public class OnlineDioProvider extends ContentProvider
         {
             case FEEDS_ID:
                 String id = uri.getLastPathSegment();
-                builder.table(OnlineDioContract.Feed.TABLE_NAME).where(OnlineDioContract.Feed._ID + "=?" + id);
+                builder.table(OnlineDioContract.Feed.TABLE_NAME).where(OnlineDioContract.Feed._ID + "=?", id);
                 Cursor cursor = builder.query(db, projection, sortOrder);
                 Context context1 = getContext();
                 assert context1 != null;
@@ -69,6 +74,21 @@ public class OnlineDioProvider extends ContentProvider
                 assert context != null;
                 cursors.setNotificationUri(context.getContentResolver(), uri);
                 return cursors;
+            case PROFILES:
+                builder.table(OnlineDioContract.Profile.TABLE_NAME).where(selection, selectionArgs);
+                Cursor cursor3 = builder.query(db, projection, sortOrder);
+                Context context3 = getContext();
+                assert context3 != null;
+                cursor3.setNotificationUri(context3.getContentResolver(), uri);
+                return cursor3;
+            case PROFILES_ID:
+                String idProfile = uri.getLastPathSegment();
+                builder.table(OnlineDioContract.Profile.TABLE_NAME).where(OnlineDioContract.Profile._ID + "=?", idProfile);
+                Cursor cursor4 = builder.query(db, projection, sortOrder);
+                Context context4 = getContext();
+                assert context4 != null;
+                cursor4.setNotificationUri(context4.getContentResolver(), uri);
+                return cursor4;
 
         }
         return null;
@@ -109,6 +129,10 @@ public class OnlineDioProvider extends ContentProvider
                 break;
             case FEEDS_ID:
                 throw new UnsupportedOperationException("Insert not support: " + uri);
+            case PROFILES:
+                long idProfile = db.insertOrThrow(OnlineDioContract.Profile.TABLE_NAME, null, contentValues);
+                result = Uri.parse(OnlineDioContract.Profile.CONTENT_URI + "/" + idProfile);
+                break;
             default:
                 throw new UnsupportedOperationException("Unknown uri: " + uri);
         }
@@ -120,14 +144,59 @@ public class OnlineDioProvider extends ContentProvider
     }
 
     @Override
-    public int delete(Uri uri, String s, String[] strings)
+    public int delete(Uri uri, String selection, String[] selectionArgs)
     {
-        return 0;  //To change body of implemented methods use File | Settings | File Templates.
+        SelectionBuilder builder = new SelectionBuilder();
+        final SQLiteDatabase db = onlineDioHelper.getWritableDatabase();
+        final int match = uriMatcher.match(uri);
+        int count;
+        switch (match)
+        {
+            case FEEDS:
+                count = builder.table(OnlineDioContract.Feed.TABLE_NAME).where(selection, selectionArgs).delete(db);
+                break;
+            case FEEDS_ID:
+                String id = uri.getLastPathSegment();
+                count = builder.table(OnlineDioContract.Feed.TABLE_NAME)
+                        .where(OnlineDioContract.Feed._ID + "=?", id)
+                        .where(selection, selectionArgs).delete(db);
+                break;
+            default:
+                throw new UnsupportedOperationException("Unknown uri: " + uri);
+        }
+        Context context = getContext();
+        assert context != null;
+        context.getContentResolver().notifyChange(uri, null, false);
+        return count;
+
     }
 
     @Override
-    public int update(Uri uri, ContentValues contentValues, String s, String[] strings)
+    public int update(Uri uri, ContentValues contentValues, String selection, String[] selectionArgs)
     {
-        return 0;  //To change body of implemented methods use File | Settings | File Templates.
+        SelectionBuilder builder = new SelectionBuilder();
+        final SQLiteDatabase db = onlineDioHelper.getWritableDatabase();
+        final int match = uriMatcher.match(uri);
+        int count;
+        switch (match)
+        {
+            case FEEDS:
+                count = builder.table(OnlineDioContract.Feed.TABLE_NAME)
+                        .where(selection, selectionArgs).update(db, contentValues);
+                break;
+            case FEEDS_ID:
+                String id = uri.getLastPathSegment();
+                count = builder.table(OnlineDioContract.Feed.TABLE_NAME)
+                        .where(OnlineDioContract.Feed._ID + "=?", id)
+                        .where(selection, selectionArgs)
+                        .update(db, contentValues);
+                break;
+            default:
+                throw new UnsupportedOperationException("Unknown uri: " + uri);
+        }
+        Context context = getContext();
+        assert context != null;
+        context.getContentResolver().notifyChange(uri, null, false);
+        return count;
     }
 }

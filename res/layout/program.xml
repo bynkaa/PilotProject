@@ -70,7 +70,7 @@
                         android:layout_height="wrap_content"
                         android:text="Composer"
                         android:textColor="@color/program_textcolor_composer"
-                        android:id="@+id/tvDisplayNameFeed" android:layout_alignParentLeft="true"
+                        android:id="@+id/tvProgramDisplayNameFeed" android:layout_alignParentLeft="true"
                         android:layout_below="@+id/tvLastUpdate" android:textSize="14dp"/>
                 <TextView
                         android:layout_width="wrap_content"
@@ -78,12 +78,12 @@
                         android:text="Title"
                         android:textStyle="bold"
                         android:textColor="@color/program_textcolor_title"
-                        android:id="@+id/tvProgramTitle" android:layout_alignLeft="@+id/tvDisplayNameFeed"
-                        android:layout_below="@+id/tvDisplayNameFeed"
+                        android:id="@+id/tvProgramTitle" android:layout_alignLeft="@+id/tvProgramDisplayNameFeed"
+                        android:layout_below="@+id/tvProgramDisplayNameFeed"
                         android:textSize="@dimen/program_tvProgramTitle_textSize"/>
                 <RelativeLayout
                         android:layout_width="fill_parent"
-                        android:layout_height="wrap_content" android:layout_alignLeft="@+id/tvDisplayNameFeed"
+                        android:layout_height="wrap_content" android:layout_alignLeft="@+id/tvProgramDisplayNameFeed"
                         android:layout_below="@+id/tvProgramTitle" android:id="@+id/relativeLayout1"
                         android:layout_marginTop="5dp">
                     <RelativeLayout

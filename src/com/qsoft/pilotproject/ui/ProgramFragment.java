@@ -1,17 +1,26 @@
 package com.qsoft.pilotproject.ui;
 
+import android.content.ContentResolver;
+import android.content.ContentUris;
 import android.content.Intent;
+import android.database.Cursor;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ImageButton;
 import android.widget.RadioGroup;
+import android.widget.TextView;
 import com.example.PilotProject.R;
+import com.qsoft.pilotproject.model.Feed;
 import com.qsoft.pilotproject.model.ProgramTab;
+import com.qsoft.pilotproject.provider.OnlineDioContract;
+import com.qsoft.pilotproject.utils.Utilities;
 
 /**
  * User: binhtv
@@ -21,23 +30,67 @@ import com.qsoft.pilotproject.model.ProgramTab;
 public class ProgramFragment extends Fragment
 {
 
+    private static final String TAG = "ProgramFragment";
     FragmentManager manager = getFragmentManager();
     private ImageButton ibProgramBack;
 
     ProgramTab currentTab = ProgramTab.THUMB_NAIL;
     private RadioGroup rgProgramTab;
+    private TextView tvTitle;
+    private TextView tvDisplayName;
+    private TextView tvLikes;
+    private TextView tvPlayed;
+    private TextView tvLooks;
+    private TextView tvUpdated;
+    Feed feed = null;
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
         View view = inflater.inflate(R.layout.program, container, false);
+
         rgProgramTab = (RadioGroup) view.findViewById(R.id.rgProgramTab);
         rgProgramTab.setOnCheckedChangeListener(programTabOnCheckChangeListener);
         rgProgramTab.check(R.id.rbThumbnail);
         ibProgramBack = (ImageButton) view.findViewById(R.id.ibProgramBack);
 
         ibProgramBack.setOnClickListener(ibProgramBackOnClickListener);
+        tvTitle = (TextView) view.findViewById(R.id.tvProgramTitle);
+        tvDisplayName = (TextView) view.findViewById(R.id.tvProgramDisplayNameFeed);
+        tvLikes = (TextView) view.findViewById(R.id.tvContentLike);
+        tvPlayed = (TextView) view.findViewById(R.id.tvContentPlay);
+        tvLooks = (TextView) view.findViewById(R.id.tvContentLook);
+        tvUpdated = (TextView) view.findViewById(R.id.tvLastUpdate);
         startContentPlayerFragment();
+        final ContentResolver contentResolver = getActivity().getContentResolver();
+        Bundle bundle = getArguments();
+        Long id = bundle.getLong(HomeListFragment.FEED_ID);
+        if (id == null)
+        {
+            Log.e(TAG, "ProgramFragment ERROR");
+        }
+        Uri singleUri = ContentUris.withAppendedId(OnlineDioContract.Feed.CONTENT_URI, id);
+        // get all
+        Cursor cursor = contentResolver.query(singleUri, null, null, null, null);
+        assert cursor != null;
+
+        while (cursor.moveToNext())
+        {
+            feed = Feed.fromCursor(cursor);
+        }
+        tvTitle.setText(feed.getTitle());
+        tvDisplayName.setText(feed.getDisplayName());
+        tvLikes.setText(Integer.toString(feed.getLikes()));
+        tvLooks.setText(Integer.toString(feed.getViewed()));
+        String played = feed.getPlayed();
+        if (played == null)
+        {
+            played = 0 + "";
+        }
+        tvPlayed.setText(played);
+        tvUpdated.setText(Utilities.calculatorUpdateTime(feed.getUpdatedAt()));
+        cursor.close();
         return view;
     }
 

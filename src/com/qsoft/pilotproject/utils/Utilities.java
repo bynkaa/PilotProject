@@ -8,6 +8,10 @@ import android.os.Bundle;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 
 /**
  * User: BinkaA
@@ -144,6 +148,42 @@ public class Utilities
                 }
                 , null);
         return authToken[0];
+    }
+
+    public static String calculatorUpdateTime(String updateTime)
+    {
+        Date currentDate = Calendar.getInstance().getTime();
+        SimpleDateFormat dateFormat = new SimpleDateFormat(
+                "yyyy-MM-dd HH:mm:ss");
+        try
+        {
+            Date updated_date = dateFormat.parse(updateTime);
+            long delta = (currentDate.getTime() - updated_date.getTime())
+                    / (1000);
+            if (delta > 0)
+            {
+                if (delta < 60)
+                {
+                    return delta + " seconds";
+                }
+                delta = delta / 60;
+                if (delta < 60)
+                {
+                    return delta + "minutes";
+                }
+                delta = delta / 60;
+                if (delta < 24)
+                {
+                    return delta + " hours";
+                }
+                return delta / 24 + " days";
+            }
+        }
+        catch (ParseException e)
+        {
+            e.printStackTrace();
+        }
+        return 0 + "";
     }
 
 }

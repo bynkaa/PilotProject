@@ -16,6 +16,7 @@ public class OnlineDioContract
 
     public static final String PATH_FEEDS = "feeds";
     public static final String PATH_COMMENTS = "comments";
+    public static final String PATH_PROFILE = "profiles";
 
     public static class Feed implements BaseColumns
     {
@@ -39,6 +40,36 @@ public class OnlineDioContract
         public static final String COLUMN_USER_NAME = "feed_user_name";
         public static final String COLUMN_DISPLAY_NAME = "feed_display_name";
         public static final String COLUMN_AVATAR = "feed_avatar";
+
+    }
+
+    public static class Profile implements BaseColumns
+    {
+        public static final String CONTENT_TYPE = ContentResolver.CURSOR_DIR_BASE_TYPE + "/vnd.pilotproject.profiles";
+        public static final String CONTENT_ITEM_TYPE = ContentResolver.CURSOR_ITEM_BASE_TYPE + "/vnd.pilotproject.profile";
+        public static final Uri CONTENT_URI = BASE_CONTENT_URI.buildUpon().appendPath(PATH_PROFILE).build();
+        public static final String TABLE_NAME = "profiles";
+        public static final String COLUMN_USER_ID = "user_id";
+        public static final String COLUMN_FACEBOOK_ID = "facebook_id";
+        public static final String COLUMN_USERNAME = "user_name";
+        public static final String COLUMN_PASSWORD = "password";
+        public static final String COLUMN_AVATAR = "avatar";
+        public static final String COLUMN_COVER_IMAGE = "cover_image";
+        public static final String COLUMN_DISPLAY_NAME = "display_name";
+        public static final String COLUMN_FULL_NAME = "full_name";
+        public static final String COLUMN_PHONE = "phone";
+        public static final String COLUMN_BIRTHDAY = "birthday";
+        public static final String COLUMN_GENDER = "gender";
+        public static final String COLUMN_COUNTRY_ID = "country_id";
+        public static final String COLUMN_STORAGE_PLAN_ID = "storage_plan_id";
+        public static final String COLUMN_DESCRIPTION = "description";
+        public static final String COLUMN_CREATED_AT = "created_at";
+        public static final String COLUMN_UPDATED_AT = "updated_at";
+        public static final String COLUMN_SOUNDS = "sound";
+        public static final String COLUMN_FAVORITES = "favorite";
+        public static final String COLUMN_LIKES = "like";
+        public static final String COLUMN_FOLLOWING = "following";
+        public static final String COLUMN_AUDIENCE = "audience";
 
     }
 

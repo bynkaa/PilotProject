@@ -8,7 +8,6 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.RemoteException;
 import android.util.Log;
-import com.qsoft.pilotproject.authenticator.AccountGeneral;
 import com.qsoft.pilotproject.handler.FeedHandler;
 import com.qsoft.pilotproject.handler.impl.FeedHandlerImpl;
 import com.qsoft.pilotproject.model.Feed;
@@ -63,7 +62,7 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter
     public void onPerformSync(Account account, Bundle bundle, String authority, ContentProviderClient provider, SyncResult syncResult)
     {
         Log.d(TAG, "onPerformSync()");
-        String authToken = accountManager.peekAuthToken(account, AccountGeneral.AUTHTOKEN_TYPE_FULL_ACCESS);
+//        String authToken = accountManager.peekAuthToken(account, AccountGeneral.AUTHTOKEN_TYPE_FULL_ACCESS);
 //            Log.d(TAG, "onPerformSync() > Get remote Feeds");
 //            FeedHandler feedHandler = new FeedHandlerImpl();
 //            List<FeedDTO> remoteFeeds = feedHandler.getFeeds(authToken);
@@ -126,7 +125,7 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter
 //            Log.d(TAG, "sync finished");
         try
         {
-            updateLocalFeedData(authToken, syncResult);
+            updateLocalFeedData(account, syncResult);
         }
         catch (RemoteException e)
         {
@@ -140,12 +139,12 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter
 
     }
 
-    private void updateLocalFeedData(String authToken, SyncResult syncResult) throws RemoteException, OperationApplicationException
+    private void updateLocalFeedData(Account account, SyncResult syncResult) throws RemoteException, OperationApplicationException
     {
         final ContentResolver contentResolver = getContext().getContentResolver();
         Log.d(TAG, "get list feeds from server");
         FeedHandler feedHandler = new FeedHandlerImpl();
-        List<FeedDTO> remoteFeeds = feedHandler.getFeeds(authToken);
+        List<FeedDTO> remoteFeeds = feedHandler.getFeeds(accountManager, account);
         Log.d(TAG, "parsing complete. Found : " + remoteFeeds.size());
         ArrayList<ContentProviderOperation> batch = new ArrayList<ContentProviderOperation>();
         HashMap<Long, FeedDTO> feedMap = new HashMap<Long, FeedDTO>();
@@ -170,7 +169,7 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter
                 Uri existingUri = OnlineDioContract.Feed.CONTENT_URI.buildUpon()
                         .appendPath(Long.toString(feed.getId())).build();
                 if (match.getUpdatedAt() != null && !match.getUpdatedAt().equals(feed.getUpdatedAt())
-                        || match.getLikes() != feed.getLikes())
+                        || match.getLikes() != feed.getLikes() || match.getComments() != feed.getComments())
                 {
                     Log.d(TAG, "Scheduling update: " + existingUri);
                     batch.add(ContentProviderOperation.newUpdate(existingUri)

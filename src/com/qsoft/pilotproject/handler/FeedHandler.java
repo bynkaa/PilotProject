@@ -1,5 +1,7 @@
 package com.qsoft.pilotproject.handler;
 
+import android.accounts.Account;
+import android.accounts.AccountManager;
 import com.qsoft.pilotproject.model.dto.FeedDTO;
 
 import java.util.List;
@@ -11,5 +13,5 @@ import java.util.List;
  */
 public interface FeedHandler
 {
-    public List<FeedDTO> getFeeds(String authToken);
+    public List<FeedDTO> getFeeds(AccountManager accountManager, Account account);
 }

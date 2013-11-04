@@ -5,13 +5,17 @@ import android.content.ContentResolver;
 import android.content.SyncStatusObserver;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.app.ListFragment;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
 import android.support.v4.widget.SimpleCursorAdapter;
 import android.view.View;
+import android.widget.ListView;
 import com.example.PilotProject.R;
+import com.qsoft.pilotproject.adapter.ArrayFeedAdapter;
 import com.qsoft.pilotproject.authenticator.AuthenticatorService;
 import com.qsoft.pilotproject.provider.OnlineDioContract;
 
@@ -52,6 +56,7 @@ public class HomeListFragment extends ListFragment implements LoaderManager.Load
                     R.id.imAvatarFeed
 
             };
+    public static final String FEED_ID = "_ID";
     private SimpleCursorAdapter feedAdapter;
     private Object syncObserverHandler;
 
@@ -83,13 +88,12 @@ public class HomeListFragment extends ListFragment implements LoaderManager.Load
     public void onViewCreated(View view, Bundle savedInstanceState)
     {
         super.onViewCreated(view, savedInstanceState);
-        feedAdapter = new SimpleCursorAdapter(
+        feedAdapter = new ArrayFeedAdapter(
                 getActivity(),
                 R.layout.feed,
                 null,
                 FROM_COLUMNS,
-                TO_FIELDS,
-                0
+                TO_FIELDS
         );
         feedAdapter.setViewBinder(new SimpleCursorAdapter.ViewBinder()
         {
@@ -102,6 +106,20 @@ public class HomeListFragment extends ListFragment implements LoaderManager.Load
         });
         setListAdapter(feedAdapter);
         getLoaderManager().initLoader(0, null, this);
+
+    }
+
+    @Override
+    public void onListItemClick(ListView l, View v, int position, long id)
+    {
+        super.onListItemClick(l, v, position, id);
+        Bundle bundle = new Bundle();
+        bundle.putLong(FEED_ID, id);
+        Fragment programFragment = new ProgramFragment();
+        programFragment.setArguments(bundle);
+        FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
+        fragmentTransaction.replace(R.id.content_fragment, programFragment);
+        fragmentTransaction.commit();
     }
 
     @Override
