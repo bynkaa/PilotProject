@@ -68,7 +68,30 @@ public class OnlineDioDatabase extends SQLiteOpenHelper
                 + " );"
         );
 
-        db.execSQL("CREATE TABLE " + Table.PROFILES);
+        db.execSQL("CREATE TABLE " + Table.PROFILES + " ("
+                + OnlineDioContract.Profile._ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"
+                + OnlineDioContract.Profile.COLUMN_USER_ID + " INTEGER NOT NULL,"
+                + OnlineDioContract.Profile.COLUMN_FACEBOOK_ID + " INTEGER,"
+                + OnlineDioContract.Profile.COLUMN_USERNAME + " TEXT,"
+                + OnlineDioContract.Profile.COLUMN_PASSWORD + " TEXT,"
+                + OnlineDioContract.Profile.COLUMN_AVATAR + " TEXT,"
+                + OnlineDioContract.Profile.COLUMN_COVER_IMAGE + " TEXT,"
+                + OnlineDioContract.Profile.COLUMN_DISPLAY_NAME + " TEXT,"
+                + OnlineDioContract.Profile.COLUMN_FULL_NAME + " TEXT,"
+                + OnlineDioContract.Profile.COLUMN_PHONE + " TEXT,"
+                + OnlineDioContract.Profile.COLUMN_BIRTHDAY + " TEXT,"
+                + OnlineDioContract.Profile.COLUMN_GENDER + " INTEGER,"
+                + OnlineDioContract.Profile.COLUMN_COUNTRY_ID + " INTEGER,"
+                + OnlineDioContract.Profile.COLUMN_STORAGE_PLAN_ID + " INTEGER,"
+                + OnlineDioContract.Profile.COLUMN_DESCRIPTION + " TEXT,"
+                + OnlineDioContract.Profile.COLUMN_CREATED_AT + " TEXT,"
+                + OnlineDioContract.Profile.COLUMN_UPDATED_AT + " TEXT,"
+                + OnlineDioContract.Profile.COLUMN_SOUNDS + " INTEGER,"
+                + OnlineDioContract.Profile.COLUMN_FAVORITES + " INTEGER,"
+                + OnlineDioContract.Profile.COLUMN_LIKES + " INTEGER,"
+                + OnlineDioContract.Profile.COLUMN_FOLLOWING + " INTEGER,"
+                + OnlineDioContract.Profile.COLUMN_AUDIENCE + " TEXT,"
+                );
 
     }
 
@@ -78,6 +101,7 @@ public class OnlineDioDatabase extends SQLiteOpenHelper
         Log.d(TAG, "onUpgrade()");
         db.execSQL("DROP TABLE IF EXISTS " + Table.COMMENTS);
         db.execSQL("DROP TABLE IF EXISTS " + Table.FEEDS);
+        db.execSQL("DROP TABLE IF EXISTS " + Table.PROFILES);
         onCreate(db);
     }
 }

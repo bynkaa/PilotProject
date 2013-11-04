@@ -1,18 +1,18 @@
 package com.qsoft.pilotproject.ui;
 
+import android.accounts.Account;
+import android.accounts.AccountManager;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
-import android.content.ComponentName;
-import android.content.Context;
-import android.content.DialogInterface;
-import android.content.Intent;
+import android.content.*;
 import android.content.pm.ResolveInfo;
 import android.database.Cursor;
 import android.graphics.*;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.v4.app.FragmentActivity;
@@ -22,6 +22,12 @@ import android.widget.*;
 import com.example.PilotProject.R;
 import com.qsoft.pilotproject.adapter.CropOption;
 import com.qsoft.pilotproject.adapter.CropOptionAdapter;
+import com.qsoft.pilotproject.authenticator.AccountGeneral;
+import com.qsoft.pilotproject.handler.ProfileHandler;
+import com.qsoft.pilotproject.handler.impl.ProfileHandlerImpl;
+import com.qsoft.pilotproject.model.Profile;
+import com.qsoft.pilotproject.model.dto.ProfileDTO;
+import com.qsoft.pilotproject.provider.OnlineDioContract;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -46,6 +52,7 @@ public class ProfileSetupActivity extends FragmentActivity
     private ImageView ivProfile;
     private EditText tvBirthday;
     private EditText tvCountry;
+    private TextView tvProfileName;
     private ImageButton ibLeft;
     private ImageButton ibRight;
     private Boolean flag = null;
@@ -57,11 +64,15 @@ public class ProfileSetupActivity extends FragmentActivity
     private static final int PICK_FROM_CAMERA = 1;
     private static final int CROP_FROM_CAMERA = 2;
     private static final int PICK_FROM_FILE = 3;
+    AccountManager accountManager;
+    Account account;
 
     public void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.profile_setup);
+        accountManager = AccountManager.get(this);
+        account =  accountManager.getAccountsByType(AccountGeneral.ACCOUNT_TYPE)[0];
         tvBirthday = (EditText) findViewById(R.id.profile_et_birthday);
         dpResult = (DatePicker) findViewById(R.id.dpResult);
         rlCover = (RelativeLayout) findViewById(R.id.profile_relativeLayout);
@@ -82,6 +93,50 @@ public class ProfileSetupActivity extends FragmentActivity
         ibProfileCancel.setOnClickListener(ibProfileCancelOnClickListener);
         ibProfileSave = (ImageView) findViewById(R.id.ibProfileSave);
         ibProfileSave.setOnClickListener(ibProfileSaveOnClickListener);
+        tvProfileName = (TextView) findViewById(R.id.tv_profile_name);
+
+        setupData();
+    }
+
+    private void setupData()
+    {
+        final ContentResolver contentResolver = getContentResolver();
+        Cursor cursor = contentResolver.query(OnlineDioContract.Profile.CONTENT_URI,null,null,null,null);
+        if (cursor.getCount() == 0)
+        {
+            new AsyncTask<Void, Void, ProfileDTO>()
+            {
+                Long userId = 0l;
+                @Override
+                protected ProfileDTO doInBackground(Void... voids)
+                {
+                    String userIdStr = accountManager.getUserData(account,LoginActivity.USER_ID_KEY);
+                    ProfileHandler profileHandler = new ProfileHandlerImpl(accountManager,account);
+                    userId = Long.valueOf(userIdStr);
+                    ProfileDTO profileDTO = profileHandler.getProfile(userId);
+                    return profileDTO;
+                }
+
+                @Override
+                protected void onPostExecute(ProfileDTO profileDTO)
+                {
+                    Uri singleUri = ContentUris.withAppendedId(OnlineDioContract.Profile.CONTENT_URI, userId);
+                    contentResolver.insert(singleUri,profileDTO.getContentValues());
+                    setToView(profileDTO);
+                }
+            };
+        }
+        while (cursor.moveToNext()){
+            setToView(Profile.fromCursor(cursor));
+        }
+
+    }
+
+    private void setToView(ProfileDTO profileDTO)
+    {
+        tvBirthday.setText(profileDTO.getBirthday());
+        tvCountry.setText(profileDTO.getCountryId());
+
     }
 
     View.OnClickListener ibProfileSaveOnClickListener = new View.OnClickListener()

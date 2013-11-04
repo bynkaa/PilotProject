@@ -108,6 +108,10 @@ public class OnlineDioProvider extends ContentProvider
                 return OnlineDioContract.Comment.CONTENT_TYPE;
             case COMMENTS_ID:
                 return OnlineDioContract.Comment.CONTENT_ITEM_TYPE;
+            case PROFILES:
+                return OnlineDioContract.Profile.CONTENT_TYPE;
+            case PROFILES_ID:
+                return OnlineDioContract.Profile.CONTENT_ITEM_TYPE;
             default:
                 throw new UnsupportedOperationException("Unknown uri: " + uri);
         }
@@ -161,6 +165,15 @@ public class OnlineDioProvider extends ContentProvider
                         .where(OnlineDioContract.Feed._ID + "=?", id)
                         .where(selection, selectionArgs).delete(db);
                 break;
+            case PROFILES:
+                count = builder.table(OnlineDioContract.Profile.TABLE_NAME).where(selection,selectionArgs).delete(db);
+                break;
+            case PROFILES_ID:
+                String id1 = uri.getLastPathSegment();
+                count = builder.table(OnlineDioContract.Profile.TABLE_NAME)
+                        .where(OnlineDioContract.Profile._ID + "=?",id1)
+                        .where(selection,selectionArgs).delete(db);
+                break;
             default:
                 throw new UnsupportedOperationException("Unknown uri: " + uri);
         }
@@ -190,6 +203,17 @@ public class OnlineDioProvider extends ContentProvider
                         .where(OnlineDioContract.Feed._ID + "=?", id)
                         .where(selection, selectionArgs)
                         .update(db, contentValues);
+                break;
+            case PROFILES:
+                count = builder.table(OnlineDioContract.Profile.TABLE_NAME)
+                        .where(selection,selectionArgs).update(db,contentValues);
+                break;
+            case PROFILES_ID:
+                String id1 = uri.getLastPathSegment();
+                count = builder.table(OnlineDioContract.Profile.TABLE_NAME)
+                        .where(OnlineDioContract.Profile._ID + "=?",id1)
+                        .where(selection,selectionArgs)
+                        .update(db,contentValues);
                 break;
             default:
                 throw new UnsupportedOperationException("Unknown uri: " + uri);

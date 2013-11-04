@@ -45,11 +45,11 @@ public class LoginActivity extends AccountAuthenticatorActivity
 {
     private static final String TAG = "LoginActivity";
     public static final AuthenticatorHandler onLineDioService = new AuthenticatorHandlerImpl();
-    private static final String USER_ID = "UserId";
     private static final String ERROR_MESSAGE = "Error_Message";
     private static final String ACCESS_TOKEN = "ACCESS_TOKEN";
     private static final String AUTHTOKEN_TYPE_FULL_ACCESS = "token_type";
     private static final String KEY_USER_PASSWORD = "user_pass";
+    public static final String USER_ID_KEY = "user_id";
     private ImageView imDone;
     private ImageView imBack;
     private EditText etEmail;
@@ -149,7 +149,7 @@ public class LoginActivity extends AccountAuthenticatorActivity
                             {
                                 throw new Exception();
                             }
-                            data.putInt(USER_ID, Integer.valueOf(signInDTO.getUserId()));
+                            data.putLong(USER_ID_KEY, Long.valueOf(signInDTO.getUserId()));
                             data.putString(AccountManager.KEY_AUTHTOKEN, signInDTO.getAccessToken());
                             data.putString(AccountManager.KEY_ACCOUNT_NAME, email);
                             data.putString(AccountManager.KEY_ACCOUNT_TYPE, accountType);
@@ -192,7 +192,9 @@ public class LoginActivity extends AccountAuthenticatorActivity
         {
             Log.d(TAG, "finishLogin > addAccountExplicitly");
             String authToken = intent.getStringExtra(AccountManager.KEY_AUTHTOKEN);
-            accountManager.addAccountExplicitly(account, accountPassword, null);
+            Bundle bundle = new Bundle();
+            bundle.putLong(USER_ID_KEY, intent.getLongExtra(USER_ID_KEY,0));
+            accountManager.addAccountExplicitly(account, accountPassword, bundle);
             accountManager.setAuthToken(account, authTokenType, authToken);
         }
         else
