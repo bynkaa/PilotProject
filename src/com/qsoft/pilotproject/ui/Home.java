@@ -13,11 +13,7 @@ import android.widget.AdapterView;
 import android.widget.Button;
 import com.example.PilotProject.R;
 import com.qsoft.pilotproject.authenticator.AccountGeneral;
-import com.qsoft.pilotproject.model.Feed;
 import com.qsoft.pilotproject.provider.OnlineDioContract;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * User: binhtv
@@ -35,7 +31,7 @@ public class Home extends Fragment
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
         View view = inflater.inflate(R.layout.home, container, false);
-        Account account = ((SlideBarActivity)getActivity()).getAccount();
+        Account account = ((SlideBarActivity) getActivity()).getAccount();
         accountName = account.name;
         btMenu = (Button) view.findViewById(R.id.btMenu);
         btMenu.setOnClickListener(btMenuClickListener);
@@ -45,6 +41,7 @@ public class Home extends Fragment
         getFragmentManager().beginTransaction().replace(R.id.fragmentListFeeds, feedListFragment).commit();
         return view;
     }
+
     View.OnClickListener btNotificationClickListener = new View.OnClickListener()
     {
         @Override
@@ -73,35 +70,35 @@ public class Home extends Fragment
         }
     };
 
-    private List<Feed> getModel()
-    {
-        List<Feed> feeds = new ArrayList<Feed>();
-        for (int i = 0; i < 20; i++)
-        {
-            feeds.add(getFeed());
-        }
-        return feeds;
-    }
+//    private List<Feed> getModel()
+//    {
+//        List<Feed> feeds = new ArrayList<Feed>();
+//        for (int i = 0; i < 20; i++)
+//        {
+//            feeds.add(getFeed());
+//        }
+//        return feeds;
+//    }
 
-    public Feed getFeed()
-    {
-        Feed feed = new Feed();
-        feed.setTitle("Sound of Silence");
-        feed.setComposer("Mr. Bean");
-        feed.setLikeNumber(100);
-        feed.setCommentNumber(9);
-        feed.setUpdateStatus("5 days ago");
-        return feed;
-    }
+//    public Feed getFeed()
+//    {
+//        Feed feed = new Feed();
+//        feed.setTitle("Sound of Silence");
+//        feed.setComposer("Mr. Bean");
+//        feed.setLikeNumber(100);
+//        feed.setCommentNumber(9);
+//        feed.setUpdateStatus("5 days ago");
+//        return feed;
+//    }
 
     public void triggerSync()
     {
-        Account account = new Account(accountName,AccountGeneral.ACCOUNT_TYPE);
-        Log.d(TAG,"TriggerSync > account");
+        Account account = new Account(accountName, AccountGeneral.ACCOUNT_TYPE);
+        Log.d(TAG, "TriggerSync > account");
         Bundle bundle = new Bundle();
-        bundle.putBoolean(ContentResolver.SYNC_EXTRAS_MANUAL,true);
-        bundle.putBoolean(ContentResolver.SYNC_EXTRAS_EXPEDITED,true);
-        ContentResolver.requestSync(account,OnlineDioContract.CONTENT_AUTHORITY,bundle);
+        bundle.putBoolean(ContentResolver.SYNC_EXTRAS_MANUAL, true);
+        bundle.putBoolean(ContentResolver.SYNC_EXTRAS_EXPEDITED, true);
+        ContentResolver.requestSync(account, OnlineDioContract.CONTENT_AUTHORITY, bundle);
 
     }
 }

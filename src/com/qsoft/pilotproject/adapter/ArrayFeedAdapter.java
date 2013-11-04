@@ -1,9 +1,6 @@
 package com.qsoft.pilotproject.adapter;
 
 import android.app.Activity;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -39,29 +36,29 @@ public class ArrayFeedAdapter extends ArrayAdapter<Feed>
         this.feeds = feeds;
     }
 
-    @Override
-    public View getView(int position, View convertView, ViewGroup parent)
-    {
-        View rowFeed = convertView;
-        if (convertView == null)
-        {
-            LayoutInflater inflater = context.getLayoutInflater();
-            rowFeed = inflater.inflate(R.layout.feed, null);
-            FeedHolder feedHolder = new FeedHolder();
-            feedHolder.imProfile = (ImageView) rowFeed.findViewById(R.id.imAvatarFeed);
-            feedHolder.tvTitle = (TextView) rowFeed.findViewById(R.id.tvTitleFeed);
-            feedHolder.tvComposer = (TextView) rowFeed.findViewById(R.id.tvDisplayNameFeed);
-            feedHolder.tvLikeStatus = (TextView) rowFeed.findViewById(R.id.tvLikeFeed);
-            feedHolder.tvCommentStatus = (TextView) rowFeed.findViewById(R.id.tvCommentFeed);
-            feedHolder.tvLastUpdate = (TextView) rowFeed.findViewById(R.id.tvLastUpdateStatus);
-            rowFeed.setTag(feedHolder);
-        }
-        FeedHolder feedHolder = (FeedHolder) rowFeed.getTag();
-        feedHolder.tvTitle.setText(feeds.get(position).getTitle());
-        feedHolder.tvComposer.setText(feeds.get(position).getComposer());
-        feedHolder.tvLikeStatus.setText(new StringBuilder().append("Like: ").append(feeds.get(position).getLikeNumber()));
-        feedHolder.tvCommentStatus.setText(new StringBuilder().append("Comment: ").append(feeds.get(position).getCommentNumber()));
-        feedHolder.tvLastUpdate.setText(feeds.get(position).getUpdateStatus());
-        return rowFeed;
-    }
+//    @Override
+//    public View getView(int position, View convertView, ViewGroup parent)
+//    {
+//        View rowFeed = convertView;
+//        if (convertView == null)
+//        {
+//            LayoutInflater inflater = context.getLayoutInflater();
+//            rowFeed = inflater.inflate(R.layout.feed, null);
+//            FeedHolder feedHolder = new FeedHolder();
+//            feedHolder.imProfile = (ImageView) rowFeed.findViewById(R.id.imAvatarFeed);
+//            feedHolder.tvTitle = (TextView) rowFeed.findViewById(R.id.tvTitleFeed);
+//            feedHolder.tvComposer = (TextView) rowFeed.findViewById(R.id.tvDisplayNameFeed);
+//            feedHolder.tvLikeStatus = (TextView) rowFeed.findViewById(R.id.tvLikeFeed);
+//            feedHolder.tvCommentStatus = (TextView) rowFeed.findViewById(R.id.tvCommentFeed);
+//            feedHolder.tvLastUpdate = (TextView) rowFeed.findViewById(R.id.tvLastUpdateStatus);
+//            rowFeed.setTag(feedHolder);
+//        }
+//        FeedHolder feedHolder = (FeedHolder) rowFeed.getTag();
+//        feedHolder.tvTitle.setText(feeds.get(position).getTitle());
+//        feedHolder.tvComposer.setText(feeds.get(position).getComposer());
+//        feedHolder.tvLikeStatus.setText(new StringBuilder().append("Like: ").append(feeds.get(position).getLikeNumber()));
+//        feedHolder.tvCommentStatus.setText(new StringBuilder().append("Comment: ").append(feeds.get(position).getCommentNumber()));
+//        feedHolder.tvLastUpdate.setText(feeds.get(position).getUpdateStatus());
+//        return rowFeed;
+//    }
 }

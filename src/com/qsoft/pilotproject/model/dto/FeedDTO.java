@@ -1,7 +1,6 @@
 package com.qsoft.pilotproject.model.dto;
 
 import android.content.ContentValues;
-import android.database.Cursor;
 import com.google.gson.annotations.SerializedName;
 import com.qsoft.pilotproject.provider.OnlineDioContract;
 
@@ -14,8 +13,7 @@ import java.io.Serializable;
  */
 public class FeedDTO implements Serializable
 {
-    private long id;
-    @SerializedName("id")
+    @SerializedName(("id"))
     private long feedId;
     @SerializedName("user_id")
     private long userId;
@@ -48,11 +46,6 @@ public class FeedDTO implements Serializable
     @SerializedName("avatar")
     private String avatar;
 
-    public long getId()
-    {
-        return id;
-    }
-
     public long getFeedId()
     {
         return feedId;
@@ -61,11 +54,6 @@ public class FeedDTO implements Serializable
     public void setFeedId(long feedId)
     {
         this.feedId = feedId;
-    }
-
-    public void setId(long id)
-    {
-        this.id = id;
     }
 
     public long getUserId()
@@ -218,33 +206,11 @@ public class FeedDTO implements Serializable
         this.avatar = avatar;
     }
 
-    public static FeedDTO fromCursor(Cursor cursorFeed)
-    {
-        FeedDTO feedDTO = new FeedDTO();
-        feedDTO.setId(cursorFeed.getLong(cursorFeed.getColumnIndex(OnlineDioContract.Feed._ID)));
-        feedDTO.setFeedId(cursorFeed.getLong(cursorFeed.getColumnIndex(OnlineDioContract.Feed.COLUMN_ID)));
-        feedDTO.setUserId(cursorFeed.getLong(cursorFeed.getColumnIndex(OnlineDioContract.Feed.COLUMN_USER_ID)));
-        feedDTO.setTitle(cursorFeed.getString(cursorFeed.getColumnIndex(OnlineDioContract.Feed.COLUMN_TITLE)));
-        feedDTO.setThumbnail(cursorFeed.getString(cursorFeed.getColumnIndex(OnlineDioContract.Feed.COLUMN_THUMBNAIL)));
-        feedDTO.setDescription(cursorFeed.getString(cursorFeed.getColumnIndex(OnlineDioContract.Feed.COLUMN_DESCRIPTION)));
-        feedDTO.setSoundPath(cursorFeed.getString(cursorFeed.getColumnIndex(OnlineDioContract.Feed.COLUMN_SOUND_PATH)));
-        feedDTO.setDuration(cursorFeed.getString(cursorFeed.getColumnIndex(OnlineDioContract.Feed.COLUMN_DURATION)));
-        feedDTO.setPlayed(cursorFeed.getString(cursorFeed.getColumnIndex(OnlineDioContract.Feed.COLUMN_PLAYED)));
-        feedDTO.setCreatedAt(cursorFeed.getString(cursorFeed.getColumnIndex(OnlineDioContract.Feed.COLUMN_CREATED_AT)));
-        feedDTO.setUpdatedAt(cursorFeed.getString(cursorFeed.getColumnIndex(OnlineDioContract.Feed.COLUMN_UPDATED_AT)));
-        feedDTO.setLikes(cursorFeed.getInt(cursorFeed.getColumnIndex(OnlineDioContract.Feed.COLUMN_LIKES)));
-        feedDTO.setViewed(cursorFeed.getInt(cursorFeed.getColumnIndex(OnlineDioContract.Feed.COLUMN_VIEWED)));
-        feedDTO.setUserName(cursorFeed.getString(cursorFeed.getColumnIndex(OnlineDioContract.Feed.COLUMN_USER_NAME)));
-        feedDTO.setDisplayName(cursorFeed.getString(cursorFeed.getColumnIndex(OnlineDioContract.Feed.COLUMN_DISPLAY_NAME)));
-        feedDTO.setAvatar(cursorFeed.getString(cursorFeed.getColumnIndex(OnlineDioContract.Feed.COLUMN_AVATAR)));
-        feedDTO.setComments(cursorFeed.getInt(cursorFeed.getColumnIndex(OnlineDioContract.Feed.COLUMN_COMMENTS)));
-        return feedDTO;
-    }
 
     public ContentValues getContentValues()
     {
         ContentValues values = new ContentValues();
-        values.put(OnlineDioContract.Feed.COLUMN_ID, id);
+        values.put(OnlineDioContract.Feed.COLUMN_ID, feedId);
         values.put(OnlineDioContract.Feed.COLUMN_USER_ID, userId);
         values.put(OnlineDioContract.Feed.COLUMN_TITLE, title);
         values.put(OnlineDioContract.Feed.COLUMN_THUMBNAIL, thumbnail);

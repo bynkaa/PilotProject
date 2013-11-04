@@ -7,11 +7,11 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.RemoteException;
-import android.provider.ContactsContract;
 import android.util.Log;
 import com.qsoft.pilotproject.authenticator.AccountGeneral;
 import com.qsoft.pilotproject.handler.FeedHandler;
 import com.qsoft.pilotproject.handler.impl.FeedHandlerImpl;
+import com.qsoft.pilotproject.model.Feed;
 import com.qsoft.pilotproject.model.dto.FeedDTO;
 import com.qsoft.pilotproject.provider.OnlineDioContract;
 
@@ -151,7 +151,7 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter
         HashMap<Long, FeedDTO> feedMap = new HashMap<Long, FeedDTO>();
         for (FeedDTO feedDTO : remoteFeeds)
         {
-            feedMap.put(feedDTO.getId(), feedDTO);
+            feedMap.put(feedDTO.getFeedId(), feedDTO);
         }
         // get list of all items
         Log.d(TAG, "Fetching local feed for merge");
@@ -162,19 +162,19 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter
         while (cursor.moveToNext())
         {
             syncResult.stats.numEntries++;
-            FeedDTO feedDTO = FeedDTO.fromCursor(cursor);
-            FeedDTO match = feedMap.get(feedDTO.getFeedId());
+            Feed feed = Feed.fromCursor(cursor);
+            FeedDTO match = feedMap.get(feed.getFeedId());
             if (match != null)
             {
-                feedMap.remove(feedDTO.getFeedId());
+                feedMap.remove(feed.getFeedId());
                 Uri existingUri = OnlineDioContract.Feed.CONTENT_URI.buildUpon()
-                        .appendPath(Long.toString(feedDTO.getId())).build();
-                if (match.getUpdatedAt() != null && !match.getUpdatedAt().equals(feedDTO.getUpdatedAt())
-                        || match.getLikes() != feedDTO.getLikes())
+                        .appendPath(Long.toString(feed.getId())).build();
+                if (match.getUpdatedAt() != null && !match.getUpdatedAt().equals(feed.getUpdatedAt())
+                        || match.getLikes() != feed.getLikes())
                 {
                     Log.d(TAG, "Scheduling update: " + existingUri);
                     batch.add(ContentProviderOperation.newUpdate(existingUri)
-                            .withValues(feedDTO.getContentValues()).build());
+                            .withValues(feed.getContentValues()).build());
                     syncResult.stats.numUpdates++;
                 }
                 else
@@ -186,7 +186,7 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter
             {
                 // feed doesn't exist. Remove it from the database
                 Uri deleteUri = OnlineDioContract.Feed.CONTENT_URI.buildUpon()
-                        .appendPath(Long.toString(feedDTO.getId())).build();
+                        .appendPath(Long.toString(feed.getId())).build();
                 Log.i(TAG, "scheduling delete: " + deleteUri);
                 batch.add(ContentProviderOperation.newDelete(deleteUri).build());
                 syncResult.stats.numDeletes++;
@@ -196,12 +196,13 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter
         // add new items
         for (FeedDTO feedDTO : feedMap.values())
         {
-            Log.i(TAG,"scheduling insert: entry_id=" + feedDTO.getId());
+            Log.i(TAG, "scheduling insert: entry_id=" + feedDTO.getFeedId());
             batch.add(ContentProviderOperation.newInsert(OnlineDioContract.Feed.CONTENT_URI)
-                .withValues(feedDTO.getContentValues()).build());
+                    .withValues(feedDTO.getContentValues()).build());
+            syncResult.stats.numInserts++;
         }
-        Log.i(TAG,"Merge solution ready. Applying batch update");
-        contentResolver.applyBatch(OnlineDioContract.CONTENT_AUTHORITY,batch);
+        Log.i(TAG, "Merge solution ready. Applying batch update");
+        contentResolver.applyBatch(OnlineDioContract.CONTENT_AUTHORITY, batch);
         contentResolver.notifyChange(OnlineDioContract.Feed.CONTENT_URI, null, false);
 
 

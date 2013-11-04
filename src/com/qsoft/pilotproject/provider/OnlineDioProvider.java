@@ -57,10 +57,10 @@ public class OnlineDioProvider extends ContentProvider
             case FEEDS_ID:
                 String id = uri.getLastPathSegment();
                 builder.table(OnlineDioContract.Feed.TABLE_NAME).where(OnlineDioContract.Feed._ID + "=?" + id);
-                Cursor cursor = builder.query(db,projection,sortOrder);
+                Cursor cursor = builder.query(db, projection, sortOrder);
                 Context context1 = getContext();
                 assert context1 != null;
-                cursor.setNotificationUri(context1.getContentResolver(),uri);
+                cursor.setNotificationUri(context1.getContentResolver(), uri);
                 return cursor;
             case FEEDS:
                 builder.table(OnlineDioContract.Feed.TABLE_NAME).where(selection, selectionArgs);
@@ -97,7 +97,26 @@ public class OnlineDioProvider extends ContentProvider
     @Override
     public Uri insert(Uri uri, ContentValues contentValues)
     {
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
+        final SQLiteDatabase db = onlineDioHelper.getWritableDatabase();
+        assert db != null;
+        final int match = uriMatcher.match(uri);
+        Uri result;
+        switch (match)
+        {
+            case FEEDS:
+                long id = db.insertOrThrow(OnlineDioContract.Feed.TABLE_NAME, null, contentValues);
+                result = Uri.parse(OnlineDioContract.Feed.CONTENT_URI + "/" + id);
+                break;
+            case FEEDS_ID:
+                throw new UnsupportedOperationException("Insert not support: " + uri);
+            default:
+                throw new UnsupportedOperationException("Unknown uri: " + uri);
+        }
+
+        Context context = getContext();
+        assert context != null;
+        context.getContentResolver().notifyChange(uri, null, false);
+        return result;
     }
 
     @Override
