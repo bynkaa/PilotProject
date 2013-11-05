@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.ListView;
 import android.widget.TextView;
 import com.example.PilotProject.R;
+import com.googlecode.androidannotations.annotations.EFragment;
 import com.qsoft.pilotproject.adapter.CommentAdapter;
 import com.qsoft.pilotproject.model.Comment;
 import com.qsoft.pilotproject.provider.CommentDataSource;
@@ -23,6 +24,7 @@ import java.util.List;
  * Date: 10/17/13
  * Time: 2:20 PM
  */
+@EFragment(R.layout.program_comment)
 public class CommentFragment extends Fragment
 {
     public static final int REQUEST_CODE = 1;

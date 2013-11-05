@@ -17,6 +17,9 @@ import android.widget.ImageButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 import com.example.PilotProject.R;
+import com.googlecode.androidannotations.annotations.Click;
+import com.googlecode.androidannotations.annotations.EFragment;
+import com.googlecode.androidannotations.annotations.ViewById;
 import com.qsoft.pilotproject.model.Feed;
 import com.qsoft.pilotproject.model.ProgramTab;
 import com.qsoft.pilotproject.provider.OnlineDioContract;
@@ -28,20 +31,29 @@ import com.qsoft.pilotproject.utils.Utilities;
  * Date: 10/17/13
  * Time: 8:59 AM
  */
+@EFragment(R.layout.program)
 public class ProgramFragment extends Fragment
 {
 
     private static final String TAG = "ProgramFragment";
     FragmentManager manager = getFragmentManager();
+    @ViewById(R.id.ibProgramBack)
     private ImageButton ibProgramBack;
 
     ProgramTab currentTab = ProgramTab.THUMB_NAIL;
+    @ViewById(R.id.rgProgramTab)
     private RadioGroup rgProgramTab;
+    @ViewById(R.id.tvProgramTitle)
     private TextView tvTitle;
+    @ViewById(R.id.tvProgramDisplayNameFeed)
     private TextView tvDisplayName;
+    @ViewById(R.id.tvContentLike)
     private TextView tvLikes;
+    @ViewById(R.id.tvContentPlay)
     private TextView tvPlayed;
+    @ViewById(R.id.tvContentLook)
     private TextView tvLooks;
+    @ViewById(R.id.tvLastUpdate)
     private TextView tvUpdated;
     Feed feed = null;
 
@@ -50,19 +62,8 @@ public class ProgramFragment extends Fragment
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
         View view = inflater.inflate(R.layout.program, container, false);
-
-        rgProgramTab = (RadioGroup) view.findViewById(R.id.rgProgramTab);
         rgProgramTab.setOnCheckedChangeListener(programTabOnCheckChangeListener);
         rgProgramTab.check(R.id.rbThumbnail);
-        ibProgramBack = (ImageButton) view.findViewById(R.id.ibProgramBack);
-
-        ibProgramBack.setOnClickListener(ibProgramBackOnClickListener);
-        tvTitle = (TextView) view.findViewById(R.id.tvProgramTitle);
-        tvDisplayName = (TextView) view.findViewById(R.id.tvProgramDisplayNameFeed);
-        tvLikes = (TextView) view.findViewById(R.id.tvContentLike);
-        tvPlayed = (TextView) view.findViewById(R.id.tvContentPlay);
-        tvLooks = (TextView) view.findViewById(R.id.tvContentLook);
-        tvUpdated = (TextView) view.findViewById(R.id.tvLastUpdate);
         startContentPlayerFragment();
         final ContentResolver contentResolver = getActivity().getContentResolver();
         Bundle bundle = getArguments();
@@ -96,25 +97,12 @@ public class ProgramFragment extends Fragment
     }
 
 
-    View.OnClickListener ibProgramBackOnClickListener = new View.OnClickListener()
+    @Click(R.id.ibProgramBack)
+            void doClickBack()
     {
-        @Override
-        public void onClick(View view)
-        {
-            Intent intent = new Intent(getActivity(), SlideBarActivity.class);
-            startActivity(intent);
-        }
-    };
-    AdapterView.OnItemClickListener itemSideBarClickListner = new AdapterView.OnItemClickListener()
-    {
-
-        @Override
-        public void onItemClick(AdapterView<?> adapterView, View view, int i, long l)
-        {
-            // on item click
-        }
-    };
-
+        Intent intent = new Intent(getActivity(), SlideBarActivity.class);
+        startActivity(intent);
+    }
 
     RadioGroup.OnCheckedChangeListener programTabOnCheckChangeListener = new RadioGroup.OnCheckedChangeListener()
     {
