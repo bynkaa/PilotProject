@@ -45,9 +45,10 @@ import java.io.IOException;
 @EActivity(R.layout.activity_login)
 public class LoginActivity extends AccountAuthenticatorActivity
 {
-    private static final String TAG = "LoginActivity";
+    @Bean
+    public AuthenticatorHandler onLineDioService;
 
-    public static final AuthenticatorHandler onLineDioService = new AuthenticatorHandlerImpl();
+    private static final String TAG = "LoginActivity";
     private static final String ERROR_MESSAGE = "Error_Message";
     private static final String ACCESS_TOKEN = "ACCESS_TOKEN";
     private static final String AUTHTOKEN_TYPE_FULL_ACCESS = "token_type";

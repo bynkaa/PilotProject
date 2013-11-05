@@ -15,6 +15,7 @@ import android.widget.AdapterView;
 import android.widget.ImageButton;
 import android.widget.ListView;
 import com.example.PilotProject.R;
+import com.googlecode.androidannotations.annotations.*;
 import com.qsoft.pilotproject.adapter.SideBarItemAdapter;
 import com.qsoft.pilotproject.model.Comment;
 import com.qsoft.pilotproject.provider.CommentDataSource;
@@ -27,11 +28,15 @@ import com.qsoft.pilotproject.ui.fragment.Home;
  * Date: 10/14/13
  * Time: 10:47 AM
  */
-public class SlideBarActivity extends FragmentActivity
+@EFragment(R.layout.slidebar)
+public class SlideBarActivity extends Fragment
 {
     private Account account;
     private String authToken;
+
+    @SystemService
     private AccountManager accountManager;
+
     private CommentDataSource commentDataSource;
     private static final String TAG = "SlideBarActivity";
     public static final int REQUEST_CODE = 0;
@@ -48,46 +53,39 @@ public class SlideBarActivity extends FragmentActivity
             R.drawable.sidebar_image_icon_logout
     };
 
-
+    @ViewById(R.id.lvSlideBar)
     private ListView lvSlideBar;
+
+    @ViewById(R.id.left_drawer_home)
     private View leftDrawerView;
+
+    @ViewById(R.id.drawer_layout)
     private DrawerLayout dlSlideBar;
+
+    @ViewById(R.id.ibMyStation)
     private ImageButton ibMyStation;
 
     public void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.slidebar);
-        accountManager = AccountManager.get(getApplicationContext());
-        account = getIntent().getParcelableExtra(StartActivity.ACCOUNT_KEY);
-        commentDataSource = new CommentDataSource(this);
+        account = getActivity().getIntent().getParcelableExtra(StartActivity.ACCOUNT_KEY);
+        commentDataSource = new CommentDataSource(this.getActivity());
         commentDataSource.open();
-        dlSlideBar = (DrawerLayout) findViewById(R.id.drawer_layout);
-        lvSlideBar = (ListView) findViewById(R.id.lvSlideBar);
-        leftDrawerView = findViewById(R.id.left_drawer_home);
         setListViewSlideBar();
-        lvSlideBar.setOnItemClickListener(itemSideBarClickListner);
         Fragment homeFragment = new Home();
-        getSupportFragmentManager().beginTransaction().replace(R.id.content_fragment, homeFragment).commit();
-        ibMyStation = (ImageButton) findViewById(R.id.ibMyStation);
-        ibMyStation.setOnClickListener(ibMyStationOnClickListener);
+        getFragmentManager().beginTransaction().replace(R.id.content_fragment, homeFragment).commit();
     }
 
-    View.OnClickListener ibMyStationOnClickListener = new View.OnClickListener()
-    {
-
-
-        @Override
-        public void onClick(View view)
+    @Click(R.id.ibMyStation)
+    void onClickMyStation(View view)
         {
             Log.d(TAG, "profile setup");
-            Intent intent = new Intent(SlideBarActivity.this, ProfileSetupActivity.class);
+            Intent intent = new Intent(SlideBarActivity.this.getActivity(), ProfileSetupActivity.class);
             startActivityForResult(intent, REQUEST_CODE);
         }
-    };
 
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data)
+    public void onActivityResult(int requestCode, int resultCode, Intent data)
     {
         if (requestCode == REQUEST_CODE)
         {
@@ -108,19 +106,14 @@ public class SlideBarActivity extends FragmentActivity
         }
     }
 
-    AdapterView.OnItemClickListener itemSideBarClickListner = new AdapterView.OnItemClickListener()
-    {
-
-        @Override
-        public void onItemClick(AdapterView<?> adapterView, View view, int i, long l)
-        {
-            // on item click
-        }
-    };
+    @ItemClick(R.id.lvSlideBar)
+    void doItemClick() {
+        // on item click
+    }
 
     public void setListViewSlideBar()
     {
-        SideBarItemAdapter sideBarItemAdapter = new SideBarItemAdapter(this, R.layout.menu, SIDE_BAR_ITEMS);
+        SideBarItemAdapter sideBarItemAdapter = new SideBarItemAdapter(this.getActivity(), R.layout.menu, SIDE_BAR_ITEMS);
         lvSlideBar.setAdapter(sideBarItemAdapter);
     }
 

@@ -2,6 +2,8 @@ package com.qsoft.pilotproject.handler.impl;
 
 import android.util.Log;
 import com.google.gson.Gson;
+import com.googlecode.androidannotations.annotations.EBean;
+import com.googlecode.androidannotations.api.Scope;
 import com.qsoft.pilotproject.handler.AuthenticatorHandler;
 import com.qsoft.pilotproject.model.dto.SignInDTO;
 import org.apache.http.HttpResponse;
@@ -22,6 +24,7 @@ import java.util.List;
  * Date: 10/28/13
  * Time: 11:32 AM
  */
+@EBean(scope = Scope.Singleton)
 public class AuthenticatorHandlerImpl implements AuthenticatorHandler
 {
     private static final String TAG = "AuthenticatorHandlerImpl";
