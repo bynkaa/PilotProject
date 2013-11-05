@@ -1,12 +1,8 @@
 package com.qsoft.pilotproject.ui.fragment;
 
-import android.content.Intent;
-import android.os.Bundle;
 import android.app.Fragment;
+import android.content.Intent;
 import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
 import android.widget.ListView;
 import android.widget.TextView;
 import com.example.PilotProject.R;
@@ -34,9 +30,10 @@ public class CommentFragment extends Fragment
 
 
     @ViewById(R.id.tvNewComment)
-    private TextView tvAddNewComment;
+    TextView tvAddNewComment;
     @ViewById(R.id.lvComment)
-    private ListView lvComment;
+    ListView lvComment;
+
     private List<Comment> commentList;
     private CommentDataSource commentDataSource;
 

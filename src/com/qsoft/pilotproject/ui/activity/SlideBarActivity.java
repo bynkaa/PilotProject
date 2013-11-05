@@ -3,14 +3,13 @@ package com.qsoft.pilotproject.ui.activity;
 import android.accounts.Account;
 import android.accounts.AccountManager;
 import android.app.Activity;
+import android.app.Fragment;
 import android.content.ContentResolver;
 import android.content.Intent;
 import android.os.Bundle;
-import android.app.Fragment;
 import android.support.v4.widget.DrawerLayout;
 import android.util.Log;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.ImageButton;
 import android.widget.ListView;
 import com.example.PilotProject.R;
@@ -65,24 +64,25 @@ public class SlideBarActivity extends SuperAnnotationActivity
     @ViewById(R.id.ibMyStation)
     ImageButton ibMyStation;
 
-    public void onCreate(Bundle savedInstanceState)
+    @FragmentById(R.id.content_fragment)
+    Home homeFragment;
+
+    @AfterViews
+    void afterViews()
     {
-        super.onCreate(savedInstanceState);
         account = getIntent().getParcelableExtra(StartActivity.ACCOUNT_KEY);
         commentDataSource = new CommentDataSource(this);
         commentDataSource.open();
         setListViewSlideBar();
-        Fragment homeFragment = new Home();
-        getFragmentManager().beginTransaction().replace(R.id.content_fragment, homeFragment).commit();
     }
 
     @Click(R.id.ibMyStation)
     void onClickMyStation(View view)
-        {
-            Log.d(TAG, "profile setup");
-            Intent intent = new Intent(SlideBarActivity.this, ProfileSetupActivity.class);
-            startActivityForResult(intent, REQUEST_CODE);
-        }
+    {
+        Log.d(TAG, "profile setup");
+        Intent intent = new Intent(SlideBarActivity.this, ProfileSetupActivity.class);
+        startActivityForResult(intent, REQUEST_CODE);
+    }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data)
@@ -107,7 +107,8 @@ public class SlideBarActivity extends SuperAnnotationActivity
     }
 
     @ItemClick(R.id.lvSlideBar)
-    void doItemClick() {
+    void doItemClick()
+    {
         // on item click
     }
 

@@ -18,10 +18,7 @@ import android.provider.MediaStore;
 import android.util.Log;
 import android.widget.*;
 import com.example.PilotProject.R;
-import com.googlecode.androidannotations.annotations.AfterViews;
-import com.googlecode.androidannotations.annotations.Click;
-import com.googlecode.androidannotations.annotations.SystemService;
-import com.googlecode.androidannotations.annotations.ViewById;
+import com.googlecode.androidannotations.annotations.*;
 import com.qsoft.eip.common.SuperAnnotationActivity;
 import com.qsoft.pilotproject.adapter.CropOption;
 import com.qsoft.pilotproject.adapter.CropOptionAdapter;
@@ -41,6 +38,7 @@ import java.util.List;
  * Date: 10/14/13
  * Time: 3:48 PM
  */
+@EActivity(R.layout.profile_setup)
 public class ProfileSetupActivity extends SuperAnnotationActivity
 {
     final Context context = this;

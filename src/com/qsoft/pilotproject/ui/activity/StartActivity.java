@@ -3,7 +3,6 @@ package com.qsoft.pilotproject.ui.activity;
 import android.accounts.Account;
 import android.accounts.AccountManager;
 import android.content.Intent;
-import android.os.Bundle;
 import android.util.Log;
 import com.example.PilotProject.R;
 import com.googlecode.androidannotations.annotations.AfterViews;
@@ -33,7 +32,7 @@ public class StartActivity extends SuperAnnotationActivity
         if (accounts.length == 1)
         {
             Account account = accounts[0];
-            Intent intent = new Intent(this, SlideBarActivity.class);
+            Intent intent = new Intent(this, SlideBarActivity_.class);
             intent.putExtra(ACCOUNT_KEY, account);
             startActivity(intent);
             finish();
