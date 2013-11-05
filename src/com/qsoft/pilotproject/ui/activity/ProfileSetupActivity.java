@@ -20,6 +20,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.*;
 import com.example.PilotProject.R;
+import com.googlecode.androidannotations.annotations.*;
 import com.qsoft.pilotproject.adapter.CropOption;
 import com.qsoft.pilotproject.adapter.CropOptionAdapter;
 import com.qsoft.pilotproject.authenticator.AccountGeneral;
@@ -38,78 +39,68 @@ import java.util.List;
  * Date: 10/14/13
  * Time: 3:48 PM
  */
+@EActivity(R.layout.profile_setup)
 public class ProfileSetupActivity extends FragmentActivity
 {
-    private static final String TAG = "ProfileSetupActivity";
+    static final String TAG = "ProfileSetupActivity";
     final Context context = this;
     static final int DATE_DIALOG_ID = 999;
-    private static int RESULT_LOAD_IMAGE = 1;
-    private int year;
-    private int month;
-    private int day;
-    private DatePicker dpResult;
-    private RelativeLayout rlCover;
-    private ImageView ivProfile;
-    private EditText tvBirthday;
-    private EditText tvCountry;
-    private TextView tvProfileName;
-    private ImageButton ibLeft;
-    private ImageButton ibRight;
-    private Boolean flag = null;
-    private ScrollView svDescription;
-    private EditText etDescription;
-    private ImageView ibProfileCancel;
-    private ImageView ibProfileSave;
-    private EditText etDisplayName;
-    private EditText etFullName;
-    private EditText etPhone;
-    private TextView tvGender;
-    private ImageButton imFemale;
-    private ImageButton imMale;
-    private Uri mImageCaptureUri;
-    private static final int PICK_FROM_CAMERA = 1;
-    private static final int CROP_FROM_CAMERA = 2;
-    private static final int PICK_FROM_FILE = 3;
+    static int RESULT_LOAD_IMAGE = 1;
+    int year;
+    int month;
+    int day;
+
+    @ViewById(R.id.dpResult)
+    DatePicker dpResult;
+    @ViewById(R.id.profile_relativeLayout)
+    RelativeLayout rlCover;
+    @ViewById(R.id.profile_iv_icon)
+    ImageView ivProfile;
+    @ViewById(R.id.profile_et_birthday)
+    EditText tvBirthday;
+    @ViewById(R.id.profile_et_country)
+    EditText tvCountry;
+    @ViewById(R.id.tv_profile_name)
+    TextView tvProfileName;
+    Boolean flag = null;
+    ScrollView svDescription;
+    @ViewById(R.id.profile_et_desciption)
+    EditText etDescription;
+    @ViewById(R.id.ibProfileCancel)
+    ImageView ibProfileCancel;
+    @ViewById(R.id.ibProfileSave)
+    ImageView ibProfileSave;
+    @ViewById(R.id.profile_et_displayname)
+    EditText etDisplayName;
+    @ViewById(R.id.profile_et_name)
+    EditText etFullName;
+    @ViewById(R.id.et_profile_phone)
+    EditText etPhone;
+    @ViewById(R.id.tv_profile_gender)
+    TextView tvGender;
+    @ViewById(R.id.profile_ibleft)
+    ImageButton imFemale;
+    @ViewById(R.id.profile_ibright)
+    ImageButton imMale;
+    Uri mImageCaptureUri;
+    static final int PICK_FROM_CAMERA = 1;
+    static final int CROP_FROM_CAMERA = 2;
+    static final int PICK_FROM_FILE = 3;
+
+    @SystemService
     AccountManager accountManager;
+
     Account account;
 
     public void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.profile_setup);
-        accountManager = AccountManager.get(this);
         account = accountManager.getAccountsByType(AccountGeneral.ACCOUNT_TYPE)[0];
-        tvBirthday = (EditText) findViewById(R.id.profile_et_birthday);
-        dpResult = (DatePicker) findViewById(R.id.dpResult);
-        rlCover = (RelativeLayout) findViewById(R.id.profile_relativeLayout);
-        rlCover.setOnClickListener(ivCoverListener);
-        ivProfile = (ImageView) findViewById(R.id.profile_iv_icon);
-        ivProfile.setOnClickListener(ivProfileListener);
-        tvBirthday.setOnClickListener(tvBirthdayListener);
-        ibLeft = (ImageButton) findViewById(R.id.profile_ibleft);
-        ibLeft.setSelected(true);
-        ibRight = (ImageButton) findViewById(R.id.profile_ibright);
-        ibRight.setSelected(false);
-        ibLeft.setOnClickListener(ibLeftListener);
-        ibRight.setOnClickListener(ibRightListener);
-        tvCountry = (EditText) findViewById(R.id.profile_et_country);
-        tvCountry.setOnClickListener(btArrowCountryListener);
-        etDescription = (EditText) findViewById(R.id.profile_et_desciption);
-        ibProfileCancel = (ImageView) findViewById(R.id.ibProfileCancel);
-        ibProfileCancel.setOnClickListener(ibProfileCancelOnClickListener);
-        ibProfileSave = (ImageView) findViewById(R.id.ibProfileSave);
-        ibProfileSave.setOnClickListener(ibProfileSaveOnClickListener);
-        tvProfileName = (TextView) findViewById(R.id.tv_profile_name);
-        etDisplayName = (EditText) findViewById(R.id.profile_et_displayname);
-        etFullName = (EditText) findViewById(R.id.profile_et_name);
-        etPhone = (EditText) findViewById(R.id.et_profile_phone);
-        tvGender = (TextView) findViewById(R.id.tv_profile_gender);
-        imFemale = (ImageButton) findViewById(R.id.profile_ibleft);
-        imMale = (ImageButton) findViewById(R.id.profile_ibright);
-        setupData();
     }
 
-    private void setupData()
+    @AfterViews
+    void setupData()
     {
         final ContentResolver contentResolver = getContentResolver();
         Cursor cursor = contentResolver.query(OnlineDioContract.Profile.CONTENT_URI, null, null, null, null);
@@ -151,7 +142,7 @@ public class ProfileSetupActivity extends FragmentActivity
 
     }
 
-    private void setToView(ProfileDTO profileDTO)
+    void setToView(ProfileDTO profileDTO)
     {
         tvBirthday.setText(profileDTO.getBirthday());
         etDisplayName.setText(profileDTO.getDisplayName());
@@ -168,88 +159,73 @@ public class ProfileSetupActivity extends FragmentActivity
         }
     }
 
-    View.OnClickListener ibProfileSaveOnClickListener = new View.OnClickListener()
+    @Click(R.id.ibProfileSave)
+            void doClickProfileSaveButton()
     {
-        @Override
-        public void onClick(View view)
-        {
-            Log.d(TAG, "save ok");
-            Intent intent = getIntent();
-            setResult(RESULT_OK, intent);
-            finish();
-        }
-    };
-    View.OnClickListener ibProfileCancelOnClickListener = new View.OnClickListener()
+        Log.d(TAG, "save ok");
+        Intent intent = getIntent();
+        setResult(RESULT_OK, intent);
+        finish();
+    }
+
+    @Click(R.id.ibProfileCancel)
+            void doClickProfileCancel()
     {
-        @Override
-        public void onClick(View view)
-        {
-            Log.d(TAG, "cancel ok");
-            Intent intent = getIntent();
-            setResult(RESULT_CANCELED, intent);
-            finish();
-        }
-    };
+        Log.d(TAG, "cancel ok");
+        Intent intent = getIntent();
+        setResult(RESULT_CANCELED, intent);
+        finish();
+    }
 
-    View.OnClickListener ibLeftListener = new View.OnClickListener()
+    @Click(R.id.profile_ibleft)
+            void doClickProfileFemale()
     {
-        @Override
-        public void onClick(View view)
+        if (imFemale.isSelected())
         {
-            if (ibLeft.isSelected())
-            {
 
-            }
-            else
-            {
-                ibLeft.setSelected(true);
-                ibLeft.setImageDrawable(getApplicationContext().getResources().getDrawable(R.drawable.profile_btn_select_left));
-                ibRight.setImageDrawable(getApplicationContext().getResources().getDrawable(R.drawable.profile_btn_unselect_right));
-                ibRight.setSelected(false);
-            }
         }
-    };
+        else
+        {
+            imFemale.setSelected(true);
+            imFemale.setImageDrawable(getApplicationContext().getResources().getDrawable(R.drawable.profile_btn_select_left));
+            imMale.setImageDrawable(getApplicationContext().getResources().getDrawable(R.drawable.profile_btn_unselect_right));
+            imMale.setSelected(false);
+        }
+    }
 
-    View.OnClickListener ibRightListener = new View.OnClickListener()
+    @Click(R.id.profile_ibright)
+            void doClickProfileMale()
     {
-        @Override
-        public void onClick(View view)
+        if (imMale.isSelected())
         {
-            if (ibRight.isSelected())
-            {
 
-            }
-            else
-            {
-                ibRight.setSelected(true);
-                ibRight.setImageDrawable(getApplicationContext().getResources().getDrawable(R.drawable.profile_btn_select_right));
-                ibLeft.setImageDrawable(getApplicationContext().getResources().getDrawable(R.drawable.profile_btn_unselect_left));
-                ibLeft.setSelected(false);
-            }
         }
-    };
+        else
+        {
+            imMale.setSelected(true);
+            imMale.setImageDrawable(getApplicationContext().getResources().getDrawable(R.drawable.profile_btn_select_right));
+            imFemale.setImageDrawable(getApplicationContext().getResources().getDrawable(R.drawable.profile_btn_unselect_left));
+            imFemale.setSelected(false);
+        }
 
-    View.OnClickListener ivCoverListener = new View.OnClickListener()
+    }
+
+
+    @Click(R.id.profile_relativeLayout)
+            void doClickCover() {
+        flag = true;
+        uploadImage();
+    }
+
+    @Click(R.id.profile_iv_icon)
+            void doClickProfileIcon()
     {
-        @Override
-        public void onClick(View view)
-        {
-            flag = true;
-            uploadImage();
-        }
-    };
+        flag = false;
+        uploadImage();
 
-    View.OnClickListener ivProfileListener = new View.OnClickListener()
-    {
-        @Override
-        public void onClick(View v)
-        {
-            flag = false;
-            uploadImage();
-        }
-    };
+    }
 
-    private void uploadImage()
+    void uploadImage()
     {
         Intent i = new Intent(
                 Intent.ACTION_PICK,
@@ -278,7 +254,7 @@ public class ProfileSetupActivity extends FragmentActivity
         }
     }
 
-    private void setImageProfile(Bitmap bmImg)
+    void setImageProfile(Bitmap bmImg)
     {
         Bitmap mask = BitmapFactory.decodeResource(getResources(), R.drawable.profile_mask);
 
@@ -297,7 +273,7 @@ public class ProfileSetupActivity extends FragmentActivity
         ivProfile.setBackgroundResource(R.drawable.profile_frame);
     }
 
-    private Bitmap getBitmap(Intent data)
+    Bitmap getBitmap(Intent data)
     {
         Uri selectedImage = data.getData();
         String[] filePathColumn = {MediaStore.Images.Media.DATA};
@@ -395,23 +371,17 @@ public class ProfileSetupActivity extends FragmentActivity
         }
     }
 
-    View.OnClickListener tvBirthdayListener = new View.OnClickListener()
+    @Click(R.id.profile_tv_birthday)
+            void doClickBirthday()
     {
-        @Override
-        public void onClick(View view)
-        {
-            showDialog(DATE_DIALOG_ID);
-        }
-    };
+        showDialog(DATE_DIALOG_ID);
+    }
 
-    View.OnClickListener btArrowCountryListener = new View.OnClickListener()
+    @Click(R.id.profile_et_country)
+            void doClickCountry()
     {
-        @Override
-        public void onClick(View view)
-        {
-            viewListCountry();
-        }
-    };
+        viewListCountry();
+    }
 
     @Override
     protected Dialog onCreateDialog(int id)
@@ -426,7 +396,7 @@ public class ProfileSetupActivity extends FragmentActivity
         return null;
     }
 
-    private DatePickerDialog.OnDateSetListener datePickerListener = new DatePickerDialog.OnDateSetListener()
+    DatePickerDialog.OnDateSetListener datePickerListener = new DatePickerDialog.OnDateSetListener()
     {
 
         public void onDateSet(DatePicker view, int selectedYear,
@@ -442,7 +412,7 @@ public class ProfileSetupActivity extends FragmentActivity
         }
     };
 
-    private void viewListCountry()
+    void viewListCountry()
     {
         final String[] countryList = getResources().getStringArray(R.array.country);
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
