@@ -173,7 +173,7 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter
                 {
                     Log.d(TAG, "Scheduling update: " + existingUri);
                     batch.add(ContentProviderOperation.newUpdate(existingUri)
-                            .withValues(feed.getContentValues()).build());
+                            .withValues(match.getContentValues()).build());
                     syncResult.stats.numUpdates++;
                 }
                 else
