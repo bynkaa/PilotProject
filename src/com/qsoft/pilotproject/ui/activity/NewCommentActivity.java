@@ -6,7 +6,9 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import com.example.PilotProject.R;
+import com.googlecode.androidannotations.annotations.Click;
 import com.googlecode.androidannotations.annotations.EActivity;
+import com.googlecode.androidannotations.annotations.ViewById;
 import com.qsoft.eip.common.SuperAnnotationActivity;
 import com.qsoft.pilotproject.model.Comment;
 
@@ -20,44 +22,33 @@ public class NewCommentActivity extends SuperAnnotationActivity
 {
     public static final String COMMENT_EXTRA = "comment";
 
+    @ViewById(R.id.ibNewCommentCancel)
     private ImageButton ibCancel;
+
+    @ViewById(R.id.ibNewCommentPost)
     private ImageButton ibPost;
+
+    @ViewById(R.id.etAddNewComment)
     private EditText etNewComment;
 
-    public void onCreate(Bundle savedInstanceState)
+    @Click(R.id.ibNewCommentCancel)
+    void doClickCancel()
     {
-        super.onCreate(savedInstanceState);
-        ibCancel = (ImageButton) findViewById(R.id.ibNewCommentCancel);
-        ibCancel.setOnClickListener(ibCancelOnClickListener);
-        ibPost = (ImageButton) findViewById(R.id.ibNewCommentPost);
-        ibPost.setOnClickListener(ibPostOnClickListener);
-        etNewComment = (EditText) findViewById(R.id.etAddNewComment);
+        Intent intent = getIntent();
+        setResult(RESULT_CANCELED, intent);
+        finish();
     }
 
-    View.OnClickListener ibCancelOnClickListener = new View.OnClickListener()
+    @Click(R.id.ibNewCommentPost)
+    void doClickPost()
     {
-        @Override
-        public void onClick(View view)
-        {
-            Intent intent = getIntent();
-            setResult(RESULT_CANCELED, intent);
-            finish();
-        }
-    };
-
-    View.OnClickListener ibPostOnClickListener = new View.OnClickListener()
-    {
-        @Override
-        public void onClick(View view)
-        {
-            Intent intent = getIntent();
-            Comment newComment = new Comment();
-            newComment.setTitle("User");
-            newComment.setContent(etNewComment.getText().toString());
-            newComment.setTimeCreated("1 month ago");
-            intent.putExtra(COMMENT_EXTRA, newComment);
-            setResult(RESULT_OK, intent);
-            finish();
-        }
-    };
+        Intent intent = getIntent();
+        Comment newComment = new Comment();
+        newComment.setTitle("User");
+        newComment.setContent(etNewComment.getText().toString());
+        newComment.setTimeCreated("1 month ago");
+        intent.putExtra(COMMENT_EXTRA, newComment);
+        setResult(RESULT_OK, intent);
+        finish();
+    }
 }
