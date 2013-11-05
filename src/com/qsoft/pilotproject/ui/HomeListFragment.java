@@ -13,6 +13,7 @@ import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
 import android.support.v4.widget.SimpleCursorAdapter;
 import android.view.View;
+import android.widget.AbsListView;
 import android.widget.ListView;
 import com.example.PilotProject.R;
 import com.qsoft.pilotproject.adapter.ArrayFeedAdapter;
@@ -24,7 +25,7 @@ import com.qsoft.pilotproject.provider.OnlineDioContract;
  * Date: 11/1/13
  * Time: 10:17 AM
  */
-public class HomeListFragment extends ListFragment implements LoaderManager.LoaderCallbacks<Cursor>
+public class HomeListFragment extends ListFragment implements LoaderManager.LoaderCallbacks<Cursor>, AbsListView.OnScrollListener
 {
     private static final String TAG = "HomeListFragment";
     private static final String[] PROJECTION = new String[]
@@ -59,6 +60,7 @@ public class HomeListFragment extends ListFragment implements LoaderManager.Load
     public static final String FEED_ID = "_ID";
     private SimpleCursorAdapter feedAdapter;
     private Object syncObserverHandler;
+    int loadMore = 0;
 
     private SyncStatusObserver syncStatusObserver = new SyncStatusObserver()
     {
@@ -161,4 +163,41 @@ public class HomeListFragment extends ListFragment implements LoaderManager.Load
     {
         feedAdapter.changeCursor(null);
     }
+
+    int currentFirstVisibleItem;
+    int currentVisibleItemCount;
+    int currentScrollState;
+
+    @Override
+    public void onScrollStateChanged(AbsListView absListView, int scrollState)
+    {
+        this.currentScrollState = scrollState;
+        isScrollCompleted();
+    }
+
+    @Override
+    public void onScroll(AbsListView absListView, int firstVisibleItem, int visibleItemCount, int totalItemCount)
+    {
+        this.currentFirstVisibleItem = firstVisibleItem;
+        this.currentVisibleItemCount = visibleItemCount;
+    }
+
+    public void isScrollCompleted()
+    {
+        if (currentVisibleItemCount > 0 && currentScrollState == SCROLL_STATE_IDLE)
+        {
+
+            loadMore++;
+            String limit = Integer.toString(loadMore * 10 + 10);
+            Bundle bundle = new Bundle();
+            bundle.putString("limit", limit);
+            getLoaderManager().restartLoader(0, bundle, this);
+            ((SlideBarActivity) getActivity()).triggerSync();
+
+
+        }
+    }
+
+
 }
+

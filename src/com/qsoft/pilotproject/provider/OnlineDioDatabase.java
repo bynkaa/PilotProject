@@ -90,8 +90,9 @@ public class OnlineDioDatabase extends SQLiteOpenHelper
                 + OnlineDioContract.Profile.COLUMN_FAVORITES + " INTEGER,"
                 + OnlineDioContract.Profile.COLUMN_LIKES + " INTEGER,"
                 + OnlineDioContract.Profile.COLUMN_FOLLOWING + " INTEGER,"
-                + OnlineDioContract.Profile.COLUMN_AUDIENCE + " TEXT,"
-                );
+                + OnlineDioContract.Profile.COLUMN_AUDIENCE + " TEXT"
+                + " );"
+        );
 
     }
 

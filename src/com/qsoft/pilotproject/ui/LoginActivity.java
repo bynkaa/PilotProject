@@ -193,7 +193,7 @@ public class LoginActivity extends AccountAuthenticatorActivity
             Log.d(TAG, "finishLogin > addAccountExplicitly");
             String authToken = intent.getStringExtra(AccountManager.KEY_AUTHTOKEN);
             Bundle bundle = new Bundle();
-            bundle.putLong(USER_ID_KEY, intent.getLongExtra(USER_ID_KEY,0));
+            bundle.putString(USER_ID_KEY, Long.toString(intent.getLongExtra(USER_ID_KEY, 0)));
             accountManager.addAccountExplicitly(account, accountPassword, bundle);
             accountManager.setAuthToken(account, authTokenType, authToken);
         }

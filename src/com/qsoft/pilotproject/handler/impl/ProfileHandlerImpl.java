@@ -4,10 +4,8 @@ import android.accounts.Account;
 import android.accounts.AccountManager;
 import android.util.Log;
 import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 import com.qsoft.pilotproject.authenticator.AccountGeneral;
 import com.qsoft.pilotproject.handler.ProfileHandler;
-import com.qsoft.pilotproject.model.dto.FeedDTO;
 import com.qsoft.pilotproject.model.dto.ProfileDTO;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.methods.HttpGet;
@@ -17,9 +15,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
-import java.lang.reflect.Type;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * User: BinkaA
@@ -41,10 +36,10 @@ public class ProfileHandlerImpl implements ProfileHandler
     @Override
     public ProfileDTO getProfile(long userId)
     {
-        Log.d(TAG,"get profile:" + userId);
+        Log.d(TAG, "get profile:" + userId);
         DefaultHttpClient httpClient = new DefaultHttpClient();
         String url = "http://113.160.50.84:1009/testing/ica467/trunk/public/user-rest/";
-        url += url + userId;
+        url = url + userId;
         HttpGet httpGet = new HttpGet(url);
         String authToken = accountManager.peekAuthToken(account, AccountGeneral.AUTHTOKEN_TYPE_FULL_ACCESS);
         httpGet.addHeader("Authorization", "Bearer " + authToken);
@@ -55,7 +50,7 @@ public class ProfileHandlerImpl implements ProfileHandler
             JSONObject jsonObject = new JSONObject(responseString);
             if (jsonObject.has("code") && (Integer) jsonObject.get("code") == 200)
             {
-                ProfileDTO profileDTO = new Gson().fromJson(jsonObject.get("data").toString(),ProfileDTO.class);
+                ProfileDTO profileDTO = new Gson().fromJson(jsonObject.get("data").toString(), ProfileDTO.class);
                 return profileDTO;
             }
             Log.d(TAG, responseString);

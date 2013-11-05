@@ -5,14 +5,12 @@ import android.content.ContentResolver;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.Button;
 import com.example.PilotProject.R;
-import com.qsoft.pilotproject.authenticator.AccountGeneral;
 import com.qsoft.pilotproject.provider.OnlineDioContract;
 
 /**
@@ -25,19 +23,30 @@ public class Home extends Fragment
     private static final String TAG = "Home";
     Button btMenu;
     Button btNotification;
-    String accountName;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
         View view = inflater.inflate(R.layout.home, container, false);
         Account account = ((SlideBarActivity) getActivity()).getAccount();
-        accountName = account.name;
+        ContentResolver.setIsSyncable(account, OnlineDioContract.CONTENT_AUTHORITY, 1);
+        ContentResolver.setSyncAutomatically(account, OnlineDioContract.CONTENT_AUTHORITY, true);
         btMenu = (Button) view.findViewById(R.id.btMenu);
         btMenu.setOnClickListener(btMenuClickListener);
         btNotification = (Button) view.findViewById(R.id.btNotification);
         btNotification.setOnClickListener(btNotificationClickListener);
+        ((SlideBarActivity) getActivity()).triggerSync();
+        Fragment refreshFragment = new ProgressBarFragment();
         Fragment feedListFragment = new HomeListFragment();
+        getFragmentManager().beginTransaction().replace(R.id.fragmentListFeeds, feedListFragment).commit();
+        try
+        {
+            Thread.sleep(1000);
+        }
+        catch (InterruptedException e)
+        {
+            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+        }
         getFragmentManager().beginTransaction().replace(R.id.fragmentListFeeds, feedListFragment).commit();
         return view;
     }
@@ -47,7 +56,7 @@ public class Home extends Fragment
         @Override
         public void onClick(View view)
         {
-            triggerSync();
+//            ((SlideBarActivity)getActivity()).triggerSync();
         }
     };
 
@@ -91,14 +100,5 @@ public class Home extends Fragment
 //        return feed;
 //    }
 
-    public void triggerSync()
-    {
-        Account account = new Account(accountName, AccountGeneral.ACCOUNT_TYPE);
-        Log.d(TAG, "TriggerSync > account");
-        Bundle bundle = new Bundle();
-        bundle.putBoolean(ContentResolver.SYNC_EXTRAS_MANUAL, true);
-        bundle.putBoolean(ContentResolver.SYNC_EXTRAS_EXPEDITED, true);
-        ContentResolver.requestSync(account, OnlineDioContract.CONTENT_AUTHORITY, bundle);
 
-    }
 }

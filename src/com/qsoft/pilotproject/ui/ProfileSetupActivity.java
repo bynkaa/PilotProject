@@ -60,6 +60,12 @@ public class ProfileSetupActivity extends FragmentActivity
     private EditText etDescription;
     private ImageView ibProfileCancel;
     private ImageView ibProfileSave;
+    private EditText etDisplayName;
+    private EditText etFullName;
+    private EditText etPhone;
+    private TextView tvGender;
+    private ImageButton imFemale;
+    private ImageButton imMale;
     private Uri mImageCaptureUri;
     private static final int PICK_FROM_CAMERA = 1;
     private static final int CROP_FROM_CAMERA = 2;
@@ -72,7 +78,7 @@ public class ProfileSetupActivity extends FragmentActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.profile_setup);
         accountManager = AccountManager.get(this);
-        account =  accountManager.getAccountsByType(AccountGeneral.ACCOUNT_TYPE)[0];
+        account = accountManager.getAccountsByType(AccountGeneral.ACCOUNT_TYPE)[0];
         tvBirthday = (EditText) findViewById(R.id.profile_et_birthday);
         dpResult = (DatePicker) findViewById(R.id.dpResult);
         rlCover = (RelativeLayout) findViewById(R.id.profile_relativeLayout);
@@ -94,24 +100,32 @@ public class ProfileSetupActivity extends FragmentActivity
         ibProfileSave = (ImageView) findViewById(R.id.ibProfileSave);
         ibProfileSave.setOnClickListener(ibProfileSaveOnClickListener);
         tvProfileName = (TextView) findViewById(R.id.tv_profile_name);
-
+        etDisplayName = (EditText) findViewById(R.id.profile_et_displayname);
+        etFullName = (EditText) findViewById(R.id.profile_et_name);
+        etPhone = (EditText) findViewById(R.id.et_profile_phone);
+        tvGender = (TextView) findViewById(R.id.tv_profile_gender);
+        imFemale = (ImageButton) findViewById(R.id.profile_ibleft);
+        imMale = (ImageButton) findViewById(R.id.profile_ibright);
         setupData();
     }
 
     private void setupData()
     {
         final ContentResolver contentResolver = getContentResolver();
-        Cursor cursor = contentResolver.query(OnlineDioContract.Profile.CONTENT_URI,null,null,null,null);
+        Cursor cursor = contentResolver.query(OnlineDioContract.Profile.CONTENT_URI, null, null, null, null);
         if (cursor.getCount() == 0)
         {
+            Log.d(TAG, "get profile from server and push to local");
             new AsyncTask<Void, Void, ProfileDTO>()
             {
                 Long userId = 0l;
+
                 @Override
                 protected ProfileDTO doInBackground(Void... voids)
                 {
-                    String userIdStr = accountManager.getUserData(account,LoginActivity.USER_ID_KEY);
-                    ProfileHandler profileHandler = new ProfileHandlerImpl(accountManager,account);
+                    Log.d(TAG, "doInBackground: ");
+                    String userIdStr = accountManager.getUserData(account, LoginActivity.USER_ID_KEY);
+                    ProfileHandler profileHandler = new ProfileHandlerImpl(accountManager, account);
                     userId = Long.valueOf(userIdStr);
                     ProfileDTO profileDTO = profileHandler.getProfile(userId);
                     return profileDTO;
@@ -120,23 +134,38 @@ public class ProfileSetupActivity extends FragmentActivity
                 @Override
                 protected void onPostExecute(ProfileDTO profileDTO)
                 {
-                    Uri singleUri = ContentUris.withAppendedId(OnlineDioContract.Profile.CONTENT_URI, userId);
-                    contentResolver.insert(singleUri,profileDTO.getContentValues());
+//                    Uri singleUri = ContentUris.withAppendedId(OnlineDioContract.Profile.CONTENT_URI, userId);
+                    contentResolver.insert(OnlineDioContract.Profile.CONTENT_URI, profileDTO.getContentValues());
                     setToView(profileDTO);
                 }
-            };
+            }.execute();
         }
-        while (cursor.moveToNext()){
-            setToView(Profile.fromCursor(cursor));
+        else
+        {
+            while (cursor.moveToNext())
+            {
+                setToView(Profile.fromCursor(cursor));
+            }
         }
+
 
     }
 
     private void setToView(ProfileDTO profileDTO)
     {
         tvBirthday.setText(profileDTO.getBirthday());
-        tvCountry.setText(profileDTO.getCountryId());
-
+        etDisplayName.setText(profileDTO.getDisplayName());
+        etFullName.setText(profileDTO.getFullName());
+        etPhone.setText(profileDTO.getPhone());
+        etDescription.setText(profileDTO.getDescription());
+        if (profileDTO.getGender() == 0)
+        {
+            imFemale.performClick();
+        }
+        else
+        {
+            imMale.performClick();
+        }
     }
 
     View.OnClickListener ibProfileSaveOnClickListener = new View.OnClickListener()

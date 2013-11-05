@@ -3,6 +3,7 @@ package com.qsoft.pilotproject.ui;
 import android.accounts.Account;
 import android.accounts.AccountManager;
 import android.app.Activity;
+import android.content.ContentResolver;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -17,6 +18,7 @@ import com.example.PilotProject.R;
 import com.qsoft.pilotproject.adapter.SideBarItemAdapter;
 import com.qsoft.pilotproject.model.Comment;
 import com.qsoft.pilotproject.provider.CommentDataSource;
+import com.qsoft.pilotproject.provider.OnlineDioContract;
 
 /**
  * User: binhtv
@@ -136,5 +138,15 @@ public class SlideBarActivity extends FragmentActivity
         return account;
     }
 
+    public void triggerSync()
+    {
+        Log.d(TAG, "TriggerSync > account");
+        Bundle bundle = new Bundle();
+        bundle.putBoolean(ContentResolver.SYNC_EXTRAS_MANUAL, true);
+        bundle.putBoolean(ContentResolver.SYNC_EXTRAS_EXPEDITED, true);
+        bundle.putBoolean(ContentResolver.SYNC_EXTRAS_FORCE, true);
+        ContentResolver.requestSync(account, OnlineDioContract.CONTENT_AUTHORITY, bundle);
+        getContentResolver().notifyChange(OnlineDioContract.Feed.CONTENT_URI, null, false);
+    }
 
 }
