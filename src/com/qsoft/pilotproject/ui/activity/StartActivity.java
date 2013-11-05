@@ -5,6 +5,7 @@ import android.accounts.AccountManager;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import com.example.PilotProject.R;
 import com.googlecode.androidannotations.annotations.AfterViews;
 import com.googlecode.androidannotations.annotations.EActivity;
 import com.googlecode.androidannotations.annotations.SystemService;
@@ -16,7 +17,7 @@ import com.qsoft.pilotproject.authenticator.AccountGeneral;
  * Date: 10/30/13
  * Time: 5:32 PM
  */
-@EActivity
+@EActivity(R.layout.main)
 public class StartActivity extends SuperAnnotationActivity
 {
     public static final String ACCOUNT_KEY = "account";
