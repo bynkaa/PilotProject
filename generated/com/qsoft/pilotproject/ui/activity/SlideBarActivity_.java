@@ -10,15 +10,18 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.widget.DrawerLayout;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup.LayoutParams;
-import android.widget.Button;
-import com.example.PilotProject.R.id;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
+import android.widget.ImageButton;
+import android.widget.ListView;
 import com.example.PilotProject.R.layout;
-import com.qsoft.pilotproject.ui.controller.LoginController_;
 
-public final class LaunchActivity_
-    extends LaunchActivity
+public final class SlideBarActivity_
+    extends SlideBarActivity
 {
 
 
@@ -26,17 +29,48 @@ public final class LaunchActivity_
     public void onCreate(Bundle savedInstanceState) {
         init_(savedInstanceState);
         super.onCreate(savedInstanceState);
-        setContentView(layout.activity_launcher);
+        setContentView(layout.slidebar);
     }
 
     private void init_(Bundle savedInstanceState) {
         accountManager = ((AccountManager) this.getSystemService(Context.ACCOUNT_SERVICE));
-        loginController = LoginController_.getInstance_(this);
     }
 
     private void afterSetContentView_() {
-        btLogin = ((Button) findViewById(id.btLogin));
-        ((LoginController_) loginController).afterSetContentView_();
+        ibMyStation = ((ImageButton) findViewById(com.example.PilotProject.R.id.ibMyStation));
+        dlSlideBar = ((DrawerLayout) findViewById(com.example.PilotProject.R.id.drawer_layout));
+        leftDrawerView = ((View) findViewById(com.example.PilotProject.R.id.left_drawer_home));
+        lvSlideBar = ((ListView) findViewById(com.example.PilotProject.R.id.lvSlideBar));
+        {
+            View view = findViewById(com.example.PilotProject.R.id.ibMyStation);
+            if (view!= null) {
+                view.setOnClickListener(new OnClickListener() {
+
+
+                    @Override
+                    public void onClick(View view) {
+                        SlideBarActivity_.this.onClickMyStation(view);
+                    }
+
+                }
+                );
+            }
+        }
+        {
+            AdapterView<?> view = ((AdapterView<?> ) findViewById(com.example.PilotProject.R.id.lvSlideBar));
+            if (view!= null) {
+                view.setOnItemClickListener(new OnItemClickListener() {
+
+
+                    @Override
+                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                        doItemClick();
+                    }
+
+                }
+                );
+            }
+        }
     }
 
     @Override
@@ -57,8 +91,8 @@ public final class LaunchActivity_
         afterSetContentView_();
     }
 
-    public static LaunchActivity_.IntentBuilder_ intent(Context context) {
-        return new LaunchActivity_.IntentBuilder_(context);
+    public static SlideBarActivity_.IntentBuilder_ intent(Context context) {
+        return new SlideBarActivity_.IntentBuilder_(context);
     }
 
     public static class IntentBuilder_ {
@@ -68,14 +102,14 @@ public final class LaunchActivity_
 
         public IntentBuilder_(Context context) {
             context_ = context;
-            intent_ = new Intent(context, LaunchActivity_.class);
+            intent_ = new Intent(context, SlideBarActivity_.class);
         }
 
         public Intent get() {
             return intent_;
         }
 
-        public LaunchActivity_.IntentBuilder_ flags(int flags) {
+        public SlideBarActivity_.IntentBuilder_ flags(int flags) {
             intent_.setFlags(flags);
             return this;
         }

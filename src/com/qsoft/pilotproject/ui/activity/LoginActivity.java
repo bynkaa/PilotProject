@@ -45,30 +45,30 @@ import java.io.IOException;
 @EActivity(R.layout.activity_login)
 public class LoginActivity extends AccountAuthenticatorActivity
 {
-    @Bean
+    @Bean(AuthenticatorHandlerImpl.class)
     public AuthenticatorHandler onLineDioService;
 
-    private static final String TAG = "LoginActivity";
-    private static final String ERROR_MESSAGE = "Error_Message";
-    private static final String ACCESS_TOKEN = "ACCESS_TOKEN";
-    private static final String AUTHTOKEN_TYPE_FULL_ACCESS = "token_type";
-    private static final String KEY_USER_PASSWORD = "user_pass";
+    static final String TAG = "LoginActivity";
+    static final String ERROR_MESSAGE = "Error_Message";
+    static final String ACCESS_TOKEN = "ACCESS_TOKEN";
+    static final String AUTHTOKEN_TYPE_FULL_ACCESS = "token_type";
+    static final String KEY_USER_PASSWORD = "user_pass";
     public static final String USER_ID_KEY = "user_id";
 
     @ViewById(R.id.login_ivLogin)
-    private ImageView imDone;
+    ImageView imDone;
 
     @ViewById(R.id.login_ivBack)
-    private ImageView imBack;
+    ImageView imBack;
 
     @ViewById(R.id.login_etMail)
-    private EditText etEmail;
+    EditText etEmail;
 
     @ViewById(R.id.login_etPassword)
-    private EditText etPassword;
+    EditText etPassword;
 
     @ViewById(R.id.login_tvForgotPass)
-    private TextView forgotPass;
+    TextView forgotPass;
 
     final String EMAIL_PATTERN =
             "^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@"
@@ -77,7 +77,7 @@ public class LoginActivity extends AccountAuthenticatorActivity
     @SystemService
     AccountManager accountManager;
 
-    private String authTokenType;
+    String authTokenType;
 
     public void onCreate(Bundle savedInstanceState)
     {
@@ -85,7 +85,7 @@ public class LoginActivity extends AccountAuthenticatorActivity
     }
 
     @AfterViews
-    private void afterViews()
+    void afterViews()
     {
         authTokenType = getIntent().getStringExtra(OnlineDioAuthenticator.AUTH_TYPE_KEY);
         if (authTokenType == null)
@@ -172,7 +172,7 @@ public class LoginActivity extends AccountAuthenticatorActivity
     }
 
 
-    private void finishLogin(Intent intent)
+    void finishLogin(Intent intent)
     {
         Log.d(TAG, "finishLogin(intent)");
         String accountName = intent.getStringExtra(AccountManager.KEY_ACCOUNT_NAME);
@@ -205,7 +205,7 @@ public class LoginActivity extends AccountAuthenticatorActivity
                 " email address");
     }
 
-    private boolean isOnlineNetwork()
+    boolean isOnlineNetwork()
     {
         // checkTimeoutService();
         ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
@@ -224,7 +224,7 @@ public class LoginActivity extends AccountAuthenticatorActivity
         }
     }
 
-    private void checkTimeoutService()
+    void checkTimeoutService()
     {
         HttpGet httpGet = new HttpGet("http://www.google.com");
         HttpParams httpParameters = new BasicHttpParams();
@@ -251,7 +251,7 @@ public class LoginActivity extends AccountAuthenticatorActivity
         Log.d(TAG, "Connection timeout");
     }
 
-    private boolean validateMailAndPassword(EditText mail, EditText password)
+    boolean validateMailAndPassword(EditText mail, EditText password)
     {
         String _mail = mail.getText().toString();
         String _password = password.getText().toString();
@@ -275,7 +275,7 @@ public class LoginActivity extends AccountAuthenticatorActivity
         }
     }
 
-    private AlertDialog showAlertDialog(String txtTitle, String message)
+    AlertDialog showAlertDialog(String txtTitle, String message)
     {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         final TextView title = new TextView(this);
@@ -292,7 +292,7 @@ public class LoginActivity extends AccountAuthenticatorActivity
         return dialog;
     }
 
-    private AlertDialog showAlertDialogResetPassword(String txtTitle, String message)
+    AlertDialog showAlertDialogResetPassword(String txtTitle, String message)
     {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         final EditText emailAddress = new EditText(this);

@@ -16,10 +16,10 @@
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-        <activity android:name="com.qsoft.pilotproject.ui.activity.SlideBarActivity"/>
-        <activity android:name="com.qsoft.pilotproject.ui.activity.LoginActivity"/>
-        <activity android:name="com.qsoft.pilotproject.ui.activity.ProfileSetupActivity"/>
-        <activity android:name="com.qsoft.pilotproject.ui.activity.NewCommentActivity"/>
+        <activity android:name="com.qsoft.pilotproject.ui.activity.SlideBarActivity_"/>
+        <activity android:name="com.qsoft.pilotproject.ui.activity.LoginActivity_"/>
+        <activity android:name="com.qsoft.pilotproject.ui.activity.ProfileSetupActivity_"/>
+        <activity android:name="com.qsoft.pilotproject.ui.activity.NewCommentActivity_"/>
         <activity android:name="com.qsoft.pilotproject.ui.activity.LaunchActivity_"/>
         <service android:name="com.qsoft.pilotproject.authenticator.AuthenticatorService">
             <intent-filter>

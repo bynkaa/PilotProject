@@ -5,20 +5,20 @@
 
 package com.qsoft.pilotproject.ui.activity;
 
-import android.accounts.AccountManager;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup.LayoutParams;
-import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ImageButton;
 import com.example.PilotProject.R.id;
 import com.example.PilotProject.R.layout;
-import com.qsoft.pilotproject.ui.controller.LoginController_;
 
-public final class LaunchActivity_
-    extends LaunchActivity
+public final class NewCommentActivity_
+    extends NewCommentActivity
 {
 
 
@@ -26,17 +26,46 @@ public final class LaunchActivity_
     public void onCreate(Bundle savedInstanceState) {
         init_(savedInstanceState);
         super.onCreate(savedInstanceState);
-        setContentView(layout.activity_launcher);
+        setContentView(layout.activity_add_comment);
     }
 
     private void init_(Bundle savedInstanceState) {
-        accountManager = ((AccountManager) this.getSystemService(Context.ACCOUNT_SERVICE));
-        loginController = LoginController_.getInstance_(this);
     }
 
     private void afterSetContentView_() {
-        btLogin = ((Button) findViewById(id.btLogin));
-        ((LoginController_) loginController).afterSetContentView_();
+        ibPost = ((ImageButton) findViewById(id.ibNewCommentPost));
+        ibCancel = ((ImageButton) findViewById(id.ibNewCommentCancel));
+        etNewComment = ((EditText) findViewById(id.etAddNewComment));
+        {
+            View view = findViewById(id.ibNewCommentPost);
+            if (view!= null) {
+                view.setOnClickListener(new OnClickListener() {
+
+
+                    @Override
+                    public void onClick(View view) {
+                        NewCommentActivity_.this.doClickPost();
+                    }
+
+                }
+                );
+            }
+        }
+        {
+            View view = findViewById(id.ibNewCommentCancel);
+            if (view!= null) {
+                view.setOnClickListener(new OnClickListener() {
+
+
+                    @Override
+                    public void onClick(View view) {
+                        NewCommentActivity_.this.doClickCancel();
+                    }
+
+                }
+                );
+            }
+        }
     }
 
     @Override
@@ -57,8 +86,8 @@ public final class LaunchActivity_
         afterSetContentView_();
     }
 
-    public static LaunchActivity_.IntentBuilder_ intent(Context context) {
-        return new LaunchActivity_.IntentBuilder_(context);
+    public static NewCommentActivity_.IntentBuilder_ intent(Context context) {
+        return new NewCommentActivity_.IntentBuilder_(context);
     }
 
     public static class IntentBuilder_ {
@@ -68,14 +97,14 @@ public final class LaunchActivity_
 
         public IntentBuilder_(Context context) {
             context_ = context;
-            intent_ = new Intent(context, LaunchActivity_.class);
+            intent_ = new Intent(context, NewCommentActivity_.class);
         }
 
         public Intent get() {
             return intent_;
         }
 
-        public LaunchActivity_.IntentBuilder_ flags(int flags) {
+        public NewCommentActivity_.IntentBuilder_ flags(int flags) {
             intent_.setFlags(flags);
             return this;
         }

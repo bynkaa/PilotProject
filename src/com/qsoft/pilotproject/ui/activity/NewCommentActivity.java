@@ -23,13 +23,13 @@ public class NewCommentActivity extends SuperAnnotationActivity
     public static final String COMMENT_EXTRA = "comment";
 
     @ViewById(R.id.ibNewCommentCancel)
-    private ImageButton ibCancel;
+    ImageButton ibCancel;
 
     @ViewById(R.id.ibNewCommentPost)
-    private ImageButton ibPost;
+    ImageButton ibPost;
 
     @ViewById(R.id.etAddNewComment)
-    private EditText etNewComment;
+    EditText etNewComment;
 
     @Click(R.id.ibNewCommentCancel)
     void doClickCancel()

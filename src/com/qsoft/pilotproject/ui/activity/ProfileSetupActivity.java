@@ -15,11 +15,11 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.provider.MediaStore;
-import android.support.v4.app.FragmentActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.*;
 import com.example.PilotProject.R;
+import com.qsoft.eip.common.SuperAnnotationActivity;
 import com.qsoft.pilotproject.adapter.CropOption;
 import com.qsoft.pilotproject.adapter.CropOptionAdapter;
 import com.qsoft.pilotproject.authenticator.AccountGeneral;
@@ -38,38 +38,37 @@ import java.util.List;
  * Date: 10/14/13
  * Time: 3:48 PM
  */
-public class ProfileSetupActivity extends FragmentActivity
+public class ProfileSetupActivity extends SuperAnnotationActivity
 {
-    private static final String TAG = "ProfileSetupActivity";
     final Context context = this;
     static final int DATE_DIALOG_ID = 999;
-    private static int RESULT_LOAD_IMAGE = 1;
-    private int year;
-    private int month;
-    private int day;
-    private DatePicker dpResult;
-    private RelativeLayout rlCover;
-    private ImageView ivProfile;
-    private EditText tvBirthday;
-    private EditText tvCountry;
-    private TextView tvProfileName;
-    private ImageButton ibLeft;
-    private ImageButton ibRight;
-    private Boolean flag = null;
-    private ScrollView svDescription;
-    private EditText etDescription;
-    private ImageView ibProfileCancel;
-    private ImageView ibProfileSave;
-    private EditText etDisplayName;
-    private EditText etFullName;
-    private EditText etPhone;
-    private TextView tvGender;
-    private ImageButton imFemale;
-    private ImageButton imMale;
-    private Uri mImageCaptureUri;
-    private static final int PICK_FROM_CAMERA = 1;
-    private static final int CROP_FROM_CAMERA = 2;
-    private static final int PICK_FROM_FILE = 3;
+    static int RESULT_LOAD_IMAGE = 1;
+    int year;
+    int month;
+    int day;
+    DatePicker dpResult;
+    RelativeLayout rlCover;
+    ImageView ivProfile;
+    EditText tvBirthday;
+    EditText tvCountry;
+    TextView tvProfileName;
+    ImageButton ibLeft;
+    ImageButton ibRight;
+    Boolean flag = null;
+    ScrollView svDescription;
+    EditText etDescription;
+    ImageView ibProfileCancel;
+    ImageView ibProfileSave;
+    EditText etDisplayName;
+    EditText etFullName;
+    EditText etPhone;
+    TextView tvGender;
+    ImageButton imFemale;
+    ImageButton imMale;
+    Uri mImageCaptureUri;
+    static final int PICK_FROM_CAMERA = 1;
+    static final int CROP_FROM_CAMERA = 2;
+    static final int PICK_FROM_FILE = 3;
     AccountManager accountManager;
     Account account;
 
@@ -109,7 +108,7 @@ public class ProfileSetupActivity extends FragmentActivity
         setupData();
     }
 
-    private void setupData()
+    void setupData()
     {
         final ContentResolver contentResolver = getContentResolver();
         Cursor cursor = contentResolver.query(OnlineDioContract.Profile.CONTENT_URI, null, null, null, null);
@@ -151,7 +150,7 @@ public class ProfileSetupActivity extends FragmentActivity
 
     }
 
-    private void setToView(ProfileDTO profileDTO)
+    void setToView(ProfileDTO profileDTO)
     {
         tvBirthday.setText(profileDTO.getBirthday());
         etDisplayName.setText(profileDTO.getDisplayName());
@@ -249,7 +248,7 @@ public class ProfileSetupActivity extends FragmentActivity
         }
     };
 
-    private void uploadImage()
+    void uploadImage()
     {
         Intent i = new Intent(
                 Intent.ACTION_PICK,
@@ -278,7 +277,7 @@ public class ProfileSetupActivity extends FragmentActivity
         }
     }
 
-    private void setImageProfile(Bitmap bmImg)
+    void setImageProfile(Bitmap bmImg)
     {
         Bitmap mask = BitmapFactory.decodeResource(getResources(), R.drawable.profile_mask);
 
@@ -297,7 +296,7 @@ public class ProfileSetupActivity extends FragmentActivity
         ivProfile.setBackgroundResource(R.drawable.profile_frame);
     }
 
-    private Bitmap getBitmap(Intent data)
+    Bitmap getBitmap(Intent data)
     {
         Uri selectedImage = data.getData();
         String[] filePathColumn = {MediaStore.Images.Media.DATA};
@@ -426,7 +425,7 @@ public class ProfileSetupActivity extends FragmentActivity
         return null;
     }
 
-    private DatePickerDialog.OnDateSetListener datePickerListener = new DatePickerDialog.OnDateSetListener()
+    DatePickerDialog.OnDateSetListener datePickerListener = new DatePickerDialog.OnDateSetListener()
     {
 
         public void onDateSet(DatePicker view, int selectedYear,
@@ -442,7 +441,7 @@ public class ProfileSetupActivity extends FragmentActivity
         }
     };
 
-    private void viewListCountry()
+    void viewListCountry()
     {
         final String[] countryList = getResources().getStringArray(R.array.country);
         AlertDialog.Builder builder = new AlertDialog.Builder(context);

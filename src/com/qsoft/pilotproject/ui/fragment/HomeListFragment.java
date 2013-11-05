@@ -1,16 +1,19 @@
 package com.qsoft.pilotproject.ui.fragment;
 
 import android.accounts.Account;
+import android.app.Fragment;
+import android.app.ListFragment;
+import android.app.LoaderManager;
 import android.content.ContentResolver;
+import android.content.CursorLoader;
+import android.content.Loader;
 import android.content.SyncStatusObserver;
 import android.database.Cursor;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentTransaction;
-import android.support.v4.app.ListFragment;
-import android.support.v4.app.LoaderManager;
-import android.support.v4.content.CursorLoader;
-import android.support.v4.content.Loader;
+import android.app.Fragment;
+import android.app.FragmentTransaction;
+import android.app.ListFragment;
+import android.app.LoaderManager;
 import android.support.v4.widget.SimpleCursorAdapter;
 import android.view.View;
 import android.widget.AbsListView;

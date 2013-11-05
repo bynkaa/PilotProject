@@ -6,8 +6,7 @@ import android.app.Activity;
 import android.content.ContentResolver;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
+import android.app.Fragment;
 import android.support.v4.widget.DrawerLayout;
 import android.util.Log;
 import android.view.View;
@@ -16,6 +15,7 @@ import android.widget.ImageButton;
 import android.widget.ListView;
 import com.example.PilotProject.R;
 import com.googlecode.androidannotations.annotations.*;
+import com.qsoft.eip.common.SuperAnnotationActivity;
 import com.qsoft.pilotproject.adapter.SideBarItemAdapter;
 import com.qsoft.pilotproject.model.Comment;
 import com.qsoft.pilotproject.provider.CommentDataSource;
@@ -28,14 +28,14 @@ import com.qsoft.pilotproject.ui.fragment.Home;
  * Date: 10/14/13
  * Time: 10:47 AM
  */
-@EFragment(R.layout.slidebar)
-public class SlideBarActivity extends Fragment
+@EActivity(R.layout.slidebar)
+public class SlideBarActivity extends SuperAnnotationActivity
 {
     private Account account;
     private String authToken;
 
     @SystemService
-    private AccountManager accountManager;
+    AccountManager accountManager;
 
     private CommentDataSource commentDataSource;
     private static final String TAG = "SlideBarActivity";
@@ -54,22 +54,22 @@ public class SlideBarActivity extends Fragment
     };
 
     @ViewById(R.id.lvSlideBar)
-    private ListView lvSlideBar;
+    ListView lvSlideBar;
 
     @ViewById(R.id.left_drawer_home)
-    private View leftDrawerView;
+    View leftDrawerView;
 
     @ViewById(R.id.drawer_layout)
-    private DrawerLayout dlSlideBar;
+    DrawerLayout dlSlideBar;
 
     @ViewById(R.id.ibMyStation)
-    private ImageButton ibMyStation;
+    ImageButton ibMyStation;
 
     public void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
-        account = getActivity().getIntent().getParcelableExtra(StartActivity.ACCOUNT_KEY);
-        commentDataSource = new CommentDataSource(this.getActivity());
+        account = getIntent().getParcelableExtra(StartActivity.ACCOUNT_KEY);
+        commentDataSource = new CommentDataSource(this);
         commentDataSource.open();
         setListViewSlideBar();
         Fragment homeFragment = new Home();
@@ -80,7 +80,7 @@ public class SlideBarActivity extends Fragment
     void onClickMyStation(View view)
         {
             Log.d(TAG, "profile setup");
-            Intent intent = new Intent(SlideBarActivity.this.getActivity(), ProfileSetupActivity.class);
+            Intent intent = new Intent(SlideBarActivity.this, ProfileSetupActivity.class);
             startActivityForResult(intent, REQUEST_CODE);
         }
 
@@ -113,7 +113,7 @@ public class SlideBarActivity extends Fragment
 
     public void setListViewSlideBar()
     {
-        SideBarItemAdapter sideBarItemAdapter = new SideBarItemAdapter(this.getActivity(), R.layout.menu, SIDE_BAR_ITEMS);
+        SideBarItemAdapter sideBarItemAdapter = new SideBarItemAdapter(this, R.layout.menu, SIDE_BAR_ITEMS);
         lvSlideBar.setAdapter(sideBarItemAdapter);
     }
 
