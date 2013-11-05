@@ -35,26 +35,26 @@ import com.qsoft.pilotproject.utils.Utilities;
 public class ProgramFragment extends Fragment
 {
 
-    private static final String TAG = "ProgramFragment";
+    static final String TAG = "ProgramFragment";
     FragmentManager manager = getFragmentManager();
     @ViewById(R.id.ibProgramBack)
-    private ImageButton ibProgramBack;
+    ImageButton ibProgramBack;
 
     ProgramTab currentTab = ProgramTab.THUMB_NAIL;
     @ViewById(R.id.rgProgramTab)
-    private RadioGroup rgProgramTab;
+    RadioGroup rgProgramTab;
     @ViewById(R.id.tvProgramTitle)
-    private TextView tvTitle;
+    TextView tvTitle;
     @ViewById(R.id.tvProgramDisplayNameFeed)
-    private TextView tvDisplayName;
+    TextView tvDisplayName;
     @ViewById(R.id.tvContentLike)
-    private TextView tvLikes;
+    TextView tvLikes;
     @ViewById(R.id.tvContentPlay)
-    private TextView tvPlayed;
+    TextView tvPlayed;
     @ViewById(R.id.tvContentLook)
-    private TextView tvLooks;
+    TextView tvLooks;
     @ViewById(R.id.tvLastUpdate)
-    private TextView tvUpdated;
+    TextView tvUpdated;
     Feed feed = null;
 
 
@@ -81,6 +81,7 @@ public class ProgramFragment extends Fragment
         {
             feed = Feed.fromCursor(cursor);
         }
+
         tvTitle.setText(feed.getTitle());
         tvDisplayName.setText(feed.getDisplayName());
         tvLikes.setText(Integer.toString(feed.getLikes()));
@@ -126,7 +127,7 @@ public class ProgramFragment extends Fragment
         }
     };
 
-    private void startContentPlayerFragment()
+    void startContentPlayerFragment()
     {
         Fragment playerFragment = getFragmentManager().findFragmentById(R.id.contentPlayerFragment);
         if (playerFragment == null)
@@ -137,7 +138,7 @@ public class ProgramFragment extends Fragment
 
     }
 
-    private void updateProgramFragment()
+    void updateProgramFragment()
     {
         Fragment fragmentContainer = getFragmentManager().findFragmentById(R.id.fragmentContainer);
         switch (currentTab)
