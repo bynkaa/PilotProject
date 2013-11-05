@@ -10,6 +10,10 @@ import android.view.ViewGroup;
 import android.widget.ListView;
 import android.widget.TextView;
 import com.example.PilotProject.R;
+import com.googlecode.androidannotations.annotations.AfterViews;
+import com.googlecode.androidannotations.annotations.Click;
+import com.googlecode.androidannotations.annotations.EFragment;
+import com.googlecode.androidannotations.annotations.ViewById;
 import com.qsoft.pilotproject.adapter.CommentAdapter;
 import com.qsoft.pilotproject.model.Comment;
 import com.qsoft.pilotproject.provider.CommentDataSource;
@@ -23,38 +27,36 @@ import java.util.List;
  * Date: 10/17/13
  * Time: 2:20 PM
  */
+@EFragment(R.layout.program_comment)
 public class CommentFragment extends Fragment
 {
     public static final int REQUEST_CODE = 1;
-    View.OnClickListener tvAddNewCommentOnClickListener = new View.OnClickListener()
-    {
-        @Override
-        public void onClick(View view)
-        {
-            Intent intent = new Intent(CommentFragment.this.getActivity(), NewCommentActivity.class);
-            startActivityForResult(intent, REQUEST_CODE);
-        }
-    };
+
+
+    @ViewById(R.id.tvNewComment)
     private TextView tvAddNewComment;
+    @ViewById(R.id.lvComment)
     private ListView lvComment;
     private List<Comment> commentList;
     private CommentDataSource commentDataSource;
 
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
+    @AfterViews
+    void afterViews()
     {
-        View view = inflater.inflate(R.layout.program_comment, container, false);
         commentDataSource = new CommentDataSource(getActivity());
         commentDataSource.open();
-
-        tvAddNewComment = (TextView) view.findViewById(R.id.tvNewComment);
-        tvAddNewComment.setOnClickListener(tvAddNewCommentOnClickListener);
-        lvComment = (ListView) view.findViewById(R.id.lvComment);
         //
         commentList = commentDataSource.getAllComment();
         CommentAdapter commentAdapter = new CommentAdapter(getActivity(), commentList);
         lvComment.setAdapter(commentAdapter);
-        return view;
+    }
+
+
+    @Click(R.id.tvNewComment)
+    void  doClickNewComment()
+    {
+        Intent intent = new Intent(CommentFragment.this.getActivity(), NewCommentActivity.class);
+        startActivityForResult(intent, REQUEST_CODE);
     }
 
     @Override

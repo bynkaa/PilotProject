@@ -16,9 +16,12 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.util.Log;
-import android.view.View;
 import android.widget.*;
 import com.example.PilotProject.R;
+import com.googlecode.androidannotations.annotations.AfterViews;
+import com.googlecode.androidannotations.annotations.Click;
+import com.googlecode.androidannotations.annotations.SystemService;
+import com.googlecode.androidannotations.annotations.ViewById;
 import com.qsoft.eip.common.SuperAnnotationActivity;
 import com.qsoft.pilotproject.adapter.CropOption;
 import com.qsoft.pilotproject.adapter.CropOptionAdapter;
@@ -46,68 +49,56 @@ public class ProfileSetupActivity extends SuperAnnotationActivity
     int year;
     int month;
     int day;
+    @ViewById(R.id.dpResult)
     DatePicker dpResult;
+    @ViewById(R.id.profile_relativeLayout)
     RelativeLayout rlCover;
+    @ViewById(R.id.profile_iv_icon)
     ImageView ivProfile;
+    @ViewById(R.id.profile_et_birthday)
     EditText tvBirthday;
+    @ViewById(R.id.profile_et_country)
     EditText tvCountry;
+    @ViewById(R.id.tv_profile_name)
     TextView tvProfileName;
-    ImageButton ibLeft;
-    ImageButton ibRight;
     Boolean flag = null;
     ScrollView svDescription;
+    @ViewById(R.id.profile_et_desciption)
     EditText etDescription;
+    @ViewById(R.id.ibProfileCancel)
     ImageView ibProfileCancel;
+    @ViewById(R.id.ibProfileSave)
     ImageView ibProfileSave;
+    @ViewById(R.id.profile_et_displayname)
     EditText etDisplayName;
+    @ViewById(R.id.profile_et_name)
     EditText etFullName;
+    @ViewById(R.id.et_profile_phone)
     EditText etPhone;
+    @ViewById(R.id.tv_profile_gender)
     TextView tvGender;
+    @ViewById(R.id.profile_ibleft)
     ImageButton imFemale;
+    @ViewById(R.id.profile_ibright)
     ImageButton imMale;
     Uri mImageCaptureUri;
     static final int PICK_FROM_CAMERA = 1;
     static final int CROP_FROM_CAMERA = 2;
     static final int PICK_FROM_FILE = 3;
+
+    @SystemService
     AccountManager accountManager;
+
     Account account;
 
     public void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.profile_setup);
-        accountManager = AccountManager.get(this);
         account = accountManager.getAccountsByType(AccountGeneral.ACCOUNT_TYPE)[0];
-        tvBirthday = (EditText) findViewById(R.id.profile_et_birthday);
-        dpResult = (DatePicker) findViewById(R.id.dpResult);
-        rlCover = (RelativeLayout) findViewById(R.id.profile_relativeLayout);
-        rlCover.setOnClickListener(ivCoverListener);
-        ivProfile = (ImageView) findViewById(R.id.profile_iv_icon);
-        ivProfile.setOnClickListener(ivProfileListener);
-        tvBirthday.setOnClickListener(tvBirthdayListener);
-        ibLeft = (ImageButton) findViewById(R.id.profile_ibleft);
-        ibLeft.setSelected(true);
-        ibRight = (ImageButton) findViewById(R.id.profile_ibright);
-        ibRight.setSelected(false);
-        ibLeft.setOnClickListener(ibLeftListener);
-        ibRight.setOnClickListener(ibRightListener);
-        tvCountry = (EditText) findViewById(R.id.profile_et_country);
-        tvCountry.setOnClickListener(btArrowCountryListener);
-        etDescription = (EditText) findViewById(R.id.profile_et_desciption);
-        ibProfileCancel = (ImageView) findViewById(R.id.ibProfileCancel);
-        ibProfileCancel.setOnClickListener(ibProfileCancelOnClickListener);
-        ibProfileSave = (ImageView) findViewById(R.id.ibProfileSave);
-        ibProfileSave.setOnClickListener(ibProfileSaveOnClickListener);
-        tvProfileName = (TextView) findViewById(R.id.tv_profile_name);
-        etDisplayName = (EditText) findViewById(R.id.profile_et_displayname);
-        etFullName = (EditText) findViewById(R.id.profile_et_name);
-        etPhone = (EditText) findViewById(R.id.et_profile_phone);
-        tvGender = (TextView) findViewById(R.id.tv_profile_gender);
-        imFemale = (ImageButton) findViewById(R.id.profile_ibleft);
-        imMale = (ImageButton) findViewById(R.id.profile_ibright);
-        setupData();
     }
 
+    @AfterViews
     void setupData()
     {
         final ContentResolver contentResolver = getContentResolver();
@@ -167,86 +158,71 @@ public class ProfileSetupActivity extends SuperAnnotationActivity
         }
     }
 
-    View.OnClickListener ibProfileSaveOnClickListener = new View.OnClickListener()
+    @Click(R.id.ibProfileSave)
+            void doClickProfileSaveButton()
     {
-        @Override
-        public void onClick(View view)
-        {
-            Log.d(TAG, "save ok");
-            Intent intent = getIntent();
-            setResult(RESULT_OK, intent);
-            finish();
-        }
-    };
-    View.OnClickListener ibProfileCancelOnClickListener = new View.OnClickListener()
+        Log.d(TAG, "save ok");
+        Intent intent = getIntent();
+        setResult(RESULT_OK, intent);
+        finish();
+    }
+
+    @Click(R.id.ibProfileCancel)
+            void doClickProfileCancel()
     {
-        @Override
-        public void onClick(View view)
-        {
-            Log.d(TAG, "cancel ok");
-            Intent intent = getIntent();
-            setResult(RESULT_CANCELED, intent);
-            finish();
-        }
-    };
+        Log.d(TAG, "cancel ok");
+        Intent intent = getIntent();
+        setResult(RESULT_CANCELED, intent);
+        finish();
+    }
 
-    View.OnClickListener ibLeftListener = new View.OnClickListener()
+    @Click(R.id.profile_ibleft)
+            void doClickProfileFemale()
     {
-        @Override
-        public void onClick(View view)
+        if (imFemale.isSelected())
         {
-            if (ibLeft.isSelected())
-            {
 
-            }
-            else
-            {
-                ibLeft.setSelected(true);
-                ibLeft.setImageDrawable(getApplicationContext().getResources().getDrawable(R.drawable.profile_btn_select_left));
-                ibRight.setImageDrawable(getApplicationContext().getResources().getDrawable(R.drawable.profile_btn_unselect_right));
-                ibRight.setSelected(false);
-            }
         }
-    };
+        else
+        {
+            imFemale.setSelected(true);
+            imFemale.setImageDrawable(getApplicationContext().getResources().getDrawable(R.drawable.profile_btn_select_left));
+            imMale.setImageDrawable(getApplicationContext().getResources().getDrawable(R.drawable.profile_btn_unselect_right));
+            imMale.setSelected(false);
+        }
+    }
 
-    View.OnClickListener ibRightListener = new View.OnClickListener()
+    @Click(R.id.profile_ibright)
+            void doClickProfileMale()
     {
-        @Override
-        public void onClick(View view)
+        if (imMale.isSelected())
         {
-            if (ibRight.isSelected())
-            {
 
-            }
-            else
-            {
-                ibRight.setSelected(true);
-                ibRight.setImageDrawable(getApplicationContext().getResources().getDrawable(R.drawable.profile_btn_select_right));
-                ibLeft.setImageDrawable(getApplicationContext().getResources().getDrawable(R.drawable.profile_btn_unselect_left));
-                ibLeft.setSelected(false);
-            }
         }
-    };
+        else
+        {
+            imMale.setSelected(true);
+            imMale.setImageDrawable(getApplicationContext().getResources().getDrawable(R.drawable.profile_btn_select_right));
+            imFemale.setImageDrawable(getApplicationContext().getResources().getDrawable(R.drawable.profile_btn_unselect_left));
+            imFemale.setSelected(false);
+        }
 
-    View.OnClickListener ivCoverListener = new View.OnClickListener()
+    }
+
+
+    @Click(R.id.profile_relativeLayout)
+            void doClickCover() {
+        flag = true;
+        uploadImage();
+    }
+
+    @Click(R.id.profile_iv_icon)
+            void doClickProfileIcon()
     {
-        @Override
-        public void onClick(View view)
-        {
-            flag = true;
-            uploadImage();
-        }
-    };
+        flag = false;
+        uploadImage();
 
-    View.OnClickListener ivProfileListener = new View.OnClickListener()
-    {
-        @Override
-        public void onClick(View v)
-        {
-            flag = false;
-            uploadImage();
-        }
-    };
+    }
 
     void uploadImage()
     {
@@ -394,23 +370,17 @@ public class ProfileSetupActivity extends SuperAnnotationActivity
         }
     }
 
-    View.OnClickListener tvBirthdayListener = new View.OnClickListener()
+    @Click(R.id.profile_tv_birthday)
+            void doClickBirthday()
     {
-        @Override
-        public void onClick(View view)
-        {
-            showDialog(DATE_DIALOG_ID);
-        }
-    };
+        showDialog(DATE_DIALOG_ID);
+    }
 
-    View.OnClickListener btArrowCountryListener = new View.OnClickListener()
+    @Click(R.id.profile_et_country)
+            void doClickCountry()
     {
-        @Override
-        public void onClick(View view)
-        {
-            viewListCountry();
-        }
-    };
+        viewListCountry();
+    }
 
     @Override
     protected Dialog onCreateDialog(int id)
