@@ -57,7 +57,7 @@ public class Home extends Fragment
         @Override
         public void onClick(View view)
         {
-//            ((SlideBarActivity)getActivity()).triggerSync();
+            ((SlideBarActivity) getActivity()).triggerSync();
         }
     };
 

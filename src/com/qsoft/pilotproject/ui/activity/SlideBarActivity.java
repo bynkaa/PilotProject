@@ -148,7 +148,6 @@ public class SlideBarActivity extends FragmentActivity
         bundle.putBoolean(ContentResolver.SYNC_EXTRAS_EXPEDITED, true);
         bundle.putBoolean(ContentResolver.SYNC_EXTRAS_FORCE, true);
         ContentResolver.requestSync(account, OnlineDioContract.CONTENT_AUTHORITY, bundle);
-        getContentResolver().notifyChange(OnlineDioContract.Feed.CONTENT_URI, null, false);
     }
 
 }
