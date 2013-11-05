@@ -4,6 +4,8 @@
               android:contentAuthority="com.qsoft.onlinedio"
               android:accountType="com.qsoft.onlinedio"
               android:userVisible="true"
-              android:supportsUploading="false"/>
-        <!--android:allowParallelSyncs="false"-->
-              <!--android:isAlwaysSyncable="false"-->
+              android:supportsUploading="false"
+              android:isAlwaysSyncable="true"
+              android:allowParallelSyncs="false"/>
+
+        <!--android:isAlwaysSyncable="false"-->
