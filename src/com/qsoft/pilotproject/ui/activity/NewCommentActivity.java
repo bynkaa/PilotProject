@@ -1,12 +1,13 @@
-package com.qsoft.pilotproject.ui;
+package com.qsoft.pilotproject.ui.activity;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import com.example.PilotProject.R;
+import com.googlecode.androidannotations.annotations.EActivity;
+import com.qsoft.eip.common.SuperAnnotationActivity;
 import com.qsoft.pilotproject.model.Comment;
 
 /**
@@ -14,9 +15,11 @@ import com.qsoft.pilotproject.model.Comment;
  * Date: 10/18/13
  * Time: 1:42 PM
  */
-public class NewCommentActivity extends Activity
+@EActivity(R.layout.activity_add_comment)
+public class NewCommentActivity extends SuperAnnotationActivity
 {
     public static final String COMMENT_EXTRA = "comment";
+
     private ImageButton ibCancel;
     private ImageButton ibPost;
     private EditText etNewComment;
@@ -24,7 +27,6 @@ public class NewCommentActivity extends Activity
     public void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.program_add_comment);
         ibCancel = (ImageButton) findViewById(R.id.ibNewCommentCancel);
         ibCancel.setOnClickListener(ibCancelOnClickListener);
         ibPost = (ImageButton) findViewById(R.id.ibNewCommentPost);

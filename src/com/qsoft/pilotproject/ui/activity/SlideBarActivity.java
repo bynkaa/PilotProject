@@ -1,4 +1,4 @@
-package com.qsoft.pilotproject.ui;
+package com.qsoft.pilotproject.ui.activity;
 
 import android.accounts.Account;
 import android.accounts.AccountManager;
@@ -19,6 +19,8 @@ import com.qsoft.pilotproject.adapter.SideBarItemAdapter;
 import com.qsoft.pilotproject.model.Comment;
 import com.qsoft.pilotproject.provider.CommentDataSource;
 import com.qsoft.pilotproject.provider.OnlineDioContract;
+import com.qsoft.pilotproject.ui.fragment.CommentFragment;
+import com.qsoft.pilotproject.ui.fragment.Home;
 
 /**
  * User: binhtv

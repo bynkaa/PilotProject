@@ -7,7 +7,7 @@ import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
 import com.qsoft.pilotproject.model.dto.SignInDTO;
-import com.qsoft.pilotproject.ui.LoginActivity;
+import com.qsoft.pilotproject.ui.activity.LoginActivity;
 
 /**
  * User: binhtv

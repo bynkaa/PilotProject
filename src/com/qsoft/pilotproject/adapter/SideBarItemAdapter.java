@@ -8,7 +8,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 import com.example.PilotProject.R;
-import com.qsoft.pilotproject.ui.SlideBarActivity;
+import com.qsoft.pilotproject.ui.activity.SlideBarActivity;
 
 /**
  * User: binhtv

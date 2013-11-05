@@ -1,4 +1,4 @@
-package com.qsoft.pilotproject.ui;
+package com.qsoft.pilotproject.ui.activity;
 
 import android.accounts.Account;
 import android.accounts.AccountManager;

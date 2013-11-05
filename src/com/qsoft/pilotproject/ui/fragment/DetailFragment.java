@@ -1,4 +1,4 @@
-package com.qsoft.pilotproject.ui;
+package com.qsoft.pilotproject.ui.fragment;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -10,19 +10,14 @@ import com.example.PilotProject.R;
 /**
  * User: binhtv
  * Date: 10/17/13
- * Time: 11:52 AM
+ * Time: 2:16 PM
  */
-public class ThumbnailFragment extends Fragment
+public class DetailFragment extends Fragment
 {
-    public void onCreate(Bundle savedInstanceState)
-    {
-        super.onCreate(savedInstanceState);
-    }
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
-        View view = inflater.inflate(R.layout.program_thumnail, container, false);
+        View view = inflater.inflate(R.layout.program_detail, container, false);
         return view;
     }
 }

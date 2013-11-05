@@ -1,4 +1,4 @@
-package com.qsoft.pilotproject.ui;
+package com.qsoft.pilotproject.ui.fragment;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -13,6 +13,7 @@ import com.example.PilotProject.R;
 import com.qsoft.pilotproject.adapter.CommentAdapter;
 import com.qsoft.pilotproject.model.Comment;
 import com.qsoft.pilotproject.provider.CommentDataSource;
+import com.qsoft.pilotproject.ui.activity.NewCommentActivity;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -1,4 +1,4 @@
-package com.qsoft.pilotproject.ui;
+package com.qsoft.pilotproject.ui.fragment;
 
 import android.content.Context;
 import android.media.AudioManager;

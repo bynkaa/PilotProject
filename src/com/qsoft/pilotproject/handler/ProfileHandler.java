@@ -1,6 +1,5 @@
 package com.qsoft.pilotproject.handler;
 
-import android.accounts.AccountManager;
 import com.qsoft.pilotproject.model.dto.ProfileDTO;
 
 /**

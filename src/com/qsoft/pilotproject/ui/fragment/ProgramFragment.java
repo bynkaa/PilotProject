@@ -1,4 +1,4 @@
-package com.qsoft.pilotproject.ui;
+package com.qsoft.pilotproject.ui.fragment;
 
 import android.content.ContentResolver;
 import android.content.ContentUris;
@@ -20,6 +20,7 @@ import com.example.PilotProject.R;
 import com.qsoft.pilotproject.model.Feed;
 import com.qsoft.pilotproject.model.ProgramTab;
 import com.qsoft.pilotproject.provider.OnlineDioContract;
+import com.qsoft.pilotproject.ui.activity.SlideBarActivity;
 import com.qsoft.pilotproject.utils.Utilities;
 
 /**

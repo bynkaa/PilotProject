@@ -1,11 +1,14 @@
-package com.qsoft.pilotproject.ui;
+package com.qsoft.pilotproject.ui.activity;
 
 import android.accounts.Account;
 import android.accounts.AccountManager;
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import com.googlecode.androidannotations.annotations.AfterViews;
+import com.googlecode.androidannotations.annotations.EActivity;
+import com.googlecode.androidannotations.annotations.SystemService;
+import com.qsoft.eip.common.SuperAnnotationActivity;
 import com.qsoft.pilotproject.authenticator.AccountGeneral;
 
 /**
@@ -13,15 +16,17 @@ import com.qsoft.pilotproject.authenticator.AccountGeneral;
  * Date: 10/30/13
  * Time: 5:32 PM
  */
-public class StartActivity extends Activity
+@EActivity
+public class StartActivity extends SuperAnnotationActivity
 {
-    public static final String TAG = "StartActivity";
     public static final String ACCOUNT_KEY = "account";
 
-    public void onCreate(Bundle savedInstanceState)
+    @SystemService
+    AccountManager accountManager;
+
+    @AfterViews
+    void afterViews()
     {
-        super.onCreate(savedInstanceState);
-        AccountManager accountManager = AccountManager.get(this);
         Account[] accounts = accountManager.getAccountsByType(AccountGeneral.ACCOUNT_TYPE);
 
         if (accounts.length == 1)
@@ -42,9 +47,8 @@ public class StartActivity extends Activity
                     accountManager.removeAccount(accounts[i], null, null);
                 }
             }
-            Intent intent = new Intent(this, LaunchActivity.class);
+            Intent intent = new Intent(this, LaunchActivity_.class);
             startActivity(intent);
         }
-
     }
 }

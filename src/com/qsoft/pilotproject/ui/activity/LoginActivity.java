@@ -1,4 +1,4 @@
-package com.qsoft.pilotproject.ui;
+package com.qsoft.pilotproject.ui.activity;
 
 import android.accounts.Account;
 import android.accounts.AccountAuthenticatorActivity;
@@ -22,6 +22,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 import com.example.PilotProject.R;
+import com.googlecode.androidannotations.annotations.*;
 import com.qsoft.pilotproject.authenticator.OnlineDioAuthenticator;
 import com.qsoft.pilotproject.handler.AuthenticatorHandler;
 import com.qsoft.pilotproject.handler.impl.AuthenticatorHandlerImpl;
@@ -41,145 +42,133 @@ import java.io.IOException;
  * Date: 10/14/13
  * Time: 2:34 PM
  */
+@EActivity(R.layout.activity_login)
 public class LoginActivity extends AccountAuthenticatorActivity
 {
     private static final String TAG = "LoginActivity";
+
     public static final AuthenticatorHandler onLineDioService = new AuthenticatorHandlerImpl();
     private static final String ERROR_MESSAGE = "Error_Message";
     private static final String ACCESS_TOKEN = "ACCESS_TOKEN";
     private static final String AUTHTOKEN_TYPE_FULL_ACCESS = "token_type";
     private static final String KEY_USER_PASSWORD = "user_pass";
     public static final String USER_ID_KEY = "user_id";
+
+    @ViewById(R.id.login_ivLogin)
     private ImageView imDone;
+
+    @ViewById(R.id.login_ivBack)
     private ImageView imBack;
+
+    @ViewById(R.id.login_etMail)
     private EditText etEmail;
+
+    @ViewById(R.id.login_etPassword)
     private EditText etPassword;
+
+    @ViewById(R.id.login_tvForgotPass)
     private TextView forgotPass;
+
     final String EMAIL_PATTERN =
             "^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@"
                     + "[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$";
 
-    private AccountManager accountManager;
+    @SystemService
+    AccountManager accountManager;
+
     private String authTokenType;
 
     public void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.login);
-        accountManager = AccountManager.get(this);
+    }
+
+    @AfterViews
+    private void afterViews()
+    {
         authTokenType = getIntent().getStringExtra(OnlineDioAuthenticator.AUTH_TYPE_KEY);
         if (authTokenType == null)
         {
             authTokenType = AUTHTOKEN_TYPE_FULL_ACCESS;
         }
-        imBack = (ImageView) findViewById(R.id.login_ivBack);
-        imDone = (ImageView) findViewById(R.id.login_ivLogin);
-        imBack.setOnClickListener(btBackClickListener);
-        imDone.setOnClickListener(btDoneClickListener);
-        etEmail = (EditText) findViewById(R.id.login_etMail);
-        etPassword = (EditText) findViewById(R.id.login_etPassword);
-        forgotPass = (TextView) findViewById(R.id.login_tvForgotPass);
-        forgotPass.setOnClickListener(btForgotPassListener);
-        etEmail.addTextChangedListener(textChangeListener);
-        etPassword.addTextChangedListener(textChangeListener);
     }
 
-    private final TextWatcher textChangeListener = new TextWatcher()
+    @AfterTextChange({R.id.login_etMail, R.id.login_etPassword})
+    void handleTextChangeEmail() {
+        if (etEmail.getText().toString().isEmpty() || etPassword.getText().toString().isEmpty())
+        {
+            imDone.setBackgroundDrawable(getResources().getDrawable(R.drawable.login_btdone_invisible));
+            imDone.setClickable(false);
+        }
+        else
+        {
+            imDone.setBackgroundDrawable(getResources().getDrawable(R.drawable.login_btdone));
+            imDone.setClickable(true);
+        }
+    }
+
+    @Click(R.id.login_ivBack)
+    void doClickBack()
     {
-        @Override
-        public void beforeTextChanged(CharSequence charSequence, int i, int i2, int i3)
-        {
-        }
+        Intent intentBack = new Intent(LoginActivity.this, LaunchActivity.class);
+        startActivity(intentBack);
+        Log.d(TAG, "come back to launch screen");
+    }
 
-        @Override
-        public void onTextChanged(CharSequence charSequence, int i, int i2, int i3)
-        {
-        }
-
-        @Override
-        public void afterTextChanged(Editable editable)
-        {
-            if (etEmail.getText().toString().isEmpty() || etPassword.getText().toString().isEmpty())
-            {
-                imDone.setBackgroundDrawable(getResources().getDrawable(R.drawable.login_btdone_invisible));
-                imDone.setClickable(false);
-            }
-            else
-            {
-                imDone.setBackgroundDrawable(getResources().getDrawable(R.drawable.login_btdone));
-                imDone.setClickable(true);
-            }
-        }
-    };
-
-    View.OnClickListener btBackClickListener = new View.OnClickListener()
+    @Click(R.id.login_ivLogin)
+    void doClickLogin()
     {
-        @Override
-        public void onClick(View view)
+        if (isOnlineNetwork() && validateMailAndPassword(etEmail, etPassword))
         {
-            Intent intentBack = new Intent(LoginActivity.this, LaunchActivity.class);
-            startActivity(intentBack);
-            Log.d(TAG, "come back to launch screen");
-        }
-    };
-
-    View.OnClickListener btDoneClickListener = new View.OnClickListener()
-    {
-        @Override
-        public void onClick(View view)
-        {
-            if (isOnlineNetwork() && validateMailAndPassword(etEmail, etPassword))
-            {
 //
-                final String email = etEmail.getText().toString();
-                final String pass = Utilities.stringToMD5(etPassword.getText().toString());
-                final String accountType = getIntent().getStringExtra(OnlineDioAuthenticator.ACCOUNT_TYPE_KEY);
-                new AsyncTask<String, Void, Intent>()
+            final String email = etEmail.getText().toString();
+            final String pass = Utilities.stringToMD5(etPassword.getText().toString());
+            final String accountType = getIntent().getStringExtra(OnlineDioAuthenticator.ACCOUNT_TYPE_KEY);
+            new AsyncTask<String, Void, Intent>()
+            {
+
+                @Override
+                protected Intent doInBackground(String... strings)
                 {
-
-                    @Override
-                    protected Intent doInBackground(String... strings)
+                    Log.d(TAG, "started authenticating ...");
+                    Bundle data = new Bundle();
+                    try
                     {
-                        Log.d(TAG, "started authenticating ...");
-                        Bundle data = new Bundle();
-                        try
+                        SignInDTO signInDTO = onLineDioService.signIn(email, pass, authTokenType);
+                        if (signInDTO == null)
                         {
-                            SignInDTO signInDTO = onLineDioService.signIn(email, pass, authTokenType);
-                            if (signInDTO == null)
-                            {
-                                throw new Exception();
-                            }
-                            data.putLong(USER_ID_KEY, Long.valueOf(signInDTO.getUserId()));
-                            data.putString(AccountManager.KEY_AUTHTOKEN, signInDTO.getAccessToken());
-                            data.putString(AccountManager.KEY_ACCOUNT_NAME, email);
-                            data.putString(AccountManager.KEY_ACCOUNT_TYPE, accountType);
-                            data.putString(KEY_USER_PASSWORD, pass);
+                            throw new Exception();
                         }
-                        catch (Exception e)
-                        {
-                            data.putString(ERROR_MESSAGE, "User and password are incorrect!");
-                        }
-                        final Intent res = new Intent();
-                        res.putExtras(data);
-                        return res;
+                        data.putLong(USER_ID_KEY, Long.valueOf(signInDTO.getUserId()));
+                        data.putString(AccountManager.KEY_AUTHTOKEN, signInDTO.getAccessToken());
+                        data.putString(AccountManager.KEY_ACCOUNT_NAME, email);
+                        data.putString(AccountManager.KEY_ACCOUNT_TYPE, accountType);
+                        data.putString(KEY_USER_PASSWORD, pass);
                     }
-
-                    @Override
-                    protected void onPostExecute(Intent intent)
+                    catch (Exception e)
                     {
-                        if (intent.hasExtra(ERROR_MESSAGE))
-                        {
-                            Toast.makeText(getBaseContext(), intent.getStringExtra(ERROR_MESSAGE), Toast.LENGTH_LONG).show();
-                        }
-                        else
-                        {
-                            finishLogin(intent);
-                        }
+                        data.putString(ERROR_MESSAGE, "User and password are incorrect!");
                     }
-                }.execute();
-            }
+                    final Intent res = new Intent();
+                    res.putExtras(data);
+                    return res;
+                }
+
+                @Override
+                protected void onPostExecute(Intent intent)
+                {
+                    if (intent.hasExtra(ERROR_MESSAGE))
+                    {
+                        Toast.makeText(getBaseContext(), intent.getStringExtra(ERROR_MESSAGE), Toast.LENGTH_LONG).show();
+                    }
+                    else
+                    {
+                        finishLogin(intent);
+                    }
+                }
+            }.execute();
         }
-    };
+    }
 
 
     private void finishLogin(Intent intent)
@@ -209,16 +198,11 @@ public class LoginActivity extends AccountAuthenticatorActivity
         Log.d(TAG, "Login successfully");
     }
 
-    View.OnClickListener btForgotPassListener = new View.OnClickListener()
-    {
-        @Override
-        public void onClick(View view)
-        {
-            AlertDialog dialog = showAlertDialogResetPassword("Forgot Password", "To reset your password, please enter your" +
-                    " email address");
-        }
-    };
-
+    @Click(R.id.login_tvForgotPass)
+    void doClickForgetPassword() {
+        AlertDialog dialog = showAlertDialogResetPassword("Forgot Password", "To reset your password, please enter your" +
+                " email address");
+    }
 
     private boolean isOnlineNetwork()
     {

@@ -1,14 +1,18 @@
-package com.qsoft.pilotproject.ui;
+package com.qsoft.pilotproject.ui.activity;
 
 import android.accounts.AccountManager;
 import android.accounts.AccountManagerCallback;
 import android.accounts.AccountManagerFuture;
-import android.app.Activity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import com.example.PilotProject.R;
+import com.googlecode.androidannotations.annotations.Click;
+import com.googlecode.androidannotations.annotations.EActivity;
+import com.googlecode.androidannotations.annotations.SystemService;
+import com.googlecode.androidannotations.annotations.ViewById;
+import com.qsoft.eip.common.SuperAnnotationActivity;
 import com.qsoft.pilotproject.authenticator.AccountGeneral;
 
 /**
@@ -16,35 +20,23 @@ import com.qsoft.pilotproject.authenticator.AccountGeneral;
  * Date: 10/14/13
  * Time: 11:27 AM
  */
-public class LaunchActivity extends Activity
+@EActivity(R.layout.activity_launcher)
+public class LaunchActivity extends SuperAnnotationActivity
 {
     public static final String TAG = "LaunchActivity";
-    Button btLoginFB;
+
+    @ViewById(R.id.btLogin)
     Button btLogin;
+
     Button btSignOut;
+
+    @SystemService
     AccountManager accountManager;
 
-    public void onCreate(Bundle savedInstanceState)
-    {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.laucher);
-        btLogin = (Button) findViewById(R.id.btLogin);
-        btLogin.setOnClickListener(btLoginClickListener);
-        accountManager = AccountManager.get(this);
-    }
-
-    private View.OnClickListener btLoginClickListener = new View.OnClickListener()
-    {
-        @Override
-        public void onClick(View view)
-        {
-            addNewAccount();
-        }
-    };
-
-    private void addNewAccount()
-    {
-        final AccountManagerFuture<Bundle> future = accountManager.addAccount(AccountGeneral.ACCOUNT_TYPE, AccountGeneral.AUTHTOKEN_TYPE_FULL_ACCESS, null, null, this, new AccountManagerCallback<Bundle>()
+    @Click(R.id.btLogin)
+    void doLogin() {
+        final AccountManagerFuture<Bundle> future = accountManager.addAccount(AccountGeneral.ACCOUNT_TYPE,
+                AccountGeneral.AUTHTOKEN_TYPE_FULL_ACCESS, null, null, this, new AccountManagerCallback<Bundle>()
         {
             @Override
             public void run(AccountManagerFuture<Bundle> bundleAccountManagerFuture)

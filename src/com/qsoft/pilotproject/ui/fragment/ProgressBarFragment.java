@@ -1,4 +1,4 @@
-package com.qsoft.pilotproject.ui;
+package com.qsoft.pilotproject.ui.fragment;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -9,15 +9,15 @@ import com.example.PilotProject.R;
 
 /**
  * User: binhtv
- * Date: 10/17/13
- * Time: 2:16 PM
+ * Date: 11/5/13
+ * Time: 10:13 AM
  */
-public class DetailFragment extends Fragment
+public class ProgressBarFragment extends Fragment
 {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
-        View view = inflater.inflate(R.layout.program_detail, container, false);
+        View view = inflater.inflate(R.layout.progress_bar, container, false);
         return view;
     }
 }

@@ -1,4 +1,4 @@
-package com.qsoft.pilotproject.ui;
+package com.qsoft.pilotproject.ui.fragment;
 
 import android.accounts.Account;
 import android.content.ContentResolver;
@@ -19,6 +19,7 @@ import com.example.PilotProject.R;
 import com.qsoft.pilotproject.adapter.ArrayFeedAdapter;
 import com.qsoft.pilotproject.authenticator.AuthenticatorService;
 import com.qsoft.pilotproject.provider.OnlineDioContract;
+import com.qsoft.pilotproject.ui.activity.SlideBarActivity;
 
 /**
  * User: binhtv
