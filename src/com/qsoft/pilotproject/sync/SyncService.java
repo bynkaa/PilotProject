@@ -20,12 +20,12 @@ public class SyncService extends Service
     public void onCreate()
     {
         super.onCreate();
-        Log.d(TAG,"service created...");
+        Log.d(TAG, "service created...");
         synchronized (syncAdapterLock)
         {
             if (syncAdapter == null)
             {
-                syncAdapter = new SyncAdapter(getApplicationContext(), true);
+                syncAdapter = new SyncAdapter(getApplicationContext());
             }
         }
     }

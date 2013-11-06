@@ -8,6 +8,8 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.RemoteException;
 import android.util.Log;
+import com.googlecode.androidannotations.annotations.EBean;
+import com.qsoft.pilotproject.authenticator.InvalidTokenException;
 import com.qsoft.pilotproject.handler.FeedHandler;
 import com.qsoft.pilotproject.handler.impl.FeedHandlerImpl;
 import com.qsoft.pilotproject.model.Feed;
@@ -23,6 +25,7 @@ import java.util.List;
  * Date: 10/31/13
  * Time: 10:58 AM
  */
+@EBean
 public class SyncAdapter extends AbstractThreadedSyncAdapter
 {
     private static final String TAG = "SyncAdapter";
@@ -74,11 +77,15 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter
         {
             e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
         }
+        catch (InvalidTokenException e)
+        {
+            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+        }
 
 
     }
 
-    private void updateLocalFeedData(Account account, SyncResult syncResult) throws RemoteException, OperationApplicationException
+    private void updateLocalFeedData(Account account, SyncResult syncResult) throws RemoteException, OperationApplicationException, InvalidTokenException
     {
         final ContentResolver contentResolver = getContext().getContentResolver();
         Log.d(TAG, "get list feeds from server");

@@ -201,7 +201,6 @@ public class LoginActivity extends AccountAuthenticatorActivity
             Bundle bundle = new Bundle();
             bundle.putString(USER_ID_KEY, Long.toString(intent.getLongExtra(USER_ID_KEY, 0)));
             accountManager.addAccountExplicitly(account, accountPassword, bundle);
-            accountManager.setAuthToken(account, authTokenType, authToken);
             applicationAccountManager.setTokenAuth(authToken);
         }
         else
@@ -209,6 +208,7 @@ public class LoginActivity extends AccountAuthenticatorActivity
             Log.d(TAG, "finish Login > set password");
             accountManager.setPassword(account, accountPassword);
         }
+
         setAccountAuthenticatorResult(intent.getExtras());
         applicationAccountManager.setAccount(account);
         commandExecutor.execute(this,
