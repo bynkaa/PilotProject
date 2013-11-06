@@ -21,6 +21,7 @@ import com.qsoft.pilotproject.provider.CommentDataSource;
 import com.qsoft.pilotproject.provider.OnlineDioContract;
 import com.qsoft.pilotproject.ui.fragment.CommentFragment;
 import com.qsoft.pilotproject.ui.fragment.Home;
+import com.qsoft.pilotproject.ui.fragment.Home_;
 
 /**
  * User: binhtv
@@ -74,6 +75,9 @@ public class SlideBarActivity extends SuperAnnotationActivity
         commentDataSource = new CommentDataSource(this);
         commentDataSource.open();
         setListViewSlideBar();
+        Fragment homeFragment = new Home_();
+        getFragmentManager().beginTransaction().replace(R.id.content_fragment, homeFragment).commit();
+
     }
 
     @Click(R.id.ibMyStation)
