@@ -1,9 +1,7 @@
 package com.qsoft.pilotproject.ui.activity;
 
-import android.accounts.Account;
 import android.accounts.AccountManager;
 import android.app.Activity;
-import android.app.Fragment;
 import android.content.ContentResolver;
 import android.content.Intent;
 import android.os.Bundle;
@@ -14,13 +12,14 @@ import android.widget.ImageButton;
 import android.widget.ListView;
 import com.example.PilotProject.R;
 import com.googlecode.androidannotations.annotations.*;
-import com.qsoft.eip.common.SuperAnnotationActivity;
 import com.qsoft.pilotproject.adapter.SideBarItemAdapter;
 import com.qsoft.pilotproject.authenticator.ApplicationAccountManager;
+import com.qsoft.pilotproject.common.CommandExecutor;
+import com.qsoft.pilotproject.common.SuperAnnotationActivity;
+import com.qsoft.pilotproject.common.commands.GenericStartActivityCommand;
 import com.qsoft.pilotproject.model.Comment;
 import com.qsoft.pilotproject.provider.CommentDataSource;
 import com.qsoft.pilotproject.provider.OnlineDioContract;
-import com.qsoft.pilotproject.ui.fragment.CommentFragment;
 import com.qsoft.pilotproject.ui.fragment.Home;
 
 /**
@@ -36,7 +35,10 @@ public class SlideBarActivity extends SuperAnnotationActivity
 
     private CommentDataSource commentDataSource;
     private static final String TAG = "SlideBarActivity";
-    public static final int REQUEST_CODE = 0;
+
+    public static final int RC_PROFILE_SETUP_ACTIVITY = 0;
+    public static final int RC_COMMENT_FRAGMENT = 1;
+
     public static final String[] SIDE_BAR_ITEMS = new String[]{"Home", "Favorite", "Following", "Audience",
             "Genres", "Setting", "Help Center", "Sign Out"};
     public static final Integer[] SIDE_BAR_ICONS = new Integer[]{
@@ -68,6 +70,9 @@ public class SlideBarActivity extends SuperAnnotationActivity
     @Bean
     ApplicationAccountManager applicationAccountManager;
 
+    @Bean
+    CommandExecutor commandExecutor;
+
     @AfterViews
     void afterViews()
     {
@@ -83,14 +88,14 @@ public class SlideBarActivity extends SuperAnnotationActivity
     void onClickMyStation(View view)
     {
         Log.d(TAG, "profile setup");
-        Intent intent = new Intent(SlideBarActivity.this, ProfileSetupActivity_.class);
-        startActivityForResult(intent, REQUEST_CODE);
+        commandExecutor.execute(this,
+                new GenericStartActivityCommand(this, ProfileSetupActivity_.class, RC_PROFILE_SETUP_ACTIVITY), false);
     }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data)
     {
-        if (requestCode == REQUEST_CODE)
+        if (requestCode == RC_PROFILE_SETUP_ACTIVITY)
         {
             if (resultCode == Activity.RESULT_OK)
             {
@@ -99,7 +104,7 @@ public class SlideBarActivity extends SuperAnnotationActivity
             }
             setOpenOption();
         }
-        if (resultCode == Activity.RESULT_OK && requestCode == CommentFragment.REQUEST_CODE)
+        if (resultCode == Activity.RESULT_OK && requestCode == RC_COMMENT_FRAGMENT)
         {
             if (data.hasExtra(NewCommentActivity.COMMENT_EXTRA))
             {

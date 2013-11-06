@@ -7,7 +7,7 @@ import com.example.PilotProject.R;
 import com.googlecode.androidannotations.annotations.Click;
 import com.googlecode.androidannotations.annotations.EActivity;
 import com.googlecode.androidannotations.annotations.ViewById;
-import com.qsoft.eip.common.SuperAnnotationActivity;
+import com.qsoft.pilotproject.common.SuperAnnotationActivity;
 import com.qsoft.pilotproject.model.Comment;
 
 /**

@@ -9,8 +9,12 @@
     <uses-sdk android:minSdkVersion="10"/>
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
     <application android:label="@string/app_name">
-        <activity android:name="com.qsoft.pilotproject.ui.activity.StartActivity_"
-                  android:label="@string/app_name">
+        <!--Common-->
+        <activity android:name="com.qsoft.pilotproject.common.SuperAnnotationActivity_"/>
+
+        <activity
+                android:name="com.qsoft.pilotproject.ui.activity.StartActivity_"
+                android:label="@string/app_name">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.LAUNCHER"/>
@@ -21,14 +25,17 @@
         <activity android:name="com.qsoft.pilotproject.ui.activity.ProfileSetupActivity_"/>
         <activity android:name="com.qsoft.pilotproject.ui.activity.NewCommentActivity_"/>
         <activity android:name="com.qsoft.pilotproject.ui.activity.LaunchActivity_"/>
+
         <service android:name="com.qsoft.pilotproject.authenticator.AuthenticatorService">
             <intent-filter>
                 <action android:name="android.accounts.AccountAuthenticator"/>
             </intent-filter>
-            <meta-data android:name="android.accounts.AccountAuthenticator"
-                       android:resource="@xml/authenticator"/>
+            <meta-data
+                    android:name="android.accounts.AccountAuthenticator"
+                    android:resource="@xml/authenticator"/>
         </service>
-        <service android:name="com.qsoft.pilotproject.sync.SyncService"
+        <service
+                android:name="com.qsoft.pilotproject.sync.SyncService"
                 android:exported="true">
             <intent-filter>
                 <action android:name="android.content.SyncAdapter"/>
@@ -37,6 +44,7 @@
                     android:name="android.content.SyncAdapter"
                     android:resource="@xml/sync_adapter"/>
         </service>
+
         <provider
                 android:name="com.qsoft.pilotproject.provider.OnlineDioProvider"
                 android:authorities="com.qsoft.onlinedio"
@@ -51,5 +59,5 @@
     <!--sync adapter-->
     <uses-permission android:name="android.permission.WRITE_SYNC_SETTINGS"/>
     <uses-permission android:name="android.permission.READ_SYNC_STATS"/>
-    <uses-permission android:name="android.permission.WRITE_SYNC_SETTINGS" />
+    <uses-permission android:name="android.permission.WRITE_SYNC_SETTINGS"/>
 </manifest>

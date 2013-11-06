@@ -13,7 +13,6 @@ import com.googlecode.androidannotations.annotations.ViewById;
 import com.qsoft.pilotproject.adapter.CommentAdapter;
 import com.qsoft.pilotproject.model.Comment;
 import com.qsoft.pilotproject.provider.CommentDataSource;
-import com.qsoft.pilotproject.ui.activity.NewCommentActivity;
 import com.qsoft.pilotproject.ui.activity.NewCommentActivity_;
 
 import java.util.ArrayList;
@@ -51,7 +50,7 @@ public class CommentFragment extends Fragment
 
 
     @Click(R.id.tvNewComment)
-    void  doClickNewComment()
+    void doClickNewComment()
     {
         Intent intent = new Intent(CommentFragment.this.getActivity(), NewCommentActivity_.class);
         startActivityForResult(intent, REQUEST_CODE);

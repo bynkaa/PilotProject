@@ -9,9 +9,9 @@ import com.googlecode.androidannotations.annotations.AfterViews;
 import com.googlecode.androidannotations.annotations.Bean;
 import com.googlecode.androidannotations.annotations.EActivity;
 import com.googlecode.androidannotations.annotations.SystemService;
-import com.qsoft.eip.common.SuperAnnotationActivity;
 import com.qsoft.pilotproject.authenticator.AccountGeneral;
 import com.qsoft.pilotproject.authenticator.ApplicationAccountManager;
+import com.qsoft.pilotproject.common.SuperAnnotationActivity;
 
 /**
  * User: binhtv

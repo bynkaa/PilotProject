@@ -11,8 +11,8 @@ import com.googlecode.androidannotations.annotations.Click;
 import com.googlecode.androidannotations.annotations.EActivity;
 import com.googlecode.androidannotations.annotations.SystemService;
 import com.googlecode.androidannotations.annotations.ViewById;
-import com.qsoft.eip.common.SuperAnnotationActivity;
 import com.qsoft.pilotproject.authenticator.AccountGeneral;
+import com.qsoft.pilotproject.common.SuperAnnotationActivity;
 
 /**
  * User: binhtv
@@ -33,7 +33,8 @@ public class LaunchActivity extends SuperAnnotationActivity
     AccountManager accountManager;
 
     @Click(R.id.btLogin)
-    void doLogin() {
+    void doLogin()
+    {
         final AccountManagerFuture<Bundle> future = accountManager.addAccount(AccountGeneral.ACCOUNT_TYPE,
                 AccountGeneral.AUTHTOKEN_TYPE_FULL_ACCESS, null, null, this, new AccountManagerCallback<Bundle>()
         {

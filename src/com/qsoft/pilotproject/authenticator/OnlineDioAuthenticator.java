@@ -8,7 +8,6 @@ import android.text.TextUtils;
 import android.util.Log;
 import com.googlecode.androidannotations.annotations.EBean;
 import com.qsoft.pilotproject.model.dto.SignInDTO;
-import com.qsoft.pilotproject.ui.activity.LoginActivity;
 import com.qsoft.pilotproject.ui.activity.LoginActivity_;
 
 /**

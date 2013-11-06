@@ -13,17 +13,15 @@ import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.AsyncTask;
-import android.os.Bundle;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.widget.*;
 import com.example.PilotProject.R;
 import com.googlecode.androidannotations.annotations.*;
-import com.qsoft.eip.common.SuperAnnotationActivity;
 import com.qsoft.pilotproject.adapter.CropOption;
 import com.qsoft.pilotproject.adapter.CropOptionAdapter;
-import com.qsoft.pilotproject.authenticator.AccountGeneral;
 import com.qsoft.pilotproject.authenticator.ApplicationAccountManager;
+import com.qsoft.pilotproject.common.SuperAnnotationActivity;
 import com.qsoft.pilotproject.handler.ProfileHandler;
 import com.qsoft.pilotproject.handler.impl.ProfileHandlerImpl;
 import com.qsoft.pilotproject.model.Profile;
@@ -92,21 +90,16 @@ public class ProfileSetupActivity extends SuperAnnotationActivity
     Account account;
     @Bean
     ApplicationAccountManager applicationAccountManager;
+
     String[] countryList;
     String[] countryCodes;
-
-    public void onCreate(Bundle savedInstanceState)
-    {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.profile_setup);
-        account = applicationAccountManager.getAccount();
-        countryList = getResources().getStringArray(R.array.country);
-        countryCodes = getResources().getStringArray(R.array.country_codes);
-    }
 
     @AfterViews
     void setupData()
     {
+        account = applicationAccountManager.getAccount();
+        countryList = getResources().getStringArray(R.array.country);
+        countryCodes = getResources().getStringArray(R.array.country_codes);
         final ContentResolver contentResolver = getContentResolver();
         Cursor cursor = contentResolver.query(OnlineDioContract.Profile.CONTENT_URI, null, null, null, null);
         if (cursor.getCount() == 0)
@@ -166,7 +159,7 @@ public class ProfileSetupActivity extends SuperAnnotationActivity
         {
             int index = -1;
 
-            for (int  i = 0; i < countryCodes.length; i++)
+            for (int i = 0; i < countryCodes.length; i++)
             {
                 if (countryCodes[i].equals(profileDTO.getCountryId()))
                 {
@@ -183,7 +176,7 @@ public class ProfileSetupActivity extends SuperAnnotationActivity
 
 
     @Click(R.id.ibProfileSave)
-            void doClickProfileSaveButton()
+    void doClickProfileSaveButton()
     {
         Log.d(TAG, "save ok");
         Intent intent = getIntent();
@@ -192,7 +185,7 @@ public class ProfileSetupActivity extends SuperAnnotationActivity
     }
 
     @Click(R.id.ibProfileCancel)
-            void doClickProfileCancel()
+    void doClickProfileCancel()
     {
         Log.d(TAG, "cancel ok");
         Intent intent = getIntent();
@@ -201,7 +194,7 @@ public class ProfileSetupActivity extends SuperAnnotationActivity
     }
 
     @Click(R.id.profile_ibleft)
-            void doClickProfileFemale()
+    void doClickProfileFemale()
     {
         if (imFemale.isSelected())
         {
@@ -217,7 +210,7 @@ public class ProfileSetupActivity extends SuperAnnotationActivity
     }
 
     @Click(R.id.profile_ibright)
-            void doClickProfileMale()
+    void doClickProfileMale()
     {
         if (imMale.isSelected())
         {
@@ -235,13 +228,14 @@ public class ProfileSetupActivity extends SuperAnnotationActivity
 
 
     @Click(R.id.profile_relativeLayout)
-            void doClickCover() {
+    void doClickCover()
+    {
         flag = true;
         uploadImage();
     }
 
     @Click(R.id.profile_iv_icon)
-            void doClickProfileIcon()
+    void doClickProfileIcon()
     {
         flag = false;
         uploadImage();
@@ -395,13 +389,13 @@ public class ProfileSetupActivity extends SuperAnnotationActivity
     }
 
     @Click(R.id.profile_tv_birthday)
-            void doClickBirthday()
+    void doClickBirthday()
     {
         showDialog(DATE_DIALOG_ID);
     }
 
     @Click(R.id.profile_et_country)
-            void doClickCountry()
+    void doClickCountry()
     {
         viewListCountry();
     }
