@@ -4,11 +4,12 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/drawer_layout">
-    <FrameLayout
+    <fragment
+            android:name="com.qsoft.pilotproject.ui.fragment.Home_"
             android:layout_height="fill_parent"
             android:layout_width="fill_parent"
             android:id="@+id/content_fragment">
-    </FrameLayout>
+    </fragment>
     <RelativeLayout
             android:layout_width="@dimen/sidebar_width"
             android:layout_height="wrap_content"

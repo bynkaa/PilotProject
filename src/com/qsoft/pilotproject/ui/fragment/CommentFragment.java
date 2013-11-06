@@ -14,6 +14,7 @@ import com.qsoft.pilotproject.adapter.CommentAdapter;
 import com.qsoft.pilotproject.model.Comment;
 import com.qsoft.pilotproject.provider.CommentDataSource;
 import com.qsoft.pilotproject.ui.activity.NewCommentActivity;
+import com.qsoft.pilotproject.ui.activity.NewCommentActivity_;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -52,7 +53,7 @@ public class CommentFragment extends Fragment
     @Click(R.id.tvNewComment)
     void  doClickNewComment()
     {
-        Intent intent = new Intent(CommentFragment.this.getActivity(), NewCommentActivity.class);
+        Intent intent = new Intent(CommentFragment.this.getActivity(), NewCommentActivity_.class);
         startActivityForResult(intent, REQUEST_CODE);
     }
 

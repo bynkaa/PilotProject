@@ -6,10 +6,12 @@ import android.content.Intent;
 import android.util.Log;
 import com.example.PilotProject.R;
 import com.googlecode.androidannotations.annotations.AfterViews;
+import com.googlecode.androidannotations.annotations.Bean;
 import com.googlecode.androidannotations.annotations.EActivity;
 import com.googlecode.androidannotations.annotations.SystemService;
 import com.qsoft.eip.common.SuperAnnotationActivity;
 import com.qsoft.pilotproject.authenticator.AccountGeneral;
+import com.qsoft.pilotproject.authenticator.ApplicationAccountManager;
 
 /**
  * User: binhtv
@@ -19,10 +21,11 @@ import com.qsoft.pilotproject.authenticator.AccountGeneral;
 @EActivity(R.layout.main)
 public class StartActivity extends SuperAnnotationActivity
 {
-    public static final String ACCOUNT_KEY = "account";
-
     @SystemService
     AccountManager accountManager;
+
+    @Bean
+    ApplicationAccountManager applicationAccountManager;
 
     @AfterViews
     void afterViews()
@@ -33,7 +36,7 @@ public class StartActivity extends SuperAnnotationActivity
         {
             Account account = accounts[0];
             Intent intent = new Intent(this, SlideBarActivity_.class);
-            intent.putExtra(ACCOUNT_KEY, account);
+            applicationAccountManager.setAccount(account);
             startActivity(intent);
             finish();
         }

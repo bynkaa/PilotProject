@@ -20,6 +20,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 import com.example.PilotProject.R;
 import com.googlecode.androidannotations.annotations.*;
+import com.qsoft.pilotproject.authenticator.ApplicationAccountManager;
 import com.qsoft.pilotproject.authenticator.OnlineDioAuthenticator;
 import com.qsoft.pilotproject.handler.AuthenticatorHandler;
 import com.qsoft.pilotproject.handler.impl.AuthenticatorHandlerImpl;
@@ -76,6 +77,9 @@ public class LoginActivity extends AccountAuthenticatorActivity
 
     String authTokenType;
 
+    @Bean
+    ApplicationAccountManager applicationAccountManager;
+
     public void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
@@ -108,7 +112,7 @@ public class LoginActivity extends AccountAuthenticatorActivity
     @Click(R.id.login_ivBack)
     void doClickBack()
     {
-        Intent intentBack = new Intent(LoginActivity.this, LaunchActivity.class);
+        Intent intentBack = new Intent(LoginActivity.this, LaunchActivity_.class);
         startActivity(intentBack);
         Log.d(TAG, "come back to launch screen");
     }
@@ -183,6 +187,7 @@ public class LoginActivity extends AccountAuthenticatorActivity
             bundle.putString(USER_ID_KEY, Long.toString(intent.getLongExtra(USER_ID_KEY, 0)));
             accountManager.addAccountExplicitly(account, accountPassword, bundle);
             accountManager.setAuthToken(account, authTokenType, authToken);
+            applicationAccountManager.setTokenAuth(authToken);
         }
         else
         {
@@ -190,8 +195,8 @@ public class LoginActivity extends AccountAuthenticatorActivity
             accountManager.setPassword(account, accountPassword);
         }
         setAccountAuthenticatorResult(intent.getExtras());
-        Intent slideBarIntent = new Intent(LoginActivity.this, SlideBarActivity.class);
-        slideBarIntent.putExtra(StartActivity.ACCOUNT_KEY, account);
+        Intent slideBarIntent = new Intent(LoginActivity.this, SlideBarActivity_.class);
+        applicationAccountManager.setAccount(account);
         startActivity(slideBarIntent);
         Log.d(TAG, "Login successfully");
     }

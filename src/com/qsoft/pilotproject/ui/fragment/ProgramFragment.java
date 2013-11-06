@@ -23,6 +23,7 @@ import com.qsoft.pilotproject.model.Feed;
 import com.qsoft.pilotproject.model.ProgramTab;
 import com.qsoft.pilotproject.provider.OnlineDioContract;
 import com.qsoft.pilotproject.ui.activity.SlideBarActivity;
+import com.qsoft.pilotproject.ui.activity.SlideBarActivity_;
 import com.qsoft.pilotproject.utils.Utilities;
 
 /**
@@ -100,7 +101,7 @@ public class ProgramFragment extends Fragment
     @Click(R.id.ibProgramBack)
             void doClickBack()
     {
-        Intent intent = new Intent(getActivity(), SlideBarActivity.class);
+        Intent intent = new Intent(getActivity(), SlideBarActivity_.class);
         startActivity(intent);
     }
 

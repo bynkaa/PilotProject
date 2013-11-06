@@ -16,12 +16,12 @@ import com.example.PilotProject.R;
 import com.googlecode.androidannotations.annotations.*;
 import com.qsoft.eip.common.SuperAnnotationActivity;
 import com.qsoft.pilotproject.adapter.SideBarItemAdapter;
+import com.qsoft.pilotproject.authenticator.ApplicationAccountManager;
 import com.qsoft.pilotproject.model.Comment;
 import com.qsoft.pilotproject.provider.CommentDataSource;
 import com.qsoft.pilotproject.provider.OnlineDioContract;
 import com.qsoft.pilotproject.ui.fragment.CommentFragment;
 import com.qsoft.pilotproject.ui.fragment.Home;
-import com.qsoft.pilotproject.ui.fragment.Home_;
 
 /**
  * User: binhtv
@@ -31,9 +31,6 @@ import com.qsoft.pilotproject.ui.fragment.Home_;
 @EActivity(R.layout.slidebar)
 public class SlideBarActivity extends SuperAnnotationActivity
 {
-    private Account account;
-    private String authToken;
-
     @SystemService
     AccountManager accountManager;
 
@@ -68,15 +65,17 @@ public class SlideBarActivity extends SuperAnnotationActivity
     @FragmentById(R.id.content_fragment)
     Home homeFragment;
 
+    @Bean
+    ApplicationAccountManager applicationAccountManager;
+
     @AfterViews
     void afterViews()
     {
-        account = getIntent().getParcelableExtra(StartActivity.ACCOUNT_KEY);
         commentDataSource = new CommentDataSource(this);
         commentDataSource.open();
         setListViewSlideBar();
-        Fragment homeFragment = new Home_();
-        getFragmentManager().beginTransaction().replace(R.id.content_fragment, homeFragment).commit();
+//        homeFragment = new Home_();
+//        getFragmentManager().beginTransaction().replace(R.id.content_fragment, homeFragment).commit();
 
     }
 
@@ -84,7 +83,7 @@ public class SlideBarActivity extends SuperAnnotationActivity
     void onClickMyStation(View view)
     {
         Log.d(TAG, "profile setup");
-        Intent intent = new Intent(SlideBarActivity.this, ProfileSetupActivity.class);
+        Intent intent = new Intent(SlideBarActivity.this, ProfileSetupActivity_.class);
         startActivityForResult(intent, REQUEST_CODE);
     }
 
@@ -133,11 +132,6 @@ public class SlideBarActivity extends SuperAnnotationActivity
         dlSlideBar.closeDrawer(leftDrawerView);
     }
 
-    public Account getAccount()
-    {
-        return account;
-    }
-
     public void triggerSync()
     {
         Log.d(TAG, "TriggerSync > account");
@@ -145,7 +139,7 @@ public class SlideBarActivity extends SuperAnnotationActivity
         bundle.putBoolean(ContentResolver.SYNC_EXTRAS_MANUAL, true);
         bundle.putBoolean(ContentResolver.SYNC_EXTRAS_EXPEDITED, true);
         bundle.putBoolean(ContentResolver.SYNC_EXTRAS_FORCE, true);
-        ContentResolver.requestSync(account, OnlineDioContract.CONTENT_AUTHORITY, bundle);
+        ContentResolver.requestSync(applicationAccountManager.getAccount(), OnlineDioContract.CONTENT_AUTHORITY, bundle);
     }
 
 }

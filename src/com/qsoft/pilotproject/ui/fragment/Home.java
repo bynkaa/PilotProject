@@ -5,10 +5,8 @@ import android.app.Fragment;
 import android.content.ContentResolver;
 import android.widget.Button;
 import com.example.PilotProject.R;
-import com.googlecode.androidannotations.annotations.AfterViews;
-import com.googlecode.androidannotations.annotations.Click;
-import com.googlecode.androidannotations.annotations.EFragment;
-import com.googlecode.androidannotations.annotations.ViewById;
+import com.googlecode.androidannotations.annotations.*;
+import com.qsoft.pilotproject.authenticator.ApplicationAccountManager;
 import com.qsoft.pilotproject.provider.OnlineDioContract;
 import com.qsoft.pilotproject.ui.activity.SlideBarActivity;
 
@@ -25,11 +23,13 @@ public class Home extends Fragment
     Button btMenu;
     @ViewById(R.id.btNotification)
     Button btNotification;
+    @Bean
+    ApplicationAccountManager applicationAccountManager;
 
     @AfterViews
     void afterViews()
     {
-        Account account = ((SlideBarActivity) getActivity()).getAccount();
+        Account account = applicationAccountManager.getAccount();
         ContentResolver.setIsSyncable(account, OnlineDioContract.CONTENT_AUTHORITY, 1);
         ContentResolver.setSyncAutomatically(account, OnlineDioContract.CONTENT_AUTHORITY, true);
         ((SlideBarActivity) getActivity()).triggerSync();
