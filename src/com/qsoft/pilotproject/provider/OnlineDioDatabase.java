@@ -81,7 +81,7 @@ public class OnlineDioDatabase extends SQLiteOpenHelper
                 + OnlineDioContract.Profile.COLUMN_PHONE + " TEXT,"
                 + OnlineDioContract.Profile.COLUMN_BIRTHDAY + " TEXT,"
                 + OnlineDioContract.Profile.COLUMN_GENDER + " INTEGER,"
-                + OnlineDioContract.Profile.COLUMN_COUNTRY_ID + " INTEGER,"
+                + OnlineDioContract.Profile.COLUMN_COUNTRY_ID + " TEXT,"
                 + OnlineDioContract.Profile.COLUMN_STORAGE_PLAN_ID + " INTEGER,"
                 + OnlineDioContract.Profile.COLUMN_DESCRIPTION + " TEXT,"
                 + OnlineDioContract.Profile.COLUMN_CREATED_AT + " TEXT,"

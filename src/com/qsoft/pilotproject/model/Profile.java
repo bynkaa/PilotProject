@@ -38,7 +38,7 @@ public class Profile extends ProfileDTO
         profile.setPhone(cursor.getString(cursor.getColumnIndex(OnlineDioContract.Profile.COLUMN_PHONE)));
         profile.setBirthday(cursor.getString(cursor.getColumnIndex(OnlineDioContract.Profile.COLUMN_BIRTHDAY)));
         profile.setGender(cursor.getInt(cursor.getColumnIndex(OnlineDioContract.Profile.COLUMN_GENDER)));
-        profile.setCountryId(cursor.getInt(cursor.getColumnIndex(OnlineDioContract.Profile.COLUMN_COUNTRY_ID)));
+        profile.setCountryId(cursor.getString(cursor.getColumnIndex(OnlineDioContract.Profile.COLUMN_COUNTRY_ID)));
         profile.setStoragePlanId(cursor.getInt(cursor.getColumnIndex(OnlineDioContract.Profile.COLUMN_STORAGE_PLAN_ID)));
         profile.setDescription(cursor.getString(cursor.getColumnIndex(OnlineDioContract.Profile.COLUMN_DESCRIPTION)));
         profile.setCreatedAt(cursor.getString(cursor.getColumnIndex(OnlineDioContract.Profile.COLUMN_CREATED_AT)));

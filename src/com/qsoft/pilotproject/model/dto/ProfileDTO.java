@@ -36,7 +36,7 @@ public class ProfileDTO implements Serializable
     @SerializedName("gender")
     private int gender;
     @SerializedName("country_id")
-    private int countryId;
+    private String countryId;
     @SerializedName("storage_plan_id")
     private int storagePlanId;
     @SerializedName("description")
@@ -166,12 +166,12 @@ public class ProfileDTO implements Serializable
         this.gender = gender;
     }
 
-    public int getCountryId()
+    public String getCountryId()
     {
         return countryId;
     }
 
-    public void setCountryId(int countryId)
+    public void setCountryId(String countryId)
     {
         this.countryId = countryId;
     }

@@ -58,16 +58,6 @@ public class ProgramFragment extends Fragment
     TextView tvUpdated;
     Feed feed = null;
 
-
-//    @Override
-//    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
-//    {
-//        View view = inflater.inflate(R.layout.program, container, false);
-//
-//        return view;
-//    }
-
-
     @AfterViews
     void afterViews()
     {
