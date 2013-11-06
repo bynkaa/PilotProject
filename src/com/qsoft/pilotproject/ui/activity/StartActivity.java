@@ -11,7 +11,9 @@ import com.googlecode.androidannotations.annotations.EActivity;
 import com.googlecode.androidannotations.annotations.SystemService;
 import com.qsoft.pilotproject.authenticator.AccountGeneral;
 import com.qsoft.pilotproject.authenticator.ApplicationAccountManager;
+import com.qsoft.pilotproject.common.CommandExecutor;
 import com.qsoft.pilotproject.common.SuperAnnotationActivity;
+import com.qsoft.pilotproject.common.commands.GenericStartActivityCommand;
 
 /**
  * User: binhtv
@@ -21,11 +23,15 @@ import com.qsoft.pilotproject.common.SuperAnnotationActivity;
 @EActivity(R.layout.main)
 public class StartActivity extends SuperAnnotationActivity
 {
+    private static final int RC_SLIDE_BAR_ACTIVITY = 1;
+    private static final int RC_LAUCH_ACTIVITY = 2;
     @SystemService
     AccountManager accountManager;
 
     @Bean
     ApplicationAccountManager applicationAccountManager;
+    @Bean
+    CommandExecutor commandExecutor;
 
     @AfterViews
     void afterViews()
@@ -35,9 +41,16 @@ public class StartActivity extends SuperAnnotationActivity
         if (accounts.length == 1)
         {
             Account account = accounts[0];
-            Intent intent = new Intent(this, SlideBarActivity_.class);
             applicationAccountManager.setAccount(account);
-            startActivity(intent);
+            commandExecutor.execute(this,
+                    new GenericStartActivityCommand(this, SlideBarActivity_.class, RC_SLIDE_BAR_ACTIVITY)
+                    {
+                        @Override
+                        public void overrideExtra(Intent intent)
+                        {
+                        }
+                    }, false);
+
             finish();
         }
         else
@@ -50,8 +63,14 @@ public class StartActivity extends SuperAnnotationActivity
                     accountManager.removeAccount(accounts[i], null, null);
                 }
             }
-            Intent intent = new Intent(this, LaunchActivity_.class);
-            startActivity(intent);
+            commandExecutor.execute(this,
+                    new GenericStartActivityCommand(this, LaunchActivity_.class, RC_LAUCH_ACTIVITY)
+                    {
+                        @Override
+                        public void overrideExtra(Intent intent)
+                        {
+                        }
+                    }, false);
         }
     }
 }

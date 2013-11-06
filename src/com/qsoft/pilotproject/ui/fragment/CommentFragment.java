@@ -6,14 +6,14 @@ import android.util.Log;
 import android.widget.ListView;
 import android.widget.TextView;
 import com.example.PilotProject.R;
-import com.googlecode.androidannotations.annotations.AfterViews;
-import com.googlecode.androidannotations.annotations.Click;
-import com.googlecode.androidannotations.annotations.EFragment;
-import com.googlecode.androidannotations.annotations.ViewById;
+import com.googlecode.androidannotations.annotations.*;
 import com.qsoft.pilotproject.adapter.CommentAdapter;
+import com.qsoft.pilotproject.common.CommandExecutor;
+import com.qsoft.pilotproject.common.commands.GenericStartActivityCommand;
 import com.qsoft.pilotproject.model.Comment;
 import com.qsoft.pilotproject.provider.CommentDataSource;
 import com.qsoft.pilotproject.ui.activity.NewCommentActivity_;
+import com.qsoft.pilotproject.ui.activity.SlideBarActivity_;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,13 +26,15 @@ import java.util.List;
 @EFragment(R.layout.program_comment)
 public class CommentFragment extends Fragment
 {
-    public static final int REQUEST_CODE = 1;
+    private static final int RC_NEW_COMMENT_ACTIVITY = 3;
 
 
     @ViewById(R.id.tvNewComment)
     TextView tvAddNewComment;
     @ViewById(R.id.lvComment)
     ListView lvComment;
+    @Bean
+    CommandExecutor commandExecutor;
 
     private List<Comment> commentList;
     private CommentDataSource commentDataSource;
@@ -52,8 +54,14 @@ public class CommentFragment extends Fragment
     @Click(R.id.tvNewComment)
     void doClickNewComment()
     {
-        Intent intent = new Intent(CommentFragment.this.getActivity(), NewCommentActivity_.class);
-        startActivityForResult(intent, REQUEST_CODE);
+        commandExecutor.execute(getActivity(),
+                new GenericStartActivityCommand(getActivity(), NewCommentActivity_.class, RC_NEW_COMMENT_ACTIVITY)
+                {
+                    @Override
+                    public void overrideExtra(Intent intent)
+                    {
+                    }
+                }, false);
     }
 
     @Override

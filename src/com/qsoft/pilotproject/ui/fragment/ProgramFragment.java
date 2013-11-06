@@ -13,13 +13,13 @@ import android.widget.ImageButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 import com.example.PilotProject.R;
-import com.googlecode.androidannotations.annotations.AfterViews;
-import com.googlecode.androidannotations.annotations.Click;
-import com.googlecode.androidannotations.annotations.EFragment;
-import com.googlecode.androidannotations.annotations.ViewById;
+import com.googlecode.androidannotations.annotations.*;
+import com.qsoft.pilotproject.common.CommandExecutor;
+import com.qsoft.pilotproject.common.commands.GenericStartActivityCommand;
 import com.qsoft.pilotproject.model.Feed;
 import com.qsoft.pilotproject.model.ProgramTab;
 import com.qsoft.pilotproject.provider.OnlineDioContract;
+import com.qsoft.pilotproject.ui.activity.NewCommentActivity_;
 import com.qsoft.pilotproject.ui.activity.SlideBarActivity_;
 import com.qsoft.pilotproject.utils.Utilities;
 
@@ -33,6 +33,7 @@ public class ProgramFragment extends Fragment
 {
 
     static final String TAG = "ProgramFragment";
+    private static final int RC_SLIDE_BAR_ACTIVITY = 5;
     FragmentManager manager = getFragmentManager();
     @ViewById(R.id.ibProgramBack)
     ImageButton ibProgramBack;
@@ -53,6 +54,8 @@ public class ProgramFragment extends Fragment
     @ViewById(R.id.tvLastUpdate)
     TextView tvUpdated;
     Feed feed = null;
+    @Bean
+    CommandExecutor commandExecutor;
 
 
     @AfterViews
@@ -97,8 +100,15 @@ public class ProgramFragment extends Fragment
     @Click(R.id.ibProgramBack)
     void doClickBack()
     {
-        Intent intent = new Intent(getActivity(), SlideBarActivity_.class);
-        startActivity(intent);
+        commandExecutor.execute(getActivity(),
+                new GenericStartActivityCommand(getActivity(), SlideBarActivity_.class, RC_SLIDE_BAR_ACTIVITY)
+                {
+                    @Override
+                    public void overrideExtra(Intent intent)
+                    {
+                    }
+                }, false);
+
     }
 
     RadioGroup.OnCheckedChangeListener programTabOnCheckChangeListener = new RadioGroup.OnCheckedChangeListener()

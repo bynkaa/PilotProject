@@ -18,6 +18,9 @@ import android.util.Log;
 import android.widget.*;
 import com.example.PilotProject.R;
 import com.googlecode.androidannotations.annotations.*;
+import com.novoda.imageloader.core.ImageManager;
+import com.novoda.imageloader.core.LoaderSettings;
+import com.novoda.imageloader.core.model.ImageTagFactory;
 import com.qsoft.pilotproject.adapter.CropOption;
 import com.qsoft.pilotproject.adapter.CropOptionAdapter;
 import com.qsoft.pilotproject.authenticator.ApplicationAccountManager;
@@ -172,6 +175,14 @@ public class ProfileSetupActivity extends SuperAnnotationActivity
                 tvCountry.setText(countryList[index]);
             }
         }
+        // image
+//        LoaderSettings settings = new LoaderSettings.SettingsBuilder().withAsyncTasks(true).build(this);
+//        ImageManager imageManager = new ImageManager(this,settings);
+//        ImageTagFactory imageTagFactory = ImageTagFactory.newInstance(this,R.drawable.loading);
+//        imageTagFactory.build(profileDTO.getAvatar(),this);
+//        ivProfile.setTag(imageTagFactory);
+//        imageManager.getLoader().load(ivProfile);
+
     }
 
 
