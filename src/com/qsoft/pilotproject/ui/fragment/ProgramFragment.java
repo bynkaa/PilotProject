@@ -58,6 +58,7 @@ public class ProgramFragment extends Fragment
     TextView tvUpdated;
     Feed feed = null;
 
+
     @AfterViews
     void afterViews()
     {
@@ -98,7 +99,7 @@ public class ProgramFragment extends Fragment
 
 
     @Click(R.id.ibProgramBack)
-            void doClickBack()
+    void doClickBack()
     {
         Intent intent = new Intent(getActivity(), SlideBarActivity_.class);
         startActivity(intent);

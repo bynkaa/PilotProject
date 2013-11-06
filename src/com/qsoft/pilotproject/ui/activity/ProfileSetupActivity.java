@@ -85,18 +85,23 @@ public class ProfileSetupActivity extends SuperAnnotationActivity
     static final int CROP_FROM_CAMERA = 2;
     static final int PICK_FROM_FILE = 3;
 
+
     @SystemService
     AccountManager accountManager;
 
     Account account;
     @Bean
     ApplicationAccountManager applicationAccountManager;
+    String[] countryList;
+    String[] countryCodes;
 
     public void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.profile_setup);
         account = applicationAccountManager.getAccount();
+        countryList = getResources().getStringArray(R.array.country);
+        countryCodes = getResources().getStringArray(R.array.country_codes);
     }
 
     @AfterViews
@@ -157,7 +162,25 @@ public class ProfileSetupActivity extends SuperAnnotationActivity
         {
             imMale.performClick();
         }
+        if (profileDTO.getCountryId() != null && !profileDTO.getCountryId().isEmpty())
+        {
+            int index = -1;
+
+            for (int  i = 0; i < countryCodes.length; i++)
+            {
+                if (countryCodes[i].equals(profileDTO.getCountryId()))
+                {
+                    index = i;
+                    break;
+                }
+            }
+            if (index != -1)
+            {
+                tvCountry.setText(countryList[index]);
+            }
+        }
     }
+
 
     @Click(R.id.ibProfileSave)
             void doClickProfileSaveButton()
@@ -414,7 +437,6 @@ public class ProfileSetupActivity extends SuperAnnotationActivity
 
     void viewListCountry()
     {
-        final String[] countryList = getResources().getStringArray(R.array.country);
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
         builder.setTitle("list country");
 
