@@ -22,6 +22,8 @@ import com.example.PilotProject.R;
 import com.googlecode.androidannotations.annotations.*;
 import com.qsoft.pilotproject.authenticator.ApplicationAccountManager;
 import com.qsoft.pilotproject.authenticator.OnlineDioAuthenticator;
+import com.qsoft.pilotproject.common.CommandExecutor;
+import com.qsoft.pilotproject.common.commands.GenericStartActivityCommand;
 import com.qsoft.pilotproject.handler.AuthenticatorHandler;
 import com.qsoft.pilotproject.handler.impl.AuthenticatorHandlerImpl;
 import com.qsoft.pilotproject.model.dto.SignInDTO;
@@ -43,6 +45,8 @@ import java.io.IOException;
 @EActivity(R.layout.activity_login)
 public class LoginActivity extends AccountAuthenticatorActivity
 {
+    private static final int RC_LAUCH_ACTIVITY = 1;
+    private static final int RC_SLIDE_BAR_ACTIVITY = 2;
     @Bean(AuthenticatorHandlerImpl.class)
     public AuthenticatorHandler onLineDioService;
 
@@ -67,6 +71,8 @@ public class LoginActivity extends AccountAuthenticatorActivity
 
     @ViewById(R.id.login_tvForgotPass)
     TextView forgotPass;
+    @Bean
+    CommandExecutor commandExecutor;
 
     final String EMAIL_PATTERN =
             "^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@"
@@ -96,7 +102,8 @@ public class LoginActivity extends AccountAuthenticatorActivity
     }
 
     @AfterTextChange({R.id.login_etMail, R.id.login_etPassword})
-    void handleTextChangeEmail() {
+    void handleTextChangeEmail()
+    {
         if (etEmail.getText().toString().isEmpty() || etPassword.getText().toString().isEmpty())
         {
             imDone.setBackgroundDrawable(getResources().getDrawable(R.drawable.login_btdone_invisible));
@@ -112,8 +119,16 @@ public class LoginActivity extends AccountAuthenticatorActivity
     @Click(R.id.login_ivBack)
     void doClickBack()
     {
-        Intent intentBack = new Intent(LoginActivity.this, LaunchActivity_.class);
-        startActivity(intentBack);
+
+        commandExecutor.execute(this,
+                new GenericStartActivityCommand(this, LaunchActivity_.class, RC_LAUCH_ACTIVITY)
+                {
+                    @Override
+                    public void overrideExtra(Intent intent)
+                    {
+                    }
+                }, false);
+
         Log.d(TAG, "come back to launch screen");
     }
 
@@ -195,14 +210,22 @@ public class LoginActivity extends AccountAuthenticatorActivity
             accountManager.setPassword(account, accountPassword);
         }
         setAccountAuthenticatorResult(intent.getExtras());
-        Intent slideBarIntent = new Intent(LoginActivity.this, SlideBarActivity_.class);
         applicationAccountManager.setAccount(account);
-        startActivity(slideBarIntent);
+        commandExecutor.execute(this,
+                new GenericStartActivityCommand(this, SlideBarActivity_.class, RC_SLIDE_BAR_ACTIVITY)
+                {
+                    @Override
+                    public void overrideExtra(Intent intent)
+                    {
+                    }
+                }, false);
+
         Log.d(TAG, "Login successfully");
     }
 
     @Click(R.id.login_tvForgotPass)
-    void doClickForgetPassword() {
+    void doClickForgetPassword()
+    {
         AlertDialog dialog = showAlertDialogResetPassword("Forgot Password", "To reset your password, please enter your" +
                 " email address");
     }
