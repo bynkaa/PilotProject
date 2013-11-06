@@ -1,7 +1,6 @@
 package com.qsoft.pilotproject.common;
 
 import android.app.Activity;
-import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.EditText;
@@ -40,8 +39,6 @@ public class SuperActivity extends Activity implements IModelContainer
     protected int requestCode;
 
     private Integer originalRequestCode;
-
-    private Map<Integer, IExchangeEvent> exchangeQueue = new HashMap<Integer, IExchangeEvent>();
 
     private Map<Integer, Object> mappedUIComponents = new HashMap<Integer, Object>();
 
@@ -87,22 +84,6 @@ public class SuperActivity extends Activity implements IModelContainer
     }
 
 // -------------------------- OTHER METHODS --------------------------
-
-    public void addExchangeQueue(int requestCode, IExchangeEvent exchangeEvent)
-    {
-        exchangeQueue.put(requestCode, exchangeEvent);
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data)
-    {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (exchangeQueue.containsKey(requestCode))
-        {
-            exchangeQueue.get(requestCode).handleResult(model, data, resultCode);
-            exchangeQueue.remove(requestCode);
-        }
-    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState)

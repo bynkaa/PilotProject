@@ -65,6 +65,12 @@ public class GenericStartActivityCommand implements ICommandExecutable
         intent.putExtra(Constants.SOURCE_MODEL, model);
         requestCode = UniqueRequestCodeGenerator.getNext();
         intent.putExtra(Constants.REQUEST_CODE, requestCode);
+        overrideExtra(intent);
         activityExchangeEventManageable.startActivityForResult(intent, requestCode);
+    }
+
+    public void overrideExtra(Intent intent)
+    {
+
     }
 }

@@ -89,7 +89,14 @@ public class SlideBarActivity extends SuperAnnotationActivity
     {
         Log.d(TAG, "profile setup");
         commandExecutor.execute(this,
-                new GenericStartActivityCommand(this, ProfileSetupActivity_.class, RC_PROFILE_SETUP_ACTIVITY), false);
+                new GenericStartActivityCommand(this, ProfileSetupActivity_.class, RC_PROFILE_SETUP_ACTIVITY)
+                {
+                    @Override
+                    public void overrideExtra(Intent intent)
+                    {
+                        intent.putExtra("TEST_VALUE", "Value");
+                    }
+                }, false);
     }
 
     @Override
