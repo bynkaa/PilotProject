@@ -79,9 +79,6 @@ public class SlideBarActivity extends SuperAnnotationActivity
         commentDataSource = new CommentDataSource(this);
         commentDataSource.open();
         setListViewSlideBar();
-//        homeFragment = new Home_();
-//        getFragmentManager().beginTransaction().replace(R.id.content_fragment, homeFragment).commit();
-
     }
 
     @Click(R.id.ibMyStation)

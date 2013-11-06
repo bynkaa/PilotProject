@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 import com.example.PilotProject.R;
+import com.qsoft.pilotproject.imageloader.ImageLoader;
 import com.qsoft.pilotproject.provider.OnlineDioContract;
 import com.qsoft.pilotproject.utils.Utilities;
 
@@ -19,9 +20,11 @@ import com.qsoft.pilotproject.utils.Utilities;
 public class ArrayFeedAdapter extends SimpleCursorAdapter
 {
 
+    ImageLoader imageLoader;
     public ArrayFeedAdapter(Context context, int layout, Cursor c, String[] from, int[] to)
     {
         super(context, layout, c, from, to);
+        imageLoader = new ImageLoader(context);
     }
 
     @Override
@@ -34,6 +37,9 @@ public class ArrayFeedAdapter extends SimpleCursorAdapter
         TextView tvComment = (TextView) view.findViewById(R.id.tvCommentFeed);
         TextView tvLastUpdate = (TextView) view.findViewById(R.id.tvLastUpdateStatus);
         ImageView imProfile = (ImageView) view.findViewById(R.id.imAvatarFeed);
+        int avatarIndex = cursor.getColumnIndexOrThrow(OnlineDioContract.Feed.COLUMN_AVATAR);
+        String avatarUrl = cursor.getString(avatarIndex);
+        imageLoader.DisplayImage(avatarUrl,imProfile);
         int titleIndex = cursor.getColumnIndexOrThrow(OnlineDioContract.Feed.COLUMN_TITLE);
         tvTitle.setText(cursor.getString(titleIndex));
         int displayNameIndex = cursor.getColumnIndexOrThrow(OnlineDioContract.Feed.COLUMN_DISPLAY_NAME);

@@ -62,67 +62,6 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter
     public void onPerformSync(Account account, Bundle bundle, String authority, ContentProviderClient provider, SyncResult syncResult)
     {
         Log.d(TAG, "onPerformSync()");
-//        String authToken = accountManager.peekAuthToken(account, AccountGeneral.AUTHTOKEN_TYPE_FULL_ACCESS);
-//            Log.d(TAG, "onPerformSync() > Get remote Feeds");
-//            FeedHandler feedHandler = new FeedHandlerImpl();
-//            List<FeedDTO> remoteFeeds = feedHandler.getFeeds(authToken);
-//            Log.d(TAG, "onPerformSync() > Get local Feeds");
-//            List<FeedDTO> localFeeds = new ArrayList<FeedDTO>();
-//            Cursor cursorFeed = provider.query(OnlineDioContract.Feed.CONTENT_URI, null, null, null, null);
-//            if (cursorFeed != null)
-//            {
-//                while (cursorFeed.moveToNext())
-//                {
-//                    // get feed from cursor
-//                    localFeeds.add(FeedDTO.fromCursor(cursorFeed));
-//                }
-//                cursorFeed.close();
-//            }
-//
-//            // see what remote feeds are missing on Remote
-//            ArrayList<FeedDTO> feedsToRemote = new ArrayList<FeedDTO>();
-//            for (FeedDTO feedDTO : localFeeds)
-//            {
-//                if (!remoteFeeds.contains(feedDTO))
-//                {
-//                    feedsToRemote.add(feedDTO);
-//                }
-//            }
-//            if (feedsToRemote.size() == 0)
-//            {
-//                Log.d(TAG, "No Local changes to update server");
-//            }
-//            else
-//            {
-//                Log.d(TAG, " updating remote server with local change");
-//            }
-//
-//            // see what remote feeds are missing on Local
-//            ArrayList<FeedDTO> feedsToLocal = new ArrayList<FeedDTO>();
-//            for (FeedDTO feedDTO : remoteFeeds)
-//            {
-//                if (!localFeeds.contains(feedDTO))
-//                {
-//                    feedsToLocal.add(feedDTO);
-//                }
-//            }
-//            if (feedsToLocal.size() == 0)
-//            {
-//                Log.d(TAG, "No server changes to update local database");
-//            }
-//            else
-//            {
-//                Log.d(TAG, " updating local database with remote change");
-//                int i = 0;
-//                ContentValues feedsToLocalValues[] = new ContentValues[feedsToLocal.size()];
-//                for (FeedDTO localFeed : feedsToLocal)
-//                {
-//                    Log.d(TAG, " remote -> local");
-//                    feedsToLocalValues[i++] = localFeed.getContentValues();
-//                }
-//                provider.bulkInsert(OnlineDioContract.Feed.CONTENT_URI, feedsToLocalValues);
-//            }
-//            Log.d(TAG, "sync finished");
         try
         {
             updateLocalFeedData(account, syncResult);
