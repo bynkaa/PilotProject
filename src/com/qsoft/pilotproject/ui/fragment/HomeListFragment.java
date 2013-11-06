@@ -118,7 +118,7 @@ public class HomeListFragment extends ListFragment implements LoaderManager.Load
         super.onListItemClick(l, v, position, id);
         Bundle bundle = new Bundle();
         bundle.putLong(FEED_ID, id);
-        Fragment programFragment = new ProgramFragment();
+        Fragment programFragment = new ProgramFragment_();
         programFragment.setArguments(bundle);
         FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
         fragmentTransaction.replace(R.id.content_fragment, programFragment);

@@ -16,6 +16,7 @@ import android.widget.ImageButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 import com.example.PilotProject.R;
+import com.googlecode.androidannotations.annotations.AfterViews;
 import com.googlecode.androidannotations.annotations.Click;
 import com.googlecode.androidannotations.annotations.EFragment;
 import com.googlecode.androidannotations.annotations.ViewById;
@@ -58,10 +59,18 @@ public class ProgramFragment extends Fragment
     Feed feed = null;
 
 
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
+//    @Override
+//    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
+//    {
+//        View view = inflater.inflate(R.layout.program, container, false);
+//
+//        return view;
+//    }
+
+
+    @AfterViews
+    void afterViews()
     {
-        View view = inflater.inflate(R.layout.program, container, false);
         rgProgramTab.setOnCheckedChangeListener(programTabOnCheckChangeListener);
         rgProgramTab.check(R.id.rbThumbnail);
         startContentPlayerFragment();
@@ -94,7 +103,7 @@ public class ProgramFragment extends Fragment
         tvPlayed.setText(played);
         tvUpdated.setText(Utilities.calculatorUpdateTime(feed.getUpdatedAt()));
         cursor.close();
-        return view;
+
     }
 
 
@@ -144,13 +153,13 @@ public class ProgramFragment extends Fragment
         switch (currentTab)
         {
             case DETAIL:
-                fragmentContainer = new DetailFragment();
+                fragmentContainer = new DetailFragment_();
                 break;
             case COMMENT:
-                fragmentContainer = new CommentFragment();
+                fragmentContainer = new CommentFragment_();
                 break;
             case THUMB_NAIL:
-                fragmentContainer = new ThumbnailFragment();
+                fragmentContainer = new ThumbnailFragment_();
                 break;
         }
 

@@ -23,6 +23,7 @@ import com.qsoft.eip.common.SuperAnnotationActivity;
 import com.qsoft.pilotproject.adapter.CropOption;
 import com.qsoft.pilotproject.adapter.CropOptionAdapter;
 import com.qsoft.pilotproject.authenticator.AccountGeneral;
+import com.qsoft.pilotproject.authenticator.ApplicationAccountManager;
 import com.qsoft.pilotproject.handler.ProfileHandler;
 import com.qsoft.pilotproject.handler.impl.ProfileHandlerImpl;
 import com.qsoft.pilotproject.model.Profile;
@@ -88,12 +89,14 @@ public class ProfileSetupActivity extends SuperAnnotationActivity
     AccountManager accountManager;
 
     Account account;
+    @Bean
+    ApplicationAccountManager applicationAccountManager;
 
     public void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.profile_setup);
-        account = accountManager.getAccountsByType(AccountGeneral.ACCOUNT_TYPE)[0];
+        account = applicationAccountManager.getAccount();
     }
 
     @AfterViews
