@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+    <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+        <RelativeLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/navbar"
+                android:layout_gravity="left|center_vertical">
+            <Button
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/myfavorite_btn_option"
+                    android:id="@+id/btMenu"
+                    android:layout_alignParentLeft="true"
+                    android:layout_marginLeft="@dimen/home_btMenu_marginLeft"
+                    android:layout_marginTop="@dimen/home_btMenu_marginTop"
+                    android:layout_marginBottom="@dimen/home_btMenu_marginBottom"
+                    android:layout_centerVertical="true"/>
+            <Button
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/home_buttonnotification"
+                    android:id="@+id/btNotification"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_alignTop="@+id/btMenu"
+                    android:layout_marginRight="@dimen/home_btNotification_marginRight"
+                    android:layout_marginTop="@dimen/home_btNotification_marginTop"
+                    android:layout_marginBottom="@dimen/home_btNotification_marginBottom"/>
+            <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/tvHome"
+                    android:textStyle="bold"
+                    android:id="@+id/tvHome" android:layout_centerHorizontal="true"
+                    android:layout_alignBottom="@+id/btMenu" android:singleLine="false"
+                    android:textColor="@android:color/white" android:textSize="@dimen/tvHome"/>
+        </RelativeLayout>
+        <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/tvContentFeed"
+                android:textStyle="bold"
+                android:textSize="@dimen/home_tvContentFeed_textsize"
+                android:background="@android:color/background_dark"
+                android:id="@+id/tvContentFeed" android:layout_gravity="left|center_vertical" android:typeface="sans"/>
+        <RelativeLayout
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent">
+            <FrameLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@android:color/white"
+                    android:id="@+id/fragmentListFeeds" android:layout_alignParentLeft="true"
+                    android:layout_alignParentTop="true"
+                    android:layout_alignParentBottom="true">
+
+            </FrameLayout>
+
+            <Button
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/home_button_layout_height"
+                    android:background="@drawable/home_buttonrecorder4"
+                    android:id="@+id/button" android:layout_centerHorizontal="true"
+                    android:layout_alignBottom="@+id/fragmentListFeeds"/>
+        </RelativeLayout>
+    </LinearLayout>
+
+</RelativeLayout>

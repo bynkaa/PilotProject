@@ -1,0 +1,248 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+
+<RelativeLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:background="@android:color/white"
+        android:layout_height="match_parent">
+
+    <RelativeLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal|top"
+            android:background="@drawable/navbar" android:id="@+id/relativeLayout">
+        <ImageButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/ibProgramBack"
+                android:layout_alignParentLeft="true"
+                android:layout_centerVertical="true"
+                android:background="@drawable/btnback" android:layout_marginLeft="8dp"
+                />
+        <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/tvProgram"
+                android:id="@+id/tvProgram"
+                android:textStyle="bold"
+                android:textColor="@android:color/white"
+                android:textSize="24dp" android:layout_centerHorizontal="true"
+                android:layout_centerInParent="true"
+                android:layout_alignTop="@+id/relativeLayout"/>
+    </RelativeLayout>
+    <RelativeLayout
+            android:layout_width="fill_parent"
+            android:layout_height="@dimen/program_relativeLayout_height"
+            android:layout_alignLeft="@+id/relativeLayout"
+            android:background="@android:color/white"
+            android:padding="5dp"
+            android:layout_below="@+id/relativeLayout"
+            android:id="@+id/rlMyStation">
+        <ImageView
+                android:layout_width="@dimen/program_imageView_width"
+                android:layout_height="@dimen/program_imageView_height"
+                android:id="@+id/imageView"
+                android:background="@drawable/content_image_icon"
+                android:layout_alignParentLeft="true" android:layout_marginLeft="10dp"
+                android:layout_below="@+id/tvLastUpdate" android:layout_marginRight="5dp"/>
+        <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Edit | Delete"
+                android:textColor="@android:color/darker_gray"
+                android:id="@+id/tvEditDelete"
+                android:gravity="center"
+                android:textSize="10dp"
+                android:layout_alignRight="@+id/imageView"
+                android:layout_alignLeft="@id/imageView"
+                android:layout_below="@+id/imageView"
+                android:layout_marginTop="10dp"/>
+        <RelativeLayout
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent" android:layout_toRightOf="@+id/imageView"
+                android:layout_alignTop="@+id/imageView" android:id="@+id/relativeLayout3">
+            <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Composer"
+                    android:textColor="@color/program_textcolor_composer"
+                    android:id="@+id/tvProgramDisplayNameFeed" android:layout_alignParentLeft="true"
+                    android:layout_below="@+id/tvLastUpdate" android:textSize="14dp"/>
+            <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Title"
+                    android:textStyle="bold"
+                    android:textColor="@color/program_textcolor_title"
+                    android:id="@+id/tvProgramTitle" android:layout_alignLeft="@+id/tvProgramDisplayNameFeed"
+                    android:layout_below="@+id/tvProgramDisplayNameFeed"
+                    android:textSize="@dimen/program_tvProgramTitle_textSize"/>
+            <RelativeLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content" android:layout_alignLeft="@+id/tvProgramDisplayNameFeed"
+                    android:layout_below="@+id/tvProgramTitle" android:id="@+id/relativeLayout1"
+                    android:layout_marginTop="5dp">
+                <RelativeLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" android:layout_alignParentLeft="true"
+                        android:layout_alignParentTop="true" android:id="@+id/rlContentLook"
+                        android:layout_marginRight="10dp">
+                    <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:background="@drawable/content_image_look"
+                            android:id="@+id/imContentLook" android:layout_alignParentLeft="true"
+                            android:layout_centerVertical="true" android:layout_marginRight="5dp"/>
+                    <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/program_tvContentLook_value"
+                            android:textColor="@color/program_textcolor_contentlook"
+                            android:id="@+id/tvContentLook" android:layout_toRightOf="@+id/imContentLook"
+                            android:layout_centerVertical="true"/>
+                </RelativeLayout>
+                <RelativeLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_toRightOf="@+id/rlContentLook" android:layout_alignTop="@+id/rlContentLook"
+                        android:id="@+id/rlContentPlay"
+                        android:layout_marginRight="10dp">
+                    <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:background="@drawable/content_image_play"
+                            android:id="@+id/ivContentPlay" android:layout_alignParentLeft="true"
+                            android:layout_centerVertical="true" android:layout_marginRight="5dp"/>
+                    <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="800"
+                            android:textColor="@color/program_textcolor_contentPlay"
+                            android:id="@+id/tvContentPlay" android:layout_toRightOf="@+id/ivContentPlay"
+                            android:layout_centerVertical="true"/>
+                </RelativeLayout>
+                <RelativeLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_toRightOf="@+id/rlContentPlay" android:layout_alignTop="@+id/rlContentLook">
+                    <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:background="@drawable/content_image_like"
+                            android:id="@+id/ivContentLike" android:layout_alignParentLeft="true"
+                            android:layout_centerVertical="true" android:layout_marginRight="5dp"/>
+                    <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="800"
+                            android:textColor="@color/program_textcolor_contentLike"
+                            android:id="@+id/tvContentLike" android:layout_toRightOf="@+id/ivContentLike"
+                            android:layout_centerVertical="true"/>
+                </RelativeLayout>
+            </RelativeLayout>
+            <RelativeLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content" android:layout_alignLeft="@+id/textView1"
+                    android:layout_below="@+id/relativeLayout1" android:layout_marginTop="5dp"
+                    >
+                <CheckBox
+                        android:layout_width="@dimen/program_ibContentStarSelect_width"
+                        android:layout_height="@dimen/program_ibContentStarSelect_height"
+                        android:background="@drawable/checkbox_star"
+                        android:button="@null"
+                        android:id="@+id/ibContentStarSelect" android:layout_alignParentLeft="true"
+                        android:layout_alignParentTop="true"/>
+                <CheckBox
+                        android:layout_width="@dimen/program_ibContentLikeSelect_width"
+                        android:layout_height="@dimen/program_ibContentLikeSelect_height"
+                        android:background="@drawable/checkbox_like"
+                        android:button="@null"
+                        android:id="@+id/ibContentLikeSelect" android:layout_toRightOf="@+id/ibContentStarSelect"
+                        android:layout_alignTop="@+id/ibContentStarSelect" android:layout_marginLeft="5dp"/>
+                <ImageButton
+                        android:layout_width="@dimen/program_ibContentFacebook_width"
+                        android:layout_height="@dimen/program_ibContentFacebook_height"
+                        android:background="@drawable/content_button_facebook"
+                        android:id="@+id/ibContentFacebook" android:layout_alignParentRight="true"
+                        android:layout_centerInParent="true" android:layout_marginRight="5dp"/>
+                <ImageButton
+                        android:layout_width="@dimen/program_ibContentTwitter_width"
+                        android:layout_height="@dimen/program_ibContentTwitter_height"
+                        android:background="@drawable/content_button_twitter"
+                        android:id="@+id/ibContentTwitter" android:layout_toLeftOf="@+id/ibContentFacebook"
+                        android:layout_centerInParent="true"
+                        android:layout_marginRight="5dp"/>
+            </RelativeLayout>
+        </RelativeLayout>
+        <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="1h ago"
+                android:id="@+id/tvLastUpdate"
+                android:textSize="10dp"
+                android:layout_alignRight="@+id/relativeLayout3" android:layout_alignParentTop="true"
+                android:layout_marginRight="10dp"/>
+    </RelativeLayout>
+
+    <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/contentPlayerFragment"
+            android:layout_alignLeft="@id/relativeLayout"
+            android:layout_below="@id/rlMyStation">
+    </FrameLayout>
+    <RadioGroup
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:background="@android:color/white"
+            android:layout_alignLeft="@+id/relativeLayout"
+            android:layout_below="@+id/contentPlayerFragment" android:id="@+id/rgProgramTab">
+        <RadioButton
+                android:layout_width="@dimen/program_rbThumbnail_width"
+                android:layout_height="wrap_content"
+                android:id="@+id/rbThumbnail"
+                android:button="@null"
+                android:text="Thumbnail"
+                android:textColor="@color/program_tab_selection"
+                android:textSize="@dimen/program_rbThumbnail_textSize"
+                android:textStyle="bold"
+                android:background="@drawable/program_comment_selection"
+                android:gravity="center"/>
+
+        <RadioButton
+                android:layout_width="@dimen/program_rbDetail_width"
+                android:layout_height="wrap_content"
+                android:id="@+id/rbDetail"
+                android:button="@null"
+                android:text="Detail"
+                android:textColor="@color/program_tab_selection"
+                android:textSize="@dimen/program_rbDetail_textSize"
+                android:textStyle="bold"
+                android:gravity="center"
+                android:background="@drawable/program_comment_selection"/>
+
+        <RadioButton
+                android:layout_width="@dimen/program_rbComment_width"
+                android:layout_height="wrap_content"
+                android:id="@+id/rbComment"
+                android:text=" Comment (90)"
+                android:gravity="center"
+                android:textColor="@color/program_tab_selection"
+                android:textStyle="bold"
+                android:button="@null"
+                android:textSize="@dimen/program_rbComment_textSize"
+                android:background="@drawable/program_comment_selection"/>
+    </RadioGroup>
+    <FrameLayout
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:id="@+id/fragmentContainer"
+            android:layout_alignLeft="@+id/relativeLayout"
+            android:layout_below="@+id/rgProgramTab">
+    </FrameLayout>
+
+
+</RelativeLayout>
+
