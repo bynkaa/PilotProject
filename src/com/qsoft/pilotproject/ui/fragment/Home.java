@@ -34,18 +34,18 @@ public class Home extends Fragment
         ContentResolver.setSyncAutomatically(account, OnlineDioContract.CONTENT_AUTHORITY, true);
         ((SlideBarActivity) getActivity()).triggerSync();
         Fragment feedListFragment = new HomeListFragment();
-        getFragmentManager().beginTransaction().replace(R.id.fragmentListFeeds, feedListFragment).commit();
+        getChildFragmentManager().beginTransaction().replace(R.id.fragmentListFeeds, feedListFragment).addToBackStack(null).commit();
 
     }
 
     @Click(R.id.btNotification)
-            void doClickNotification()
+    void doClickNotification()
     {
         ((SlideBarActivity) getActivity()).triggerSync();
     }
 
     @Click(R.id.btMenu)
-        void doClickMenu()
+    void doClickMenu()
     {
         ((SlideBarActivity) getActivity()).setOpenOption();
     }

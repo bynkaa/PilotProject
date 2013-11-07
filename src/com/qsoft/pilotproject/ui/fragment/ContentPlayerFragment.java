@@ -2,6 +2,7 @@ package com.qsoft.pilotproject.ui.fragment;
 
 import android.app.Fragment;
 import android.content.Context;
+import android.content.res.AssetFileDescriptor;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.os.Bundle;
@@ -172,8 +173,9 @@ public class ContentPlayerFragment extends Fragment
     {
         try
         {
+            AssetFileDescriptor afd = getResources().openRawResourceFd(R.raw.music);
             mediaPlayer.reset();
-            mediaPlayer.setDataSource(path);
+            mediaPlayer.setDataSource(afd.getFileDescriptor(), afd.getStartOffset(), afd.getDeclaredLength());
             mediaPlayer.prepare();
             mediaPlayer.start();
             btPlay.setImageResource(R.drawable.content_button_pause);

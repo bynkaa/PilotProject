@@ -58,6 +58,11 @@ public class StateUtils
 
     private static void saveToBundle(Object target, Bundle outState, Field member) throws IllegalAccessException
     {
+        if (outState == null)
+        {
+            return;
+        }
+
         if (member.getType() == Integer.class || member.getType() == int.class)
         {
             outState.putInt(member.getName(), (Integer) member.get(target));

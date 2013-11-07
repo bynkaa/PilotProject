@@ -2,6 +2,7 @@ package com.qsoft.pilotproject.ui.activity;
 
 import android.accounts.AccountManager;
 import android.app.Activity;
+import android.app.Fragment;
 import android.content.ContentResolver;
 import android.content.Intent;
 import android.os.Bundle;
@@ -10,6 +11,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ListView;
+import android.widget.Toast;
 import com.example.PilotProject.R;
 import com.googlecode.androidannotations.annotations.*;
 import com.qsoft.pilotproject.adapter.SideBarItemAdapter;
@@ -20,7 +22,7 @@ import com.qsoft.pilotproject.common.commands.GenericStartActivityCommand;
 import com.qsoft.pilotproject.model.Comment;
 import com.qsoft.pilotproject.provider.CommentDataSource;
 import com.qsoft.pilotproject.provider.OnlineDioContract;
-import com.qsoft.pilotproject.ui.fragment.Home;
+import com.qsoft.pilotproject.ui.fragment.Home_;
 
 /**
  * User: binhtv
@@ -64,9 +66,6 @@ public class SlideBarActivity extends SuperAnnotationActivity
     @ViewById(R.id.ibMyStation)
     ImageButton ibMyStation;
 
-    @FragmentById(R.id.content_fragment)
-    Home homeFragment;
-
     @Bean
     ApplicationAccountManager applicationAccountManager;
 
@@ -76,6 +75,13 @@ public class SlideBarActivity extends SuperAnnotationActivity
     @AfterViews
     void afterViews()
     {
+        Fragment currentFragment = getFragmentManager().findFragmentById(R.id.content_fragment);
+
+        if (currentFragment == null)
+        {
+            getFragmentManager().beginTransaction().add(R.id.content_fragment, new Home_()).addToBackStack(null).commit();
+        }
+
         commentDataSource = new CommentDataSource(this);
         commentDataSource.open();
         setListViewSlideBar();
@@ -151,4 +157,24 @@ public class SlideBarActivity extends SuperAnnotationActivity
         ContentResolver.requestSync(applicationAccountManager.getAccount(), OnlineDioContract.CONTENT_AUTHORITY, bundle);
     }
 
+    private boolean lastBack = false;
+
+    @Override
+    public void onBackPressed()
+    {
+        if (getFragmentManager().getBackStackEntryCount() > 1)
+        {
+            super.onBackPressed();
+        }
+        else
+        {
+            if (lastBack)
+            {
+                finish();
+            }
+            Toast toast = Toast.makeText(this, "Press Back again to exit program", Toast.LENGTH_LONG);
+            toast.show();
+            lastBack = true;
+        }
+    }
 }
