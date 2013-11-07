@@ -201,9 +201,7 @@ public class LoginActivity extends AccountAuthenticatorActivity
             Bundle bundle = new Bundle();
             bundle.putString(USER_ID_KEY, Long.toString(intent.getLongExtra(USER_ID_KEY, 0)));
             accountManager.addAccountExplicitly(account, accountPassword, bundle);
-            applicationAccountManager.setAccount(account);
             applicationAccountManager.setTokenAuth(authToken);
-            accountManager.setAuthToken(account, authTokenType, authToken);
         }
         else
         {

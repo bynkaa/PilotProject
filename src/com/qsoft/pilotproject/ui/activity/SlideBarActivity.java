@@ -5,7 +5,6 @@ import android.app.Activity;
 import android.content.ContentResolver;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.app.FragmentActivity;
 import android.support.v4.widget.DrawerLayout;
 import android.util.Log;
 import android.view.View;
@@ -16,6 +15,7 @@ import com.googlecode.androidannotations.annotations.*;
 import com.qsoft.pilotproject.adapter.SideBarItemAdapter;
 import com.qsoft.pilotproject.authenticator.ApplicationAccountManager;
 import com.qsoft.pilotproject.common.CommandExecutor;
+import com.qsoft.pilotproject.common.SuperAnnotationActivity;
 import com.qsoft.pilotproject.common.commands.GenericStartActivityCommand;
 import com.qsoft.pilotproject.model.Comment;
 import com.qsoft.pilotproject.provider.CommentDataSource;
@@ -28,7 +28,7 @@ import com.qsoft.pilotproject.ui.fragment.Home;
  * Time: 10:47 AM
  */
 @EActivity(R.layout.slidebar)
-public class SlideBarActivity extends FragmentActivity
+public class SlideBarActivity extends SuperAnnotationActivity
 {
     @SystemService
     AccountManager accountManager;

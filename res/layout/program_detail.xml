@@ -13,5 +13,5 @@
             android:text="New Text"
             android:layout_marginLeft="5dp"
             android:layout_marginRight="5dp"
-            android:id="@+id/tvDetailContent" android:layout_gravity="left|center_vertical"/>
+            android:id="@+id/textView" android:layout_gravity="left|center_vertical"/>
 </LinearLayout>

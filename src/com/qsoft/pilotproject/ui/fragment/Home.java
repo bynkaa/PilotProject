@@ -1,9 +1,8 @@
 package com.qsoft.pilotproject.ui.fragment;
 
 import android.accounts.Account;
+import android.app.Fragment;
 import android.content.ContentResolver;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentTransaction;
 import android.widget.Button;
 import com.example.PilotProject.R;
 import com.googlecode.androidannotations.annotations.*;
@@ -35,21 +34,18 @@ public class Home extends Fragment
         ContentResolver.setSyncAutomatically(account, OnlineDioContract.CONTENT_AUTHORITY, true);
         ((SlideBarActivity) getActivity()).triggerSync();
         Fragment feedListFragment = new HomeListFragment();
-        FragmentTransaction ft = getFragmentManager().beginTransaction();
-        ft.addToBackStack(TAG);
-        ft.replace(R.id.fragmentListFeeds, feedListFragment).commit();
-
+        getFragmentManager().beginTransaction().replace(R.id.fragmentListFeeds, feedListFragment).commit();
 
     }
 
     @Click(R.id.btNotification)
-    void doClickNotification()
+            void doClickNotification()
     {
         ((SlideBarActivity) getActivity()).triggerSync();
     }
 
     @Click(R.id.btMenu)
-    void doClickMenu()
+        void doClickMenu()
     {
         ((SlideBarActivity) getActivity()).setOpenOption();
     }

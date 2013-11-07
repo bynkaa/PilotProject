@@ -1,6 +1,6 @@
 package com.qsoft.pilotproject.ui.fragment;
 
-import android.support.v4.app.Fragment;
+import android.app.Fragment;
 import com.example.PilotProject.R;
 import com.googlecode.androidannotations.annotations.EFragment;
 
