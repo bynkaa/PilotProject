@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent">
+
+    <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Edit text below"
+            android:id="@+id/textView_title_sf"
+            android:layout_gravity="center"/>
+
+    <EditText
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/editText"
+            android:layout_gravity="center"/>
+
+    <Button
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="Next Fragment"
+            android:id="@+id/button_next_fragment"/>
+
+    <Button
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="Add Sub Fragment"
+            android:id="@+id/button_add_sub_fragment"/>
+
+    <FrameLayout
+            android:id="@+id/subcontainer"
+            android:layout_height="match_parent"
+            android:layout_width="match_parent"/>
+</LinearLayout>
