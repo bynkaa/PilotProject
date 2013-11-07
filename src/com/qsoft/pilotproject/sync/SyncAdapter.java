@@ -8,7 +8,6 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.RemoteException;
 import android.util.Log;
-import com.googlecode.androidannotations.annotations.EBean;
 import com.qsoft.pilotproject.authenticator.InvalidTokenException;
 import com.qsoft.pilotproject.handler.FeedHandler;
 import com.qsoft.pilotproject.handler.impl.FeedHandlerImpl;
@@ -25,7 +24,6 @@ import java.util.List;
  * Date: 10/31/13
  * Time: 10:58 AM
  */
-@EBean
 public class SyncAdapter extends AbstractThreadedSyncAdapter
 {
     private static final String TAG = "SyncAdapter";

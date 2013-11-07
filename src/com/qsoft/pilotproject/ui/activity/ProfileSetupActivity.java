@@ -67,7 +67,7 @@ public class ProfileSetupActivity extends SuperAnnotationActivity
     @ViewById(R.id.ibProfileSave)
     ImageView ibProfileSave;
     @ViewById(R.id.profile_et_displayname)
-    EditText etDisplayName;
+    TextView etDisplayName;
     @ViewById(R.id.profile_et_name)
     EditText etFullName;
     @ViewById(R.id.et_profile_phone)
