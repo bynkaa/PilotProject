@@ -140,7 +140,7 @@ public class ProgramFragment extends Fragment
         if (playerFragment == null)
         {
             playerFragment = new ContentPlayerFragment();
-            getFragmentManager().beginTransaction().add(R.id.contentPlayerFragment, playerFragment).commit();
+            getFragmentManager().beginTransaction().replace(R.id.contentPlayerFragment, playerFragment).commit();
         }
 
     }

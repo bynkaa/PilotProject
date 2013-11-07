@@ -21,6 +21,7 @@ public class ArrayFeedAdapter extends SimpleCursorAdapter
 {
 
     ImageLoader imageLoader;
+
     public ArrayFeedAdapter(Context context, int layout, Cursor c, String[] from, int[] to)
     {
         super(context, layout, c, from, to);
@@ -39,7 +40,7 @@ public class ArrayFeedAdapter extends SimpleCursorAdapter
         ImageView imProfile = (ImageView) view.findViewById(R.id.imAvatarFeed);
         int avatarIndex = cursor.getColumnIndexOrThrow(OnlineDioContract.Feed.COLUMN_AVATAR);
         String avatarUrl = cursor.getString(avatarIndex);
-        imageLoader.DisplayImage(avatarUrl,imProfile);
+        imageLoader.DisplayImage(avatarUrl, imProfile, R.drawable.image_icon);
         int titleIndex = cursor.getColumnIndexOrThrow(OnlineDioContract.Feed.COLUMN_TITLE);
         tvTitle.setText(cursor.getString(titleIndex));
         int displayNameIndex = cursor.getColumnIndexOrThrow(OnlineDioContract.Feed.COLUMN_DISPLAY_NAME);

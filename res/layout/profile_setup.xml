@@ -93,7 +93,7 @@
                         android:layout_alignParentLeft="true"
                         android:layout_marginLeft="@dimen/profileSetup_tvDisplayname_margin_left"
                         android:layout_centerVertical="true"/>
-                <EditText
+                <TextView
                         android:layout_width="@dimen/profileSetup_etDisplayname_width"
                         android:layout_height="wrap_content"
                         android:hint="@string/hint_display_name"

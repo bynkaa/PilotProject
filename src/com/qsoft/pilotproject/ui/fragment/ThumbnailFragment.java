@@ -26,6 +26,6 @@ public class ThumbnailFragment extends Fragment
     void afterViews()
     {
         ImageLoader imageLoader = new ImageLoader(getActivity());
-        imageLoader.DisplayImage(urlThumbnail, ivThumbnail);
+        imageLoader.DisplayImage(urlThumbnail, ivThumbnail, R.drawable.content_imagedefault);
     }
 }
