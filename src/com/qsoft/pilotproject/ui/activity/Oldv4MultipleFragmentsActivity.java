@@ -1,13 +1,13 @@
 package com.qsoft.pilotproject.ui.activity;
 
-import android.app.Fragment;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.widget.Toast;
 import com.example.PilotProject.R;
 import com.googlecode.androidannotations.annotations.AfterViews;
 import com.googlecode.androidannotations.annotations.EActivity;
-import com.qsoft.pilotproject.ui.fragment.SimpleFragment;
-import com.qsoft.pilotproject.ui.fragment.SimpleFragment_;
+import com.qsoft.pilotproject.ui.fragment.Oldv4SimpleFragment;
+import com.qsoft.pilotproject.ui.fragment.Oldv4SimpleFragment_;
 
 /**
  * User: Le
@@ -20,15 +20,15 @@ public class Oldv4MultipleFragmentsActivity extends FragmentActivity
     @AfterViews
     void afterViews()
     {
-        Fragment currentFragment = getFragmentManager().findFragmentById(R.id.container);
+        Fragment currentFragment = getSupportFragmentManager().findFragmentById(R.id.container);
 
         if (currentFragment == null)
         {
-            getFragmentManager().beginTransaction().add(R.id.container, new SimpleFragment_()).addToBackStack(null).commit();
+            getSupportFragmentManager().beginTransaction().add(R.id.container, new Oldv4SimpleFragment_()).addToBackStack(null).commit();
         }
         else
         {
-            getFragmentManager().beginTransaction().replace(R.id.container, currentFragment).commit();
+            getSupportFragmentManager().beginTransaction().replace(R.id.container, currentFragment).commit();
         }
     }
 
@@ -37,11 +37,11 @@ public class Oldv4MultipleFragmentsActivity extends FragmentActivity
     @Override
     public void onBackPressed()
     {
-        if (getFragmentManager().getBackStackEntryCount() > 1)
+        if (getSupportFragmentManager().getBackStackEntryCount() > 1)
         {
-            getFragmentManager().popBackStack();
+            getSupportFragmentManager().popBackStack();
 //            getFragmentManager().popBackStackImmediate();
-            SimpleFragment.count--;
+            Oldv4SimpleFragment.count--;
         }
         else
         {
