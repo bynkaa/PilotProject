@@ -176,11 +176,18 @@ public class ProfileSetupActivity extends SuperAnnotationActivity
             }
         }
         // load image
-        Bitmap imageAvatar = imageLoader.getBitmap(profileDTO.getAvatar(), R.drawable.profile_icon);
-        setImageProfile(imageAvatar);
-        Bitmap imageCover = imageLoader.getBitmap(profileDTO.getCoverImage(), R.drawable.profile_cover);
-        Drawable d = new BitmapDrawable(getResources(), imageCover);
-        rlCover.setBackground(d);
+        if (profileDTO.getAvatar() != null)
+        {
+            Bitmap imageAvatar = imageLoader.getBitmap(profileDTO.getAvatar(), R.drawable.profile_icon);
+            setImageProfile(imageAvatar);
+        }
+
+        if (profileDTO.getCoverImage() != null)
+        {
+            Bitmap imageCover = imageLoader.getBitmap(profileDTO.getCoverImage(), R.drawable.profile_cover);
+            Drawable d = new BitmapDrawable(getResources(), imageCover);
+            rlCover.setBackground(d);
+        }
 
 
     }
