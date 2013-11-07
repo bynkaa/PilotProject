@@ -28,9 +28,11 @@ public class ImageLoader
     private Map<ImageView, String> imageViews = Collections.synchronizedMap(new WeakHashMap<ImageView, String>());
     ExecutorService executorService;
     Handler handler = new Handler();//handler to display images in UI thread
+    Context context;
 
     public ImageLoader(Context context)
     {
+        this.context = context;
         fileCache = new FileCache(context);
         executorService = Executors.newFixedThreadPool(5);
     }
@@ -50,6 +52,20 @@ public class ImageLoader
         {
             queuePhoto(url, imageView);
             imageView.setImageResource(stubImageId);
+        }
+    }
+
+    public Bitmap getBitmap(String url, int stubImageId)
+    {
+        stub_id = stubImageId;
+        Bitmap bitmap = getBitmap(url);
+        if (bitmap != null)
+        {
+            return bitmap;
+        }
+        else
+        {
+            return BitmapFactory.decodeResource(context.getResources(), stubImageId);
         }
     }
 

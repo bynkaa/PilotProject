@@ -24,6 +24,7 @@ import com.qsoft.pilotproject.authenticator.ApplicationAccountManager;
 import com.qsoft.pilotproject.common.SuperAnnotationActivity;
 import com.qsoft.pilotproject.handler.ProfileHandler;
 import com.qsoft.pilotproject.handler.impl.ProfileHandlerImpl;
+import com.qsoft.pilotproject.imageloader.ImageLoader;
 import com.qsoft.pilotproject.model.Profile;
 import com.qsoft.pilotproject.model.dto.ProfileDTO;
 import com.qsoft.pilotproject.provider.OnlineDioContract;
@@ -82,6 +83,7 @@ public class ProfileSetupActivity extends SuperAnnotationActivity
     static final int PICK_FROM_CAMERA = 1;
     static final int CROP_FROM_CAMERA = 2;
     static final int PICK_FROM_FILE = 3;
+    ImageLoader imageLoader;
 
 
     @SystemService
@@ -97,6 +99,7 @@ public class ProfileSetupActivity extends SuperAnnotationActivity
     @AfterViews
     void setupData()
     {
+        imageLoader = new ImageLoader(getApplicationContext());
         account = applicationAccountManager.getAccount();
         countryList = getResources().getStringArray(R.array.country);
         countryCodes = getResources().getStringArray(R.array.country_codes);
@@ -172,6 +175,20 @@ public class ProfileSetupActivity extends SuperAnnotationActivity
                 tvCountry.setText(countryList[index]);
             }
         }
+        // load image
+        if (profileDTO.getAvatar() != null)
+        {
+            Bitmap imageAvatar = imageLoader.getBitmap(profileDTO.getAvatar(), R.drawable.profile_icon);
+            setImageProfile(imageAvatar);
+        }
+
+        if (profileDTO.getCoverImage() != null)
+        {
+            Bitmap imageCover = imageLoader.getBitmap(profileDTO.getCoverImage(), R.drawable.profile_cover);
+            Drawable d = new BitmapDrawable(getResources(), imageCover);
+            rlCover.setBackground(d);
+        }
+
 
     }
 
