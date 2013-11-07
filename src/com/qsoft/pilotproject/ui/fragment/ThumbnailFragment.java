@@ -1,8 +1,13 @@
 package com.qsoft.pilotproject.ui.fragment;
 
 import android.app.Fragment;
+import android.widget.ImageView;
 import com.example.PilotProject.R;
+import com.googlecode.androidannotations.annotations.AfterViews;
 import com.googlecode.androidannotations.annotations.EFragment;
+import com.googlecode.androidannotations.annotations.FragmentArg;
+import com.googlecode.androidannotations.annotations.ViewById;
+import com.qsoft.pilotproject.imageloader.ImageLoader;
 
 /**
  * User: binhtv
@@ -12,4 +17,15 @@ import com.googlecode.androidannotations.annotations.EFragment;
 @EFragment(R.layout.program_thumnail)
 public class ThumbnailFragment extends Fragment
 {
+    @FragmentArg(ProgramFragment.THUMBNAIL)
+    String urlThumbnail;
+    @ViewById(R.id.imThumbnail)
+    ImageView ivThumbnail;
+
+    @AfterViews
+    void afterViews()
+    {
+        ImageLoader imageLoader = new ImageLoader(getActivity());
+        imageLoader.DisplayImage(urlThumbnail, ivThumbnail);
+    }
 }

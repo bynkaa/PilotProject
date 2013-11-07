@@ -19,7 +19,6 @@ import com.qsoft.pilotproject.common.commands.GenericStartActivityCommand;
 import com.qsoft.pilotproject.model.Feed;
 import com.qsoft.pilotproject.model.ProgramTab;
 import com.qsoft.pilotproject.provider.OnlineDioContract;
-import com.qsoft.pilotproject.ui.activity.NewCommentActivity_;
 import com.qsoft.pilotproject.ui.activity.SlideBarActivity_;
 import com.qsoft.pilotproject.utils.Utilities;
 
@@ -34,6 +33,8 @@ public class ProgramFragment extends Fragment
 
     static final String TAG = "ProgramFragment";
     private static final int RC_SLIDE_BAR_ACTIVITY = 5;
+    public static final String DETAIL_FRAGMENT = "detail";
+    public static final String THUMBNAIL = "thumbnail";
     FragmentManager manager = getFragmentManager();
     @ViewById(R.id.ibProgramBack)
     ImageButton ibProgramBack;
@@ -61,8 +62,6 @@ public class ProgramFragment extends Fragment
     @AfterViews
     void afterViews()
     {
-        rgProgramTab.setOnCheckedChangeListener(programTabOnCheckChangeListener);
-        rgProgramTab.check(R.id.rbThumbnail);
         startContentPlayerFragment();
         final ContentResolver contentResolver = getActivity().getContentResolver();
         Bundle bundle = getArguments();
@@ -93,6 +92,8 @@ public class ProgramFragment extends Fragment
         tvPlayed.setText(played);
         tvUpdated.setText(Utilities.calculatorUpdateTime(feed.getUpdatedAt()));
         cursor.close();
+        rgProgramTab.setOnCheckedChangeListener(programTabOnCheckChangeListener);
+        rgProgramTab.check(R.id.rbThumbnail);
 
     }
 
@@ -151,12 +152,18 @@ public class ProgramFragment extends Fragment
         {
             case DETAIL:
                 fragmentContainer = new DetailFragment_();
+                Bundle detailBundle = new Bundle();
+                detailBundle.putString(DETAIL_FRAGMENT, feed.getDescription());
+                fragmentContainer.setArguments(detailBundle);
                 break;
             case COMMENT:
                 fragmentContainer = new CommentFragment_();
                 break;
             case THUMB_NAIL:
                 fragmentContainer = new ThumbnailFragment_();
+                Bundle thumbnailBundle = new Bundle();
+                thumbnailBundle.putString(THUMBNAIL, feed.getThumbnail());
+                fragmentContainer.setArguments(thumbnailBundle);
                 break;
         }
 
