@@ -1,6 +1,8 @@
 package com.qsoft.pilotproject.model.dto;
 
+import android.content.ContentValues;
 import com.google.gson.annotations.SerializedName;
+import com.qsoft.pilotproject.provider.OnlineDioContract;
 
 /**
  * User: binhtv
@@ -117,5 +119,19 @@ public class CommentDTO
     public void setAvatar(String avatar)
     {
         this.avatar = avatar;
+    }
+
+    public ContentValues getContentValues()
+    {
+        ContentValues values = new ContentValues();
+        values.put(OnlineDioContract.Comment.COLUMN_ID, commentId);
+        values.put(OnlineDioContract.Comment.COLUMN_SOUND_ID, soundId);
+        values.put(OnlineDioContract.Comment.COLUMN_USER_ID, userId);
+        values.put(OnlineDioContract.Comment.COLUMN_CREATED_AT, createdAt);
+        values.put(OnlineDioContract.Comment.COLUMN_UPDATED_AT, updatedAt);
+        values.put(OnlineDioContract.Comment.COLUMN_USER_NAME, userName);
+        values.put(OnlineDioContract.Comment.COLUMN_DISPLAY_NAME, displayName);
+        values.put(OnlineDioContract.Comment.COLUMN_AVATAR, avatar);
+        return values;
     }
 }

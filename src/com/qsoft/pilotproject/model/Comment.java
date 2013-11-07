@@ -1,18 +1,17 @@
 package com.qsoft.pilotproject.model;
 
-import java.io.Serializable;
+import android.content.ContentValues;
+import com.qsoft.pilotproject.model.dto.CommentDTO;
+import com.qsoft.pilotproject.provider.OnlineDioContract;
 
 /**
  * User: BinkaA
  * Date: 10/18/13
  * Time: 1:58 AM
  */
-public class Comment implements Serializable
+public class Comment extends CommentDTO
 {
     private Long id;
-    private String title;
-    private String content;
-    private String timeCreated;
 
     public Long getId()
     {
@@ -24,33 +23,10 @@ public class Comment implements Serializable
         this.id = id;
     }
 
-    public String getTitle()
+    public ContentValues getContentValues()
     {
-        return title;
-    }
-
-    public void setTitle(String title)
-    {
-        this.title = title;
-    }
-
-    public String getContent()
-    {
-        return content;
-    }
-
-    public void setContent(String content)
-    {
-        this.content = content;
-    }
-
-    public String getTimeCreated()
-    {
-        return timeCreated;
-    }
-
-    public void setTimeCreated(String timeCreated)
-    {
-        this.timeCreated = timeCreated;
+        ContentValues values = super.getContentValues();
+        values.put(OnlineDioContract.Comment._ID, id);
+        return values;
     }
 }

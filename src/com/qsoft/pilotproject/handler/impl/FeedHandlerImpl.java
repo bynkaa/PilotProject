@@ -34,7 +34,6 @@ import java.util.List;
 public class FeedHandlerImpl implements FeedHandler
 {
     private static final String TAG = "FeedHandlerImpl";
-    private static final String INVALIDTOKEN_MESSAGE = "cannot access my apis";
 
     @Bean
     ApplicationAccountManager applicationAccountManager;
@@ -59,7 +58,7 @@ public class FeedHandlerImpl implements FeedHandler
             {
                 HttpResponse response = httpClient.execute(httpGet);
                 String responseString = EntityUtils.toString(response.getEntity());
-                if (responseString.equals(INVALIDTOKEN_MESSAGE))
+                if (responseString.equals(AccountGeneral.INVALIDTOKEN_MESSAGE))
                 {
                     throw new InvalidTokenException();
                 }

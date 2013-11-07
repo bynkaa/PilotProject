@@ -78,7 +78,7 @@ public class OnlineDioContract
         public static final String CONTENT_TYPE = ContentResolver.CURSOR_DIR_BASE_TYPE + "/vnd.sqlite.comments";
         public static final String CONTENT_ITEM_TYPE = ContentResolver.CURSOR_ITEM_BASE_TYPE + "/vnd.sqlite.comment";
         public static final Uri CONTENT_URI = BASE_CONTENT_URI.buildUpon().appendPath(PATH_COMMENTS).build();
-        public static final String TABLE_NAME = "comment";
+        public static final String TABLE_NAME = "comments";
         public static final String COLUMN_ID = "comment_id";
         public static final String COLUMN_SOUND_ID = "comment_sound_id";
         public static final String COLUMN_USER_ID = "comment_user_id";

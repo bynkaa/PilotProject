@@ -147,7 +147,82 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter
         Log.i(TAG, "Merge solution ready. Applying batch update");
         contentResolver.applyBatch(OnlineDioContract.CONTENT_AUTHORITY, batch);
         contentResolver.notifyChange(OnlineDioContract.Feed.CONTENT_URI, null, false);
-
-
     }
+//    private void updateLocalCommentData(Account account, SyncResult syncResult)
+//    {
+//        final ContentResolver contentResolver = getContext().getContentResolver();
+//        Log.d(TAG, "get list feeds from server");
+//        CommentHandler commentHandler = new CommentHandlerImpl();
+//        List<CommentDTO> remoteComments = commentHandler.getListComments(accountManager, account, 10L);
+//        Log.d(TAG, "parsing complete. Found : " + remoteComments.size());
+//        ArrayList<ContentProviderOperation> batch = new ArrayList<ContentProviderOperation>();
+//        HashMap<Long, CommentDTO> commentMap = new HashMap<Long, CommentDTO>();
+//        for (CommentDTO commentDTO : remoteComments)
+//        {
+//            commentMap.put(commentDTO.getCommentId(), commentDTO);
+//        }
+//        // get list of all items
+//        Log.d(TAG, "Fetching local feed for merge");
+//        Uri uri = OnlineDioContract.Comment.CONTENT_URI;
+//        Cursor cursor = contentResolver.query(uri, PROJECTION, null, null, null);
+//        assert cursor != null;
+//        Log.i(TAG, "Found " + cursor.getCount() + " local feeds");
+//        while (cursor.moveToNext())
+//        {
+//            syncResult.stats.numEntries++;
+//            Comment comment = Comment.fromCursor(cursor);
+//            CommentDTO match = commentMap.get(comment.getCommentId());
+//            if (match != null)
+//            {
+//                commentMap.remove(comment.getCommentId());
+//                Uri existingUri = OnlineDioContract.Feed.CONTENT_URI.buildUpon()
+//                        .appendPath(Long.toString(comment.getId())).build();
+//                if (match.getUpdatedAt() != null && !match.getUpdatedAt().equals(comment.getUpdatedAt()))
+//                {
+//                    Log.d(TAG, "Scheduling update: " + existingUri);
+//                    batch.add(ContentProviderOperation.newUpdate(existingUri)
+//                            .withValues(match.getContentValues()).build());
+//                    syncResult.stats.numUpdates++;
+//                }
+//                else
+//                {
+//                    Log.i(TAG, "sync perform: No action");
+//                }
+//            }
+//            else
+//            {
+//                // feed doesn't exist. Remove it from the database
+//                Uri deleteUri = OnlineDioContract.Feed.CONTENT_URI.buildUpon()
+//                        .appendPath(Long.toString(comment.getId())).build();
+//                Log.i(TAG, "scheduling delete: " + deleteUri);
+//                batch.add(ContentProviderOperation.newDelete(deleteUri).build());
+//                syncResult.stats.numDeletes++;
+//            }
+//        }
+//        cursor.close();
+//        // add new items
+//        for (CommentDTO commentDTO : commentMap.values())
+//        {
+//            Log.i(TAG, "scheduling insert: entry_id=" + commentDTO.getCommentId());
+//            batch.add(ContentProviderOperation.newInsert(OnlineDioContract.Feed.CONTENT_URI)
+//                    .withValues(commentDTO.getContentValues()).build());
+//            syncResult.stats.numInserts++;
+//        }
+//        Log.i(TAG, "Merge solution ready. Applying batch update");
+//        try
+//        {
+//            contentResolver.applyBatch(OnlineDioContract.CONTENT_AUTHORITY, batch);
+//        }
+//        catch (RemoteException e)
+//        {
+//            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+//        }
+//        catch (OperationApplicationException e)
+//        {
+//            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+//        }
+//        contentResolver.notifyChange(OnlineDioContract.Feed.CONTENT_URI, null, false);
+//
+//    }
+
 }

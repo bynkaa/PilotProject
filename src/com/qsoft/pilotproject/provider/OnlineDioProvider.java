@@ -155,6 +155,8 @@ public class OnlineDioProvider extends ContentProvider
                 long idComment = db.insertOrThrow(OnlineDioContract.Comment.TABLE_NAME, null, contentValues);
                 result = Uri.parse(OnlineDioContract.Comment.CONTENT_URI + "/" + idComment);
                 break;
+            case COMMENTS_ID:
+                throw new UnsupportedOperationException("Insert not support: " + uri);
             default:
                 throw new UnsupportedOperationException("Unknown uri: " + uri);
         }
