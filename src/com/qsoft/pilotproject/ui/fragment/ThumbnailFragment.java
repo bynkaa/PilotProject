@@ -1,6 +1,6 @@
 package com.qsoft.pilotproject.ui.fragment;
 
-import android.app.Fragment;
+import android.support.v4.app.Fragment;
 import android.widget.ImageView;
 import com.example.PilotProject.R;
 import com.googlecode.androidannotations.annotations.AfterViews;

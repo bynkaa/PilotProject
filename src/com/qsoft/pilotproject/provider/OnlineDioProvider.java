@@ -89,7 +89,21 @@ public class OnlineDioProvider extends ContentProvider
                 assert context4 != null;
                 cursor4.setNotificationUri(context4.getContentResolver(), uri);
                 return cursor4;
-
+            case COMMENTS:
+                builder.table(OnlineDioContract.Comment.TABLE_NAME).where(selection, selectionArgs);
+                Cursor cursor5 = builder.query(db, projection, sortOrder);
+                Context context5 = getContext();
+                assert context5 != null;
+                cursor5.setNotificationUri(context5.getContentResolver(), uri);
+                return cursor5;
+            case COMMENTS_ID:
+                String idComment = uri.getLastPathSegment();
+                builder.table(OnlineDioContract.Comment.TABLE_NAME).where(OnlineDioContract.Comment._ID + "=?", idComment);
+                Cursor cursor6 = builder.query(db, projection, sortOrder);
+                Context context6 = getContext();
+                assert context6 != null;
+                cursor6.setNotificationUri(context6.getContentResolver(), uri);
+                return cursor6;
         }
         return null;
     }
@@ -137,6 +151,10 @@ public class OnlineDioProvider extends ContentProvider
                 long idProfile = db.insertOrThrow(OnlineDioContract.Profile.TABLE_NAME, null, contentValues);
                 result = Uri.parse(OnlineDioContract.Profile.CONTENT_URI + "/" + idProfile);
                 break;
+            case COMMENTS:
+                long idComment = db.insertOrThrow(OnlineDioContract.Comment.TABLE_NAME, null, contentValues);
+                result = Uri.parse(OnlineDioContract.Comment.CONTENT_URI + "/" + idComment);
+                break;
             default:
                 throw new UnsupportedOperationException("Unknown uri: " + uri);
         }
@@ -166,13 +184,13 @@ public class OnlineDioProvider extends ContentProvider
                         .where(selection, selectionArgs).delete(db);
                 break;
             case PROFILES:
-                count = builder.table(OnlineDioContract.Profile.TABLE_NAME).where(selection,selectionArgs).delete(db);
+                count = builder.table(OnlineDioContract.Profile.TABLE_NAME).where(selection, selectionArgs).delete(db);
                 break;
             case PROFILES_ID:
                 String id1 = uri.getLastPathSegment();
                 count = builder.table(OnlineDioContract.Profile.TABLE_NAME)
-                        .where(OnlineDioContract.Profile._ID + "=?",id1)
-                        .where(selection,selectionArgs).delete(db);
+                        .where(OnlineDioContract.Profile._ID + "=?", id1)
+                        .where(selection, selectionArgs).delete(db);
                 break;
             default:
                 throw new UnsupportedOperationException("Unknown uri: " + uri);
@@ -206,14 +224,14 @@ public class OnlineDioProvider extends ContentProvider
                 break;
             case PROFILES:
                 count = builder.table(OnlineDioContract.Profile.TABLE_NAME)
-                        .where(selection,selectionArgs).update(db,contentValues);
+                        .where(selection, selectionArgs).update(db, contentValues);
                 break;
             case PROFILES_ID:
                 String id1 = uri.getLastPathSegment();
                 count = builder.table(OnlineDioContract.Profile.TABLE_NAME)
-                        .where(OnlineDioContract.Profile._ID + "=?",id1)
-                        .where(selection,selectionArgs)
-                        .update(db,contentValues);
+                        .where(OnlineDioContract.Profile._ID + "=?", id1)
+                        .where(selection, selectionArgs)
+                        .update(db, contentValues);
                 break;
             default:
                 throw new UnsupportedOperationException("Unknown uri: " + uri);

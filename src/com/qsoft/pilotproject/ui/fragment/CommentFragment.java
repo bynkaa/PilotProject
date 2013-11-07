@@ -1,7 +1,7 @@
 package com.qsoft.pilotproject.ui.fragment;
 
-import android.app.Fragment;
 import android.content.Intent;
+import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -13,7 +13,6 @@ import com.qsoft.pilotproject.common.commands.GenericStartActivityCommand;
 import com.qsoft.pilotproject.model.Comment;
 import com.qsoft.pilotproject.provider.CommentDataSource;
 import com.qsoft.pilotproject.ui.activity.NewCommentActivity_;
-import com.qsoft.pilotproject.ui.activity.SlideBarActivity_;
 
 import java.util.ArrayList;
 import java.util.List;

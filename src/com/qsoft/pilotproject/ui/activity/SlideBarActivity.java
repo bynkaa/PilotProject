@@ -2,10 +2,11 @@ package com.qsoft.pilotproject.ui.activity;
 
 import android.accounts.AccountManager;
 import android.app.Activity;
-import android.app.Fragment;
 import android.content.ContentResolver;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
 import android.support.v4.widget.DrawerLayout;
 import android.util.Log;
 import android.view.View;
@@ -17,7 +18,6 @@ import com.googlecode.androidannotations.annotations.*;
 import com.qsoft.pilotproject.adapter.SideBarItemAdapter;
 import com.qsoft.pilotproject.authenticator.ApplicationAccountManager;
 import com.qsoft.pilotproject.common.CommandExecutor;
-import com.qsoft.pilotproject.common.SuperAnnotationActivity;
 import com.qsoft.pilotproject.common.commands.GenericStartActivityCommand;
 import com.qsoft.pilotproject.model.Comment;
 import com.qsoft.pilotproject.provider.CommentDataSource;
@@ -30,7 +30,7 @@ import com.qsoft.pilotproject.ui.fragment.Home_;
  * Time: 10:47 AM
  */
 @EActivity(R.layout.slidebar)
-public class SlideBarActivity extends SuperAnnotationActivity
+public class SlideBarActivity extends FragmentActivity
 {
     @SystemService
     AccountManager accountManager;
@@ -75,11 +75,11 @@ public class SlideBarActivity extends SuperAnnotationActivity
     @AfterViews
     void afterViews()
     {
-        Fragment currentFragment = getFragmentManager().findFragmentById(R.id.content_fragment);
+        Fragment currentFragment = getSupportFragmentManager().findFragmentById(R.id.content_fragment);
 
         if (currentFragment == null)
         {
-            getFragmentManager().beginTransaction().add(R.id.content_fragment, new Home_()).addToBackStack(null).commit();
+            getSupportFragmentManager().beginTransaction().add(R.id.content_fragment, new Home_()).addToBackStack(null).commit();
         }
 
         commentDataSource = new CommentDataSource(this);

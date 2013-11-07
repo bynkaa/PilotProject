@@ -1,8 +1,8 @@
 package com.qsoft.pilotproject.ui.fragment;
 
 import android.accounts.Account;
-import android.app.Fragment;
 import android.content.ContentResolver;
+import android.support.v4.app.Fragment;
 import android.widget.Button;
 import com.example.PilotProject.R;
 import com.googlecode.androidannotations.annotations.*;
