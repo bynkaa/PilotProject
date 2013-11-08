@@ -98,19 +98,21 @@ public class SlideBarActivity extends FragmentActivity
                 }, false);
     }
 
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data)
+    @OnActivityResult(RC_PROFILE_SETUP_ACTIVITY)
+    void onProfileResult(int resultCode, Intent data)
     {
-        if (requestCode == RC_PROFILE_SETUP_ACTIVITY)
+        if (resultCode == Activity.RESULT_OK)
         {
-            if (resultCode == Activity.RESULT_OK)
-            {
-                // do something here
+            // do something here
 
-            }
-            setOpenOption();
         }
-        if (resultCode == Activity.RESULT_OK && requestCode == RC_COMMENT_FRAGMENT)
+        setOpenOption();
+    }
+
+    @OnActivityResult(RC_COMMENT_FRAGMENT)
+    void onCommentResult(int resultCode, Intent data)
+    {
+        if (resultCode == Activity.RESULT_OK)
         {
             if (data.hasExtra(NewCommentActivity.COMMENT_EXTRA))
             {
