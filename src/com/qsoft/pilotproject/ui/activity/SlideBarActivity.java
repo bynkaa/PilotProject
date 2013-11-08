@@ -20,7 +20,6 @@ import com.qsoft.pilotproject.authenticator.ApplicationAccountManager;
 import com.qsoft.pilotproject.common.CommandExecutor;
 import com.qsoft.pilotproject.common.commands.GenericStartActivityCommand;
 import com.qsoft.pilotproject.model.Comment;
-import com.qsoft.pilotproject.provider.CommentDataSource;
 import com.qsoft.pilotproject.provider.OnlineDioContract;
 import com.qsoft.pilotproject.ui.fragment.Home_;
 
@@ -35,7 +34,6 @@ public class SlideBarActivity extends FragmentActivity
     @SystemService
     AccountManager accountManager;
 
-    private CommentDataSource commentDataSource;
     private static final String TAG = "SlideBarActivity";
 
     public static final int RC_PROFILE_SETUP_ACTIVITY = 0;
@@ -82,8 +80,6 @@ public class SlideBarActivity extends FragmentActivity
             getSupportFragmentManager().beginTransaction().add(R.id.content_fragment, new Home_()).addToBackStack(null).commit();
         }
 
-        commentDataSource = new CommentDataSource(this);
-        commentDataSource.open();
         setListViewSlideBar();
     }
 
@@ -119,7 +115,6 @@ public class SlideBarActivity extends FragmentActivity
             if (data.hasExtra(NewCommentActivity.COMMENT_EXTRA))
             {
                 Comment comment = (Comment) data.getExtras().get(NewCommentActivity.COMMENT_EXTRA);
-                commentDataSource.createComment(comment);
             }
         }
     }

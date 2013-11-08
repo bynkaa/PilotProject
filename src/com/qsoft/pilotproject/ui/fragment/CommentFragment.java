@@ -7,15 +7,9 @@ import android.widget.ListView;
 import android.widget.TextView;
 import com.example.PilotProject.R;
 import com.googlecode.androidannotations.annotations.*;
-import com.qsoft.pilotproject.adapter.CommentAdapter;
 import com.qsoft.pilotproject.common.CommandExecutor;
 import com.qsoft.pilotproject.common.commands.GenericStartActivityCommand;
-import com.qsoft.pilotproject.model.Comment;
-import com.qsoft.pilotproject.provider.CommentDataSource;
 import com.qsoft.pilotproject.ui.activity.NewCommentActivity_;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * User: binhtv
@@ -34,19 +28,13 @@ public class CommentFragment extends Fragment
     ListView lvComment;
     @Bean
     CommandExecutor commandExecutor;
+    @FragmentById(R.id.lvComment)
+    CommentListFragment commentListFragment;
 
-    private List<Comment> commentList;
-    private CommentDataSource commentDataSource;
 
     @AfterViews
     void afterViews()
     {
-        commentDataSource = new CommentDataSource(getActivity());
-        commentDataSource.open();
-        //
-        commentList = commentDataSource.getAllComment();
-        CommentAdapter commentAdapter = new CommentAdapter(getActivity(), commentList);
-        lvComment.setAdapter(commentAdapter);
     }
 
 
@@ -68,27 +56,6 @@ public class CommentFragment extends Fragment
     {
         super.onActivityResult(requestCode, resultCode, data);
         Log.d(CommentFragment.class.getName(), "on ui result");
-
-
     }
 
-    List<Comment> getModel()
-    {
-        List<Comment> comments = new ArrayList<Comment>();
-        for (int i = 0; i < 10; i++)
-        {
-            comments.add(getComment());
-        }
-        return comments;
-
-    }
-
-    public Comment getComment()
-    {
-        Comment comment = new Comment();
-        comment.setTitle("Mr. Michale");
-        comment.setContent("The Phrase Became a fundamental element");
-        comment.setTimeCreated("1 minute ago");
-        return comment;
-    }
 }

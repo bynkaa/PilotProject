@@ -120,7 +120,7 @@ public class HomeListFragment extends ListFragment implements LoaderManager.Load
         bundle.putLong(FEED_ID, id);
         Fragment programFragment = new ProgramFragment_();
         programFragment.setArguments(bundle);
-        FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
+        FragmentTransaction fragmentTransaction = getParentFragment().getFragmentManager().beginTransaction();
         fragmentTransaction.replace(R.id.content_fragment, programFragment).addToBackStack(null);
         fragmentTransaction.commit();
     }
