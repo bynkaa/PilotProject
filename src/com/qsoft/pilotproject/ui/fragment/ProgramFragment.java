@@ -2,7 +2,6 @@ package com.qsoft.pilotproject.ui.fragment;
 
 import android.content.ContentResolver;
 import android.content.ContentUris;
-import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
@@ -15,11 +14,9 @@ import android.widget.TextView;
 import com.example.PilotProject.R;
 import com.googlecode.androidannotations.annotations.*;
 import com.qsoft.pilotproject.common.CommandExecutor;
-import com.qsoft.pilotproject.common.commands.GenericStartActivityCommand;
 import com.qsoft.pilotproject.model.Feed;
 import com.qsoft.pilotproject.model.ProgramTab;
 import com.qsoft.pilotproject.provider.OnlineDioContract;
-import com.qsoft.pilotproject.ui.activity.SlideBarActivity_;
 import com.qsoft.pilotproject.utils.Utilities;
 
 /**
@@ -104,7 +101,7 @@ public class ProgramFragment extends Fragment
         setRetainInstance(false);
         ContentPlayerFragment playerFragment = (ContentPlayerFragment) getFragmentManager().findFragmentById(R.id.contentPlayerFragment);
         playerFragment.setRetainInstance(false);
-        playerFragment.onDestroy();
+        getFragmentManager().beginTransaction().remove(playerFragment).commit();
         getFragmentManager().popBackStack();
     }
 
@@ -136,10 +133,6 @@ public class ProgramFragment extends Fragment
         if (playerFragment == null)
         {
             getFragmentManager().beginTransaction().replace(R.id.contentPlayerFragment, new ContentPlayerFragment_()).commit();
-        }
-        else
-        {
-            getFragmentManager().beginTransaction().remove(playerFragment).replace(R.id.contentPlayerFragment, new ContentPlayerFragment_()).commit();
         }
     }
 
