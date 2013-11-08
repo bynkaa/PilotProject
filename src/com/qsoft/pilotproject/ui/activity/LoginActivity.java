@@ -1,15 +1,11 @@
 package com.qsoft.pilotproject.ui.activity;
 
-import android.accounts.Account;
 import android.accounts.AccountAuthenticatorActivity;
 import android.accounts.AccountManager;
 import android.app.AlertDialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
@@ -27,6 +23,7 @@ import com.qsoft.pilotproject.common.commands.GenericStartActivityCommand;
 import com.qsoft.pilotproject.handler.AuthenticatorHandler;
 import com.qsoft.pilotproject.handler.impl.AuthenticatorHandlerImpl;
 import com.qsoft.pilotproject.model.dto.SignInDTO;
+import com.qsoft.pilotproject.ui.controller.LoginController;
 import com.qsoft.pilotproject.utils.Utilities;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.methods.HttpGet;
@@ -74,9 +71,6 @@ public class LoginActivity extends AccountAuthenticatorActivity
     @Bean
     CommandExecutor commandExecutor;
 
-    final String EMAIL_PATTERN =
-            "^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@"
-                    + "[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$";
 
     @SystemService
     AccountManager accountManager;
@@ -85,6 +79,9 @@ public class LoginActivity extends AccountAuthenticatorActivity
 
     @Bean
     ApplicationAccountManager applicationAccountManager;
+
+    @Bean
+    LoginController loginController;
 
     public void onCreate(Bundle savedInstanceState)
     {
@@ -119,7 +116,6 @@ public class LoginActivity extends AccountAuthenticatorActivity
     @Click(R.id.login_ivBack)
     void doClickBack()
     {
-
         commandExecutor.execute(this,
                 new GenericStartActivityCommand(this, LaunchActivity_.class, RC_LAUCH_ACTIVITY)
                 {
@@ -135,7 +131,7 @@ public class LoginActivity extends AccountAuthenticatorActivity
     @Click(R.id.login_ivLogin)
     void doClickLogin()
     {
-        if (isOnlineNetwork() && validateMailAndPassword(etEmail, etPassword))
+        if (loginController.isOnlineNetwork() && loginController.validateMailAndPassword(etEmail, etPassword))
         {
 //
             final String email = etEmail.getText().toString();
@@ -180,49 +176,11 @@ public class LoginActivity extends AccountAuthenticatorActivity
                     }
                     else
                     {
-                        finishLogin(intent);
+                        loginController.finishLogin(intent);
                     }
                 }
             }.execute();
         }
-    }
-
-
-    void finishLogin(Intent intent)
-    {
-        Log.d(TAG, "finishLogin(intent)");
-        String accountName = intent.getStringExtra(AccountManager.KEY_ACCOUNT_NAME);
-        String accountPassword = intent.getStringExtra(KEY_USER_PASSWORD);
-        Account account = new Account(accountName, intent.getStringExtra(AccountManager.KEY_ACCOUNT_TYPE));
-        if (getIntent().getBooleanExtra(OnlineDioAuthenticator.IS_ADDED_ACCOUNT_KEY, false))
-        {
-            Log.d(TAG, "finishLogin > addAccountExplicitly");
-            String authToken = intent.getStringExtra(AccountManager.KEY_AUTHTOKEN);
-            Bundle bundle = new Bundle();
-            bundle.putString(USER_ID_KEY, Long.toString(intent.getLongExtra(USER_ID_KEY, 0)));
-            accountManager.addAccountExplicitly(account, accountPassword, bundle);
-            applicationAccountManager.setAccount(account);
-            applicationAccountManager.setTokenAuth(authToken);
-            accountManager.setAuthToken(account, authTokenType, authToken);
-        }
-        else
-        {
-            Log.d(TAG, "finish Login > set password");
-            accountManager.setPassword(account, accountPassword);
-        }
-
-        setAccountAuthenticatorResult(intent.getExtras());
-        applicationAccountManager.setAccount(account);
-        commandExecutor.execute(this,
-                new GenericStartActivityCommand(this, SlideBarActivity_.class, RC_SLIDE_BAR_ACTIVITY)
-                {
-                    @Override
-                    public void overrideExtra(Intent intent)
-                    {
-                    }
-                }, false);
-
-        Log.d(TAG, "Login successfully");
     }
 
     @Click(R.id.login_tvForgotPass)
@@ -230,25 +188,6 @@ public class LoginActivity extends AccountAuthenticatorActivity
     {
         AlertDialog dialog = showAlertDialogResetPassword("Forgot Password", "To reset your password, please enter your" +
                 " email address");
-    }
-
-    boolean isOnlineNetwork()
-    {
-        // checkTimeoutService();
-        ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo netInfo = cm.getActiveNetworkInfo();
-        if (netInfo != null && netInfo.isConnectedOrConnecting())
-        {
-            Log.d(TAG, "network available");
-            return true;
-        }
-        else
-        {
-            AlertDialog dialog = showAlertDialog("Error Signing In", "There is no connection to the internet.");
-            dialog.show();
-            Log.d(TAG, "network no connection");
-            return false;
-        }
     }
 
     void checkTimeoutService()
@@ -278,47 +217,6 @@ public class LoginActivity extends AccountAuthenticatorActivity
         Log.d(TAG, "Connection timeout");
     }
 
-    boolean validateMailAndPassword(EditText mail, EditText password)
-    {
-        String _mail = mail.getText().toString();
-        String _password = password.getText().toString();
-        if (_mail.matches(EMAIL_PATTERN) == false)
-        {
-            AlertDialog dialog = showAlertDialog("Error Signing In", "Email address is incorrect.");
-            dialog.show();
-            mail.requestFocus();
-            return false;
-        }
-        else if (_password.length() <= 0)
-        {
-            AlertDialog dialog = showAlertDialog("Error Signing In", "Password is incorrect.");
-            dialog.show();
-            password.requestFocus();
-            return false;
-        }
-        else
-        {
-            return true;
-        }
-    }
-
-    AlertDialog showAlertDialog(String txtTitle, String message)
-    {
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        final TextView title = new TextView(this);
-        title.setText(txtTitle);
-        title.setTextSize(20);
-        title.setTextColor(Color.WHITE);
-        title.setGravity(Gravity.CENTER);
-        builder.setCustomTitle(title);
-        builder.setMessage(message);
-        builder.setPositiveButton("OK", null);
-        AlertDialog dialog = builder.show();
-        TextView messageText = (TextView) dialog.findViewById(android.R.id.message);
-        messageText.setGravity(Gravity.CENTER);
-        return dialog;
-    }
-
     AlertDialog showAlertDialogResetPassword(String txtTitle, String message)
     {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
@@ -343,9 +241,9 @@ public class LoginActivity extends AccountAuthenticatorActivity
             public void onClick(DialogInterface dialog, int which)
             {
                 String _emailAddress = emailAddress.getText().toString();
-                if (_emailAddress.matches(EMAIL_PATTERN) == false)
+                if (_emailAddress.matches(LoginController.EMAIL_PATTERN) == false)
                 {
-                    AlertDialog dialogError = showAlertDialog("Request Error", "Invalid email address");
+                    AlertDialog dialogError = loginController.showAlertDialog("Request Error", "Invalid email address");
                     dialogError.show();
                     etEmail.requestFocus();
                 }
