@@ -12,7 +12,7 @@ import com.qsoft.pilotproject.authenticator.InvalidTokenException;
 import com.qsoft.pilotproject.handler.CommentHandler;
 import com.qsoft.pilotproject.handler.FeedHandler;
 import com.qsoft.pilotproject.handler.impl.CommentHandlerImpl;
-import com.qsoft.pilotproject.handler.impl.FeedHandlerImpl;
+import com.qsoft.pilotproject.handler.impl.FeedHandlerImpl_;
 import com.qsoft.pilotproject.model.Comment;
 import com.qsoft.pilotproject.model.Feed;
 import com.qsoft.pilotproject.model.dto.CommentDTO;
@@ -91,7 +91,7 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter
     {
         final ContentResolver contentResolver = getContext().getContentResolver();
         Log.d(TAG, "get list feeds from server");
-        FeedHandler feedHandler = new FeedHandlerImpl();
+        FeedHandler feedHandler = FeedHandlerImpl_.getInstance_(context);
         List<FeedDTO> remoteFeeds = feedHandler.getFeeds(accountManager, account);
         Log.d(TAG, "parsing complete. Found : " + remoteFeeds.size());
         ArrayList<ContentProviderOperation> batch = new ArrayList<ContentProviderOperation>();

@@ -11,7 +11,7 @@ import com.qsoft.pilotproject.authenticator.AccountGeneral;
 import com.qsoft.pilotproject.authenticator.InvalidTokenException;
 import com.qsoft.pilotproject.handler.FeedHandler;
 import com.qsoft.pilotproject.model.dto.FeedDTO;
-import com.qsoft.pilotproject.ui.controller.LoginController;
+import com.qsoft.pilotproject.ui.controller.AuthenticatorController;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.methods.HttpGet;
@@ -36,7 +36,7 @@ public class FeedHandlerImpl implements FeedHandler
     private static final String TAG = "FeedHandlerImpl";
 
     @Bean
-    LoginController loginController;
+    AuthenticatorController authenticatorController;
 
     @Override
     public List<FeedDTO> getFeeds(AccountManager accountManager, Account account)
@@ -91,7 +91,7 @@ public class FeedHandlerImpl implements FeedHandler
                 countLoop++;
                 if (countLoop <= 1)
                 {
-                    loginController.refreshToken();
+                    authenticatorController.refreshToken();
                 }
                 else
                 {

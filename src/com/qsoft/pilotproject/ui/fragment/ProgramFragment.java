@@ -30,7 +30,6 @@ import com.qsoft.pilotproject.utils.Utilities;
 @EFragment(R.layout.program)
 public class ProgramFragment extends Fragment
 {
-
     static final String TAG = "ProgramFragment";
     private static final int RC_SLIDE_BAR_ACTIVITY = 5;
     public static final String DETAIL_FRAGMENT = "detail";
@@ -166,9 +165,7 @@ public class ProgramFragment extends Fragment
                 fragmentContainer.setArguments(thumbnailBundle);
                 break;
         }
-
         getFragmentManager().beginTransaction().replace(R.id.fragmentContainer, fragmentContainer).commit();
-
     }
 
 
