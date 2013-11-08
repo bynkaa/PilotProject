@@ -5,21 +5,19 @@ import android.accounts.AccountManager;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
-import android.content.*;
-import android.content.pm.ResolveInfo;
+import android.content.ContentResolver;
+import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.*;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
-import android.net.Uri;
-import android.os.AsyncTask;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.widget.*;
 import com.example.PilotProject.R;
 import com.googlecode.androidannotations.annotations.*;
-import com.qsoft.pilotproject.adapter.CropOption;
-import com.qsoft.pilotproject.adapter.CropOptionAdapter;
 import com.qsoft.pilotproject.authenticator.ApplicationAccountManager;
 import com.qsoft.pilotproject.common.SuperAnnotationActivity;
 import com.qsoft.pilotproject.handler.ProfileHandler;
@@ -28,10 +26,7 @@ import com.qsoft.pilotproject.imageloader.ImageLoader;
 import com.qsoft.pilotproject.model.Profile;
 import com.qsoft.pilotproject.model.dto.ProfileDTO;
 import com.qsoft.pilotproject.provider.OnlineDioContract;
-
-import java.io.File;
-import java.util.ArrayList;
-import java.util.List;
+import com.qsoft.pilotproject.ui.controller.ProfileController;
 
 /**
  * User: thanhtd
@@ -43,10 +38,12 @@ public class ProfileSetupActivity extends SuperAnnotationActivity
 {
     final Context context = this;
     static final int DATE_DIALOG_ID = 999;
-    static int RESULT_LOAD_IMAGE = 1;
+    static final int RESULT_LOAD_IMAGE = 1;
     int year;
     int month;
     int day;
+    Boolean flag = null;
+
     @ViewById(R.id.dpResult)
     DatePicker dpResult;
     @ViewById(R.id.profile_relativeLayout)
@@ -59,8 +56,6 @@ public class ProfileSetupActivity extends SuperAnnotationActivity
     EditText tvCountry;
     @ViewById(R.id.tv_profile_name)
     TextView tvProfileName;
-    Boolean flag = null;
-    ScrollView svDescription;
     @ViewById(R.id.profile_et_desciption)
     EditText etDescription;
     @ViewById(R.id.ibProfileCancel)
@@ -79,15 +74,15 @@ public class ProfileSetupActivity extends SuperAnnotationActivity
     ImageButton imFemale;
     @ViewById(R.id.profile_ibright)
     ImageButton imMale;
-    Uri mImageCaptureUri;
-    static final int PICK_FROM_CAMERA = 1;
-    static final int CROP_FROM_CAMERA = 2;
-    static final int PICK_FROM_FILE = 3;
+
     ImageLoader imageLoader;
 
 
     @SystemService
     AccountManager accountManager;
+
+    @Bean
+    ProfileController profileController;
 
     Account account;
     @Bean
@@ -95,6 +90,7 @@ public class ProfileSetupActivity extends SuperAnnotationActivity
 
     String[] countryList;
     String[] countryCodes;
+    ContentResolver contentResolver;
 
     @AfterViews
     void setupData()
@@ -103,34 +99,12 @@ public class ProfileSetupActivity extends SuperAnnotationActivity
         account = applicationAccountManager.getAccount();
         countryList = getResources().getStringArray(R.array.country);
         countryCodes = getResources().getStringArray(R.array.country_codes);
-        final ContentResolver contentResolver = getContentResolver();
+        contentResolver = getContentResolver();
         Cursor cursor = contentResolver.query(OnlineDioContract.Profile.CONTENT_URI, null, null, null, null);
         if (cursor.getCount() == 0)
         {
             Log.d(TAG, "get profile from server and push to local");
-            new AsyncTask<Void, Void, ProfileDTO>()
-            {
-                Long userId = 0l;
-
-                @Override
-                protected ProfileDTO doInBackground(Void... voids)
-                {
-                    Log.d(TAG, "doInBackground: ");
-                    String userIdStr = accountManager.getUserData(account, LoginActivity.USER_ID_KEY);
-                    ProfileHandler profileHandler = new ProfileHandlerImpl(accountManager, account);
-                    userId = Long.valueOf(userIdStr);
-                    ProfileDTO profileDTO = profileHandler.getProfile(userId);
-                    return profileDTO;
-                }
-
-                @Override
-                protected void onPostExecute(ProfileDTO profileDTO)
-                {
-//                    Uri singleUri = ContentUris.withAppendedId(OnlineDioContract.Profile.CONTENT_URI, userId);
-                    contentResolver.insert(OnlineDioContract.Profile.CONTENT_URI, profileDTO.getContentValues());
-                    setToView(profileDTO);
-                }
-            }.execute();
+            doGetProfileFromService();
         }
         else
         {
@@ -139,8 +113,24 @@ public class ProfileSetupActivity extends SuperAnnotationActivity
                 setToView(Profile.fromCursor(cursor));
             }
         }
+    }
 
+    @Background
+    void doGetProfileFromService()
+    {
+        Log.d(TAG, "doInBackground: ");
+        String userIdStr = accountManager.getUserData(account, LoginActivity.USER_ID_KEY);
+        ProfileHandler profileHandler = new ProfileHandlerImpl(accountManager, account);
+        long userId = Long.valueOf(userIdStr);
+        ProfileDTO profileDTO = profileHandler.getProfile(userId);
+        updateProfileUI(profileDTO);
+    }
 
+    @UiThread
+    void updateProfileUI(ProfileDTO profileDTO)
+    {
+        contentResolver.insert(OnlineDioContract.Profile.CONTENT_URI, profileDTO.getContentValues());
+        setToView(profileDTO);
     }
 
     void setToView(ProfileDTO profileDTO)
@@ -188,8 +178,6 @@ public class ProfileSetupActivity extends SuperAnnotationActivity
             Drawable d = new BitmapDrawable(getResources(), imageCover);
             rlCover.setBackground(d);
         }
-
-
     }
 
 
@@ -270,21 +258,19 @@ public class ProfileSetupActivity extends SuperAnnotationActivity
     }
 
 
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data)
+    @OnActivityResult(RESULT_LOAD_IMAGE)
+    void onResult(int resultCode, Intent data)
     {
-        super.onActivityResult(requestCode, resultCode, data);
-
-        if (requestCode == RESULT_LOAD_IMAGE && resultCode == RESULT_OK && null != data && flag == true)
+        if (resultCode == RESULT_OK && null != data && flag == true)
         {
-            Bitmap bmImg = getBitmap(data);
+            Bitmap bmImg = profileController.getBitmap(data);
             Bitmap bMapScaled = Bitmap.createScaledBitmap(bmImg, rlCover.getWidth(), rlCover.getHeight(), true);
             Drawable drawable = new BitmapDrawable(bMapScaled);
             rlCover.setBackgroundDrawable(drawable);
         }
-        else if (requestCode == RESULT_LOAD_IMAGE && resultCode == RESULT_OK && null != data && flag == false)
+        else if (resultCode == RESULT_OK && null != data && flag == false)
         {
-            Bitmap bmImg = getBitmap(data);
+            Bitmap bmImg = profileController.getBitmap(data);
             setImageProfile(bmImg);
         }
     }
@@ -306,104 +292,6 @@ public class ProfileSetupActivity extends SuperAnnotationActivity
         ivProfile.setImageBitmap(result);
         ivProfile.setScaleType(ImageView.ScaleType.FIT_CENTER);
         ivProfile.setBackgroundResource(R.drawable.profile_frame);
-    }
-
-    Bitmap getBitmap(Intent data)
-    {
-        Uri selectedImage = data.getData();
-        String[] filePathColumn = {MediaStore.Images.Media.DATA};
-
-        Cursor cursor = getContentResolver().query(selectedImage,
-                filePathColumn, null, null, null);
-        cursor.moveToFirst();
-
-        int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
-        String picturePath = cursor.getString(columnIndex);
-        cursor.close();
-//        return bitmap;
-        doCrop(picturePath);
-        return BitmapFactory.decodeFile(picturePath);
-    }
-
-    public void doCrop(String filePath)
-    {
-        try
-        {
-            //New Flow
-            mImageCaptureUri = Uri.fromFile(new File(filePath));
-
-            final ArrayList<CropOption> cropOptions = new ArrayList<CropOption>();
-            Intent intent = new Intent("com.android.camera.action.CROP");
-            intent.setType("image/*");
-            List<ResolveInfo> list = getPackageManager().queryIntentActivities(intent, 0);
-
-            int size = list.size();
-            if (size == 0)
-            {
-                Toast.makeText(this, "Can not find image crop app", Toast.LENGTH_SHORT).show();
-                return;
-            }
-            else
-            {
-                intent.setData(mImageCaptureUri);
-                intent.putExtra("outputX", 300);
-                intent.putExtra("outputY", 300);
-                intent.putExtra("aspectX", 1);
-                intent.putExtra("aspectY", 1);
-                intent.putExtra("scale", true);
-                intent.putExtra("return-data", true);
-
-                if (size == 1)
-                {
-                    Intent i = new Intent(intent);
-                    ResolveInfo res = list.get(0);
-                    i.setComponent(new ComponentName(res.activityInfo.packageName, res.activityInfo.name));
-                    startActivityForResult(i, CROP_FROM_CAMERA);
-                }
-
-                else
-                {
-                    for (ResolveInfo res : list)
-                    {
-                        final CropOption co = new CropOption();
-                        co.title = getPackageManager().getApplicationLabel(res.activityInfo.applicationInfo);
-                        co.icon = getPackageManager().getApplicationIcon(res.activityInfo.applicationInfo);
-                        co.appIntent = new Intent(intent);
-                        co.appIntent.setComponent(new ComponentName(res.activityInfo.packageName, res.activityInfo.name));
-                        cropOptions.add(co);
-                    }
-
-                    CropOptionAdapter adapter = new CropOptionAdapter(getApplicationContext(), cropOptions);
-                    AlertDialog.Builder builder = new AlertDialog.Builder(this);
-                    builder.setTitle("Choose Crop App");
-                    builder.setAdapter(adapter, new DialogInterface.OnClickListener()
-                    {
-                        public void onClick(DialogInterface dialog, int item)
-                        {
-                            startActivityForResult(cropOptions.get(item).appIntent, CROP_FROM_CAMERA);
-                        }
-                    });
-
-                    builder.setOnCancelListener(new DialogInterface.OnCancelListener()
-                    {
-                        public void onCancel(DialogInterface dialog)
-                        {
-                            if (mImageCaptureUri != null)
-                            {
-                                getContentResolver().delete(mImageCaptureUri, null, null);
-                                mImageCaptureUri = null;
-                            }
-                        }
-                    });
-                    AlertDialog alert = builder.create();
-                    alert.show();
-                }
-            }
-        }
-        catch (Exception ex)
-        {
-//            genHelper.showErrorLog("Error in Crop Function-->"+ex.toString());
-        }
     }
 
     @Click(R.id.profile_tv_birthday)

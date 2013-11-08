@@ -25,12 +25,13 @@
                 android:id="@+id/tvCommentTitle" android:layout_toRightOf="@+id/ivCommentIcon"
                 android:layout_alignTop="@+id/ivCommentIcon" android:textStyle="bold" android:textSize="16dp"/>
         <TextView
-                android:layout_width="50dp"
+                android:layout_width="54dp"
                 android:layout_height="wrap_content"
                 android:text="1 minute ago"
-                android:id="@+id/tvCommentTimeCreate" android:layout_alignParentRight="true"
-                android:layout_alignTop="@+id/ivCommentIcon"
-                android:layout_toRightOf="@+id/tvCommentTitle" android:textSize="10dp"/>
+                android:id="@+id/tvCommentTimeCreate"
+                android:textSize="10dp"
+                android:gravity="center"
+                android:layout_alignParentRight="true" android:layout_alignTop="@+id/ivCommentIcon"/>
         <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

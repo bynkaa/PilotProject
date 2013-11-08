@@ -6,7 +6,6 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Gravity;
@@ -137,50 +136,49 @@ public class LoginActivity extends AccountAuthenticatorActivity
             final String email = etEmail.getText().toString();
             final String pass = Utilities.stringToMD5(etPassword.getText().toString());
             final String accountType = getIntent().getStringExtra(OnlineDioAuthenticator.ACCOUNT_TYPE_KEY);
-            new AsyncTask<String, Void, Intent>()
-            {
-
-                @Override
-                protected Intent doInBackground(String... strings)
-                {
-                    Log.d(TAG, "started authenticating ...");
-                    Bundle data = new Bundle();
-                    try
-                    {
-                        SignInDTO signInDTO = onLineDioService.signIn(email, pass, authTokenType);
-                        if (signInDTO == null)
-                        {
-                            throw new Exception();
-                        }
-                        data.putLong(USER_ID_KEY, Long.valueOf(signInDTO.getUserId()));
-                        data.putString(AccountManager.KEY_AUTHTOKEN, signInDTO.getAccessToken());
-                        data.putString(AccountManager.KEY_ACCOUNT_NAME, email);
-                        data.putString(AccountManager.KEY_ACCOUNT_TYPE, accountType);
-                        data.putString(KEY_USER_PASSWORD, pass);
-                    }
-                    catch (Exception e)
-                    {
-                        data.putString(ERROR_MESSAGE, "User and password are incorrect!");
-                    }
-                    final Intent res = new Intent();
-                    res.putExtras(data);
-                    return res;
-                }
-
-                @Override
-                protected void onPostExecute(Intent intent)
-                {
-                    if (intent.hasExtra(ERROR_MESSAGE))
-                    {
-                        Toast.makeText(getBaseContext(), intent.getStringExtra(ERROR_MESSAGE), Toast.LENGTH_LONG).show();
-                    }
-                    else
-                    {
-                        loginController.finishLogin(intent);
-                    }
-                }
-            }.execute();
+            doSignInService(email, pass, accountType);
         }
+    }
+
+    @Background
+    void doSignInService(String email, String pass, String accountType)
+    {
+        Log.d(TAG, "started authenticating ...");
+        Bundle data = new Bundle();
+        try
+        {
+            SignInDTO signInDTO = onLineDioService.signIn(email, pass, authTokenType);
+            if (signInDTO == null)
+            {
+                throw new Exception();
+            }
+            data.putLong(USER_ID_KEY, Long.valueOf(signInDTO.getUserId()));
+            data.putString(AccountManager.KEY_AUTHTOKEN, signInDTO.getAccessToken());
+            data.putString(AccountManager.KEY_ACCOUNT_NAME, email);
+            data.putString(AccountManager.KEY_ACCOUNT_TYPE, accountType);
+            data.putString(KEY_USER_PASSWORD, pass);
+        }
+        catch (Exception e)
+        {
+            data.putString(ERROR_MESSAGE, "User and password are incorrect!");
+        }
+        final Intent res = new Intent();
+        res.putExtras(data);
+        updateLogin(res);
+    }
+
+    @UiThread
+    void updateLogin(Intent intent)
+    {
+        if (intent.hasExtra(ERROR_MESSAGE))
+        {
+            Toast.makeText(getBaseContext(), intent.getStringExtra(ERROR_MESSAGE), Toast.LENGTH_LONG).show();
+        }
+        else
+        {
+            loginController.finishLogin(intent);
+        }
+
     }
 
     @Click(R.id.login_tvForgotPass)

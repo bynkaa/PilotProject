@@ -16,18 +16,24 @@ import android.view.View;
 import android.widget.AbsListView;
 import android.widget.ListView;
 import com.example.PilotProject.R;
+import com.googlecode.androidannotations.annotations.Bean;
+import com.googlecode.androidannotations.annotations.EFragment;
 import com.qsoft.pilotproject.adapter.ArrayFeedAdapter;
 import com.qsoft.pilotproject.authenticator.AuthenticatorService;
 import com.qsoft.pilotproject.provider.OnlineDioContract;
-import com.qsoft.pilotproject.ui.activity.SlideBarActivity;
+import com.qsoft.pilotproject.ui.controller.CommonController;
 
 /**
  * User: binhtv
  * Date: 11/1/13
  * Time: 10:17 AM
  */
+@EFragment
 public class HomeListFragment extends ListFragment implements LoaderManager.LoaderCallbacks<Cursor>, AbsListView.OnScrollListener
 {
+    @Bean
+    CommonController commonController;
+
     private static final String TAG = "HomeListFragment";
     private static final String[] PROJECTION = new String[]
             {
@@ -198,7 +204,7 @@ public class HomeListFragment extends ListFragment implements LoaderManager.Load
             Bundle bundle = new Bundle();
             bundle.putString("limit", limit);
             getLoaderManager().restartLoader(0, bundle, this);
-            ((SlideBarActivity) getActivity()).triggerSync();
+            commonController.triggerSync();
 
 
         }

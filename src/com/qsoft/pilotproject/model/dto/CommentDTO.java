@@ -132,6 +132,7 @@ public class CommentDTO
         values.put(OnlineDioContract.Comment.COLUMN_USER_NAME, userName);
         values.put(OnlineDioContract.Comment.COLUMN_DISPLAY_NAME, displayName);
         values.put(OnlineDioContract.Comment.COLUMN_AVATAR, avatar);
+        values.put(OnlineDioContract.Comment.COLUMN_CONTENT, comment);
         return values;
     }
 }

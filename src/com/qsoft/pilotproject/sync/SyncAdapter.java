@@ -12,7 +12,7 @@ import com.qsoft.pilotproject.authenticator.InvalidTokenException;
 import com.qsoft.pilotproject.handler.CommentHandler;
 import com.qsoft.pilotproject.handler.FeedHandler;
 import com.qsoft.pilotproject.handler.impl.CommentHandlerImpl;
-import com.qsoft.pilotproject.handler.impl.FeedHandlerImpl;
+import com.qsoft.pilotproject.handler.impl.FeedHandlerImpl_;
 import com.qsoft.pilotproject.model.Comment;
 import com.qsoft.pilotproject.model.Feed;
 import com.qsoft.pilotproject.model.dto.CommentDTO;
@@ -31,7 +31,7 @@ import java.util.List;
 public class SyncAdapter extends AbstractThreadedSyncAdapter
 {
     private static final String TAG = "SyncAdapter";
-    private static final String[] PROJECTION = new String[]
+    private static final String[] FEED_PROJECTION = new String[]
             {
                     OnlineDioContract.Feed._ID,
                     OnlineDioContract.Feed.COLUMN_AVATAR,
@@ -51,6 +51,21 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter
                     OnlineDioContract.Feed.COLUMN_USER_NAME,
                     OnlineDioContract.Feed.COLUMN_VIEWED,
             };
+    private static final String[] COMMENT_PROJECTION = new String[]
+            {
+                    OnlineDioContract.Comment._ID,
+                    OnlineDioContract.Comment.COLUMN_ID,
+                    OnlineDioContract.Comment.COLUMN_USER_ID,
+                    OnlineDioContract.Comment.COLUMN_USER_NAME,
+                    OnlineDioContract.Comment.COLUMN_CONTENT,
+                    OnlineDioContract.Comment.COLUMN_DISPLAY_NAME,
+                    OnlineDioContract.Comment.COLUMN_AVATAR,
+                    OnlineDioContract.Comment.COLUMN_CREATED_AT,
+                    OnlineDioContract.Comment.COLUMN_SOUND_ID,
+                    OnlineDioContract.Comment.COLUMN_UPDATED_AT
+            };
+
+
     private final Context context;
     private final AccountManager accountManager;
 
@@ -70,6 +85,7 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter
         try
         {
             updateLocalFeedData(account, syncResult);
+            updateLocalCommentData(account, syncResult);
         }
         catch (RemoteException e)
         {
@@ -83,15 +99,13 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter
         {
             e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
         }
-
-
     }
 
     private void updateLocalFeedData(Account account, SyncResult syncResult) throws RemoteException, OperationApplicationException, InvalidTokenException
     {
         final ContentResolver contentResolver = getContext().getContentResolver();
         Log.d(TAG, "get list feeds from server");
-        FeedHandler feedHandler = new FeedHandlerImpl();
+        FeedHandler feedHandler = FeedHandlerImpl_.getInstance_(context);
         List<FeedDTO> remoteFeeds = feedHandler.getFeeds(accountManager, account);
         Log.d(TAG, "parsing complete. Found : " + remoteFeeds.size());
         ArrayList<ContentProviderOperation> batch = new ArrayList<ContentProviderOperation>();
@@ -103,7 +117,7 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter
         // get list of all items
         Log.d(TAG, "Fetching local feed for merge");
         Uri uri = OnlineDioContract.Feed.CONTENT_URI;
-        Cursor cursor = contentResolver.query(uri, PROJECTION, null, null, null);
+        Cursor cursor = contentResolver.query(uri, FEED_PROJECTION, null, null, null);
         assert cursor != null;
         Log.i(TAG, "Found " + cursor.getCount() + " local feeds");
         while (cursor.moveToNext())
@@ -158,7 +172,7 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter
         final ContentResolver contentResolver = getContext().getContentResolver();
         Log.d(TAG, "get list feeds from server");
         CommentHandler commentHandler = new CommentHandlerImpl();
-        List<CommentDTO> remoteComments = commentHandler.getListComments(accountManager, account, 10L);
+        List<CommentDTO> remoteComments = commentHandler.getListComments(accountManager, account, 161L);
         Log.d(TAG, "parsing complete. Found : " + remoteComments.size());
         ArrayList<ContentProviderOperation> batch = new ArrayList<ContentProviderOperation>();
         HashMap<Long, CommentDTO> commentMap = new HashMap<Long, CommentDTO>();
@@ -169,7 +183,7 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter
         // get list of all items
         Log.d(TAG, "Fetching local feed for merge");
         Uri uri = OnlineDioContract.Comment.CONTENT_URI;
-        Cursor cursor = contentResolver.query(uri, PROJECTION, null, null, null);
+        Cursor cursor = contentResolver.query(uri, COMMENT_PROJECTION, null, null, null);
         assert cursor != null;
         Log.i(TAG, "Found " + cursor.getCount() + " local feeds");
         while (cursor.moveToNext())
@@ -209,7 +223,7 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter
         for (CommentDTO commentDTO : commentMap.values())
         {
             Log.i(TAG, "scheduling insert: entry_id=" + commentDTO.getCommentId());
-            batch.add(ContentProviderOperation.newInsert(OnlineDioContract.Feed.CONTENT_URI)
+            batch.add(ContentProviderOperation.newInsert(OnlineDioContract.Comment.CONTENT_URI)
                     .withValues(commentDTO.getContentValues()).build());
             syncResult.stats.numInserts++;
         }
@@ -226,7 +240,7 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter
         {
             e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
         }
-        contentResolver.notifyChange(OnlineDioContract.Feed.CONTENT_URI, null, false);
+        contentResolver.notifyChange(OnlineDioContract.Comment.CONTENT_URI, null, false);
 
     }
 

@@ -20,9 +20,6 @@ import com.qsoft.pilotproject.authenticator.ApplicationAccountManager;
 import com.qsoft.pilotproject.authenticator.OnlineDioAuthenticator;
 import com.qsoft.pilotproject.common.CommandExecutor;
 import com.qsoft.pilotproject.common.commands.GenericStartActivityCommand;
-import com.qsoft.pilotproject.handler.AuthenticatorHandler;
-import com.qsoft.pilotproject.handler.impl.AuthenticatorHandlerImpl;
-import com.qsoft.pilotproject.model.dto.SignInDTO;
 import com.qsoft.pilotproject.ui.activity.SlideBarActivity_;
 
 /**
@@ -47,8 +44,6 @@ public class LoginController
     @RootContext
     Activity activity;
 
-    @Bean(value = AuthenticatorHandlerImpl.class)
-    AuthenticatorHandler authenticatorHandler;
 
     @Bean
     ApplicationAccountManager applicationAccountManager;
@@ -78,23 +73,6 @@ public class LoginController
         }, null);
     }
 
-    public void refreshToken()
-    {
-        // Refresh token by doing login again
-        try
-        {
-            Account account = applicationAccountManager.getAccount();
-            SignInDTO signInDTO = authenticatorHandler.signIn(account.name, accountManager.getPassword(account), AccountGeneral.AUTHTOKEN_TYPE_FULL_ACCESS);
-            if (signInDTO.getAccessToken() != null)
-            {
-                accountManager.setAuthToken(account, AccountGeneral.AUTHTOKEN_TYPE_FULL_ACCESS, signInDTO.getAccessToken());
-            }
-        }
-        catch (Exception e)
-        {
-            e.printStackTrace();
-        }
-    }
 
     public void finishLogin(Intent intent)
     {

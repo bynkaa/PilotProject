@@ -2,9 +2,7 @@ package com.qsoft.pilotproject.ui.activity;
 
 import android.accounts.AccountManager;
 import android.app.Activity;
-import android.content.ContentResolver;
 import android.content.Intent;
-import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.widget.DrawerLayout;
@@ -20,7 +18,6 @@ import com.qsoft.pilotproject.authenticator.ApplicationAccountManager;
 import com.qsoft.pilotproject.common.CommandExecutor;
 import com.qsoft.pilotproject.common.commands.GenericStartActivityCommand;
 import com.qsoft.pilotproject.model.Comment;
-import com.qsoft.pilotproject.provider.OnlineDioContract;
 import com.qsoft.pilotproject.ui.fragment.Home_;
 
 /**
@@ -91,19 +88,21 @@ public class SlideBarActivity extends FragmentActivity
                 new GenericStartActivityCommand(this, ProfileSetupActivity_.class, RC_PROFILE_SETUP_ACTIVITY), false);
     }
 
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data)
+    @OnActivityResult(RC_PROFILE_SETUP_ACTIVITY)
+    void onProfileResult(int resultCode, Intent data)
     {
-        if (requestCode == RC_PROFILE_SETUP_ACTIVITY)
+        if (resultCode == Activity.RESULT_OK)
         {
-            if (resultCode == Activity.RESULT_OK)
-            {
-                // do something here
+            // do something here
 
-            }
-            setOpenOption();
         }
-        if (resultCode == Activity.RESULT_OK && requestCode == RC_COMMENT_FRAGMENT)
+        setOpenOption();
+    }
+
+    @OnActivityResult(RC_COMMENT_FRAGMENT)
+    void onCommentResult(int resultCode, Intent data)
+    {
+        if (resultCode == Activity.RESULT_OK)
         {
             if (data.hasExtra(NewCommentActivity.COMMENT_EXTRA))
             {
@@ -133,16 +132,6 @@ public class SlideBarActivity extends FragmentActivity
     public void setCloseOption()
     {
         dlSlideBar.closeDrawer(leftDrawerView);
-    }
-
-    public void triggerSync()
-    {
-        Log.d(TAG, "TriggerSync > account");
-        Bundle bundle = new Bundle();
-        bundle.putBoolean(ContentResolver.SYNC_EXTRAS_MANUAL, true);
-        bundle.putBoolean(ContentResolver.SYNC_EXTRAS_EXPEDITED, true);
-        bundle.putBoolean(ContentResolver.SYNC_EXTRAS_FORCE, true);
-        ContentResolver.requestSync(applicationAccountManager.getAccount(), OnlineDioContract.CONTENT_AUTHORITY, bundle);
     }
 
     private boolean lastBack = false;
