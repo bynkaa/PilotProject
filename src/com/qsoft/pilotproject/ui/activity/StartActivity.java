@@ -43,13 +43,7 @@ public class StartActivity extends SuperAnnotationActivity
             Account account = accounts[0];
             applicationAccountManager.setAccount(account);
             commandExecutor.execute(this,
-                    new GenericStartActivityCommand(this, SlideBarActivity_.class, RC_SLIDE_BAR_ACTIVITY)
-                    {
-                        @Override
-                        public void overrideExtra(Intent intent)
-                        {
-                        }
-                    }, false);
+                    new GenericStartActivityCommand(this, SlideBarActivity_.class, RC_SLIDE_BAR_ACTIVITY), false);
 
             finish();
         }

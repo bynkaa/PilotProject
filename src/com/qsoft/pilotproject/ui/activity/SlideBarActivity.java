@@ -88,14 +88,7 @@ public class SlideBarActivity extends FragmentActivity
     {
         Log.d(TAG, "profile setup");
         commandExecutor.execute(this,
-                new GenericStartActivityCommand(this, ProfileSetupActivity_.class, RC_PROFILE_SETUP_ACTIVITY)
-                {
-                    @Override
-                    public void overrideExtra(Intent intent)
-                    {
-                        intent.putExtra("TEST_VALUE", "Value");
-                    }
-                }, false);
+                new GenericStartActivityCommand(this, ProfileSetupActivity_.class, RC_PROFILE_SETUP_ACTIVITY), false);
     }
 
     @Override
@@ -159,7 +152,7 @@ public class SlideBarActivity extends FragmentActivity
     {
         if (getFragmentManager().getBackStackEntryCount() > 1)
         {
-            super.onBackPressed();
+            getSupportFragmentManager().popBackStack();
         }
         else
         {

@@ -121,6 +121,11 @@ public class HomeListFragment extends ListFragment implements LoaderManager.Load
         Fragment programFragment = new ProgramFragment_();
         programFragment.setArguments(bundle);
         FragmentTransaction fragmentTransaction = getParentFragment().getFragmentManager().beginTransaction();
+        Fragment playerFragment = getFragmentManager().findFragmentById(R.id.content_fragment);
+        if (playerFragment != null)
+        {
+            fragmentTransaction.remove(playerFragment);
+        }
         fragmentTransaction.replace(R.id.content_fragment, programFragment).addToBackStack(null);
         fragmentTransaction.commit();
     }

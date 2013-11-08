@@ -121,13 +121,7 @@ public class LoginActivity extends AccountAuthenticatorActivity
     {
 
         commandExecutor.execute(this,
-                new GenericStartActivityCommand(this, LaunchActivity_.class, RC_LAUCH_ACTIVITY)
-                {
-                    @Override
-                    public void overrideExtra(Intent intent)
-                    {
-                    }
-                }, false);
+                new GenericStartActivityCommand(this, LaunchActivity_.class, RC_LAUCH_ACTIVITY), false);
 
         Log.d(TAG, "come back to launch screen");
     }
@@ -214,13 +208,7 @@ public class LoginActivity extends AccountAuthenticatorActivity
         setAccountAuthenticatorResult(intent.getExtras());
         applicationAccountManager.setAccount(account);
         commandExecutor.execute(this,
-                new GenericStartActivityCommand(this, SlideBarActivity_.class, RC_SLIDE_BAR_ACTIVITY)
-                {
-                    @Override
-                    public void overrideExtra(Intent intent)
-                    {
-                    }
-                }, false);
+                new GenericStartActivityCommand(this, SlideBarActivity_.class, RC_SLIDE_BAR_ACTIVITY), false);
 
         Log.d(TAG, "Login successfully");
     }

@@ -4,16 +4,18 @@ import android.content.Context;
 import android.content.res.AssetFileDescriptor;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
-import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.Fragment;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.SeekBar;
 import android.widget.TextView;
 import com.example.PilotProject.R;
+import com.googlecode.androidannotations.annotations.AfterViews;
+import com.googlecode.androidannotations.annotations.Bean;
+import com.googlecode.androidannotations.annotations.EFragment;
+import com.googlecode.androidannotations.annotations.ViewById;
+import com.qsoft.pilotproject.ui.fragment.player.UpdateProgressBar;
 import com.qsoft.pilotproject.utils.Utilities;
 
 import java.io.File;
@@ -25,9 +27,9 @@ import java.io.IOException;
  * Date: 10/17/13
  * Time: 11:24 PM
  */
+@EFragment(R.layout.program_content_player)
 public class ContentPlayerFragment extends Fragment
 {
-
     public static final String MEDIA_PATH = "/sdcard/";
     SeekBar.OnSeekBarChangeListener seekBarSongListener = new SeekBar.OnSeekBarChangeListener()
     {
@@ -40,13 +42,13 @@ public class ContentPlayerFragment extends Fragment
         @Override
         public void onStartTrackingTouch(SeekBar seekBar)
         {
-            handler.removeCallbacks(updateTimeTask);
+            handler.removeCallbacks(updateProgressBar);
         }
 
         @Override
         public void onStopTrackingTouch(SeekBar seekBar)
         {
-            handler.removeCallbacks(updateTimeTask);
+            handler.removeCallbacks(updateProgressBar);
             int totalDuration = mediaPlayer.getDuration();
             int currentPosition = Utilities.progressToTimer(seekBar.getProgress(), totalDuration);
             mediaPlayer.seekTo(currentPosition);
@@ -77,55 +79,38 @@ public class ContentPlayerFragment extends Fragment
             }
         }
     };
-    private MediaPlayer mediaPlayer;
-    private SeekBar songProgressBar;
-    private Handler handler = new Handler();
-    private SeekBar volumeProgressBar;
-    private ImageButton btPlay;
+    MediaPlayer mediaPlayer;
+    @ViewById(R.id.seekBarPlayer)
+    SeekBar songProgressBar;
+    Handler handler = new Handler();
+    @ViewById(R.id.seekBarVolume)
+    SeekBar volumeProgressBar;
+    @ViewById(R.id.ibPlayer)
+    ImageButton btPlay;
     AudioManager audioManager = null;
-    private TextView tvTotalDuration;
-    private TextView tvCurrentDuration;
-    private Runnable updateTimeTask = new Runnable()
-    {
-        @Override
-        public void run()
-        {
-            if (mediaPlayer != null)
-            {
-                long totalDuration = mediaPlayer.getDuration();
-                long currentDuration = mediaPlayer.getCurrentPosition();
-                tvTotalDuration.setText("" + Utilities.milliSecondsToTimer(totalDuration));
-                tvCurrentDuration.setText("" + Utilities.milliSecondsToTimer(currentDuration));
-                int progress = Utilities.getProgressPercentage(currentDuration, totalDuration);
-                songProgressBar.setProgress(progress);
-                handler.postDelayed(this, 100);
-            }
+    @ViewById(R.id.tvTotalTime)
+    TextView tvTotalDuration;
+    @ViewById(R.id.tvTimeCurrent)
+    TextView tvCurrentDuration;
 
-        }
-    };
+    @Bean
+    UpdateProgressBar updateProgressBar;
 
-    public void onCreate(Bundle savedInstanceState)
+    @AfterViews
+    void afterViews()
     {
-        super.onCreate(savedInstanceState);
-    }
-
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
-    {
-        View view = inflater.inflate(R.layout.program_content_player, container, false);
-        mediaPlayer = new MediaPlayer();
-        songProgressBar = (SeekBar) view.findViewById(R.id.seekBarPlayer);
-        volumeProgressBar = (SeekBar) view.findViewById(R.id.seekBarVolume);
-        tvTotalDuration = (TextView) view.findViewById(R.id.tvTotalTime);
-        tvCurrentDuration = (TextView) view.findViewById(R.id.tvTimeCurrent);
-        btPlay = (ImageButton) view.findViewById(R.id.ibPlayer);
+        setRetainInstance(true);
         btPlay.setOnClickListener(btPlayOnclickListener);
-
         songProgressBar.setOnSeekBarChangeListener(seekBarSongListener);
         playSong(getSong());
         this.getActivity().setVolumeControlStream(AudioManager.STREAM_MUSIC);
         initVolumeControls();
-        return view;
+
+        updateProgressBar.setHandler(handler);
+        updateProgressBar.setMediaPlayer(mediaPlayer);
+        updateProgressBar.setSongProgressBar(songProgressBar);
+        updateProgressBar.setTvCurrentDuration(tvCurrentDuration);
+        updateProgressBar.setTvTotalDuration(tvTotalDuration);
     }
 
     private void initVolumeControls()
@@ -135,8 +120,6 @@ public class ContentPlayerFragment extends Fragment
         volumeProgressBar.setProgress(audioManager.getStreamVolume(AudioManager.STREAM_MUSIC));
 
         volumeProgressBar.setOnSeekBarChangeListener(volumeProgressBarOnChangeListener);
-
-
     }
 
     SeekBar.OnSeekBarChangeListener volumeProgressBarOnChangeListener = new SeekBar.OnSeekBarChangeListener()
@@ -164,15 +147,27 @@ public class ContentPlayerFragment extends Fragment
     @Override
     public void onDestroy()
     {
-        handler.removeCallbacks(updateTimeTask);
-        mediaPlayer.release();
-        super.onDestroy();    //To change body of overridden methods use File | Settings | File Templates.
+        handler.removeCallbacks(updateProgressBar);
+        if (mediaPlayer != null)
+        {
+            mediaPlayer.release();
+        }
+        mediaPlayer = null;
+        super.onDestroy();
     }
 
     public void playSong(String path)
     {
         try
         {
+            if (mediaPlayer == null)
+            {
+                mediaPlayer = new MediaPlayer();
+            }
+            if (mediaPlayer.isPlaying())
+            {
+                return;
+            }
             AssetFileDescriptor afd = getResources().openRawResourceFd(R.raw.music);
             mediaPlayer.reset();
             mediaPlayer.setDataSource(afd.getFileDescriptor(), afd.getStartOffset(), afd.getDeclaredLength());
@@ -191,7 +186,7 @@ public class ContentPlayerFragment extends Fragment
 
     private void updateProgressBar()
     {
-        handler.postDelayed(updateTimeTask, 100);
+        handler.postDelayed(updateProgressBar, 100);
 
     }
 
