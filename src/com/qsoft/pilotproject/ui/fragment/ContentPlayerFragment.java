@@ -4,16 +4,13 @@ import android.content.Context;
 import android.content.res.AssetFileDescriptor;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
-import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.Fragment;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.SeekBar;
 import android.widget.TextView;
 import com.example.PilotProject.R;
+import com.googlecode.androidannotations.annotations.*;
 import com.qsoft.pilotproject.utils.Utilities;
 
 import java.io.File;
@@ -25,66 +22,28 @@ import java.io.IOException;
  * Date: 10/17/13
  * Time: 11:24 PM
  */
+@EFragment(R.layout.program_content_player)
 public class ContentPlayerFragment extends Fragment
 {
 
     public static final String MEDIA_PATH = "/sdcard/";
-    SeekBar.OnSeekBarChangeListener seekBarSongListener = new SeekBar.OnSeekBarChangeListener()
-    {
-        @Override
-        public void onProgressChanged(SeekBar seekBar, int i, boolean b)
-        {
-            //To change body of implemented methods use File | Settings | File Templates.
-        }
 
-        @Override
-        public void onStartTrackingTouch(SeekBar seekBar)
-        {
-            handler.removeCallbacks(updateTimeTask);
-        }
 
-        @Override
-        public void onStopTrackingTouch(SeekBar seekBar)
-        {
-            handler.removeCallbacks(updateTimeTask);
-            int totalDuration = mediaPlayer.getDuration();
-            int currentPosition = Utilities.progressToTimer(seekBar.getProgress(), totalDuration);
-            mediaPlayer.seekTo(currentPosition);
-            updateProgressBar();
-        }
-
-    };
-    View.OnClickListener btPlayOnclickListener = new View.OnClickListener()
-    {
-        @Override
-        public void onClick(View view)
-        {
-            if (mediaPlayer.isPlaying())
-            {
-                if (mediaPlayer != null)
-                {
-                    mediaPlayer.pause();
-                    btPlay.setImageResource(R.drawable.content_button_play);
-                }
-            }
-            else
-            {
-                if (mediaPlayer != null)
-                {
-                    mediaPlayer.start();
-                    btPlay.setImageResource(R.drawable.content_button_pause);
-                }
-            }
-        }
-    };
     private MediaPlayer mediaPlayer;
-    private SeekBar songProgressBar;
-    private Handler handler = new Handler();
-    private SeekBar volumeProgressBar;
-    private ImageButton btPlay;
+    @ViewById(R.id.seekBarPlayer)
+    SeekBar songProgressBar;
+    @ViewById(R.id.seekBarVolume)
+    SeekBar volumeProgressBar;
+    @ViewById(R.id.ibPlayer)
+    ImageButton btPlay;
+    @ViewById(R.id.tvTotalTime)
+    TextView tvTotalDuration;
+    @ViewById(R.id.tvTimeCurrent)
+    TextView tvCurrentDuration;
     AudioManager audioManager = null;
-    private TextView tvTotalDuration;
-    private TextView tvCurrentDuration;
+    private Handler handler = new Handler();
+
+
     private Runnable updateTimeTask = new Runnable()
     {
         @Override
@@ -104,28 +63,13 @@ public class ContentPlayerFragment extends Fragment
         }
     };
 
-    public void onCreate(Bundle savedInstanceState)
+    @AfterViews
+    void afterViews()
     {
-        super.onCreate(savedInstanceState);
-    }
-
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
-    {
-        View view = inflater.inflate(R.layout.program_content_player, container, false);
         mediaPlayer = new MediaPlayer();
-        songProgressBar = (SeekBar) view.findViewById(R.id.seekBarPlayer);
-        volumeProgressBar = (SeekBar) view.findViewById(R.id.seekBarVolume);
-        tvTotalDuration = (TextView) view.findViewById(R.id.tvTotalTime);
-        tvCurrentDuration = (TextView) view.findViewById(R.id.tvTimeCurrent);
-        btPlay = (ImageButton) view.findViewById(R.id.ibPlayer);
-        btPlay.setOnClickListener(btPlayOnclickListener);
-
-        songProgressBar.setOnSeekBarChangeListener(seekBarSongListener);
         playSong(getSong());
         this.getActivity().setVolumeControlStream(AudioManager.STREAM_MUSIC);
         initVolumeControls();
-        return view;
     }
 
     private void initVolumeControls()
@@ -133,33 +77,51 @@ public class ContentPlayerFragment extends Fragment
         audioManager = (AudioManager) this.getActivity().getSystemService(Context.AUDIO_SERVICE);
         volumeProgressBar.setMax(audioManager.getStreamMaxVolume(AudioManager.STREAM_MUSIC));
         volumeProgressBar.setProgress(audioManager.getStreamVolume(AudioManager.STREAM_MUSIC));
+    }
 
-        volumeProgressBar.setOnSeekBarChangeListener(volumeProgressBarOnChangeListener);
+    @SeekBarTouchStart(R.id.seekBarPlayer)
+    void onStartTrackingTouchPlayer(SeekBar seekBar)
+    {
+        handler.removeCallbacks(updateTimeTask);
+    }
 
+    @SeekBarTouchStop(R.id.seekBarPlayer)
+    void onStopTrackingTouchPlayer(SeekBar seekBar)
+    {
+        handler.removeCallbacks(updateTimeTask);
+        int totalDuration = mediaPlayer.getDuration();
+        int currentPosition = Utilities.progressToTimer(seekBar.getProgress(), totalDuration);
+        mediaPlayer.seekTo(currentPosition);
+        updateProgressBar();
+    }
+
+    @Click(R.id.ibPlayer)
+    void doPlay()
+    {
+        if (mediaPlayer.isPlaying())
+        {
+            if (mediaPlayer != null)
+            {
+                mediaPlayer.pause();
+                btPlay.setImageResource(R.drawable.content_button_play);
+            }
+        }
+        else
+        {
+            if (mediaPlayer != null)
+            {
+                mediaPlayer.start();
+                btPlay.setImageResource(R.drawable.content_button_pause);
+            }
+        }
 
     }
 
-    SeekBar.OnSeekBarChangeListener volumeProgressBarOnChangeListener = new SeekBar.OnSeekBarChangeListener()
+    @SeekBarProgressChange(R.id.seekBarVolume)
+    void onProgressChangeOnVolumnSeekBar(SeekBar seekBar, int progress, boolean b)
     {
-        @Override
-        public void onProgressChanged(SeekBar seekBar, int progress, boolean b)
-        {
-            audioManager.setStreamVolume(AudioManager.STREAM_MUSIC, progress, 0);
-
-        }
-
-        @Override
-        public void onStartTrackingTouch(SeekBar seekBar)
-        {
-            //To change body of implemented methods use File | Settings | File Templates.
-        }
-
-        @Override
-        public void onStopTrackingTouch(SeekBar seekBar)
-        {
-            //To change body of implemented methods use File | Settings | File Templates.
-        }
-    };
+        audioManager.setStreamVolume(AudioManager.STREAM_MUSIC, progress, 0);
+    }
 
     @Override
     public void onDestroy()
