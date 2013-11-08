@@ -8,10 +8,10 @@ import com.google.gson.reflect.TypeToken;
 import com.googlecode.androidannotations.annotations.Bean;
 import com.googlecode.androidannotations.annotations.EBean;
 import com.qsoft.pilotproject.authenticator.AccountGeneral;
-import com.qsoft.pilotproject.authenticator.ApplicationAccountManager;
 import com.qsoft.pilotproject.authenticator.InvalidTokenException;
 import com.qsoft.pilotproject.handler.FeedHandler;
 import com.qsoft.pilotproject.model.dto.FeedDTO;
+import com.qsoft.pilotproject.ui.controller.LoginController;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.methods.HttpGet;
@@ -36,7 +36,7 @@ public class FeedHandlerImpl implements FeedHandler
     private static final String TAG = "FeedHandlerImpl";
 
     @Bean
-    ApplicationAccountManager applicationAccountManager;
+    LoginController loginController;
 
     @Override
     public List<FeedDTO> getFeeds(AccountManager accountManager, Account account)
@@ -91,7 +91,7 @@ public class FeedHandlerImpl implements FeedHandler
                 countLoop++;
                 if (countLoop <= 1)
                 {
-                    applicationAccountManager.refreshToken();
+                    loginController.refreshToken();
                 }
                 else
                 {
