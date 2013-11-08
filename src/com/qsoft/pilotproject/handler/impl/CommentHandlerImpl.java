@@ -38,13 +38,13 @@ public class CommentHandlerImpl implements CommentHandler
     public static final String TAG = "CommentHandlerImpl";
 
     @Override
-    public List<CommentDTO> getListComments(AccountManager accountManager, Account account, Long userId)
+    public List<CommentDTO> getListComments(AccountManager accountManager, Account account, Long soundId)
     {
         Log.d(TAG, "getListComments()");
         DefaultHttpClient httpClient = new DefaultHttpClient();
         String url = "http://113.160.50.84:1009/testing/ica467/trunk/public/comment-rest";
         String requestQuery = null;
-        requestQuery = String.format("sound_id=%s&limit=&offset=&updated_at=", userId);
+        requestQuery = String.format("sound_id=%s&limit=&offset=&updated_at=", soundId);
         url = url + "?" + requestQuery;
         HttpGet httpGet = new HttpGet(url);
         String authToken = accountManager.peekAuthToken(account, AccountGeneral.AUTHTOKEN_TYPE_FULL_ACCESS);

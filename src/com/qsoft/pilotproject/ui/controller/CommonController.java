@@ -2,6 +2,9 @@ package com.qsoft.pilotproject.ui.controller;
 
 import android.accounts.Account;
 import android.accounts.AccountManager;
+import android.content.ContentResolver;
+import android.os.Bundle;
+import android.util.Log;
 import com.googlecode.androidannotations.annotations.Bean;
 import com.googlecode.androidannotations.annotations.EBean;
 import com.googlecode.androidannotations.annotations.SystemService;
@@ -10,6 +13,7 @@ import com.qsoft.pilotproject.authenticator.ApplicationAccountManager;
 import com.qsoft.pilotproject.handler.AuthenticatorHandler;
 import com.qsoft.pilotproject.handler.impl.AuthenticatorHandlerImpl;
 import com.qsoft.pilotproject.model.dto.SignInDTO;
+import com.qsoft.pilotproject.provider.OnlineDioContract;
 
 /**
  * User: binhtv
@@ -17,8 +21,9 @@ import com.qsoft.pilotproject.model.dto.SignInDTO;
  * Time: 11:32 AM
  */
 @EBean
-public class AuthenticatorController
+public class CommonController
 {
+    public static final String TAG = "CommonController";
     @Bean
     ApplicationAccountManager applicationAccountManager;
     @Bean(value = AuthenticatorHandlerImpl.class)
@@ -42,5 +47,14 @@ public class AuthenticatorController
         {
             e.printStackTrace();
         }
+    }
+
+    public void triggerSync()
+    {
+        Log.d(TAG, "TriggerSync > account");
+        Bundle bundle = new Bundle();
+        bundle.putBoolean(ContentResolver.SYNC_EXTRAS_MANUAL, true);
+        bundle.putBoolean(ContentResolver.SYNC_EXTRAS_EXPEDITED, true);
+        ContentResolver.requestSync(applicationAccountManager.getAccount(), OnlineDioContract.CONTENT_AUTHORITY, bundle);
     }
 }

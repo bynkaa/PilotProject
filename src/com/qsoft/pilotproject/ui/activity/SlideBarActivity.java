@@ -2,9 +2,7 @@ package com.qsoft.pilotproject.ui.activity;
 
 import android.accounts.AccountManager;
 import android.app.Activity;
-import android.content.ContentResolver;
 import android.content.Intent;
-import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.widget.DrawerLayout;
@@ -20,7 +18,6 @@ import com.qsoft.pilotproject.authenticator.ApplicationAccountManager;
 import com.qsoft.pilotproject.common.CommandExecutor;
 import com.qsoft.pilotproject.common.commands.GenericStartActivityCommand;
 import com.qsoft.pilotproject.model.Comment;
-import com.qsoft.pilotproject.provider.OnlineDioContract;
 import com.qsoft.pilotproject.ui.fragment.Home_;
 
 /**
@@ -142,16 +139,6 @@ public class SlideBarActivity extends FragmentActivity
     public void setCloseOption()
     {
         dlSlideBar.closeDrawer(leftDrawerView);
-    }
-
-    public void triggerSync()
-    {
-        Log.d(TAG, "TriggerSync > account");
-        Bundle bundle = new Bundle();
-        bundle.putBoolean(ContentResolver.SYNC_EXTRAS_MANUAL, true);
-        bundle.putBoolean(ContentResolver.SYNC_EXTRAS_EXPEDITED, true);
-        bundle.putBoolean(ContentResolver.SYNC_EXTRAS_FORCE, true);
-        ContentResolver.requestSync(applicationAccountManager.getAccount(), OnlineDioContract.CONTENT_AUTHORITY, bundle);
     }
 
     private boolean lastBack = false;

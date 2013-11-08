@@ -3,7 +3,6 @@ package com.qsoft.pilotproject.ui.fragment;
 import android.content.Intent;
 import android.support.v4.app.Fragment;
 import android.util.Log;
-import android.widget.ListView;
 import android.widget.TextView;
 import com.example.PilotProject.R;
 import com.googlecode.androidannotations.annotations.*;
@@ -24,17 +23,15 @@ public class CommentFragment extends Fragment
 
     @ViewById(R.id.tvNewComment)
     TextView tvAddNewComment;
-    @ViewById(R.id.lvComment)
-    ListView lvComment;
     @Bean
     CommandExecutor commandExecutor;
-    @FragmentById(R.id.lvComment)
-    CommentListFragment commentListFragment;
 
 
     @AfterViews
     void afterViews()
     {
+        Fragment commentListFragment = new CommentListFragment();
+        getFragmentManager().beginTransaction().replace(R.id.lvComment, commentListFragment).commit();
     }
 
 
