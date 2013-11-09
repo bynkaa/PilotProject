@@ -1,12 +1,10 @@
 package com.qsoft.pilotproject.ui.fragment;
 
-import android.content.ContentResolver;
 import android.content.ContentUris;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
 import android.util.Log;
 import android.widget.ImageButton;
 import android.widget.RadioGroup;
@@ -31,7 +29,6 @@ public class ProgramFragment extends Fragment
     private static final int RC_SLIDE_BAR_ACTIVITY = 5;
     public static final String DETAIL_FRAGMENT = "detail";
     public static final String THUMBNAIL = "thumbnail";
-    FragmentManager manager = getFragmentManager();
     @ViewById(R.id.ibProgramBack)
     ImageButton ibProgramBack;
 
@@ -60,7 +57,7 @@ public class ProgramFragment extends Fragment
     {
         setRetainInstance(true);
         startContentPlayerFragment();
-        final ContentResolver contentResolver = getActivity().getContentResolver();
+
         Bundle bundle = getArguments();
         Long id = bundle.getLong(HomeListFragment.FEED_ID);
         if (id == null)
@@ -69,7 +66,7 @@ public class ProgramFragment extends Fragment
         }
         Uri singleUri = ContentUris.withAppendedId(OnlineDioContract.Feed.CONTENT_URI, id);
         // get all
-        Cursor cursor = contentResolver.query(singleUri, null, null, null, null);
+        Cursor cursor = getActivity().getContentResolver().query(singleUri, null, null, null, null);
         assert cursor != null;
 
         while (cursor.moveToNext())
@@ -89,6 +86,7 @@ public class ProgramFragment extends Fragment
         tvPlayed.setText(played);
         tvUpdated.setText(Utilities.calculatorUpdateTime(feed.getUpdatedAt()));
         cursor.close();
+
         rgProgramTab.setOnCheckedChangeListener(programTabOnCheckChangeListener);
         rgProgramTab.check(R.id.rbThumbnail);
 

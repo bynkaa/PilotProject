@@ -1,12 +1,13 @@
 package com.qsoft.pilotproject.ui.fragment;
 
-import android.content.Context;
 import android.media.AudioManager;
 import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.widget.ImageButton;
 import android.widget.SeekBar;
 import android.widget.TextView;
+import com.bindroid.ValueConverter;
+import com.bindroid.ui.UiBinder;
 import com.example.PilotProject.R;
 import com.googlecode.androidannotations.annotations.*;
 import com.qsoft.pilotproject.ui.controller.MediaController;
@@ -22,16 +23,17 @@ import com.qsoft.pilotproject.utils.Utilities;
 public class ContentPlayerFragment extends Fragment
 {
     @ViewById(R.id.seekBarPlayer)
-    SeekBar songProgressBar;
+    SeekBar songSeekBar;
     @ViewById(R.id.seekBarVolume)
-    SeekBar volumeProgressBar;
+    SeekBar volumeSeekBar;
     @ViewById(R.id.ibPlayer)
     ImageButton btPlay;
     @ViewById(R.id.tvTotalTime)
     TextView tvTotalDuration;
     @ViewById(R.id.tvTimeCurrent)
     TextView tvCurrentDuration;
-    AudioManager audioManager = null;
+    @SystemService
+    AudioManager audioManager;
     private Handler handler = new Handler();
     @Bean
     MediaController mediaController;
@@ -42,25 +44,53 @@ public class ContentPlayerFragment extends Fragment
     void afterViews()
     {
         setRetainInstance(true);
-        mediaController.playSong(mediaController.getSong(), songProgressBar);
+
+        UiBinder.bind(getActivity(), R.id.ibPlayer, "imageResource", mediaController.getMediaPlayer(), "playing", new ValueConverter()
+        {
+            @Override
+            public Object convertToSource(Object targetValue, Class<?> sourceType)
+            {
+                return super.convertToSource(targetValue, sourceType);    //To change body of overridden methods use File | Settings | File Templates.
+            }
+
+            @Override
+            public Object convertToTarget(Object sourceValue, Class<?> targetType)
+            {
+                return super.convertToTarget(sourceValue, targetType);    //To change body of overridden methods use File | Settings | File Templates.
+            }
+        });
+        mediaController.setActivity(this.getActivity());
+        mediaController.setBtPlay(btPlay);
+        mediaController.playSong();
 
         updateProgressBar.setHandler(handler);
         updateProgressBar.setMediaPlayer(mediaController.getMediaPlayer());
-        updateProgressBar.setSongProgressBar(songProgressBar);
+        updateProgressBar.setSongProgressBar(songSeekBar);
         updateProgressBar.setTvCurrentDuration(tvCurrentDuration);
         updateProgressBar.setTvTotalDuration(tvTotalDuration);
         updateProgressBar();
 
-        this.getActivity().setVolumeControlStream(AudioManager.STREAM_MUSIC);
         initVolumeControls();
-
     }
 
     private void initVolumeControls()
     {
-        audioManager = (AudioManager) this.getActivity().getSystemService(Context.AUDIO_SERVICE);
-        volumeProgressBar.setMax(audioManager.getStreamMaxVolume(AudioManager.STREAM_MUSIC));
-        volumeProgressBar.setProgress(audioManager.getStreamVolume(AudioManager.STREAM_MUSIC));
+        volumeSeekBar.setMax(audioManager.getStreamMaxVolume(AudioManager.STREAM_MUSIC));
+        volumeSeekBar.setProgress(audioManager.getStreamVolume(AudioManager.STREAM_MUSIC));
+    }
+
+    @Click(R.id.ibPlayer)
+    void doPlay()
+    {
+        if (mediaController.getMediaPlayer().isPlaying())
+        {
+            mediaController.getMediaPlayer().pause();
+        }
+        else
+        {
+            mediaController.getMediaPlayer().start();
+        }
+        mediaController.updateButtonImage();
     }
 
     @SeekBarTouchStart(R.id.seekBarPlayer)
