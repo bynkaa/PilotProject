@@ -1,47 +1,49 @@
 package com.qsoft.pilotproject.model.dto;
 
 import android.content.ContentValues;
-import com.google.gson.annotations.SerializedName;
 import com.qsoft.pilotproject.provider.OnlineDioContract;
+import org.codehaus.jackson.annotate.JsonIgnoreProperties;
+import org.codehaus.jackson.annotate.JsonProperty;
 
 /**
  * User: binhtv
  * Date: 10/31/13
  * Time: 8:48 AM
  */
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class FeedDTO
 {
-    @SerializedName(("id"))
+    @JsonProperty(("id"))
     private long feedId;
-    @SerializedName("user_id")
+    @JsonProperty("user_id")
     private long userId;
-    @SerializedName("title")
+    @JsonProperty("title")
     private String title;
-    @SerializedName("thumbnail")
+    @JsonProperty("thumbnail")
     private String thumbnail;
-    @SerializedName("description")
+    @JsonProperty("description")
     private String description;
-    @SerializedName("sound_path")
+    @JsonProperty("sound_path")
     private String soundPath;
-    @SerializedName("duration")
+    @JsonProperty("duration")
     private String duration;
-    @SerializedName("played")
+    @JsonProperty("played")
     private String played;
-    @SerializedName("created_at")
+    @JsonProperty("created_at")
     private String createdAt;
-    @SerializedName("updated_at")
+    @JsonProperty("updated_at")
     private String updatedAt;
-    @SerializedName("likes")
+    @JsonProperty("likes")
     private int likes;
-    @SerializedName("viewed")
+    @JsonProperty("viewed")
     private int viewed;
-    @SerializedName("comments")
+    @JsonProperty("comments")
     private int comments;
-    @SerializedName("username")
+    @JsonProperty("username")
     private String userName;
-    @SerializedName("display_name")
+    @JsonProperty("display_name")
     private String displayName;
-    @SerializedName("avatar")
+    @JsonProperty("avatar")
     private String avatar;
 
     public long getFeedId()

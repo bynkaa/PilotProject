@@ -9,7 +9,7 @@ import com.googlecode.androidannotations.annotations.rest.RestService;
 import com.qsoft.pilotproject.authenticator.ApplicationAccountManager;
 import com.qsoft.pilotproject.handler.FeedRestClient;
 import com.qsoft.pilotproject.handler.interceptor.HttpFeedInterceptor;
-import com.qsoft.pilotproject.model.dto.ResponseDTO;
+import com.qsoft.pilotproject.model.ListFeed;
 import com.qsoft.pilotproject.ui.activity.SlideBarActivity;
 import com.qsoft.pilotproject.ui.controller.CommonController;
 import org.springframework.http.client.ClientHttpRequestInterceptor;
@@ -61,8 +61,8 @@ public class Home extends Fragment
         List<ClientHttpRequestInterceptor> interceptors = new ArrayList<ClientHttpRequestInterceptor>();
         interceptors.add(httpFeedInterceptor);
         restTemplate.setInterceptors(interceptors);
-        ResponseDTO responseDTO = feedRestClient.getFeeds("", "", "", "");
-        Log.d(TAG, "size" + responseDTO.getData().getFeedDTOs().size());
+        ListFeed listFeed = feedRestClient.getFeeds("", "", "", "");
+        Log.d(TAG, "size" + listFeed.getFeedDTOs().size());
 
     }
 

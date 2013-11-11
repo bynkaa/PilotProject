@@ -4,12 +4,14 @@ import android.app.Service;
 import android.content.Intent;
 import android.os.IBinder;
 import android.util.Log;
+import com.googlecode.androidannotations.annotations.EService;
 
 /**
  * User: binhtv
  * Date: 11/1/13
  * Time: 9:58 AM
  */
+@EService
 public class SyncService extends Service
 {
     private static final String TAG = "SyncService";

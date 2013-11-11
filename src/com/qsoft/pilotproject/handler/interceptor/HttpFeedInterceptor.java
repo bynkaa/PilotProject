@@ -10,6 +10,7 @@ import com.qsoft.pilotproject.authenticator.AccountGeneral;
 import com.qsoft.pilotproject.authenticator.ApplicationAccountManager;
 import org.springframework.http.HttpRequest;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.client.ClientHttpRequestExecution;
 import org.springframework.http.client.ClientHttpRequestInterceptor;
 import org.springframework.http.client.ClientHttpResponse;
@@ -36,6 +37,7 @@ public class HttpFeedInterceptor implements ClientHttpRequestInterceptor
     {
         String authToken = accountManager.peekAuthToken(applicationAccountManager.getAccount(), AccountGeneral.AUTHTOKEN_TYPE_FULL_ACCESS);
         httpRequest.getHeaders().add("Authorization", "Bearer " + authToken);
+        httpRequest.getHeaders().setContentType(MediaType.APPLICATION_JSON);
         ClientHttpResponse response = clientHttpRequestExecution.execute(httpRequest, bytes);
         HttpStatus status = response.getStatusCode();
         if (status.value() == 200)

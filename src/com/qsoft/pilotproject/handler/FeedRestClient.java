@@ -1,8 +1,10 @@
 package com.qsoft.pilotproject.handler;
 
+import com.googlecode.androidannotations.annotations.rest.Accept;
 import com.googlecode.androidannotations.annotations.rest.Get;
 import com.googlecode.androidannotations.annotations.rest.Rest;
-import com.qsoft.pilotproject.model.dto.ResponseDTO;
+import com.googlecode.androidannotations.api.rest.MediaType;
+import com.qsoft.pilotproject.model.ListFeed;
 import org.springframework.http.converter.json.MappingJacksonHttpMessageConverter;
 import org.springframework.web.client.RestTemplate;
 
@@ -15,7 +17,8 @@ import org.springframework.web.client.RestTemplate;
 public interface FeedRestClient
 {
     @Get("limit={limit}&offset={offset}&time_from={time_from}&time_to={time_to}")
-    ResponseDTO getFeeds(String limit, String offset, String time_from, String time_to);
+    @Accept(MediaType.APPLICATION_JSON)
+    ListFeed getFeeds(String limit, String offset, String time_from, String time_to);
 
     RestTemplate getRestTemplate();
 
