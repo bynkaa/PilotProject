@@ -4,14 +4,12 @@ import android.content.ContentValues;
 import com.google.gson.annotations.SerializedName;
 import com.qsoft.pilotproject.provider.OnlineDioContract;
 
-import java.io.Serializable;
-
 /**
  * User: binhtv
  * Date: 10/31/13
  * Time: 8:48 AM
  */
-public class FeedDTO implements Serializable
+public class FeedDTO
 {
     @SerializedName(("id"))
     private long feedId;

@@ -3,7 +3,6 @@ package com.qsoft.pilotproject.ui.controller;
 import android.app.Activity;
 import android.content.res.AssetFileDescriptor;
 import android.media.MediaPlayer;
-import android.widget.ImageButton;
 import com.example.PilotProject.R;
 import com.googlecode.androidannotations.annotations.EBean;
 import com.googlecode.androidannotations.api.Scope;
@@ -21,10 +20,14 @@ import java.io.IOException;
 public class MediaController
 {
     public static final String MEDIA_PATH = "/sdcard/";
-    private ImageButton btPlay;
     private Activity activity;
 
     private MediaPlayer mediaPlayer;
+
+    public MediaController()
+    {
+        mediaPlayer = new MediaPlayer();
+    }
 
     public void playSong()
     {
@@ -52,26 +55,12 @@ public class MediaController
         {
             e.printStackTrace();
         }
-        finally
-        {
-            updateButtonImage();
-        }
+//        finally
+//        {
+//            updateButtonImage();
+//        }
     }
 
-    public void updateButtonImage()
-    {
-        getBtPlay().setImageResource(mediaPlayer.isPlaying() ? R.drawable.content_button_play : R.drawable.content_button_pause);
-    }
-
-    public ImageButton getBtPlay()
-    {
-        return btPlay;
-    }
-
-    public void setBtPlay(ImageButton btPlay)
-    {
-        this.btPlay = btPlay;
-    }
 
     public Activity getActivity()
     {

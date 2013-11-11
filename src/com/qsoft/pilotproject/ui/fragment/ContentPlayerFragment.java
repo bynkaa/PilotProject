@@ -45,22 +45,24 @@ public class ContentPlayerFragment extends Fragment
     {
         setRetainInstance(true);
 
-        UiBinder.bind(getActivity(), R.id.ibPlayer, "imageResource", mediaController.getMediaPlayer(), "playing", new ValueConverter()
+        ImageButton imageButton;
+        UiBinder.bind(getActivity(), R.id.ibPlayer, "BackgroundResource", mediaController.getMediaPlayer(), "Playing", new ValueConverter()
         {
-            @Override
-            public Object convertToSource(Object targetValue, Class<?> sourceType)
-            {
-                return super.convertToSource(targetValue, sourceType);    //To change body of overridden methods use File | Settings | File Templates.
-            }
+
 
             @Override
             public Object convertToTarget(Object sourceValue, Class<?> targetType)
             {
-                return super.convertToTarget(sourceValue, targetType);    //To change body of overridden methods use File | Settings | File Templates.
+                Boolean isPlaying = (Boolean) sourceValue;
+                if (isPlaying == null || !isPlaying)
+                {
+                    return R.drawable.content_button_pause;
+                }
+                return R.drawable.content_button_play;
             }
         });
+
         mediaController.setActivity(this.getActivity());
-        mediaController.setBtPlay(btPlay);
         mediaController.playSong();
 
         updateProgressBar.setHandler(handler);
@@ -90,7 +92,6 @@ public class ContentPlayerFragment extends Fragment
         {
             mediaController.getMediaPlayer().start();
         }
-        mediaController.updateButtonImage();
     }
 
     @SeekBarTouchStart(R.id.seekBarPlayer)
