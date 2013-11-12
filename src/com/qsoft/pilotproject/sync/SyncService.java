@@ -27,7 +27,7 @@ public class SyncService extends Service
         {
             if (syncAdapter == null)
             {
-                syncAdapter = new SyncAdapter(getApplicationContext(), true);
+                syncAdapter = SyncAdapter_.getInstance_(getApplicationContext());
             }
         }
     }

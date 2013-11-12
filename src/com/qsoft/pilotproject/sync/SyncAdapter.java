@@ -8,6 +8,8 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.RemoteException;
 import android.util.Log;
+import com.googlecode.androidannotations.annotations.Bean;
+import com.googlecode.androidannotations.annotations.EBean;
 import com.qsoft.pilotproject.authenticator.InvalidTokenException;
 import com.qsoft.pilotproject.handler.CommentHandler;
 import com.qsoft.pilotproject.handler.FeedHandler;
@@ -18,6 +20,7 @@ import com.qsoft.pilotproject.model.Feed;
 import com.qsoft.pilotproject.model.dto.CommentDTO;
 import com.qsoft.pilotproject.model.dto.FeedDTO;
 import com.qsoft.pilotproject.provider.OnlineDioContract;
+import com.qsoft.pilotproject.rest.OnlineDioClientProxy;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -28,6 +31,7 @@ import java.util.List;
  * Date: 10/31/13
  * Time: 10:58 AM
  */
+@EBean
 public class SyncAdapter extends AbstractThreadedSyncAdapter
 {
     private static final String TAG = "SyncAdapter";
@@ -65,13 +69,15 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter
                     OnlineDioContract.Comment.COLUMN_UPDATED_AT
             };
 
+    Context context;
+    @Bean
+    OnlineDioClientProxy onlineDioClientProxy;
 
-    private final Context context;
-    private final AccountManager accountManager;
+    AccountManager accountManager;
 
-    public SyncAdapter(Context context, boolean autoIntitialize)
+    public SyncAdapter(Context context)
     {
-        super(context, autoIntitialize);
+        super(context, true);
         this.context = context;
         accountManager = AccountManager.get(context);
     }
@@ -106,7 +112,8 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter
         final ContentResolver contentResolver = getContext().getContentResolver();
         Log.d(TAG, "get list feeds from server");
         FeedHandler feedHandler = FeedHandlerImpl_.getInstance_(context);
-        List<FeedDTO> remoteFeeds = feedHandler.getFeeds(accountManager, account);
+//        List<FeedDTO> remoteFeeds = feedHandler.getFeeds(accountManager, account);
+        List<FeedDTO> remoteFeeds = onlineDioClientProxy.getFeeds("", "", "", "").getFeedDTOs();
         Log.d(TAG, "parsing complete. Found : " + remoteFeeds.size());
         ArrayList<ContentProviderOperation> batch = new ArrayList<ContentProviderOperation>();
         HashMap<Long, FeedDTO> feedMap = new HashMap<Long, FeedDTO>();

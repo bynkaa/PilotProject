@@ -1,4 +1,4 @@
-package com.qsoft.pilotproject.handler;
+package com.qsoft.pilotproject.rest;
 
 import com.googlecode.androidannotations.annotations.rest.Accept;
 import com.googlecode.androidannotations.annotations.rest.Get;
@@ -13,12 +13,14 @@ import org.springframework.web.client.RestTemplate;
  * Date: 11/11/13
  * Time: 9:37 AM
  */
-@Rest(rootUrl = "http://113.160.50.84:1009/testing/ica467/trunk/public/home-rest?", converters = {MappingJacksonHttpMessageConverter.class})
-public interface FeedRestClient
+@Rest(rootUrl = "http://113.160.50.84:1009/testing/ica467/trunk/public/", converters = {MappingJacksonHttpMessageConverter.class})
+public interface OnlineDioRestClient
 {
-    @Get("limit={limit}&offset={offset}&time_from={time_from}&time_to={time_to}")
+    @Get("home-rest?limit={limit}&offset={offset}&time_from={time_from}&time_to={time_to}")
     @Accept(MediaType.APPLICATION_JSON)
     ListFeed getFeeds(String limit, String offset, String time_from, String time_to);
+
+//    @Get("user-rest/{userId}")
 
     RestTemplate getRestTemplate();
 

@@ -1,4 +1,4 @@
-package com.qsoft.pilotproject.handler.interceptor;
+package com.qsoft.pilotproject.rest.interceptor;
 
 import android.accounts.AccountManager;
 import android.util.Log;
@@ -23,10 +23,10 @@ import java.io.IOException;
  * Time: 9:50 AM
  */
 @EBean(scope = Scope.Singleton)
-public class HttpFeedInterceptor implements ClientHttpRequestInterceptor
+public class OnlineDioInterceptor implements ClientHttpRequestInterceptor
 {
 
-    private static final String TAG = "HttpFeedInterceptor";
+    private static final String TAG = "OnlineDioInterceptor";
     @Bean
     ApplicationAccountManager applicationAccountManager;
     @SystemService

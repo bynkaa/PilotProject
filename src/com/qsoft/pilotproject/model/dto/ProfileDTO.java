@@ -1,8 +1,9 @@
 package com.qsoft.pilotproject.model.dto;
 
 import android.content.ContentValues;
-import com.google.gson.annotations.SerializedName;
 import com.qsoft.pilotproject.provider.OnlineDioContract;
+import org.codehaus.jackson.annotate.JsonIgnoreProperties;
+import org.codehaus.jackson.annotate.JsonProperty;
 
 import java.io.Serializable;
 
@@ -11,49 +12,50 @@ import java.io.Serializable;
  * Date: 11/4/13
  * Time: 10:32 PM
  */
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class ProfileDTO implements Serializable
 {
-    @SerializedName("id")
+    @JsonProperty("id")
     private Long userId;
-    @SerializedName("facebook_id")
+    @JsonProperty("facebook_id")
     private Long facebookId;
-    @SerializedName("usename")
+    @JsonProperty("usename")
     private String userName;
-    @SerializedName("password")
+    @JsonProperty("password")
     private String password;
-    @SerializedName("avatar")
+    @JsonProperty("avatar")
     private String avatar;
-    @SerializedName("cover_image")
+    @JsonProperty("cover_image")
     private String coverImage;
-    @SerializedName("display_name")
+    @JsonProperty("display_name")
     private String displayName;
-    @SerializedName("full_name")
+    @JsonProperty("full_name")
     private String fullName;
-    @SerializedName("phone")
+    @JsonProperty("phone")
     private String phone;
-    @SerializedName("birthday")
+    @JsonProperty("birthday")
     private String birthday;
-    @SerializedName("gender")
+    @JsonProperty("gender")
     private int gender;
-    @SerializedName("country_id")
+    @JsonProperty("country_id")
     private String countryId;
-    @SerializedName("storage_plan_id")
+    @JsonProperty("storage_plan_id")
     private int storagePlanId;
-    @SerializedName("description")
+    @JsonProperty("description")
     private String description;
-    @SerializedName("created_at")
+    @JsonProperty("created_at")
     private String createdAt;
-    @SerializedName("updated_at")
+    @JsonProperty("updated_at")
     private String updatedAt;
-    @SerializedName("sounds")
+    @JsonProperty("sounds")
     private int sound;
-    @SerializedName("favorites")
+    @JsonProperty("favorites")
     private int favorite;
-    @SerializedName("likes")
+    @JsonProperty("likes")
     private int like;
-    @SerializedName("followings")
+    @JsonProperty("followings")
     private int following;
-    @SerializedName("audiences")
+    @JsonProperty("audiences")
     private int audience;
 
     public Long getUserId()
@@ -265,6 +267,7 @@ public class ProfileDTO implements Serializable
     {
         this.audience = audience;
     }
+
     public ContentValues getContentValues()
     {
         ContentValues values = new ContentValues();
