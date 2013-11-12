@@ -113,7 +113,7 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter
         Log.d(TAG, "get list feeds from server");
         FeedHandler feedHandler = FeedHandlerImpl_.getInstance_(context);
 //        List<FeedDTO> remoteFeeds = feedHandler.getFeeds(accountManager, account);
-        List<FeedDTO> remoteFeeds = onlineDioClientProxy.getFeeds("", "", "", "").getFeedDTOs();
+        List<FeedDTO> remoteFeeds = onlineDioClientProxy.getFeeds("", "", "", "");
         Log.d(TAG, "parsing complete. Found : " + remoteFeeds.size());
         ArrayList<ContentProviderOperation> batch = new ArrayList<ContentProviderOperation>();
         HashMap<Long, FeedDTO> feedMap = new HashMap<Long, FeedDTO>();
@@ -179,7 +179,8 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter
         final ContentResolver contentResolver = getContext().getContentResolver();
         Log.d(TAG, "get list feeds from server");
         CommentHandler commentHandler = new CommentHandlerImpl();
-        List<CommentDTO> remoteComments = commentHandler.getListComments(accountManager, account, 161L);
+//        List<CommentDTO> remoteComments = commentHandler.getListComments(accountManager, account, 161L);
+        List<CommentDTO> remoteComments = onlineDioClientProxy.getComments(161L, "", "", "");
         Log.d(TAG, "parsing complete. Found : " + remoteComments.size());
         ArrayList<ContentProviderOperation> batch = new ArrayList<ContentProviderOperation>();
         HashMap<Long, CommentDTO> commentMap = new HashMap<Long, CommentDTO>();

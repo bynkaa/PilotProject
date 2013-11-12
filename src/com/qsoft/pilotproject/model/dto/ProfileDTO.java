@@ -2,7 +2,6 @@ package com.qsoft.pilotproject.model.dto;
 
 import android.content.ContentValues;
 import com.qsoft.pilotproject.provider.OnlineDioContract;
-import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 import org.codehaus.jackson.annotate.JsonProperty;
 
 import java.io.Serializable;
@@ -12,7 +11,6 @@ import java.io.Serializable;
  * Date: 11/4/13
  * Time: 10:32 PM
  */
-@JsonIgnoreProperties(ignoreUnknown = true)
 public class ProfileDTO implements Serializable
 {
     @JsonProperty("id")

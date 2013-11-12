@@ -40,7 +40,7 @@ public class Home extends Fragment
         ContentResolver.setIsSyncable(account, OnlineDioContract.CONTENT_AUTHORITY, 1);
         ContentResolver.setSyncAutomatically(account, OnlineDioContract.CONTENT_AUTHORITY, true);
         commonController.triggerSync();
-        Fragment feedListFragment = new HomeListFragment();
+        Fragment feedListFragment = new HomeListFragment_();
         getChildFragmentManager().beginTransaction().replace(R.id.fragmentListFeeds, feedListFragment).addToBackStack(null).commit();
 //        doBackground();
 
@@ -49,7 +49,7 @@ public class Home extends Fragment
 //    @Background
 //    void doBackground()
 //    {
-//        ListFeed listFeed = onlineDioClientProxy.getFeeds("", "", "", "");
+//        ResponseListFeed listFeed = onlineDioClientProxy.getFeeds("", "", "", "");
 //        Log.d(TAG, "size" + listFeed.getFeedDTOs().size());
 //
 //    }

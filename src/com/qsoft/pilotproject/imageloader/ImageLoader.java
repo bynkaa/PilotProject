@@ -5,6 +5,8 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Handler;
 import android.widget.ImageView;
+import com.googlecode.androidannotations.annotations.EBean;
+import com.googlecode.androidannotations.api.Scope;
 
 import java.io.*;
 import java.net.HttpURLConnection;
@@ -20,6 +22,7 @@ import java.util.concurrent.Executors;
  * Date: 11/6/13
  * Time: 10:26 PM
  */
+@EBean(scope = Scope.Singleton)
 public class ImageLoader
 {
 

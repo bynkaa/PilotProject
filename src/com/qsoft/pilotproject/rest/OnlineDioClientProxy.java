@@ -4,9 +4,11 @@ import com.googlecode.androidannotations.annotations.AfterInject;
 import com.googlecode.androidannotations.annotations.Bean;
 import com.googlecode.androidannotations.annotations.EBean;
 import com.googlecode.androidannotations.annotations.rest.RestService;
-import com.qsoft.pilotproject.model.ListFeed;
+import com.qsoft.pilotproject.model.dto.CommentDTO;
+import com.qsoft.pilotproject.model.dto.FeedDTO;
 import com.qsoft.pilotproject.model.dto.ProfileDTO;
 import com.qsoft.pilotproject.rest.interceptor.OnlineDioInterceptor;
+import com.qsoft.pilotproject.ui.controller.CommonController;
 import org.springframework.http.client.ClientHttpRequestInterceptor;
 import org.springframework.web.client.RestTemplate;
 
@@ -21,10 +23,15 @@ import java.util.List;
 @EBean
 public class OnlineDioClientProxy
 {
+    private static final String ERROR_MESSAGE = "cannot access my apis";
     @RestService
     OnlineDioRestClient onlineDioRestClient;
+    @RestService
+    TokenCheckerRest tokenCheckerRest;
     @Bean
     OnlineDioInterceptor onlineDioInterceptor;
+    @Bean
+    CommonController commonController;
 
     @AfterInject
     void init()
@@ -33,17 +40,37 @@ public class OnlineDioClientProxy
         List<ClientHttpRequestInterceptor> interceptors = new ArrayList<ClientHttpRequestInterceptor>();
         interceptors.add(onlineDioInterceptor);
         restTemplate.setInterceptors(interceptors);
+        tokenCheckerRest.getRestTemplate().setInterceptors(interceptors);
     }
 
-    public ListFeed getFeeds(String limit, String offset, String timeFrom, String timeTo)
+    public List<FeedDTO> getFeeds(String limit, String offset, String timeFrom, String timeTo)
     {
-        return onlineDioRestClient.getFeeds(limit, offset, timeFrom, timeTo);
+        String checkToken = tokenCheckerRest.getAbout();
+        if (checkToken.equals(ERROR_MESSAGE))
+        {
+            commonController.refreshToken();
+        }
+        return onlineDioRestClient.getFeeds(limit, offset, timeFrom, timeTo).getFeedDTOs();
     }
 
     public ProfileDTO getProfile(long userId)
     {
+        String checkToken = tokenCheckerRest.getAbout();
+        if (checkToken.equals(ERROR_MESSAGE))
+        {
+            commonController.refreshToken();
+        }
         return onlineDioRestClient.getProfile(userId).getProfileDTO();
+    }
 
+    public List<CommentDTO> getComments(long soundId, String limit, String offset, String updateAt)
+    {
+        String checkToken = tokenCheckerRest.getAbout();
+        if (checkToken.equals(ERROR_MESSAGE))
+        {
+            commonController.refreshToken();
+        }
+        return onlineDioRestClient.getComments(soundId, limit, offset, updateAt).getComments();
     }
 
 }

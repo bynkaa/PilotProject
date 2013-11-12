@@ -2,7 +2,6 @@ package com.qsoft.pilotproject.model.dto;
 
 import android.content.ContentValues;
 import com.qsoft.pilotproject.provider.OnlineDioContract;
-import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 import org.codehaus.jackson.annotate.JsonProperty;
 
 /**
@@ -10,7 +9,6 @@ import org.codehaus.jackson.annotate.JsonProperty;
  * Date: 10/31/13
  * Time: 8:48 AM
  */
-@JsonIgnoreProperties(ignoreUnknown = true)
 public class FeedDTO
 {
     @JsonProperty(("id"))

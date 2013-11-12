@@ -1,33 +1,35 @@
 package com.qsoft.pilotproject.model.dto;
 
 import android.content.ContentValues;
-import com.google.gson.annotations.SerializedName;
 import com.qsoft.pilotproject.provider.OnlineDioContract;
+import org.codehaus.jackson.annotate.JsonIgnoreProperties;
+import org.codehaus.jackson.annotate.JsonProperty;
 
 /**
  * User: binhtv
  * Date: 11/7/13
  * Time: 3:10 PM
  */
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class CommentDTO
 {
-    @SerializedName("id")
+    @JsonProperty("id")
     private Long commentId;
-    @SerializedName("sound_id")
+    @JsonProperty("sound_id")
     private Long soundId;
-    @SerializedName("user_id")
+    @JsonProperty("user_id")
     private Long userId;
-    @SerializedName("comment")
+    @JsonProperty("comment")
     private String comment;
-    @SerializedName("created_at")
+    @JsonProperty("created_at")
     private String createdAt;
-    @SerializedName("updated_at")
+    @JsonProperty("updated_at")
     private String updatedAt;
-    @SerializedName("username")
+    @JsonProperty("username")
     private String userName;
-    @SerializedName("display_name")
+    @JsonProperty("display_name")
     private String displayName;
-    @SerializedName("avatar")
+    @JsonProperty("avatar")
     private String avatar;
 
 

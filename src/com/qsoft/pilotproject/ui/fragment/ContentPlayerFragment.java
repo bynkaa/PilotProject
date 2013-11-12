@@ -6,8 +6,6 @@ import android.support.v4.app.Fragment;
 import android.widget.ImageButton;
 import android.widget.SeekBar;
 import android.widget.TextView;
-import com.bindroid.ValueConverter;
-import com.bindroid.ui.UiBinder;
 import com.example.PilotProject.R;
 import com.googlecode.androidannotations.annotations.*;
 import com.qsoft.pilotproject.ui.controller.MediaController;
@@ -45,22 +43,19 @@ public class ContentPlayerFragment extends Fragment
     {
         setRetainInstance(true);
 
-        ImageButton imageButton;
-        UiBinder.bind(getActivity(), R.id.ibPlayer, "BackgroundResource", mediaController.getMediaPlayer(), "Playing", new ValueConverter()
-        {
-
-
-            @Override
-            public Object convertToTarget(Object sourceValue, Class<?> targetType)
-            {
-                Boolean isPlaying = (Boolean) sourceValue;
-                if (isPlaying == null || !isPlaying)
-                {
-                    return R.drawable.content_button_pause;
-                }
-                return R.drawable.content_button_play;
-            }
-        });
+//        UiBinder.bind(getActivity(), R.id.ibPlayer, "BackgroundResource", mediaController.getMediaPlayer(), "isPlaying", new ValueConverter()
+//        {
+//            @Override
+//            public Object convertToTarget(Object sourceValue, Class<?> targetType)
+//            {
+//                Boolean isPlaying = (Boolean) sourceValue;
+//                if (isPlaying == null || !isPlaying)
+//                {
+//                    return R.drawable.content_button_pause;
+//                }
+//                return R.drawable.content_button_play;
+//            }
+//        });
 
         mediaController.setActivity(this.getActivity());
         mediaController.playSong();
