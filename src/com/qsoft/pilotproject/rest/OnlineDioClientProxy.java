@@ -5,6 +5,7 @@ import com.googlecode.androidannotations.annotations.Bean;
 import com.googlecode.androidannotations.annotations.EBean;
 import com.googlecode.androidannotations.annotations.rest.RestService;
 import com.qsoft.pilotproject.model.ListFeed;
+import com.qsoft.pilotproject.model.dto.ProfileDTO;
 import com.qsoft.pilotproject.rest.interceptor.OnlineDioInterceptor;
 import org.springframework.http.client.ClientHttpRequestInterceptor;
 import org.springframework.web.client.RestTemplate;
@@ -34,9 +35,15 @@ public class OnlineDioClientProxy
         restTemplate.setInterceptors(interceptors);
     }
 
-    public ListFeed getFeeds(String limit, String offset, String time_from, String time_to)
+    public ListFeed getFeeds(String limit, String offset, String timeFrom, String timeTo)
     {
-        return onlineDioRestClient.getFeeds(limit, offset, time_from, time_to);
+        return onlineDioRestClient.getFeeds(limit, offset, timeFrom, timeTo);
+    }
+
+    public ProfileDTO getProfile(long userId)
+    {
+        return onlineDioRestClient.getProfile(userId).getProfileDTO();
+
     }
 
 }

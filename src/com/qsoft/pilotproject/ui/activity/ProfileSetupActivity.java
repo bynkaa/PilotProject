@@ -20,12 +20,11 @@ import com.example.PilotProject.R;
 import com.googlecode.androidannotations.annotations.*;
 import com.qsoft.pilotproject.authenticator.ApplicationAccountManager;
 import com.qsoft.pilotproject.common.SuperAnnotationActivity;
-import com.qsoft.pilotproject.handler.ProfileHandler;
-import com.qsoft.pilotproject.handler.impl.ProfileHandlerImpl;
 import com.qsoft.pilotproject.imageloader.ImageLoader;
 import com.qsoft.pilotproject.model.Profile;
 import com.qsoft.pilotproject.model.dto.ProfileDTO;
 import com.qsoft.pilotproject.provider.OnlineDioContract;
+import com.qsoft.pilotproject.rest.OnlineDioClientProxy;
 import com.qsoft.pilotproject.ui.controller.ProfileController;
 
 /**
@@ -84,6 +83,9 @@ public class ProfileSetupActivity extends SuperAnnotationActivity
     @Bean
     ProfileController profileController;
 
+    @Bean
+    OnlineDioClientProxy onlineDioClientProxy;
+
     Account account;
     @Bean
     ApplicationAccountManager applicationAccountManager;
@@ -120,9 +122,8 @@ public class ProfileSetupActivity extends SuperAnnotationActivity
     {
         Log.d(TAG, "doInBackground: ");
         String userIdStr = accountManager.getUserData(account, LoginActivity.USER_ID_KEY);
-        ProfileHandler profileHandler = new ProfileHandlerImpl(accountManager, account);
         long userId = Long.valueOf(userIdStr);
-        ProfileDTO profileDTO = profileHandler.getProfile(userId);
+        ProfileDTO profileDTO = onlineDioClientProxy.getProfile(userId);
         updateProfileUI(profileDTO);
     }
 
