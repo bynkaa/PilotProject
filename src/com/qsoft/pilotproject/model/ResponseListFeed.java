@@ -12,7 +12,7 @@ import java.util.ArrayList;
  * Time: 10:04 AM
  */
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class ListFeed
+public class ResponseListFeed
 {
     @JsonProperty("data")
     private ArrayList<FeedDTO> feedDTOs;

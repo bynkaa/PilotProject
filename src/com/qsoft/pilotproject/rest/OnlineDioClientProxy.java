@@ -1,16 +1,12 @@
 package com.qsoft.pilotproject.rest;
 
-import android.app.Activity;
-import android.util.Log;
-import com.googlecode.androidannotations.annotations.*;
+import com.googlecode.androidannotations.annotations.AfterInject;
+import com.googlecode.androidannotations.annotations.Bean;
+import com.googlecode.androidannotations.annotations.EBean;
 import com.googlecode.androidannotations.annotations.rest.RestService;
-import com.qsoft.pilotproject.common.CommandExecutor;
-import com.qsoft.pilotproject.common.commands.GenericStartActivityCommand;
 import com.qsoft.pilotproject.model.ListFeed;
 import com.qsoft.pilotproject.model.dto.ProfileDTO;
 import com.qsoft.pilotproject.rest.interceptor.OnlineDioInterceptor;
-import com.qsoft.pilotproject.ui.activity.LaunchActivity_;
-import com.qsoft.pilotproject.ui.activity.StartActivity;
 import org.springframework.http.client.ClientHttpRequestInterceptor;
 import org.springframework.web.client.RestTemplate;
 
@@ -25,13 +21,18 @@ import java.util.List;
 @EBean
 public class OnlineDioClientProxy
 {
+    private static final String ERROR_MESSAGE = "cannot access my apis";
     @RestService
     SimpleCheckRestClient simpleCheckRestClient;
 
     @RestService
     OnlineDioRestClient onlineDioRestClient;
+    @RestService
+    TokenCheckerRest tokenCheckerRest;
     @Bean
     OnlineDioInterceptor onlineDioInterceptor;
+    @Bean
+    CommonController commonController;
     @RootContext
     Activity activity;
     @Bean
@@ -47,28 +48,37 @@ public class OnlineDioClientProxy
 
         restTemplate = simpleCheckRestClient.getRestTemplate();
         restTemplate.setInterceptors(interceptors);
+        tokenCheckerRest.getRestTemplate().setInterceptors(interceptors);
     }
 
-    public ListFeed getFeeds(String limit, String offset, String timeFrom, String timeTo)
+    public List<FeedDTO> getFeeds(String limit, String offset, String timeFrom, String timeTo)
     {
-        return onlineDioRestClient.getFeeds(limit, offset, timeFrom, timeTo);
+        String checkToken = tokenCheckerRest.getAbout();
+        if (checkToken.equals(ERROR_MESSAGE))
+        {
+            commonController.refreshToken();
+        }
+        return onlineDioRestClient.getFeeds(limit, offset, timeFrom, timeTo).getFeedDTOs();
     }
 
     public ProfileDTO getProfile(long userId)
     {
-        return onlineDioRestClient.getProfile(userId).getProfileDTO();
-
-    }
-
-    @Background
-    public void check()
-    {
-        String returnValue = simpleCheckRestClient.check();
-        if (!returnValue.equals("cannot access my apis"))
+        String checkToken = tokenCheckerRest.getAbout();
+        if (checkToken.equals(ERROR_MESSAGE))
         {
-            Log.d("Ops:", returnValue);
-            commandExecutor.execute(activity,
-                    new GenericStartActivityCommand(activity, LaunchActivity_.class, StartActivity.RC_LAUCH_ACTIVITY), false);
+            commonController.refreshToken();
         }
+        return onlineDioRestClient.getProfile(userId).getProfileDTO();
     }
+
+    public List<CommentDTO> getComments(long soundId, String limit, String offset, String updateAt)
+    {
+        String checkToken = tokenCheckerRest.getAbout();
+        if (checkToken.equals(ERROR_MESSAGE))
+        {
+            commonController.refreshToken();
+        }
+        return onlineDioRestClient.getComments(soundId, limit, offset, updateAt).getComments();
+    }
+
 }
