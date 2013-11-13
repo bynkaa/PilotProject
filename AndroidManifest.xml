@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-          package="com.example.PilotProject"
+          package="com.qsoft.pilotproject"
           android:versionCode="1"
           android:versionName="1.0"
           android:installLocation="preferExternal"
@@ -53,7 +53,7 @@
                     android:resource="@xml/authenticator"/>
         </service>
         <service
-                android:name="com.qsoft.pilotproject.sync.SyncService"
+                android:name="com.qsoft.pilotproject.sync.SyncService_"
                 android:exported="true">
             <intent-filter>
                 <action android:name="android.content.SyncAdapter"/>
@@ -66,6 +66,11 @@
         <provider
                 android:name="com.qsoft.pilotproject.provider.OnlineDioProvider"
                 android:authorities="com.qsoft.onlinedio"
+                android:exported="false"/>
+
+        <provider
+                android:name="com.qsoft.pilotproject.provider.CommentCCContentProvider"
+                android:authorities="com.qsoft.pilotproject"
                 android:exported="false"/>
     </application>
 

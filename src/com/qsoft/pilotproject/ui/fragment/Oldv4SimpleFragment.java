@@ -3,11 +3,11 @@ package com.qsoft.pilotproject.ui.fragment;
 import android.support.v4.app.Fragment;
 import android.widget.Button;
 import android.widget.TextView;
-import com.example.PilotProject.R;
 import com.googlecode.androidannotations.annotations.AfterViews;
 import com.googlecode.androidannotations.annotations.Click;
 import com.googlecode.androidannotations.annotations.EFragment;
 import com.googlecode.androidannotations.annotations.ViewById;
+import com.qsoft.pilotproject.R;
 
 /**
  * User: Le

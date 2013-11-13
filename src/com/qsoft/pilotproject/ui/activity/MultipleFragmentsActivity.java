@@ -1,8 +1,8 @@
 package com.qsoft.pilotproject.ui.activity;
 
 import android.app.Activity;
-import com.example.PilotProject.R;
 import com.googlecode.androidannotations.annotations.EActivity;
+import com.qsoft.pilotproject.R;
 
 /**
  * User: Le

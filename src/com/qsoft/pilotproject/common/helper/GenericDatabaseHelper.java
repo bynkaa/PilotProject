@@ -98,7 +98,7 @@ public class GenericDatabaseHelper extends OrmLiteSqliteOpenHelper
     {
         if (models == null)
         {
-            models = getModels(context, "com.qsoft.eip");
+            models = getModels(context, "com.qsoft.pilotproject");
         }
         return models;
     }

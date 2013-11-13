@@ -15,7 +15,7 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
-import com.example.PilotProject.R;
+import com.qsoft.pilotproject.R;
 
 import java.util.ArrayList;
 

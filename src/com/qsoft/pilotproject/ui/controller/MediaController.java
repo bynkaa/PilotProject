@@ -3,9 +3,9 @@ package com.qsoft.pilotproject.ui.controller;
 import android.app.Activity;
 import android.content.res.AssetFileDescriptor;
 import android.media.MediaPlayer;
-import com.example.PilotProject.R;
 import com.googlecode.androidannotations.annotations.EBean;
 import com.googlecode.androidannotations.api.Scope;
+import com.qsoft.pilotproject.R;
 
 import java.io.File;
 import java.io.FilenameFilter;

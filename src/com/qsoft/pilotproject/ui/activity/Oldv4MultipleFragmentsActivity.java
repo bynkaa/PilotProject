@@ -3,9 +3,9 @@ package com.qsoft.pilotproject.ui.activity;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.widget.Toast;
-import com.example.PilotProject.R;
 import com.googlecode.androidannotations.annotations.AfterViews;
 import com.googlecode.androidannotations.annotations.EActivity;
+import com.qsoft.pilotproject.R;
 import com.qsoft.pilotproject.ui.fragment.Oldv4SimpleFragment;
 import com.qsoft.pilotproject.ui.fragment.Oldv4SimpleFragment_;
 

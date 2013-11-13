@@ -1,13 +1,17 @@
 package com.qsoft.pilotproject.ui.activity;
 
+import android.content.ContentValues;
 import android.content.Intent;
+import android.database.Cursor;
+import android.util.Log;
 import android.widget.EditText;
 import android.widget.ImageButton;
-import com.example.PilotProject.R;
 import com.googlecode.androidannotations.annotations.Click;
 import com.googlecode.androidannotations.annotations.EActivity;
 import com.googlecode.androidannotations.annotations.ViewById;
+import com.qsoft.pilotproject.R;
 import com.qsoft.pilotproject.common.SuperAnnotationActivity;
+import com.qsoft.pilotproject.model.CommentCCContract;
 
 /**
  * User: binhtv
@@ -39,13 +43,19 @@ public class NewCommentActivity extends SuperAnnotationActivity
     @Click(R.id.ibNewCommentPost)
     void doClickPost()
     {
-//        Intent intent = getIntent();
-//        Comment newComment = new Comment();
-//        newComment.setTitle("User");
-//        newComment.setContent(etNewComment.getText().toString());
-//        newComment.setTimeCreated("1 month ago");
-//        intent.putExtra(COMMENT_EXTRA, newComment);
-//        setResult(RESULT_OK, intent);
-//        finish();
+        ContentValues values = new ContentValues();
+        values.clear();
+        values.put(CommentCCContract.COMMENT, "Ops");
+        getContentResolver().insert(CommentCCContract.CONTENT_URI, values);
+
+        Cursor c = getContentResolver().query(CommentCCContract.CONTENT_URI, null, null, null, null);
+        while (c.moveToNext())
+        {
+            for (int i = 0; i < c.getColumnCount(); i++)
+            {
+                Log.d(getClass().getSimpleName(), c.getColumnName(i) + " : " + c.getString(i));
+            }
+        }
+        c.close();
     }
 }

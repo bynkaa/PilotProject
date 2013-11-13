@@ -9,8 +9,8 @@ import android.util.Log;
 import android.widget.ImageButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
-import com.example.PilotProject.R;
 import com.googlecode.androidannotations.annotations.*;
+import com.qsoft.pilotproject.R;
 import com.qsoft.pilotproject.common.CommandExecutor;
 import com.qsoft.pilotproject.model.Feed;
 import com.qsoft.pilotproject.model.ProgramTab;
@@ -92,12 +92,11 @@ public class ProgramFragment extends Fragment
 
     }
 
-
     @Click(R.id.ibProgramBack)
     void doClickBack()
     {
         setRetainInstance(false);
-        ContentPlayerFragment playerFragment = (ContentPlayerFragment) getFragmentManager().findFragmentById(R.id.contentPlayerFragment);
+        ContentPlayerFragment_ playerFragment = (ContentPlayerFragment_) getFragmentManager().findFragmentById(R.id.contentPlayerFragment);
         playerFragment.setRetainInstance(false);
         getFragmentManager().beginTransaction().remove(playerFragment).commit();
         getFragmentManager().popBackStack();

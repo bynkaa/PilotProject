@@ -1,8 +1,8 @@
 package com.qsoft.pilotproject.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.qsoft.pilotproject.model.dto.ProfileDTO;
-import org.codehaus.jackson.annotate.JsonIgnoreProperties;
-import org.codehaus.jackson.annotate.JsonProperty;
 
 /**
  * User: binhtv

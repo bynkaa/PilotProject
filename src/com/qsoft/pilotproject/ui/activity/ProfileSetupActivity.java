@@ -16,8 +16,8 @@ import android.graphics.drawable.Drawable;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.widget.*;
-import com.example.PilotProject.R;
 import com.googlecode.androidannotations.annotations.*;
+import com.qsoft.pilotproject.R;
 import com.qsoft.pilotproject.authenticator.ApplicationAccountManager;
 import com.qsoft.pilotproject.common.SuperAnnotationActivity;
 import com.qsoft.pilotproject.imageloader.ImageLoader;
@@ -97,7 +97,7 @@ public class ProfileSetupActivity extends SuperAnnotationActivity
     @AfterViews
     void setupData()
     {
-        imageLoader = new ImageLoader(getApplicationContext());
+//        imageLoader = new ImageLoader(getApplicationContext());
         account = applicationAccountManager.getAccount();
         countryList = getResources().getStringArray(R.array.country);
         countryCodes = getResources().getStringArray(R.array.country_codes);
@@ -169,8 +169,8 @@ public class ProfileSetupActivity extends SuperAnnotationActivity
         // load image
         if (profileDTO.getAvatar() != null)
         {
-            Bitmap imageAvatar = imageLoader.getBitmap(profileDTO.getAvatar(), R.drawable.profile_icon);
-            setImageProfile(imageAvatar);
+//            Bitmap imageAvatar = imageLoader.getBitmap(profileDTO.getAvatar(), R.drawable.profile_icon);
+//            setImageProfile(imageAvatar);
         }
 
         if (profileDTO.getCoverImage() != null)

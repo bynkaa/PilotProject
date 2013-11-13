@@ -9,9 +9,7 @@ import android.widget.ImageView;
 import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.util.Collections;
-import java.util.Map;
-import java.util.WeakHashMap;
+import java.util.*;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -22,7 +20,7 @@ import java.util.concurrent.Executors;
  */
 public class ImageLoader
 {
-
+    private List<String> loadedUrl = new ArrayList<String>();
     MemoryCache memoryCache = new MemoryCache();
     FileCache fileCache;
     private Map<ImageView, String> imageViews = Collections.synchronizedMap(new WeakHashMap<ImageView, String>());
@@ -105,7 +103,7 @@ public class ImageLoader
         }
         catch (Throwable ex)
         {
-            ex.printStackTrace();
+
             if (ex instanceof OutOfMemoryError)
             {
                 memoryCache.clear();
@@ -149,12 +147,8 @@ public class ImageLoader
             stream2.close();
             return bitmap;
         }
-        catch (FileNotFoundException e)
+        catch (Exception e)
         {
-        }
-        catch (IOException e)
-        {
-            e.printStackTrace();
         }
         return null;
     }

@@ -4,11 +4,11 @@ import android.accounts.Account;
 import android.accounts.AccountManager;
 import android.content.Intent;
 import android.util.Log;
-import com.example.PilotProject.R;
 import com.googlecode.androidannotations.annotations.AfterViews;
 import com.googlecode.androidannotations.annotations.Bean;
 import com.googlecode.androidannotations.annotations.EActivity;
 import com.googlecode.androidannotations.annotations.SystemService;
+import com.qsoft.pilotproject.R;
 import com.qsoft.pilotproject.authenticator.AccountGeneral;
 import com.qsoft.pilotproject.authenticator.ApplicationAccountManager;
 import com.qsoft.pilotproject.common.CommandExecutor;
@@ -24,7 +24,7 @@ import com.qsoft.pilotproject.common.commands.GenericStartActivityCommand;
 public class StartActivity extends SuperAnnotationActivity
 {
     private static final int RC_SLIDE_BAR_ACTIVITY = 1;
-    private static final int RC_LAUCH_ACTIVITY = 2;
+    public static final int RC_LAUCH_ACTIVITY = 2;
     @SystemService
     AccountManager accountManager;
 
