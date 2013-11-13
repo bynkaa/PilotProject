@@ -1,8 +1,8 @@
 package com.qsoft.pilotproject.model.dto;
 
 import android.content.ContentValues;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.qsoft.pilotproject.provider.OnlineDioContract;
-import org.codehaus.jackson.annotate.JsonProperty;
 
 /**
  * User: binhtv

@@ -1,12 +1,17 @@
 package com.qsoft.pilotproject.rest;
 
+import android.app.Activity;
 import com.googlecode.androidannotations.annotations.AfterInject;
 import com.googlecode.androidannotations.annotations.Bean;
 import com.googlecode.androidannotations.annotations.EBean;
+import com.googlecode.androidannotations.annotations.RootContext;
 import com.googlecode.androidannotations.annotations.rest.RestService;
-import com.qsoft.pilotproject.model.ListFeed;
+import com.qsoft.pilotproject.common.CommandExecutor;
+import com.qsoft.pilotproject.model.dto.CommentDTO;
+import com.qsoft.pilotproject.model.dto.FeedDTO;
 import com.qsoft.pilotproject.model.dto.ProfileDTO;
 import com.qsoft.pilotproject.rest.interceptor.OnlineDioInterceptor;
+import com.qsoft.pilotproject.ui.controller.CommonController;
 import org.springframework.http.client.ClientHttpRequestInterceptor;
 import org.springframework.web.client.RestTemplate;
 

@@ -113,7 +113,6 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter
         Log.d(TAG, "get list feeds from server");
         FeedHandler feedHandler = FeedHandlerImpl_.getInstance_(context);
 //        List<FeedDTO> remoteFeeds = feedHandler.getFeeds(accountManager, account);
-        onlineDioClientProxy.check();
         List<FeedDTO> remoteFeeds = onlineDioClientProxy.getFeeds("", "", "", "");
         Log.d(TAG, "parsing complete. Found : " + remoteFeeds.size());
         ArrayList<ContentProviderOperation> batch = new ArrayList<ContentProviderOperation>();
