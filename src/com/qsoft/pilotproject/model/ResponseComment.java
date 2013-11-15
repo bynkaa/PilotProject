@@ -2,7 +2,7 @@ package com.qsoft.pilotproject.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.qsoft.pilotproject.model.dto.CommentDTO;
+import com.qsoft.pilotproject.model.cc.CommentCC;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,7 +28,7 @@ public class ResponseComment
         this.commentData = commentData;
     }
 
-    public List<CommentDTO> getComments()
+    public List<CommentCC> getComments()
     {
         return commentData.getCommentDTOs();
     }
@@ -39,7 +39,7 @@ class CommentData
     @JsonProperty("total_comments")
     private int totalComment;
     @JsonProperty("comments")
-    private ArrayList<CommentDTO> commentDTOs;
+    private ArrayList<CommentCC> commentDTOs;
 
     int getTotalComment()
     {
@@ -51,12 +51,12 @@ class CommentData
         this.totalComment = totalComment;
     }
 
-    ArrayList<CommentDTO> getCommentDTOs()
+    ArrayList<CommentCC> getCommentDTOs()
     {
         return commentDTOs;
     }
 
-    void setCommentDTOs(ArrayList<CommentDTO> commentDTOs)
+    void setCommentDTOs(ArrayList<CommentCC> commentDTOs)
     {
         this.commentDTOs = commentDTOs;
     }

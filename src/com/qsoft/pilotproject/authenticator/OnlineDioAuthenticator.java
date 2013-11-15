@@ -6,8 +6,10 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
+import com.googlecode.androidannotations.annotations.Bean;
 import com.googlecode.androidannotations.annotations.EBean;
 import com.qsoft.pilotproject.model.dto.SignInDTO;
+import com.qsoft.pilotproject.rest.OnlineDioClientProxy;
 import com.qsoft.pilotproject.ui.activity.LoginActivity_;
 
 /**
@@ -32,6 +34,9 @@ public class OnlineDioAuthenticator extends AbstractAccountAuthenticator
         super(context);
         this.context = context;
     }
+
+    @Bean
+    OnlineDioClientProxy onlineDioClientProxy;
 
     @Override
     public Bundle editProperties(AccountAuthenticatorResponse accountAuthenticatorResponse, String s)
@@ -74,6 +79,7 @@ public class OnlineDioAuthenticator extends AbstractAccountAuthenticator
                 {
                     Log.d(TAG, "authenticating with existing password");
                     SignInDTO signInDTO = AccountGeneral.onlineDioService.signIn(account.name, password, authTokenType);
+//                    SignInDTO signInDTO = onlineDioClientProxy.signIn(account.name,password);
                     authToken = signInDTO.getAccessToken();
                 }
                 catch (Exception e)
@@ -155,7 +161,7 @@ public class OnlineDioAuthenticator extends AbstractAccountAuthenticator
     @Override
     public Bundle updateCredentials(AccountAuthenticatorResponse accountAuthenticatorResponse, Account account, String s, Bundle bundle) throws NetworkErrorException
     {
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
+        return null;
     }
 
     @Override

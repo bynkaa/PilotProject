@@ -35,6 +35,7 @@ public class OnlineDioInterceptor implements ClientHttpRequestInterceptor
     @Override
     public ClientHttpResponse intercept(HttpRequest httpRequest, byte[] bytes, ClientHttpRequestExecution clientHttpRequestExecution) throws IOException
     {
+
         String authToken = accountManager.peekAuthToken(applicationAccountManager.getAccount(), AccountGeneral.AUTHTOKEN_TYPE_FULL_ACCESS);
         httpRequest.getHeaders().add("Authorization", "Bearer " + authToken);
         httpRequest.getHeaders().setContentType(MediaType.APPLICATION_JSON);

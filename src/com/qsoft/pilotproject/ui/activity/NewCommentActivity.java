@@ -11,7 +11,7 @@ import com.googlecode.androidannotations.annotations.EActivity;
 import com.googlecode.androidannotations.annotations.ViewById;
 import com.qsoft.pilotproject.R;
 import com.qsoft.pilotproject.common.SuperAnnotationActivity;
-import com.qsoft.pilotproject.model.CommentCCContract;
+import com.qsoft.pilotproject.model.cc.CommentCCContract;
 
 /**
  * User: binhtv
@@ -59,3 +59,4 @@ public class NewCommentActivity extends SuperAnnotationActivity
         c.close();
     }
 }
+

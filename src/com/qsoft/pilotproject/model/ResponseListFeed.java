@@ -2,7 +2,7 @@ package com.qsoft.pilotproject.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.qsoft.pilotproject.model.dto.FeedDTO;
+import com.qsoft.pilotproject.model.cc.FeedCC;
 
 import java.util.ArrayList;
 
@@ -15,14 +15,14 @@ import java.util.ArrayList;
 public class ResponseListFeed
 {
     @JsonProperty("data")
-    private ArrayList<FeedDTO> feedDTOs;
+    private ArrayList<FeedCC> feedDTOs;
 
-    public ArrayList<FeedDTO> getFeedDTOs()
+    public ArrayList<FeedCC> getFeedDTOs()
     {
         return feedDTOs;
     }
 
-    public void setFeedDTOs(ArrayList<FeedDTO> feedDTOs)
+    public void setFeedDTOs(ArrayList<FeedCC> feedDTOs)
     {
         this.feedDTOs = feedDTOs;
     }

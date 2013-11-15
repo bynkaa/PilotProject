@@ -1,8 +1,5 @@
 package com.qsoft.pilotproject.ui.fragment;
 
-import android.accounts.Account;
-import android.content.ContentResolver;
-import android.content.SyncStatusObserver;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -15,44 +12,41 @@ import android.support.v4.widget.SimpleCursorAdapter;
 import android.view.View;
 import android.widget.AbsListView;
 import android.widget.ListView;
-import com.googlecode.androidannotations.annotations.Bean;
-import com.googlecode.androidannotations.annotations.EFragment;
 import com.qsoft.pilotproject.R;
 import com.qsoft.pilotproject.adapter.ArrayFeedAdapter;
-import com.qsoft.pilotproject.authenticator.AuthenticatorService;
-import com.qsoft.pilotproject.provider.OnlineDioContract;
+import com.qsoft.pilotproject.model.cc.FeedCCContract;
 import com.qsoft.pilotproject.ui.controller.CommonController;
+import com.qsoft.pilotproject.ui.controller.CommonController_;
 
 /**
  * User: binhtv
  * Date: 11/1/13
  * Time: 10:17 AM
  */
-@EFragment
 public class HomeListFragment extends ListFragment implements LoaderManager.LoaderCallbacks<Cursor>, AbsListView.OnScrollListener
 {
-    @Bean
     CommonController commonController;
 
     private static final String TAG = "HomeListFragment";
     private static final String[] PROJECTION = new String[]
             {
-                    OnlineDioContract.Feed._ID,
-                    OnlineDioContract.Feed.COLUMN_TITLE,
-                    OnlineDioContract.Feed.COLUMN_DISPLAY_NAME,
-                    OnlineDioContract.Feed.COLUMN_LIKES,
-                    OnlineDioContract.Feed.COLUMN_COMMENTS,
-                    OnlineDioContract.Feed.COLUMN_UPDATED_AT,
-                    OnlineDioContract.Feed.COLUMN_AVATAR
+                    FeedCCContract._ID,
+                    FeedCCContract.TITLE,
+                    FeedCCContract.DISPLAYNAME,
+                    FeedCCContract.LIKES,
+                    FeedCCContract.COMMENTS,
+                    FeedCCContract.UPDATEDAT,
+                    FeedCCContract.AVATAR
             };
     private static final String[] FROM_COLUMNS = new String[]
             {
-                    OnlineDioContract.Feed.COLUMN_TITLE,
-                    OnlineDioContract.Feed.COLUMN_DISPLAY_NAME,
-                    OnlineDioContract.Feed.COLUMN_LIKES,
-                    OnlineDioContract.Feed.COLUMN_COMMENTS,
-                    OnlineDioContract.Feed.COLUMN_UPDATED_AT,
-                    OnlineDioContract.Feed.COLUMN_AVATAR
+
+                    FeedCCContract.TITLE,
+                    FeedCCContract.DISPLAYNAME,
+                    FeedCCContract.LIKES,
+                    FeedCCContract.COMMENTS,
+                    FeedCCContract.UPDATEDAT,
+                    FeedCCContract.AVATAR
             };
     private static final int[] TO_FIELDS = new int[]
             {
@@ -66,32 +60,8 @@ public class HomeListFragment extends ListFragment implements LoaderManager.Load
             };
     public static final String FEED_ID = "_ID";
     private SimpleCursorAdapter feedAdapter;
-    private Object syncObserverHandler;
     int loadMore = 0;
 
-    private SyncStatusObserver syncStatusObserver = new SyncStatusObserver()
-    {
-        @Override
-        public void onStatusChanged(int i)
-        {
-            getActivity().runOnUiThread(new Runnable()
-            {
-                @Override
-                public void run()
-                {
-                    Account account = AuthenticatorService.getAccount();
-                    if (account == null)
-                    {
-                        //
-                        return;
-                    }
-                    boolean syncActive = ContentResolver.isSyncActive(account, OnlineDioContract.CONTENT_AUTHORITY);
-                    boolean syncPending = ContentResolver.isSyncPending(account, OnlineDioContract.CONTENT_AUTHORITY);
-                    // set refresh
-                }
-            });
-        }
-    };
 
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState)
@@ -115,7 +85,7 @@ public class HomeListFragment extends ListFragment implements LoaderManager.Load
         });
         setListAdapter(feedAdapter);
         getLoaderManager().initLoader(0, null, this);
-
+        commonController = CommonController_.getInstance_(getActivity());
     }
 
     @Override
@@ -136,32 +106,12 @@ public class HomeListFragment extends ListFragment implements LoaderManager.Load
         fragmentTransaction.commit();
     }
 
-    @Override
-    public void onResume()
-    {
-        super.onResume();
-        syncStatusObserver.onStatusChanged(0);
-        final int mask = ContentResolver.SYNC_OBSERVER_TYPE_PENDING | ContentResolver.SYNC_OBSERVER_TYPE_ACTIVE;
-        syncObserverHandler = ContentResolver.addStatusChangeListener(mask, syncStatusObserver);
-
-    }
-
-    @Override
-    public void onPause()
-    {
-        super.onPause();
-        if (syncObserverHandler != null)
-
-        {
-            ContentResolver.removeStatusChangeListener(syncObserverHandler);
-        }
-        syncObserverHandler = null;
-    }
 
     @Override
     public Loader<Cursor> onCreateLoader(int i, Bundle bundle)
     {
-        return new CursorLoader(getActivity(), OnlineDioContract.Feed.CONTENT_URI, PROJECTION, null, null, null);
+//        return new CursorLoader(getActivity(), OnlineDioContract.Feed.CONTENT_URI, PROJECTION, null, null, null);
+        return new CursorLoader(getActivity(), FeedCCContract.CONTENT_URI, PROJECTION, null, null, null);
     }
 
     @Override
@@ -209,7 +159,6 @@ public class HomeListFragment extends ListFragment implements LoaderManager.Load
 
         }
     }
-
 
 }
 

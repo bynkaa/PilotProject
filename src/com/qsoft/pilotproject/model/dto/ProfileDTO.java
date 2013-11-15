@@ -17,7 +17,7 @@ public class ProfileDTO implements Serializable
     private Long userId;
     @JsonProperty("facebook_id")
     private Long facebookId;
-    @JsonProperty("usename")
+    @JsonProperty("username")
     private String userName;
     @JsonProperty("password")
     private String password;

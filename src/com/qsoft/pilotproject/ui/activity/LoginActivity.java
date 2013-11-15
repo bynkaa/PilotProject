@@ -22,6 +22,7 @@ import com.qsoft.pilotproject.common.commands.GenericStartActivityCommand;
 import com.qsoft.pilotproject.handler.AuthenticatorHandler;
 import com.qsoft.pilotproject.handler.impl.AuthenticatorHandlerImpl;
 import com.qsoft.pilotproject.model.dto.SignInDTO;
+import com.qsoft.pilotproject.rest.OnlineDioClientProxy;
 import com.qsoft.pilotproject.ui.controller.LoginController;
 import com.qsoft.pilotproject.utils.Utilities;
 import org.apache.http.client.ClientProtocolException;
@@ -78,6 +79,9 @@ public class LoginActivity extends AccountAuthenticatorActivity
 
     @Bean
     ApplicationAccountManager applicationAccountManager;
+
+    @Bean
+    OnlineDioClientProxy onlineDioClientProxy;
 
     @Bean
     LoginController loginController;
@@ -148,6 +152,7 @@ public class LoginActivity extends AccountAuthenticatorActivity
         try
         {
             SignInDTO signInDTO = onLineDioService.signIn(email, pass, authTokenType);
+//            SignInDTO signInDTO = onlineDioClientProxy.signIn(email,pass);
             if (signInDTO == null)
             {
                 throw new Exception();

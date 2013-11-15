@@ -2,15 +2,19 @@ package com.qsoft.pilotproject.rest;
 
 import com.googlecode.androidannotations.annotations.rest.Accept;
 import com.googlecode.androidannotations.annotations.rest.Get;
+import com.googlecode.androidannotations.annotations.rest.Post;
 import com.googlecode.androidannotations.annotations.rest.Rest;
 import com.googlecode.androidannotations.api.rest.MediaType;
 import com.qsoft.pilotproject.model.ResponseComment;
 import com.qsoft.pilotproject.model.ResponseListFeed;
 import com.qsoft.pilotproject.model.ResponseProfile;
+import com.qsoft.pilotproject.model.dto.SignInDTO;
+import org.springframework.http.converter.FormHttpMessageConverter;
 import org.springframework.http.converter.ResourceHttpMessageConverter;
 import org.springframework.http.converter.StringHttpMessageConverter;
 import org.springframework.http.converter.json.GsonHttpMessageConverter;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
+import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
 
 /**
@@ -20,6 +24,7 @@ import org.springframework.web.client.RestTemplate;
  */
 @Rest(rootUrl = "http://113.160.50.84:1009/testing/ica467/trunk/public/", converters = {
         MappingJackson2HttpMessageConverter.class,
+        FormHttpMessageConverter.class,
         GsonHttpMessageConverter.class,
         StringHttpMessageConverter.class,
         ResourceHttpMessageConverter.class})
@@ -40,6 +45,11 @@ public interface OnlineDioRestClient
     @Get("comment-rest?sound_id={soundId}&limit={limit}&offset={offset}&updated_at={updateAt}")
     @Accept(MediaType.APPLICATION_JSON)
     public ResponseComment getComments(long soundId, String limit, String offset, String updateAt);
+
+    @Post("auth-rest")
+    @Accept(MediaType.APPLICATION_JSON)
+    public SignInDTO signIn(MultiValueMap data);
+
 
     RestTemplate getRestTemplate();
 

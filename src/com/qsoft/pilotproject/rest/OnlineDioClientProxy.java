@@ -7,12 +7,15 @@ import com.googlecode.androidannotations.annotations.EBean;
 import com.googlecode.androidannotations.annotations.RootContext;
 import com.googlecode.androidannotations.annotations.rest.RestService;
 import com.qsoft.pilotproject.common.CommandExecutor;
-import com.qsoft.pilotproject.model.dto.CommentDTO;
-import com.qsoft.pilotproject.model.dto.FeedDTO;
+import com.qsoft.pilotproject.model.cc.CommentCC;
+import com.qsoft.pilotproject.model.cc.FeedCC;
 import com.qsoft.pilotproject.model.dto.ProfileDTO;
+import com.qsoft.pilotproject.model.dto.SignInDTO;
 import com.qsoft.pilotproject.rest.interceptor.OnlineDioInterceptor;
 import com.qsoft.pilotproject.ui.controller.CommonController;
 import org.springframework.http.client.ClientHttpRequestInterceptor;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.ArrayList;
@@ -56,7 +59,7 @@ public class OnlineDioClientProxy
         tokenCheckerRest.getRestTemplate().setInterceptors(interceptors);
     }
 
-    public List<FeedDTO> getFeeds(String limit, String offset, String timeFrom, String timeTo)
+    public List<FeedCC> getFeeds(String limit, String offset, String timeFrom, String timeTo)
     {
         String checkToken = tokenCheckerRest.getAbout();
         if (checkToken.equals(ERROR_MESSAGE))
@@ -76,7 +79,7 @@ public class OnlineDioClientProxy
         return onlineDioRestClient.getProfile(userId).getProfileDTO();
     }
 
-    public List<CommentDTO> getComments(long soundId, String limit, String offset, String updateAt)
+    public List<CommentCC> getComments(long soundId, String limit, String offset, String updateAt)
     {
         String checkToken = tokenCheckerRest.getAbout();
         if (checkToken.equals(ERROR_MESSAGE))
@@ -84,6 +87,18 @@ public class OnlineDioClientProxy
             commonController.refreshToken();
         }
         return onlineDioRestClient.getComments(soundId, limit, offset, updateAt).getComments();
+    }
+
+    public SignInDTO signIn(String name, String password)
+    {
+        MultiValueMap data = new LinkedMultiValueMap();
+        data.add("username", name);
+        data.add("password", password);
+        data.add("grant_type", "password");
+        data.add("client_id", "123456789");
+        data.add("type", "password");
+        data.add("email", "123456789");
+        return onlineDioRestClient.signIn(data);
     }
 
 }

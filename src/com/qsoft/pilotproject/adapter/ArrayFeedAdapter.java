@@ -8,7 +8,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 import com.qsoft.pilotproject.R;
-import com.qsoft.pilotproject.provider.OnlineDioContract;
+import com.qsoft.pilotproject.model.cc.FeedCCContract;
 import com.qsoft.pilotproject.utils.Utilities;
 
 /**
@@ -37,21 +37,29 @@ public class ArrayFeedAdapter extends SimpleCursorAdapter
         TextView tvComment = (TextView) view.findViewById(R.id.tvCommentFeed);
         TextView tvLastUpdate = (TextView) view.findViewById(R.id.tvLastUpdateStatus);
         ImageView imProfile = (ImageView) view.findViewById(R.id.imAvatarFeed);
-        int avatarIndex = cursor.getColumnIndexOrThrow(OnlineDioContract.Feed.COLUMN_AVATAR);
+//        int avatarIndex = cursor.getColumnIndexOrThrow(OnlineDioContract.Feed.COLUMN_AVATAR);
 //        String avatarUrl = cursor.getString(avatarIndex);
 //        imageLoader.DisplayImage(avatarUrl, imProfile, R.drawable.image_icon);
-        int titleIndex = cursor.getColumnIndexOrThrow(OnlineDioContract.Feed.COLUMN_TITLE);
+//        int titleIndex = cursor.getColumnIndexOrThrow(OnlineDioContract.Feed.COLUMN_TITLE);
+//        int displayNameIndex = cursor.getColumnIndexOrThrow(OnlineDioContract.Feed.COLUMN_DISPLAY_NAME);
+//        int likeIndex = cursor.getColumnIndexOrThrow(OnlineDioContract.Feed.COLUMN_LIKES);
+//        int commentIndex = cursor.getColumnIndexOrThrow(OnlineDioContract.Feed.COLUMN_COMMENTS);
+//        int lastUpdateIndex = cursor.getColumnIndexOrThrow(OnlineDioContract.Feed.COLUMN_UPDATED_AT);
+//        int idIndex = cursor.getColumnIndexOrThrow(OnlineDioContract.Feed._ID);
+//
+        int titleIndex = cursor.getColumnIndexOrThrow(FeedCCContract.TITLE);
+        int displayNameIndex = cursor.getColumnIndexOrThrow(FeedCCContract.DISPLAYNAME);
+        int likeIndex = cursor.getColumnIndexOrThrow(FeedCCContract.LIKES);
+        int commentIndex = cursor.getColumnIndexOrThrow(FeedCCContract.COMMENTS);
+        int lastUpdateIndex = cursor.getColumnIndexOrThrow(FeedCCContract.UPDATEDAT);
+        int idIndex = cursor.getColumnIndexOrThrow(FeedCCContract._ID);
+
         tvTitle.setText(cursor.getString(titleIndex));
-        int displayNameIndex = cursor.getColumnIndexOrThrow(OnlineDioContract.Feed.COLUMN_DISPLAY_NAME);
         tvDisplayName.setText(cursor.getString(displayNameIndex));
-        int likeIndex = cursor.getColumnIndexOrThrow(OnlineDioContract.Feed.COLUMN_LIKES);
         tvLike.setText("Like: " + cursor.getInt(likeIndex));
-        int commentIndex = cursor.getColumnIndexOrThrow(OnlineDioContract.Feed.COLUMN_COMMENTS);
         tvComment.setText("Comment: " + cursor.getInt(commentIndex));
-        int lastUpdateIndex = cursor.getColumnIndexOrThrow(OnlineDioContract.Feed.COLUMN_UPDATED_AT);
         String updateTime = cursor.getString(lastUpdateIndex);
         tvLastUpdate.setText(Utilities.calculatorUpdateTime(updateTime));
-        int idIndex = cursor.getColumnIndexOrThrow(OnlineDioContract.Feed._ID);
         Log.e("BYNKAA", "id: " + cursor.getInt(idIndex));
 
     }
