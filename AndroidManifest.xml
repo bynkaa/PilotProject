@@ -45,11 +45,6 @@
                     android:resource="@xml/sync_adapter"/>
         </service>
 
-        <!--<provider-->
-        <!--android:name="com.qsoft.pilotproject.provider.OnlineDioProvider"-->
-        <!--android:authorities="com.qsoft.onlinedio"-->
-        <!--android:exported="false"/>-->
-
         <provider
                 android:name=".provider.cc.CCContentProvider"
                 android:authorities="com.qsoft.pilotproject"

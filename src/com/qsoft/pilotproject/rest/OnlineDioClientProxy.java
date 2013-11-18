@@ -61,32 +61,37 @@ public class OnlineDioClientProxy
 
     public List<FeedCC> getFeeds(String limit, String offset, String timeFrom, String timeTo)
     {
-        String checkToken = tokenCheckerRest.getAbout();
-        if (checkToken.equals(ERROR_MESSAGE))
-        {
-            commonController.refreshToken();
-        }
+        invalidToken();
         return onlineDioRestClient.getFeeds(limit, offset, timeFrom, timeTo).getFeedDTOs();
     }
 
+
     public ProfileCC getProfile(long userId)
     {
-        String checkToken = tokenCheckerRest.getAbout();
-        if (checkToken.equals(ERROR_MESSAGE))
-        {
-            commonController.refreshToken();
-        }
+        invalidToken();
         return onlineDioRestClient.getProfile(userId).getProfile();
+    }
+
+    public void updateProfile(ProfileCC profile, Long userId)
+    {
+        invalidToken();
+        onlineDioRestClient.updateProfile(profile, userId);
+
     }
 
     public List<CommentCC> getComments(long soundId, String limit, String offset, String updateAt)
     {
+        invalidToken();
+        return onlineDioRestClient.getComments(soundId, limit, offset, updateAt).getComments();
+    }
+
+    private void invalidToken()
+    {
         String checkToken = tokenCheckerRest.getAbout();
         if (checkToken.equals(ERROR_MESSAGE))
         {
             commonController.refreshToken();
         }
-        return onlineDioRestClient.getComments(soundId, limit, offset, updateAt).getComments();
     }
 
     public SignInDTO signIn(String name, String password)

@@ -17,7 +17,6 @@ import com.qsoft.pilotproject.model.cc.CommentCC;
 import com.qsoft.pilotproject.model.cc.CommentCCContract;
 import com.qsoft.pilotproject.model.cc.FeedCC;
 import com.qsoft.pilotproject.model.cc.FeedCCContract;
-import com.qsoft.pilotproject.provider.OnlineDioContract;
 import com.qsoft.pilotproject.provider.cc.CCContract;
 import com.qsoft.pilotproject.rest.OnlineDioClientProxy;
 
@@ -36,23 +35,6 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter
     private static final String TAG = "SyncAdapter";
     private static final String[] FEED_PROJECTION = new String[]
             {
-//                    OnlineDioContract.Feed._ID,
-//                    OnlineDioContract.Feed.COLUMN_AVATAR,
-//                    OnlineDioContract.Feed.COLUMN_COMMENTS,
-//                    OnlineDioContract.Feed.COLUMN_CREATED_AT,
-//                    OnlineDioContract.Feed.COLUMN_DESCRIPTION,
-//                    OnlineDioContract.Feed.COLUMN_DISPLAY_NAME,
-//                    OnlineDioContract.Feed.COLUMN_DURATION,
-//                    OnlineDioContract.Feed.COLUMN_ID,
-//                    OnlineDioContract.Feed.COLUMN_LIKES,
-//                    OnlineDioContract.Feed.COLUMN_PLAYED,
-//                    OnlineDioContract.Feed.COLUMN_SOUND_PATH,
-//                    OnlineDioContract.Feed.COLUMN_THUMBNAIL,
-//                    OnlineDioContract.Feed.COLUMN_TITLE,
-//                    OnlineDioContract.Feed.COLUMN_UPDATED_AT,
-//                    OnlineDioContract.Feed.COLUMN_USER_ID,
-//                    OnlineDioContract.Feed.COLUMN_USER_NAME,
-//                    OnlineDioContract.Feed.COLUMN_VIEWED,
                     FeedCCContract._ID,
                     FeedCCContract.AVATAR,
                     FeedCCContract.COMMENTS,
@@ -73,16 +55,16 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter
             };
     private static final String[] COMMENT_PROJECTION = new String[]
             {
-                    OnlineDioContract.Comment._ID,
-                    OnlineDioContract.Comment.COLUMN_ID,
-                    OnlineDioContract.Comment.COLUMN_USER_ID,
-                    OnlineDioContract.Comment.COLUMN_USER_NAME,
-                    OnlineDioContract.Comment.COLUMN_CONTENT,
-                    OnlineDioContract.Comment.COLUMN_DISPLAY_NAME,
-                    OnlineDioContract.Comment.COLUMN_AVATAR,
-                    OnlineDioContract.Comment.COLUMN_CREATED_AT,
-                    OnlineDioContract.Comment.COLUMN_SOUND_ID,
-                    OnlineDioContract.Comment.COLUMN_UPDATED_AT
+                    CommentCCContract._ID,
+                    CommentCCContract.COMMENTID,
+                    CommentCCContract.USERID,
+                    CommentCCContract.USERNAME,
+                    CommentCCContract.COMMENT,
+                    CommentCCContract.DISPLAYNAME,
+                    CommentCCContract.AVATAR,
+                    CommentCCContract.CREATEDAT,
+                    CommentCCContract.SOUNDID,
+                    CommentCCContract.UPDATEDAT
             };
 
     Context context;
@@ -107,23 +89,23 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter
         try
         {
             updateLocalFeedData(account, syncResult);
-//            updateLocalCommentData(account, syncResult);
+            updateLocalCommentData(account, syncResult);
         }
         catch (RemoteException e)
         {
-            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+            e.printStackTrace();
         }
         catch (OperationApplicationException e)
         {
-            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+            e.printStackTrace();
         }
         catch (InvalidTokenException e)
         {
-            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+            e.printStackTrace();
         }
         catch (InterruptedException e)
         {
-            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+            e.printStackTrace();
         }
     }
 
@@ -131,8 +113,6 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter
     {
         final ContentResolver contentResolver = getContext().getContentResolver();
         Log.d(TAG, "get list feeds from server");
-//        FeedHandler feedHandler = FeedHandlerImpl_.getInstance_(context);
-//        List<FeedDTO> remoteFeeds = feedHandler.getFeeds(accountManager, account);
         List<FeedCC> remoteFeeds = onlineDioClientProxy.getFeeds("", "", "", "");
         Log.d(TAG, "parsing complete. Found : " + remoteFeeds.size());
         ArrayList<ContentProviderOperation> batch = new ArrayList<ContentProviderOperation>();
@@ -206,14 +186,13 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter
     {
         final ContentResolver contentResolver = getContext().getContentResolver();
         Log.d(TAG, "get list feeds from server");
-//        List<CommentDTO> remoteComments = commentHandler.getListComments(accountManager, account, 161L);
         List<CommentCC> remoteComments = onlineDioClientProxy.getComments(161L, "", "", "");
         Log.d(TAG, "parsing complete. Found : " + remoteComments.size());
         ArrayList<ContentProviderOperation> batch = new ArrayList<ContentProviderOperation>();
         HashMap<Long, CommentCC> commentMap = new HashMap<Long, CommentCC>();
-        for (CommentCC commentDTO : remoteComments)
+        for (CommentCC comment : remoteComments)
         {
-            commentMap.put(commentDTO.getCommentId(), commentDTO);
+            commentMap.put(comment.getCommentId(), comment);
         }
         // get list of all items
         Log.d(TAG, "Fetching local feed for merge");

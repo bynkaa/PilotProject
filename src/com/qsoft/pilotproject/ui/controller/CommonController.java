@@ -13,7 +13,7 @@ import com.qsoft.pilotproject.authenticator.ApplicationAccountManager;
 import com.qsoft.pilotproject.handler.AuthenticatorHandler;
 import com.qsoft.pilotproject.handler.impl.AuthenticatorHandlerImpl;
 import com.qsoft.pilotproject.model.dto.SignInDTO;
-import com.qsoft.pilotproject.provider.OnlineDioContract;
+import com.qsoft.pilotproject.provider.cc.CCContract;
 
 /**
  * User: binhtv
@@ -55,6 +55,6 @@ public class CommonController
         Bundle bundle = new Bundle();
         bundle.putBoolean(ContentResolver.SYNC_EXTRAS_MANUAL, true);
         bundle.putBoolean(ContentResolver.SYNC_EXTRAS_EXPEDITED, true);
-        ContentResolver.requestSync(applicationAccountManager.getAccount(), OnlineDioContract.CONTENT_AUTHORITY, bundle);
+        ContentResolver.requestSync(applicationAccountManager.getAccount(), CCContract.AUTHORITY, bundle);
     }
 }

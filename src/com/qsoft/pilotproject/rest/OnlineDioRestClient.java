@@ -1,13 +1,11 @@
 package com.qsoft.pilotproject.rest;
 
-import com.googlecode.androidannotations.annotations.rest.Accept;
-import com.googlecode.androidannotations.annotations.rest.Get;
-import com.googlecode.androidannotations.annotations.rest.Post;
-import com.googlecode.androidannotations.annotations.rest.Rest;
+import com.googlecode.androidannotations.annotations.rest.*;
 import com.googlecode.androidannotations.api.rest.MediaType;
 import com.qsoft.pilotproject.model.ResponseComment;
 import com.qsoft.pilotproject.model.ResponseListFeed;
 import com.qsoft.pilotproject.model.ResponseProfile;
+import com.qsoft.pilotproject.model.cc.ProfileCC;
 import com.qsoft.pilotproject.model.dto.SignInDTO;
 import org.springframework.http.converter.FormHttpMessageConverter;
 import org.springframework.http.converter.ResourceHttpMessageConverter;
@@ -50,6 +48,8 @@ public interface OnlineDioRestClient
     @Accept(MediaType.APPLICATION_JSON)
     public SignInDTO signIn(MultiValueMap data);
 
+    @Put("user-rest/{userId}")
+    public void updateProfile(ProfileCC profile, Long userId);
 
     RestTemplate getRestTemplate();
 
