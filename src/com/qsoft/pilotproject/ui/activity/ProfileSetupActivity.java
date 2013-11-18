@@ -22,7 +22,7 @@ import com.qsoft.pilotproject.authenticator.ApplicationAccountManager;
 import com.qsoft.pilotproject.common.SuperAnnotationActivity;
 import com.qsoft.pilotproject.imageloader.ImageLoader;
 import com.qsoft.pilotproject.model.cc.ProfileCC;
-import com.qsoft.pilotproject.provider.OnlineDioContract;
+import com.qsoft.pilotproject.model.cc.ProfileCCContract;
 import com.qsoft.pilotproject.rest.OnlineDioClientProxy;
 import com.qsoft.pilotproject.ui.controller.ProfileController;
 
@@ -101,7 +101,7 @@ public class ProfileSetupActivity extends SuperAnnotationActivity
         countryList = getResources().getStringArray(R.array.country);
         countryCodes = getResources().getStringArray(R.array.country_codes);
         contentResolver = getContentResolver();
-        Cursor cursor = contentResolver.query(OnlineDioContract.Profile.CONTENT_URI, null, null, null, null);
+        Cursor cursor = contentResolver.query(ProfileCCContract.CONTENT_URI, null, null, null, null);
         if (cursor.getCount() == 0)
         {
             Log.d(TAG, "get profile from server and push to local");
@@ -129,7 +129,7 @@ public class ProfileSetupActivity extends SuperAnnotationActivity
     @UiThread
     void updateProfileUI(ProfileCC profile)
     {
-        contentResolver.insert(OnlineDioContract.Profile.CONTENT_URI, profile.getContentValues());
+        contentResolver.insert(ProfileCCContract.CONTENT_URI, profile.getContentValues());
         setToView(profile);
     }
 
