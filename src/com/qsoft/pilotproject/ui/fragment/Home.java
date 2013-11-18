@@ -10,7 +10,7 @@ import android.widget.Button;
 import com.googlecode.androidannotations.annotations.*;
 import com.qsoft.pilotproject.R;
 import com.qsoft.pilotproject.authenticator.ApplicationAccountManager;
-import com.qsoft.pilotproject.provider.OnlineDioContract;
+import com.qsoft.pilotproject.provider.cc.CCContract;
 import com.qsoft.pilotproject.rest.OnlineDioClientProxy;
 import com.qsoft.pilotproject.ui.activity.SlideBarActivity;
 import com.qsoft.pilotproject.ui.controller.CommonController;
@@ -56,8 +56,8 @@ public class Home extends Fragment
                         //
                         return;
                     }
-                    boolean syncActive = ContentResolver.isSyncActive(account, OnlineDioContract.CONTENT_AUTHORITY);
-                    boolean syncPending = ContentResolver.isSyncPending(account, OnlineDioContract.CONTENT_AUTHORITY);
+                    boolean syncActive = ContentResolver.isSyncActive(account, CCContract.AUTHORITY);
+                    boolean syncPending = ContentResolver.isSyncPending(account, CCContract.AUTHORITY);
                     // set refresh
                     if (!(syncActive || syncPending))
                     {
@@ -98,8 +98,8 @@ public class Home extends Fragment
     void afterViews()
     {
         Account account = applicationAccountManager.getAccount();
-        ContentResolver.setIsSyncable(account, OnlineDioContract.CONTENT_AUTHORITY, 1);
-        ContentResolver.setSyncAutomatically(account, OnlineDioContract.CONTENT_AUTHORITY, true);
+        ContentResolver.setIsSyncable(account, CCContract.AUTHORITY, 1);
+        ContentResolver.setSyncAutomatically(account, CCContract.AUTHORITY, true);
         Fragment feedListFragment = new HomeListFragment();
         getChildFragmentManager().beginTransaction().replace(R.id.fragmentListFeeds, feedListFragment).addToBackStack(null).commit();
 //        doBackground();
