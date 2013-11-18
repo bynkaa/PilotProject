@@ -17,7 +17,6 @@ import com.qsoft.pilotproject.adapter.SideBarItemAdapter;
 import com.qsoft.pilotproject.authenticator.ApplicationAccountManager;
 import com.qsoft.pilotproject.common.CommandExecutor;
 import com.qsoft.pilotproject.common.commands.GenericStartActivityCommand;
-import com.qsoft.pilotproject.model.Comment;
 import com.qsoft.pilotproject.ui.fragment.Home_;
 
 /**
@@ -106,7 +105,7 @@ public class SlideBarActivity extends FragmentActivity
         {
             if (data.hasExtra(NewCommentActivity.COMMENT_EXTRA))
             {
-                Comment comment = (Comment) data.getExtras().get(NewCommentActivity.COMMENT_EXTRA);
+//                Comment comment = (Comment) data.getExtras().get(NewCommentActivity.COMMENT_EXTRA);
             }
         }
     }

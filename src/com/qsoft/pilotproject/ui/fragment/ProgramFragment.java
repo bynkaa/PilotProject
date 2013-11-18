@@ -12,9 +12,9 @@ import android.widget.TextView;
 import com.googlecode.androidannotations.annotations.*;
 import com.qsoft.pilotproject.R;
 import com.qsoft.pilotproject.common.CommandExecutor;
-import com.qsoft.pilotproject.model.Feed;
 import com.qsoft.pilotproject.model.ProgramTab;
-import com.qsoft.pilotproject.provider.OnlineDioContract;
+import com.qsoft.pilotproject.model.cc.FeedCC;
+import com.qsoft.pilotproject.model.cc.FeedCCContract;
 import com.qsoft.pilotproject.utils.Utilities;
 
 /**
@@ -47,7 +47,7 @@ public class ProgramFragment extends Fragment
     TextView tvLooks;
     @ViewById(R.id.tvLastUpdate)
     TextView tvUpdated;
-    Feed feed = null;
+    FeedCC feed = null;
     @Bean
     CommandExecutor commandExecutor;
 
@@ -64,14 +64,14 @@ public class ProgramFragment extends Fragment
         {
             Log.e(TAG, "ProgramFragment ERROR");
         }
-        Uri singleUri = ContentUris.withAppendedId(OnlineDioContract.Feed.CONTENT_URI, id);
+        Uri singleUri = ContentUris.withAppendedId(FeedCCContract.CONTENT_URI, id);
         // get all
         Cursor cursor = getActivity().getContentResolver().query(singleUri, null, null, null, null);
         assert cursor != null;
 
         while (cursor.moveToNext())
         {
-            feed = Feed.fromCursor(cursor);
+            feed = FeedCC.fromCursor(cursor);
         }
 
         tvTitle.setText(feed.getTitle());

@@ -2,7 +2,7 @@ package com.qsoft.pilotproject.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.qsoft.pilotproject.model.dto.ProfileDTO;
+import com.qsoft.pilotproject.model.cc.ProfileCC;
 
 /**
  * User: binhtv
@@ -13,15 +13,15 @@ import com.qsoft.pilotproject.model.dto.ProfileDTO;
 public class ResponseProfile
 {
     @JsonProperty("data")
-    ProfileDTO profileDTO;
+    ProfileCC profile;
 
-    public ProfileDTO getProfileDTO()
+    public ProfileCC getProfile()
     {
-        return profileDTO;
+        return profile;
     }
 
-    public void setProfileDTO(ProfileDTO profileDTO)
+    public void setProfile(ProfileCC profile)
     {
-        this.profileDTO = profileDTO;
+        this.profile = profile;
     }
 }

@@ -37,16 +37,7 @@ public class ArrayFeedAdapter extends SimpleCursorAdapter
         TextView tvComment = (TextView) view.findViewById(R.id.tvCommentFeed);
         TextView tvLastUpdate = (TextView) view.findViewById(R.id.tvLastUpdateStatus);
         ImageView imProfile = (ImageView) view.findViewById(R.id.imAvatarFeed);
-//        int avatarIndex = cursor.getColumnIndexOrThrow(OnlineDioContract.Feed.COLUMN_AVATAR);
-//        String avatarUrl = cursor.getString(avatarIndex);
-//        imageLoader.DisplayImage(avatarUrl, imProfile, R.drawable.image_icon);
-//        int titleIndex = cursor.getColumnIndexOrThrow(OnlineDioContract.Feed.COLUMN_TITLE);
-//        int displayNameIndex = cursor.getColumnIndexOrThrow(OnlineDioContract.Feed.COLUMN_DISPLAY_NAME);
-//        int likeIndex = cursor.getColumnIndexOrThrow(OnlineDioContract.Feed.COLUMN_LIKES);
-//        int commentIndex = cursor.getColumnIndexOrThrow(OnlineDioContract.Feed.COLUMN_COMMENTS);
-//        int lastUpdateIndex = cursor.getColumnIndexOrThrow(OnlineDioContract.Feed.COLUMN_UPDATED_AT);
-//        int idIndex = cursor.getColumnIndexOrThrow(OnlineDioContract.Feed._ID);
-//
+
         int titleIndex = cursor.getColumnIndexOrThrow(FeedCCContract.TITLE);
         int displayNameIndex = cursor.getColumnIndexOrThrow(FeedCCContract.DISPLAYNAME);
         int likeIndex = cursor.getColumnIndexOrThrow(FeedCCContract.LIKES);

@@ -21,8 +21,7 @@ import com.qsoft.pilotproject.R;
 import com.qsoft.pilotproject.authenticator.ApplicationAccountManager;
 import com.qsoft.pilotproject.common.SuperAnnotationActivity;
 import com.qsoft.pilotproject.imageloader.ImageLoader;
-import com.qsoft.pilotproject.model.Profile;
-import com.qsoft.pilotproject.model.dto.ProfileDTO;
+import com.qsoft.pilotproject.model.cc.ProfileCC;
 import com.qsoft.pilotproject.provider.OnlineDioContract;
 import com.qsoft.pilotproject.rest.OnlineDioClientProxy;
 import com.qsoft.pilotproject.ui.controller.ProfileController;
@@ -112,7 +111,7 @@ public class ProfileSetupActivity extends SuperAnnotationActivity
         {
             while (cursor.moveToNext())
             {
-                setToView(Profile.fromCursor(cursor));
+                setToView(ProfileCC.fromCursor(cursor));
             }
         }
     }
@@ -123,25 +122,25 @@ public class ProfileSetupActivity extends SuperAnnotationActivity
         Log.d(TAG, "doInBackground: ");
         String userIdStr = accountManager.getUserData(account, LoginActivity.USER_ID_KEY);
         long userId = Long.valueOf(userIdStr);
-        ProfileDTO profileDTO = onlineDioClientProxy.getProfile(userId);
-        updateProfileUI(profileDTO);
+        ProfileCC profile = onlineDioClientProxy.getProfile(userId);
+        updateProfileUI(profile);
     }
 
     @UiThread
-    void updateProfileUI(ProfileDTO profileDTO)
+    void updateProfileUI(ProfileCC profile)
     {
-        contentResolver.insert(OnlineDioContract.Profile.CONTENT_URI, profileDTO.getContentValues());
-        setToView(profileDTO);
+        contentResolver.insert(OnlineDioContract.Profile.CONTENT_URI, profile.getContentValues());
+        setToView(profile);
     }
 
-    void setToView(ProfileDTO profileDTO)
+    void setToView(ProfileCC profile)
     {
-        tvBirthday.setText(profileDTO.getBirthday());
-        etDisplayName.setText(profileDTO.getDisplayName());
-        etFullName.setText(profileDTO.getFullName());
-        etPhone.setText(profileDTO.getPhone());
-        etDescription.setText(profileDTO.getDescription());
-        if (profileDTO.getGender() == 0)
+        tvBirthday.setText(profile.getBirthday());
+        etDisplayName.setText(profile.getDisplayName());
+        etFullName.setText(profile.getFullName());
+        etPhone.setText(profile.getPhone());
+        etDescription.setText(profile.getDescription());
+        if (profile.getGender() == 0)
         {
             imFemale.performClick();
         }
@@ -149,13 +148,13 @@ public class ProfileSetupActivity extends SuperAnnotationActivity
         {
             imMale.performClick();
         }
-        if (profileDTO.getCountryId() != null && !profileDTO.getCountryId().isEmpty())
+        if (profile.getCountryId() != null && !profile.getCountryId().isEmpty())
         {
             int index = -1;
 
             for (int i = 0; i < countryCodes.length; i++)
             {
-                if (countryCodes[i].equals(profileDTO.getCountryId()))
+                if (countryCodes[i].equals(profile.getCountryId()))
                 {
                     index = i;
                     break;
@@ -167,15 +166,15 @@ public class ProfileSetupActivity extends SuperAnnotationActivity
             }
         }
         // load image
-        if (profileDTO.getAvatar() != null)
+        if (profile.getAvatar() != null)
         {
 //            Bitmap imageAvatar = imageLoader.getBitmap(profileDTO.getAvatar(), R.drawable.profile_icon);
 //            setImageProfile(imageAvatar);
         }
 
-        if (profileDTO.getCoverImage() != null)
+        if (profile.getCoverImage() != null)
         {
-            Bitmap imageCover = imageLoader.getBitmap(profileDTO.getCoverImage(), R.drawable.profile_cover);
+            Bitmap imageCover = imageLoader.getBitmap(profile.getCoverImage(), R.drawable.profile_cover);
             Drawable d = new BitmapDrawable(getResources(), imageCover);
             rlCover.setBackground(d);
         }

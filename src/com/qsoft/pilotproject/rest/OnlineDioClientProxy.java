@@ -9,7 +9,7 @@ import com.googlecode.androidannotations.annotations.rest.RestService;
 import com.qsoft.pilotproject.common.CommandExecutor;
 import com.qsoft.pilotproject.model.cc.CommentCC;
 import com.qsoft.pilotproject.model.cc.FeedCC;
-import com.qsoft.pilotproject.model.dto.ProfileDTO;
+import com.qsoft.pilotproject.model.cc.ProfileCC;
 import com.qsoft.pilotproject.model.dto.SignInDTO;
 import com.qsoft.pilotproject.rest.interceptor.OnlineDioInterceptor;
 import com.qsoft.pilotproject.ui.controller.CommonController;
@@ -69,14 +69,14 @@ public class OnlineDioClientProxy
         return onlineDioRestClient.getFeeds(limit, offset, timeFrom, timeTo).getFeedDTOs();
     }
 
-    public ProfileDTO getProfile(long userId)
+    public ProfileCC getProfile(long userId)
     {
         String checkToken = tokenCheckerRest.getAbout();
         if (checkToken.equals(ERROR_MESSAGE))
         {
             commonController.refreshToken();
         }
-        return onlineDioRestClient.getProfile(userId).getProfileDTO();
+        return onlineDioRestClient.getProfile(userId).getProfile();
     }
 
     public List<CommentCC> getComments(long soundId, String limit, String offset, String updateAt)
