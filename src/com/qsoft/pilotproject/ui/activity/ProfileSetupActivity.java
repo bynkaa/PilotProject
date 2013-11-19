@@ -26,6 +26,8 @@ import com.qsoft.pilotproject.model.cc.ProfileCCContract;
 import com.qsoft.pilotproject.rest.OnlineDioClientProxy;
 import com.qsoft.pilotproject.ui.controller.ProfileController;
 
+import java.util.HashMap;
+
 /**
  * User: thanhtd
  * Date: 10/14/13
@@ -73,6 +75,7 @@ public class ProfileSetupActivity extends SuperAnnotationActivity
     @ViewById(R.id.profile_ibright)
     ImageButton imMale;
 
+    @Bean
     ImageLoader imageLoader;
 
 
@@ -92,6 +95,7 @@ public class ProfileSetupActivity extends SuperAnnotationActivity
     String[] countryList;
     String[] countryCodes;
     ContentResolver contentResolver;
+    ProfileCC profile;
 
     @AfterViews
     void setupData()
@@ -101,18 +105,12 @@ public class ProfileSetupActivity extends SuperAnnotationActivity
         countryList = getResources().getStringArray(R.array.country);
         countryCodes = getResources().getStringArray(R.array.country_codes);
         contentResolver = getContentResolver();
+        Log.d(TAG, "get profile from server and push to local");
+        doGetProfileFromService();
         Cursor cursor = contentResolver.query(ProfileCCContract.CONTENT_URI, null, null, null, null);
-        if (cursor.getCount() == 0)
+        if (cursor.moveToFirst())
         {
-            Log.d(TAG, "get profile from server and push to local");
-            doGetProfileFromService();
-        }
-        else
-        {
-            while (cursor.moveToNext())
-            {
-                setToView(ProfileCC.fromCursor(cursor));
-            }
+            setToView(profile);
         }
     }
 
@@ -122,14 +120,15 @@ public class ProfileSetupActivity extends SuperAnnotationActivity
         Log.d(TAG, "doInBackground: ");
         String userIdStr = accountManager.getUserData(account, LoginActivity.USER_ID_KEY);
         long userId = Long.valueOf(userIdStr);
-        ProfileCC profile = onlineDioClientProxy.getProfile(userId);
+        profile = onlineDioClientProxy.getProfile(userId);
         updateProfileUI(profile);
     }
 
     @UiThread
     void updateProfileUI(ProfileCC profile)
     {
-        contentResolver.insert(ProfileCCContract.CONTENT_URI, profile.getContentValues());
+        String[] args = {profile.getUserId().toString()};
+        contentResolver.update(ProfileCCContract.CONTENT_URI, profile.getContentValues(), "userId=?", args);
         setToView(profile);
     }
 
@@ -142,11 +141,11 @@ public class ProfileSetupActivity extends SuperAnnotationActivity
         etDescription.setText(profile.getDescription());
         if (profile.getGender() == 0)
         {
-            imFemale.performClick();
+            imFemale.setSelected(true);
         }
         else
         {
-            imMale.performClick();
+            imMale.setSelected(true);
         }
         if (profile.getCountryId() != null && !profile.getCountryId().isEmpty())
         {
@@ -168,26 +167,63 @@ public class ProfileSetupActivity extends SuperAnnotationActivity
         // load image
         if (profile.getAvatar() != null)
         {
-//            Bitmap imageAvatar = imageLoader.getBitmap(profileDTO.getAvatar(), R.drawable.profile_icon);
-//            setImageProfile(imageAvatar);
+            loadAvatar(profile.getAvatar());
         }
 
         if (profile.getCoverImage() != null)
         {
-            Bitmap imageCover = imageLoader.getBitmap(profile.getCoverImage(), R.drawable.profile_cover);
-            Drawable d = new BitmapDrawable(getResources(), imageCover);
-            rlCover.setBackground(d);
+            loadCoverImage(profile.getCoverImage());
         }
+    }
+
+    @Background
+    void loadAvatar(String url)
+    {
+        Bitmap imageAvatar = imageLoader.getBitmap(url, R.drawable.profile_icon);
+        setImageProfile(imageAvatar);
+    }
+
+    @Background
+    void loadCoverImage(String url)
+    {
+        Bitmap imageCover = imageLoader.getBitmap(url, R.drawable.profile_cover);
+        Drawable d = new BitmapDrawable(getResources(), imageCover);
+        setCoverBackground(d);
+    }
+
+    @UiThread
+    void setCoverBackground(Drawable d)
+    {
+        rlCover.setBackground(d);
     }
 
 
     @Click(R.id.ibProfileSave)
-    void doClickProfileSaveButton()
+    void doSave()
     {
         Log.d(TAG, "save ok");
-        Intent intent = getIntent();
-        setResult(RESULT_OK, intent);
-        finish();
+        HashMap profileUpdate = new HashMap();
+        profileUpdate.put("display_name", etDisplayName.getText());
+        profileUpdate.put("full_name", etFullName.getText().toString());
+        profileUpdate.put("phone", etPhone.getText().toString());
+        profileUpdate.put("birthday", tvBirthday.getText().toString());
+        profileUpdate.put("gender", imMale.isSelected() ? 1 : 0);
+        profileUpdate.put("country_id", 12);
+        profileUpdate.put("description", etDescription.getText().toString());
+        updateProfile(profileUpdate);
+    }
+
+    @Background
+    void updateProfile(HashMap profileUpdate)
+    {
+        onlineDioClientProxy.updateProfile(profileUpdate, profile.getUserId());
+        showMessage();
+    }
+
+    @UiThread
+    void showMessage()
+    {
+        Toast.makeText(getBaseContext(), "Save successful", Toast.LENGTH_LONG).show();
     }
 
     @Click(R.id.ibProfileCancel)
@@ -275,6 +311,7 @@ public class ProfileSetupActivity extends SuperAnnotationActivity
         }
     }
 
+    @UiThread
     void setImageProfile(Bitmap bmImg)
     {
         Bitmap mask = BitmapFactory.decodeResource(getResources(), R.drawable.profile_mask);

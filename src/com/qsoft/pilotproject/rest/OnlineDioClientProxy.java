@@ -19,6 +19,7 @@ import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -72,11 +73,10 @@ public class OnlineDioClientProxy
         return onlineDioRestClient.getProfile(userId).getProfile();
     }
 
-    public void updateProfile(ProfileCC profile, Long userId)
+    public void updateProfile(HashMap profile, Long userId)
     {
         invalidToken();
         onlineDioRestClient.updateProfile(profile, userId);
-
     }
 
     public List<CommentCC> getComments(long soundId, String limit, String offset, String updateAt)

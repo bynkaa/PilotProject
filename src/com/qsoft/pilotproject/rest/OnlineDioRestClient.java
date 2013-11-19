@@ -5,7 +5,6 @@ import com.googlecode.androidannotations.api.rest.MediaType;
 import com.qsoft.pilotproject.model.ResponseComment;
 import com.qsoft.pilotproject.model.ResponseListFeed;
 import com.qsoft.pilotproject.model.ResponseProfile;
-import com.qsoft.pilotproject.model.cc.ProfileCC;
 import com.qsoft.pilotproject.model.dto.SignInDTO;
 import org.springframework.http.converter.FormHttpMessageConverter;
 import org.springframework.http.converter.ResourceHttpMessageConverter;
@@ -14,6 +13,8 @@ import org.springframework.http.converter.json.GsonHttpMessageConverter;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
+
+import java.util.HashMap;
 
 /**
  * User: binhtv
@@ -49,7 +50,7 @@ public interface OnlineDioRestClient
     public SignInDTO signIn(MultiValueMap data);
 
     @Put("user-rest/{userId}")
-    public void updateProfile(ProfileCC profile, Long userId);
+    public void updateProfile(HashMap profile, Long userId);
 
     RestTemplate getRestTemplate();
 

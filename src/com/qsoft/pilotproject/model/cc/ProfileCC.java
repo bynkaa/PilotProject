@@ -309,6 +309,7 @@ public class ProfileCC
         this.audience = audience;
     }
 
+    @JsonIgnore
     public ContentValues getContentValues()
     {
         ContentValues values = new ContentValues();
@@ -337,6 +338,7 @@ public class ProfileCC
         return values;
     }
 
+    @JsonIgnore
     public static ProfileCC fromCursor(Cursor cursor)
     {
         ProfileCC profile = new ProfileCC();
