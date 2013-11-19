@@ -2,9 +2,9 @@ package com.qsoft.pilotproject.rest;
 
 import com.googlecode.androidannotations.annotations.rest.*;
 import com.googlecode.androidannotations.api.rest.MediaType;
-import com.qsoft.pilotproject.model.ResponseComment;
-import com.qsoft.pilotproject.model.ResponseListFeed;
-import com.qsoft.pilotproject.model.ResponseProfile;
+import com.qsoft.pilotproject.model.dto.ResponseComment;
+import com.qsoft.pilotproject.model.dto.ResponseListFeed;
+import com.qsoft.pilotproject.model.dto.ResponseProfile;
 import com.qsoft.pilotproject.model.dto.SignInDTO;
 import org.springframework.http.converter.FormHttpMessageConverter;
 import org.springframework.http.converter.ResourceHttpMessageConverter;

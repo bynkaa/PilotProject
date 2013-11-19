@@ -4,9 +4,9 @@ import android.content.ContentValues;
 import android.database.Cursor;
 import android.provider.BaseColumns;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonProperty;
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
+import com.qsoft.pilotproject.model.dto.ProfileDTO;
 import com.qsoft.pilotproject.provider.cc.CCContract;
 import com.tojc.ormlite.android.annotation.AdditionalAnnotation;
 
@@ -26,68 +26,77 @@ public class ProfileCC
     @JsonIgnore
     private Long id;
     @DatabaseField
-    @JsonProperty("id")
     private Long userId;
     @DatabaseField
-    @JsonProperty("facebook_id")
     private Long facebookId;
     @DatabaseField
-    @JsonProperty("username")
     private String userName;
     @DatabaseField
-    @JsonProperty("password")
     private String password;
     @DatabaseField
-    @JsonProperty("avatar")
     private String avatar;
     @DatabaseField
-    @JsonProperty("cover_image")
     private String coverImage;
     @DatabaseField
-    @JsonProperty("display_name")
     private String displayName;
     @DatabaseField
-    @JsonProperty("full_name")
     private String fullName;
     @DatabaseField
-    @JsonProperty("phone")
     private String phone;
     @DatabaseField
-    @JsonProperty("birthday")
     private String birthday;
     @DatabaseField
-    @JsonProperty("gender")
     private int gender;
     @DatabaseField
-    @JsonProperty("country_id")
     private String countryId;
     @DatabaseField
-    @JsonProperty("storage_plan_id")
     private int storagePlanId;
     @DatabaseField
-    @JsonProperty("description")
     private String description;
     @DatabaseField
-    @JsonProperty("created_at")
     private String createdAt;
     @DatabaseField
-    @JsonProperty("updated_at")
     private String updatedAt;
     @DatabaseField
-    @JsonProperty("sounds")
     private int sound;
     @DatabaseField
-    @JsonProperty("favorites")
     private int favorite;
     @DatabaseField
-    @JsonProperty("likes")
     private int like;
     @DatabaseField
-    @JsonProperty("followings")
     private int following;
     @DatabaseField
-    @JsonProperty("audiences")
     private int audience;
+
+    public ProfileCC()
+    {
+
+    }
+
+    public ProfileCC(ProfileDTO profileDTO)
+    {
+        userId = profileDTO.getUserId();
+        facebookId = profileDTO.getFacebookId();
+        userName = profileDTO.getUserName();
+        password = profileDTO.getPassword();
+        avatar = profileDTO.getAvatar();
+        coverImage = profileDTO.getCoverImage();
+        displayName = profileDTO.getDisplayName();
+        fullName = profileDTO.getFullName();
+        phone = profileDTO.getPhone();
+        birthday = profileDTO.getBirthday();
+        gender = profileDTO.getGender();
+        countryId = profileDTO.getCountryId();
+        storagePlanId = profileDTO.getStoragePlanId();
+        description = profileDTO.getDescription();
+        createdAt = profileDTO.getCreatedAt();
+        updatedAt = profileDTO.getUpdatedAt();
+        sound = profileDTO.getSound();
+        favorite = profileDTO.getFavorite();
+        like = profileDTO.getLike();
+        following = profileDTO.getFollowing();
+        audience = profileDTO.getAudience();
+    }
 
     public Long getId()
     {

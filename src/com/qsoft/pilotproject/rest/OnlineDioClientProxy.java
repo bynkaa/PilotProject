@@ -9,7 +9,7 @@ import com.googlecode.androidannotations.annotations.rest.RestService;
 import com.qsoft.pilotproject.common.CommandExecutor;
 import com.qsoft.pilotproject.model.cc.CommentCC;
 import com.qsoft.pilotproject.model.cc.FeedCC;
-import com.qsoft.pilotproject.model.cc.ProfileCC;
+import com.qsoft.pilotproject.model.dto.ProfileDTO;
 import com.qsoft.pilotproject.model.dto.SignInDTO;
 import com.qsoft.pilotproject.rest.interceptor.OnlineDioInterceptor;
 import com.qsoft.pilotproject.ui.controller.CommonController;
@@ -67,7 +67,7 @@ public class OnlineDioClientProxy
     }
 
 
-    public ProfileCC getProfile(long userId)
+    public ProfileDTO getProfile(long userId)
     {
         invalidToken();
         return onlineDioRestClient.getProfile(userId).getProfile();

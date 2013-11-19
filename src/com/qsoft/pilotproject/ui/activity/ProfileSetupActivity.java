@@ -23,6 +23,7 @@ import com.qsoft.pilotproject.common.SuperAnnotationActivity;
 import com.qsoft.pilotproject.imageloader.ImageLoader;
 import com.qsoft.pilotproject.model.cc.ProfileCC;
 import com.qsoft.pilotproject.model.cc.ProfileCCContract;
+import com.qsoft.pilotproject.model.dto.ProfileDTO;
 import com.qsoft.pilotproject.rest.OnlineDioClientProxy;
 import com.qsoft.pilotproject.ui.controller.ProfileController;
 
@@ -110,7 +111,8 @@ public class ProfileSetupActivity extends SuperAnnotationActivity
         Cursor cursor = contentResolver.query(ProfileCCContract.CONTENT_URI, null, null, null, null);
         if (cursor.moveToFirst())
         {
-            setToView(profile);
+            profile = ProfileCC.fromCursor(cursor);
+            setToView();
         }
     }
 
@@ -120,19 +122,23 @@ public class ProfileSetupActivity extends SuperAnnotationActivity
         Log.d(TAG, "doInBackground: ");
         String userIdStr = accountManager.getUserData(account, LoginActivity.USER_ID_KEY);
         long userId = Long.valueOf(userIdStr);
-        profile = onlineDioClientProxy.getProfile(userId);
-        updateProfileUI(profile);
+        ProfileDTO profileDTO = onlineDioClientProxy.getProfile(userId);
+        ProfileCC profileCC = new ProfileCC(profileDTO);
+        updateProfileUI(profileCC);
     }
 
     @UiThread
-    void updateProfileUI(ProfileCC profile)
+    void updateProfileUI(ProfileCC profileCC)
     {
-        String[] args = {profile.getUserId().toString()};
-        contentResolver.update(ProfileCCContract.CONTENT_URI, profile.getContentValues(), "userId=?", args);
-        setToView(profile);
+        String[] args = {profileCC.getUserId().toString()};
+        int updated = contentResolver.update(ProfileCCContract.CONTENT_URI, profileCC.getContentValues(), "userId=?", args);
+        if (updated == 0)
+        {
+            contentResolver.insert(ProfileCCContract.CONTENT_URI, profileCC.getContentValues());
+        }
     }
 
-    void setToView(ProfileCC profile)
+    void setToView()
     {
         tvBirthday.setText(profile.getBirthday());
         etDisplayName.setText(profile.getDisplayName());
