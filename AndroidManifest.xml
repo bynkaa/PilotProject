@@ -46,7 +46,7 @@
         </service>
 
         <provider
-                android:name=".data.provider.cc.CCContentProvider"
+                android:name=".data.provider.CCContentProvider"
                 android:authorities="com.qsoft.pilotproject"
                 android:exported="false"/>
     </application>

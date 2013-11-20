@@ -7,7 +7,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
-import com.qsoft.pilotproject.data.provider.cc.CCContract;
+import com.qsoft.pilotproject.data.provider.CCContract;
 import com.tojc.ormlite.android.annotation.AdditionalAnnotation;
 
 /**
@@ -19,7 +19,8 @@ import com.tojc.ormlite.android.annotation.AdditionalAnnotation;
 @DatabaseTable(tableName = "feeds")
 @AdditionalAnnotation.DefaultContentUri(authority = CCContract.AUTHORITY, path = "feeds")
 @AdditionalAnnotation.DefaultContentMimeTypeVnd(name = CCContract.MIME_TYPE_VND, type = "feeds")
-public class FeedCC {
+public class FeedCC
+{
     @DatabaseField(columnName = BaseColumns._ID, generatedId = true)
     @AdditionalAnnotation.DefaultSortOrder
     @JsonIgnore
@@ -73,143 +74,178 @@ public class FeedCC {
     @JsonProperty("avatar")
     private String avatar;
 
-    public long getFeedId() {
+    public long getFeedId()
+    {
         return feedId;
     }
 
-    public void setFeedId(long feedId) {
+    public void setFeedId(long feedId)
+    {
         this.feedId = feedId;
     }
 
-    public long getUserId() {
+    public long getUserId()
+    {
         return userId;
     }
 
-    public void setUserId(long userId) {
+    public void setUserId(long userId)
+    {
         this.userId = userId;
     }
 
-    public String getTitle() {
+    public String getTitle()
+    {
         return title;
     }
 
-    public void setTitle(String title) {
+    public void setTitle(String title)
+    {
         this.title = title;
     }
 
-    public String getThumbnail() {
+    public String getThumbnail()
+    {
         return thumbnail;
     }
 
-    public void setThumbnail(String thumbnail) {
+    public void setThumbnail(String thumbnail)
+    {
         this.thumbnail = thumbnail;
     }
 
-    public String getDescription() {
+    public String getDescription()
+    {
         return description;
     }
 
-    public void setDescription(String description) {
+    public void setDescription(String description)
+    {
         this.description = description;
     }
 
-    public String getSoundPath() {
+    public String getSoundPath()
+    {
         return soundPath;
     }
 
-    public void setSoundPath(String soundPath) {
+    public void setSoundPath(String soundPath)
+    {
         this.soundPath = soundPath;
     }
 
-    public String getDuration() {
+    public String getDuration()
+    {
         return duration;
     }
 
-    public void setDuration(String duration) {
+    public void setDuration(String duration)
+    {
         this.duration = duration;
     }
 
-    public String getPlayed() {
+    public String getPlayed()
+    {
         return played;
     }
 
-    public void setPlayed(String played) {
+    public void setPlayed(String played)
+    {
         this.played = played;
     }
 
-    public String getCreatedAt() {
+    public String getCreatedAt()
+    {
         return createdAt;
     }
 
-    public void setCreatedAt(String createdAt) {
+    public void setCreatedAt(String createdAt)
+    {
         this.createdAt = createdAt;
     }
 
-    public String getUpdatedAt() {
+    public String getUpdatedAt()
+    {
         return updatedAt;
     }
 
-    public void setUpdatedAt(String updatedAt) {
+    public void setUpdatedAt(String updatedAt)
+    {
         this.updatedAt = updatedAt;
     }
 
-    public int getLikes() {
+    public int getLikes()
+    {
         return likes;
     }
 
-    public void setLikes(int likes) {
+    public void setLikes(int likes)
+    {
         this.likes = likes;
     }
 
-    public int getViewed() {
+    public int getViewed()
+    {
         return viewed;
     }
 
-    public void setViewed(int viewed) {
+    public void setViewed(int viewed)
+    {
         this.viewed = viewed;
     }
 
-    public int getComments() {
+    public int getComments()
+    {
         return comments;
     }
 
-    public void setComments(int comments) {
+    public void setComments(int comments)
+    {
         this.comments = comments;
     }
 
-    public String getUserName() {
+    public String getUserName()
+    {
         return userName;
     }
 
-    public void setUserName(String userName) {
+    public void setUserName(String userName)
+    {
         this.userName = userName;
     }
 
-    public String getDisplayName() {
+    public String getDisplayName()
+    {
         return displayName;
     }
 
-    public void setDisplayName(String displayName) {
+    public void setDisplayName(String displayName)
+    {
         this.displayName = displayName;
     }
 
-    public String getAvatar() {
+    public String getAvatar()
+    {
         return avatar;
     }
 
-    public void setAvatar(String avatar) {
+    public void setAvatar(String avatar)
+    {
         this.avatar = avatar;
     }
 
-    public Long getId() {
+    public Long getId()
+    {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(Long id)
+    {
         this.id = id;
     }
 
-    public ContentValues getContentValues() {
+    public ContentValues getContentValues()
+    {
         ContentValues values = new ContentValues();
         values.put(FeedCCContract._ID, id);
         values.put(FeedCCContract.FEEDID, feedId);
@@ -231,7 +267,8 @@ public class FeedCC {
         return values;
     }
 
-    public static FeedCC fromCursor(Cursor cursorFeed) {
+    public static FeedCC fromCursor(Cursor cursorFeed)
+    {
         FeedCC feed = new FeedCC();
         feed.setId(cursorFeed.getLong(cursorFeed.getColumnIndex(FeedCCContract._ID)));
         feed.setFeedId(cursorFeed.getLong(cursorFeed.getColumnIndex(FeedCCContract.FEEDID)));

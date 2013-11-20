@@ -17,7 +17,8 @@ import com.qsoft.pilotproject.ui.model.UiProfileModel;
  * To change this template use File | Settings | File Templates.
  */
 @EBean
-public class ProfileService {
+public class ProfileService
+{
 
     @RootContext
     Context context;
@@ -26,7 +27,9 @@ public class ProfileService {
     @Bean
     ApplicationAccountManager applicationAccountManager;
 
-    public void updateMyProfile(UiProfileModel profileModel) {
+
+    public void updateMyProfile(UiProfileModel profileModel)
+    {
         ProfileCC profileCC = profileDAO.getProfile(applicationAccountManager.getUserId());
         profileCC.setBirthday(profileModel.getBirthDay());
         profileCC.setDescription(profileModel.getDescription());

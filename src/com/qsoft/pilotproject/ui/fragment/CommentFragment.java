@@ -30,8 +30,7 @@ public class CommentFragment extends Fragment
     @AfterViews
     void afterViews()
     {
-        Fragment commentListFragment = new CommentListFragment();
-        getFragmentManager().beginTransaction().replace(R.id.lvComment, commentListFragment).commit();
+
     }
 
 
@@ -41,10 +40,7 @@ public class CommentFragment extends Fragment
         commandExecutor.execute(getActivity(),
                 new GenericStartActivityCommand(getActivity(), NewCommentActivity_.class, RC_NEW_COMMENT_ACTIVITY)
                 {
-                    @Override
-                    public void overrideExtra(Intent intent)
-                    {
-                    }
+
                 }, false);
     }
 

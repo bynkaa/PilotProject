@@ -3,6 +3,7 @@ package com.qsoft.pilotproject.data.dao;
 import android.content.ContentResolver;
 import android.content.Context;
 import android.database.Cursor;
+import com.googlecode.androidannotations.annotations.AfterInject;
 import com.googlecode.androidannotations.annotations.Bean;
 import com.googlecode.androidannotations.annotations.EBean;
 import com.googlecode.androidannotations.annotations.RootContext;
@@ -18,16 +19,24 @@ import com.qsoft.pilotproject.data.model.entity.SyncToServer;
  * To change this template use File | Settings | File Templates.
  */
 @EBean
-public class ProfileDAO {
-
+public class ProfileDAO
+{
 
     @RootContext
     Context context;
-    ContentResolver contentResolver = context.getContentResolver();
+    ContentResolver contentResolver;
     @Bean
     SyncToServiceDAO syncToServiceDAO;
 
-    public void updateProfile(ProfileCC profile, Long userId) {
+    @AfterInject
+    void afterInject()
+    {
+        contentResolver = context.getContentResolver();
+    }
+
+    public void updateProfile(ProfileCC profile, Long userId)
+    {
+
         contentResolver.update(ProfileCCContract.CONTENT_URI, profile.getContentValues(),
                 ProfileCCContract.USERID + "=?", new String[]{userId.toString()});
 
@@ -43,10 +52,13 @@ public class ProfileDAO {
 
     }
 
-    public ProfileCC getProfile(Long userId) {
+    public ProfileCC getProfile(Long userId)
+    {
         Cursor cursor = contentResolver.query(ProfileCCContract.CONTENT_URI, null, ProfileCCContract.USERID + "=?", new String[]{userId.toString()}, null);
         if (cursor.moveToFirst())
+        {
             return ProfileCC.fromCursor(cursor);
+        }
         return null;
     }
 }

@@ -35,7 +35,8 @@ import com.qsoft.pilotproject.ui.model.UiProfileModel;
  * Time: 3:48 PM
  */
 @EActivity(R.layout.profile_setup)
-public class ProfileSetupActivity extends SuperAnnotationActivity {
+public class ProfileSetupActivity extends SuperAnnotationActivity
+{
     final Context context = this;
     static final int DATE_DIALOG_ID = 999;
     static final int RESULT_LOAD_IMAGE = 1;
@@ -100,7 +101,8 @@ public class ProfileSetupActivity extends SuperAnnotationActivity {
     ProfileCC profile;
 
     @AfterViews
-    void setupData() {
+    void setupData()
+    {
 //        imageLoader = new ImageLoader(getApplicationContext());
         account = applicationAccountManager.getAccount();
         countryList = getResources().getStringArray(R.array.country);
@@ -109,14 +111,16 @@ public class ProfileSetupActivity extends SuperAnnotationActivity {
         Log.d(TAG, "get profile from server and push to local");
         doGetProfileFromService();
         Cursor cursor = contentResolver.query(ProfileCCContract.CONTENT_URI, null, null, null, null);
-        if (cursor.moveToFirst()) {
+        if (cursor.moveToFirst())
+        {
             profile = ProfileCC.fromCursor(cursor);
             setToView();
         }
     }
 
     @Background
-    void doGetProfileFromService() {
+    void doGetProfileFromService()
+    {
         Log.d(TAG, "doInBackground: ");
         String userIdStr = accountManager.getUserData(account, LoginActivity.USER_ID_KEY);
         long userId = Long.valueOf(userIdStr);
@@ -126,69 +130,85 @@ public class ProfileSetupActivity extends SuperAnnotationActivity {
     }
 
     @UiThread
-    void updateProfileUI(ProfileCC profileCC) {
+    void updateProfileUI(ProfileCC profileCC)
+    {
         String[] args = {profileCC.getUserId().toString()};
         int updated = contentResolver.update(ProfileCCContract.CONTENT_URI, profileCC.getContentValues(), "userId=?", args);
-        if (updated == 0) {
+        if (updated == 0)
+        {
             contentResolver.insert(ProfileCCContract.CONTENT_URI, profileCC.getContentValues());
         }
     }
 
-    void setToView() {
+    void setToView()
+    {
         tvBirthday.setText(profile.getBirthday());
         etDisplayName.setText(profile.getDisplayName());
         etFullName.setText(profile.getFullName());
         etPhone.setText(profile.getPhone());
         etDescription.setText(profile.getDescription());
-        if (profile.getGender() == 0) {
+        if (profile.getGender() == 0)
+        {
             imFemale.setSelected(true);
-        } else {
+        }
+        else
+        {
             imMale.setSelected(true);
         }
-        if (profile.getCountryId() != null && !profile.getCountryId().isEmpty()) {
+        if (profile.getCountryId() != null && !profile.getCountryId().isEmpty())
+        {
             int index = -1;
 
-            for (int i = 0; i < countryCodes.length; i++) {
-                if (countryCodes[i].equals(profile.getCountryId())) {
+            for (int i = 0; i < countryCodes.length; i++)
+            {
+                if (countryCodes[i].equals(profile.getCountryId()))
+                {
                     index = i;
                     break;
                 }
             }
-            if (index != -1) {
+            if (index != -1)
+            {
                 tvCountry.setText(countryList[index]);
             }
         }
         // load image
-        if (profile.getAvatar() != null) {
+        if (profile.getAvatar() != null)
+        {
             loadAvatar(profile.getAvatar());
         }
 
-        if (profile.getCoverImage() != null) {
+        if (profile.getCoverImage() != null)
+        {
             loadCoverImage(profile.getCoverImage());
         }
     }
 
     @Background
-    void loadAvatar(String url) {
+    void loadAvatar(String url)
+    {
         Bitmap imageAvatar = imageLoader.getBitmap(url, R.drawable.profile_icon);
         setImageProfile(imageAvatar);
     }
 
     @Background
-    void loadCoverImage(String url) {
+    void loadCoverImage(String url)
+    {
         Bitmap imageCover = imageLoader.getBitmap(url, R.drawable.profile_cover);
         Drawable d = new BitmapDrawable(getResources(), imageCover);
         setCoverBackground(d);
     }
 
     @UiThread
-    void setCoverBackground(Drawable d) {
+    void setCoverBackground(Drawable d)
+    {
         rlCover.setBackground(d);
     }
 
 
     @Click(R.id.ibProfileSave)
-    void doSave() {
+    void doSave()
+    {
         Log.d(TAG, "save ok");
 
         UiProfileModel uiProfileModel = new UiProfileModel();
@@ -199,6 +219,7 @@ public class ProfileSetupActivity extends SuperAnnotationActivity {
         uiProfileModel.setGender(imMale.isSelected() ? 1 : 0);
         uiProfileModel.setCountryId("SA");
         uiProfileModel.setDescription(etDescription.getText().toString());
+        profileService.updateMyProfile(uiProfileModel);
 //        updateProfile(profileUpdate);
 //    }
 
@@ -212,12 +233,14 @@ public class ProfileSetupActivity extends SuperAnnotationActivity {
 //    }
 
     @UiThread
-    void showMessage() {
+    void showMessage()
+    {
         Toast.makeText(getBaseContext(), "Save successful", Toast.LENGTH_LONG).show();
     }
 
     @Click(R.id.ibProfileCancel)
-    void doClickProfileCancel() {
+    void doClickProfileCancel()
+    {
         Log.d(TAG, "cancel ok");
         Intent intent = getIntent();
         setResult(RESULT_CANCELED, intent);
@@ -225,10 +248,14 @@ public class ProfileSetupActivity extends SuperAnnotationActivity {
     }
 
     @Click(R.id.profile_ibleft)
-    void doClickProfileFemale() {
-        if (imFemale.isSelected()) {
+    void doClickProfileFemale()
+    {
+        if (imFemale.isSelected())
+        {
 
-        } else {
+        }
+        else
+        {
             imFemale.setSelected(true);
             imFemale.setImageDrawable(getApplicationContext().getResources().getDrawable(R.drawable.profile_btn_select_left));
             imMale.setImageDrawable(getApplicationContext().getResources().getDrawable(R.drawable.profile_btn_unselect_right));
@@ -237,10 +264,14 @@ public class ProfileSetupActivity extends SuperAnnotationActivity {
     }
 
     @Click(R.id.profile_ibright)
-    void doClickProfileMale() {
-        if (imMale.isSelected()) {
+    void doClickProfileMale()
+    {
+        if (imMale.isSelected())
+        {
 
-        } else {
+        }
+        else
+        {
             imMale.setSelected(true);
             imMale.setImageDrawable(getApplicationContext().getResources().getDrawable(R.drawable.profile_btn_select_right));
             imFemale.setImageDrawable(getApplicationContext().getResources().getDrawable(R.drawable.profile_btn_unselect_left));
@@ -251,19 +282,22 @@ public class ProfileSetupActivity extends SuperAnnotationActivity {
 
 
     @Click(R.id.profile_relativeLayout)
-    void doClickCover() {
+    void doClickCover()
+    {
         flag = true;
         uploadImage();
     }
 
     @Click(R.id.profile_iv_icon)
-    void doClickProfileIcon() {
+    void doClickProfileIcon()
+    {
         flag = false;
         uploadImage();
 
     }
 
-    void uploadImage() {
+    void uploadImage()
+    {
         Intent i = new Intent(
                 Intent.ACTION_PICK,
                 MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
@@ -273,20 +307,25 @@ public class ProfileSetupActivity extends SuperAnnotationActivity {
 
 
     @OnActivityResult(RESULT_LOAD_IMAGE)
-    void onResult(int resultCode, Intent data) {
-        if (resultCode == RESULT_OK && null != data && flag == true) {
+    void onResult(int resultCode, Intent data)
+    {
+        if (resultCode == RESULT_OK && null != data && flag == true)
+        {
             Bitmap bmImg = profileController.getBitmap(data);
             Bitmap bMapScaled = Bitmap.createScaledBitmap(bmImg, rlCover.getWidth(), rlCover.getHeight(), true);
             Drawable drawable = new BitmapDrawable(bMapScaled);
             rlCover.setBackgroundDrawable(drawable);
-        } else if (resultCode == RESULT_OK && null != data && flag == false) {
+        }
+        else if (resultCode == RESULT_OK && null != data && flag == false)
+        {
             Bitmap bmImg = profileController.getBitmap(data);
             setImageProfile(bmImg);
         }
     }
 
     @UiThread
-    void setImageProfile(Bitmap bmImg) {
+    void setImageProfile(Bitmap bmImg)
+    {
         Bitmap mask = BitmapFactory.decodeResource(getResources(), R.drawable.profile_mask);
 
         Bitmap result = Bitmap.createBitmap(mask.getWidth(), mask.getHeight(), Bitmap.Config.ARGB_8888);
@@ -305,18 +344,22 @@ public class ProfileSetupActivity extends SuperAnnotationActivity {
     }
 
     @Click(R.id.profile_tv_birthday)
-    void doClickBirthday() {
+    void doClickBirthday()
+    {
         showDialog(DATE_DIALOG_ID);
     }
 
     @Click(R.id.profile_et_country)
-    void doClickCountry() {
+    void doClickCountry()
+    {
         viewListCountry();
     }
 
     @Override
-    protected Dialog onCreateDialog(int id) {
-        switch (id) {
+    protected Dialog onCreateDialog(int id)
+    {
+        switch (id)
+        {
             case DATE_DIALOG_ID:
                 // set date picker as current date
                 return new DatePickerDialog(this, datePickerListener, year, month,
@@ -325,10 +368,12 @@ public class ProfileSetupActivity extends SuperAnnotationActivity {
         return null;
     }
 
-    DatePickerDialog.OnDateSetListener datePickerListener = new DatePickerDialog.OnDateSetListener() {
+    DatePickerDialog.OnDateSetListener datePickerListener = new DatePickerDialog.OnDateSetListener()
+    {
 
         public void onDateSet(DatePicker view, int selectedYear,
-                              int selectedMonth, int selectedDay) {
+                              int selectedMonth, int selectedDay)
+        {
             year = selectedYear;
             month = selectedMonth;
             day = selectedDay;
@@ -339,21 +384,26 @@ public class ProfileSetupActivity extends SuperAnnotationActivity {
         }
     };
 
-    void viewListCountry() {
+    void viewListCountry()
+    {
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
         builder.setTitle("list country");
 
-        builder.setSingleChoiceItems(countryList, -1, new DialogInterface.OnClickListener() {
+        builder.setSingleChoiceItems(countryList, -1, new DialogInterface.OnClickListener()
+        {
 
             @Override
-            public void onClick(DialogInterface dialog, int which) {
+            public void onClick(DialogInterface dialog, int which)
+            {
                 tvCountry.setText(countryList[which]);
             }
         });
-        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+        builder.setPositiveButton("OK", new DialogInterface.OnClickListener()
+        {
 
             @Override
-            public void onClick(DialogInterface dialog, int which) {
+            public void onClick(DialogInterface dialog, int which)
+            {
             }
         });
         builder.show();
