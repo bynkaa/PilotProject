@@ -14,8 +14,8 @@ import android.provider.MediaStore;
 import android.widget.Toast;
 import com.googlecode.androidannotations.annotations.EBean;
 import com.googlecode.androidannotations.annotations.RootContext;
-import com.qsoft.pilotproject.adapter.CropOption;
-import com.qsoft.pilotproject.adapter.CropOptionAdapter;
+import com.qsoft.pilotproject.ui.adapter.CropOption;
+import com.qsoft.pilotproject.ui.adapter.CropOptionAdapter;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -27,8 +27,7 @@ import java.util.List;
  * Time: 2:20 PM
  */
 @EBean
-public class ProfileController
-{
+public class ProfileController {
     @RootContext
     Activity activity;
 
@@ -37,8 +36,7 @@ public class ProfileController
     static final int CROP_FROM_CAMERA = 2;
     static final int PICK_FROM_FILE = 3;
 
-    public Bitmap getBitmap(Intent data)
-    {
+    public Bitmap getBitmap(Intent data) {
         Uri selectedImage = data.getData();
         String[] filePathColumn = {MediaStore.Images.Media.DATA};
 
@@ -53,10 +51,8 @@ public class ProfileController
         return BitmapFactory.decodeFile(picturePath);
     }
 
-    public void doCrop(String filePath)
-    {
-        try
-        {
+    public void doCrop(String filePath) {
+        try {
             //New Flow
             mImageCaptureUri = Uri.fromFile(new File(filePath));
 
@@ -66,13 +62,10 @@ public class ProfileController
             List<ResolveInfo> list = activity.getPackageManager().queryIntentActivities(intent, 0);
 
             int size = list.size();
-            if (size == 0)
-            {
+            if (size == 0) {
                 Toast.makeText(activity, "Can not find image crop app", Toast.LENGTH_SHORT).show();
                 return;
-            }
-            else
-            {
+            } else {
                 intent.setData(mImageCaptureUri);
                 intent.putExtra("outputX", 300);
                 intent.putExtra("outputY", 300);
@@ -81,18 +74,13 @@ public class ProfileController
                 intent.putExtra("scale", true);
                 intent.putExtra("return-data", true);
 
-                if (size == 1)
-                {
+                if (size == 1) {
                     Intent i = new Intent(intent);
                     ResolveInfo res = list.get(0);
                     i.setComponent(new ComponentName(res.activityInfo.packageName, res.activityInfo.name));
                     activity.startActivityForResult(i, CROP_FROM_CAMERA);
-                }
-
-                else
-                {
-                    for (ResolveInfo res : list)
-                    {
+                } else {
+                    for (ResolveInfo res : list) {
                         final CropOption co = new CropOption();
                         co.title = activity.getPackageManager().getApplicationLabel(res.activityInfo.applicationInfo);
                         co.icon = activity.getPackageManager().getApplicationIcon(res.activityInfo.applicationInfo);
@@ -104,20 +92,15 @@ public class ProfileController
                     CropOptionAdapter adapter = new CropOptionAdapter(activity.getApplicationContext(), cropOptions);
                     AlertDialog.Builder builder = new AlertDialog.Builder(activity);
                     builder.setTitle("Choose Crop App");
-                    builder.setAdapter(adapter, new DialogInterface.OnClickListener()
-                    {
-                        public void onClick(DialogInterface dialog, int item)
-                        {
+                    builder.setAdapter(adapter, new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int item) {
                             activity.startActivityForResult(cropOptions.get(item).appIntent, CROP_FROM_CAMERA);
                         }
                     });
 
-                    builder.setOnCancelListener(new DialogInterface.OnCancelListener()
-                    {
-                        public void onCancel(DialogInterface dialog)
-                        {
-                            if (mImageCaptureUri != null)
-                            {
+                    builder.setOnCancelListener(new DialogInterface.OnCancelListener() {
+                        public void onCancel(DialogInterface dialog) {
+                            if (mImageCaptureUri != null) {
                                 activity.getContentResolver().delete(mImageCaptureUri, null, null);
                                 mImageCaptureUri = null;
                             }
@@ -127,9 +110,7 @@ public class ProfileController
                     alert.show();
                 }
             }
-        }
-        catch (Exception ex)
-        {
+        } catch (Exception ex) {
 //            genHelper.showErrorLog("Error in Crop Function-->"+ex.toString());
         }
     }

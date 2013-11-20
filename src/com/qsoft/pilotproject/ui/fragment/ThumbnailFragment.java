@@ -7,7 +7,7 @@ import com.googlecode.androidannotations.annotations.EFragment;
 import com.googlecode.androidannotations.annotations.FragmentArg;
 import com.googlecode.androidannotations.annotations.ViewById;
 import com.qsoft.pilotproject.R;
-import com.qsoft.pilotproject.imageloader.ImageLoader;
+import com.qsoft.pilotproject.common.imageloader.ImageLoader;
 
 /**
  * User: binhtv
@@ -15,16 +15,14 @@ import com.qsoft.pilotproject.imageloader.ImageLoader;
  * Time: 11:52 AM
  */
 @EFragment(R.layout.program_thumnail)
-public class ThumbnailFragment extends Fragment
-{
+public class ThumbnailFragment extends Fragment {
     @FragmentArg(ProgramFragment.THUMBNAIL)
     String urlThumbnail;
     @ViewById(R.id.imThumbnail)
     ImageView ivThumbnail;
 
     @AfterViews
-    void afterViews()
-    {
+    void afterViews() {
         ImageLoader imageLoader = new ImageLoader(getActivity());
         imageLoader.DisplayImage(urlThumbnail, ivThumbnail, R.drawable.content_imagedefault);
     }

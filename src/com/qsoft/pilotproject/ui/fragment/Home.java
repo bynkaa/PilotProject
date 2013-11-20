@@ -9,9 +9,9 @@ import android.view.Menu;
 import android.widget.Button;
 import com.googlecode.androidannotations.annotations.*;
 import com.qsoft.pilotproject.R;
-import com.qsoft.pilotproject.authenticator.ApplicationAccountManager;
-import com.qsoft.pilotproject.provider.cc.CCContract;
-import com.qsoft.pilotproject.rest.OnlineDioClientProxy;
+import com.qsoft.pilotproject.common.authenticator.ApplicationAccountManager;
+import com.qsoft.pilotproject.data.provider.CCContract;
+import com.qsoft.pilotproject.data.rest.OnlineDioClientProxy;
 import com.qsoft.pilotproject.ui.activity.SlideBarActivity;
 import com.qsoft.pilotproject.ui.controller.CommonController;
 
@@ -21,8 +21,7 @@ import com.qsoft.pilotproject.ui.controller.CommonController;
  * Time: 4:19 PM
  */
 @EFragment(R.layout.home)
-public class Home extends Fragment
-{
+public class Home extends Fragment {
     private static final String TAG = "Home";
     @ViewById(R.id.btMenu)
     Button btMenu;
@@ -40,29 +39,22 @@ public class Home extends Fragment
 
     ProgressDialog progressDialog;
 
-    private SyncStatusObserver syncStatusObserver = new SyncStatusObserver()
-    {
+    private SyncStatusObserver syncStatusObserver = new SyncStatusObserver() {
         @Override
-        public void onStatusChanged(int i)
-        {
-            getActivity().runOnUiThread(new Runnable()
-            {
+        public void onStatusChanged(int i) {
+            getActivity().runOnUiThread(new Runnable() {
                 @Override
-                public void run()
-                {
+                public void run() {
                     Account account = applicationAccountManager.getAccount();
-                    if (account == null)
-                    {
+                    if (account == null) {
                         //
                         return;
                     }
                     boolean syncActive = ContentResolver.isSyncActive(account, CCContract.AUTHORITY);
                     boolean syncPending = ContentResolver.isSyncPending(account, CCContract.AUTHORITY);
                     // set refresh
-                    if (!(syncActive || syncPending))
-                    {
-                        if (progressDialog != null)
-                        {
+                    if (!(syncActive || syncPending)) {
+                        if (progressDialog != null) {
                             progressDialog.dismiss();
                         }
                     }
@@ -72,8 +64,7 @@ public class Home extends Fragment
     };
 
     @Override
-    public void onResume()
-    {
+    public void onResume() {
         super.onResume();
         syncStatusObserver.onStatusChanged(0);
         final int mask = ContentResolver.SYNC_OBSERVER_TYPE_PENDING | ContentResolver.SYNC_OBSERVER_TYPE_ACTIVE;
@@ -82,8 +73,7 @@ public class Home extends Fragment
     }
 
     @Override
-    public void onPause()
-    {
+    public void onPause() {
         super.onPause();
         if (syncObserverHandler != null)
 
@@ -95,8 +85,7 @@ public class Home extends Fragment
 
 
     @AfterViews
-    void afterViews()
-    {
+    void afterViews() {
         Account account = applicationAccountManager.getAccount();
         ContentResolver.setIsSyncable(account, CCContract.AUTHORITY, 1);
         ContentResolver.setSyncAutomatically(account, CCContract.AUTHORITY, true);
@@ -115,15 +104,13 @@ public class Home extends Fragment
 //    }
 
     @Click(R.id.btNotification)
-    void doClickNotification()
-    {
+    void doClickNotification() {
         progressDialog = ProgressDialog.show(getActivity(), "Progress Dialog", "Loading...");
         commonController.triggerSync();
     }
 
     @Click(R.id.btMenu)
-    void doClickMenu()
-    {
+    void doClickMenu() {
         ((SlideBarActivity) getActivity()).setOpenOption();
     }
 

@@ -12,10 +12,10 @@ import android.widget.TextView;
 import com.googlecode.androidannotations.annotations.*;
 import com.qsoft.pilotproject.R;
 import com.qsoft.pilotproject.common.CommandExecutor;
-import com.qsoft.pilotproject.model.ProgramTab;
-import com.qsoft.pilotproject.model.cc.FeedCC;
-import com.qsoft.pilotproject.model.cc.FeedCCContract;
-import com.qsoft.pilotproject.utils.Utilities;
+import com.qsoft.pilotproject.common.utils.Utilities;
+import com.qsoft.pilotproject.config.ProgramTab;
+import com.qsoft.pilotproject.data.model.entity.FeedCC;
+import com.qsoft.pilotproject.data.model.entity.FeedCCContract;
 
 /**
  * User: binhtv
@@ -23,8 +23,7 @@ import com.qsoft.pilotproject.utils.Utilities;
  * Time: 8:59 AM
  */
 @EFragment(R.layout.program)
-public class ProgramFragment extends Fragment
-{
+public class ProgramFragment extends Fragment {
     static final String TAG = "ProgramFragment";
     private static final int RC_SLIDE_BAR_ACTIVITY = 5;
     public static final String DETAIL_FRAGMENT = "detail";
@@ -53,15 +52,13 @@ public class ProgramFragment extends Fragment
 
 
     @AfterViews
-    void afterViews()
-    {
+    void afterViews() {
         setRetainInstance(true);
         startContentPlayerFragment();
 
         Bundle bundle = getArguments();
         Long id = bundle.getLong(HomeListFragment.FEED_ID);
-        if (id == null)
-        {
+        if (id == null) {
             Log.e(TAG, "ProgramFragment ERROR");
         }
         Uri singleUri = ContentUris.withAppendedId(FeedCCContract.CONTENT_URI, id);
@@ -69,8 +66,7 @@ public class ProgramFragment extends Fragment
         Cursor cursor = getActivity().getContentResolver().query(singleUri, null, null, null, null);
         assert cursor != null;
 
-        while (cursor.moveToNext())
-        {
+        while (cursor.moveToNext()) {
             feed = FeedCC.fromCursor(cursor);
         }
 
@@ -79,8 +75,7 @@ public class ProgramFragment extends Fragment
         tvLikes.setText(Integer.toString(feed.getLikes()));
         tvLooks.setText(Integer.toString(feed.getViewed()));
         String played = feed.getPlayed();
-        if (played == null)
-        {
+        if (played == null) {
             played = 0 + "";
         }
         tvPlayed.setText(played);
@@ -93,8 +88,7 @@ public class ProgramFragment extends Fragment
     }
 
     @Click(R.id.ibProgramBack)
-    void doClickBack()
-    {
+    void doClickBack() {
         setRetainInstance(false);
         ContentPlayerFragment_ playerFragment = (ContentPlayerFragment_) getFragmentManager().findFragmentById(R.id.contentPlayerFragment);
         playerFragment.setRetainInstance(false);
@@ -102,14 +96,11 @@ public class ProgramFragment extends Fragment
         getFragmentManager().popBackStack();
     }
 
-    RadioGroup.OnCheckedChangeListener programTabOnCheckChangeListener = new RadioGroup.OnCheckedChangeListener()
-    {
+    RadioGroup.OnCheckedChangeListener programTabOnCheckChangeListener = new RadioGroup.OnCheckedChangeListener() {
         @Override
-        public void onCheckedChanged(RadioGroup radioGroup, int i)
-        {
+        public void onCheckedChanged(RadioGroup radioGroup, int i) {
             int checkedRbTab = rgProgramTab.getCheckedRadioButtonId();
-            switch (checkedRbTab)
-            {
+            switch (checkedRbTab) {
                 case R.id.rbThumbnail:
                     currentTab = ProgramTab.THUMB_NAIL;
                     break;
@@ -124,20 +115,16 @@ public class ProgramFragment extends Fragment
         }
     };
 
-    void startContentPlayerFragment()
-    {
+    void startContentPlayerFragment() {
         Fragment playerFragment = getFragmentManager().findFragmentById(R.id.contentPlayerFragment);
-        if (playerFragment == null)
-        {
+        if (playerFragment == null) {
             getFragmentManager().beginTransaction().replace(R.id.contentPlayerFragment, new ContentPlayerFragment_()).commit();
         }
     }
 
-    void updateProgramFragment()
-    {
+    void updateProgramFragment() {
         Fragment fragmentContainer = getFragmentManager().findFragmentById(R.id.fragmentContainer);
-        switch (currentTab)
-        {
+        switch (currentTab) {
             case DETAIL:
                 fragmentContainer = new DetailFragment_();
                 Bundle detailBundle = new Bundle();

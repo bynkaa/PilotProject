@@ -8,9 +8,9 @@ import android.widget.SeekBar;
 import android.widget.TextView;
 import com.googlecode.androidannotations.annotations.*;
 import com.qsoft.pilotproject.R;
+import com.qsoft.pilotproject.common.utils.Utilities;
 import com.qsoft.pilotproject.ui.controller.MediaController;
 import com.qsoft.pilotproject.ui.fragment.player.UpdateProgressBar;
-import com.qsoft.pilotproject.utils.Utilities;
 
 /**
  * User: BinkaA
@@ -18,8 +18,7 @@ import com.qsoft.pilotproject.utils.Utilities;
  * Time: 11:24 PM
  */
 @EFragment(R.layout.program_content_player)
-public class ContentPlayerFragment extends Fragment
-{
+public class ContentPlayerFragment extends Fragment {
     @ViewById(R.id.seekBarPlayer)
     SeekBar songSeekBar;
     @ViewById(R.id.seekBarVolume)
@@ -39,8 +38,7 @@ public class ContentPlayerFragment extends Fragment
     UpdateProgressBar updateProgressBar;
 
     @AfterViews
-    void afterViews()
-    {
+    void afterViews() {
         setRetainInstance(true);
 
 //        ImageButton imageButton;
@@ -71,34 +69,27 @@ public class ContentPlayerFragment extends Fragment
         initVolumeControls();
     }
 
-    private void initVolumeControls()
-    {
+    private void initVolumeControls() {
         volumeSeekBar.setMax(audioManager.getStreamMaxVolume(AudioManager.STREAM_MUSIC));
         volumeSeekBar.setProgress(audioManager.getStreamVolume(AudioManager.STREAM_MUSIC));
     }
 
     @Click(R.id.ibPlayer)
-    void doPlay()
-    {
-        if (mediaController.getMediaPlayer().isPlaying())
-        {
+    void doPlay() {
+        if (mediaController.getMediaPlayer().isPlaying()) {
             mediaController.getMediaPlayer().pause();
-        }
-        else
-        {
+        } else {
             mediaController.getMediaPlayer().start();
         }
     }
 
     @SeekBarTouchStart(R.id.seekBarPlayer)
-    void onStartTrackingTouchPlayer(SeekBar seekBar)
-    {
+    void onStartTrackingTouchPlayer(SeekBar seekBar) {
         handler.removeCallbacks(updateProgressBar);
     }
 
     @SeekBarTouchStop(R.id.seekBarPlayer)
-    void onStopTrackingTouchPlayer(SeekBar seekBar)
-    {
+    void onStopTrackingTouchPlayer(SeekBar seekBar) {
         handler.removeCallbacks(updateProgressBar);
         int totalDuration = mediaController.getMediaPlayer().getDuration();
         int currentPosition = Utilities.progressToTimer(seekBar.getProgress(), totalDuration);
@@ -107,24 +98,20 @@ public class ContentPlayerFragment extends Fragment
     }
 
     @SeekBarProgressChange(R.id.seekBarVolume)
-    void onProgressChangeOnVolumnSeekBar(SeekBar seekBar, int progress, boolean b)
-    {
+    void onProgressChangeOnVolumnSeekBar(SeekBar seekBar, int progress, boolean b) {
         audioManager.setStreamVolume(AudioManager.STREAM_MUSIC, progress, 0);
     }
 
     @Override
-    public void onDestroy()
-    {
+    public void onDestroy() {
         handler.removeCallbacks(updateProgressBar);
-        if (mediaController.getMediaPlayer() != null)
-        {
+        if (mediaController.getMediaPlayer() != null) {
             mediaController.getMediaPlayer().release();
         }
         super.onDestroy();
     }
 
-    private void updateProgressBar()
-    {
+    private void updateProgressBar() {
         handler.postDelayed(updateProgressBar, 100);
     }
 

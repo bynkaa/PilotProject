@@ -10,16 +10,15 @@ import android.support.v4.content.Loader;
 import android.support.v4.widget.SimpleCursorAdapter;
 import android.view.View;
 import com.qsoft.pilotproject.R;
-import com.qsoft.pilotproject.adapter.CommentAdapter;
-import com.qsoft.pilotproject.provider.OnlineDioContract;
+import com.qsoft.pilotproject.data.provider.OnlineDioContract;
+import com.qsoft.pilotproject.ui.adapter.CommentAdapter;
 
 /**
  * User: BinkaA
  * Date: 11/7/13
  * Time: 10:57 PM
  */
-public class CommentListFragment extends ListFragment implements LoaderManager.LoaderCallbacks<Cursor>
-{
+public class CommentListFragment extends ListFragment implements LoaderManager.LoaderCallbacks<Cursor> {
     private static final String TAG = "CommentListFragment";
     private static final String[] PROJECTION = new String[]
             {
@@ -47,8 +46,7 @@ public class CommentListFragment extends ListFragment implements LoaderManager.L
     CommentAdapter commentAdapter;
 
     @Override
-    public void onViewCreated(View view, Bundle savedInstanceState)
-    {
+    public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         commentAdapter = new CommentAdapter(
                 getActivity(),
@@ -57,12 +55,10 @@ public class CommentListFragment extends ListFragment implements LoaderManager.L
                 FROM_COLUMNS,
                 TO_FIELDS
         );
-        commentAdapter.setViewBinder(new SimpleCursorAdapter.ViewBinder()
-        {
+        commentAdapter.setViewBinder(new SimpleCursorAdapter.ViewBinder() {
 
             @Override
-            public boolean setViewValue(View view, Cursor cursor, int i)
-            {
+            public boolean setViewValue(View view, Cursor cursor, int i) {
                 return false;  //To change body of implemented methods use File | Settings | File Templates.
             }
         });
@@ -72,20 +68,17 @@ public class CommentListFragment extends ListFragment implements LoaderManager.L
     }
 
     @Override
-    public Loader<Cursor> onCreateLoader(int i, Bundle bundle)
-    {
+    public Loader<Cursor> onCreateLoader(int i, Bundle bundle) {
         return new CursorLoader(getActivity(), OnlineDioContract.Comment.CONTENT_URI, PROJECTION, null, null, null);
     }
 
     @Override
-    public void onLoadFinished(Loader<Cursor> cursorLoader, Cursor cursor)
-    {
+    public void onLoadFinished(Loader<Cursor> cursorLoader, Cursor cursor) {
         commentAdapter.changeCursor(cursor);
     }
 
     @Override
-    public void onLoaderReset(Loader<Cursor> cursorLoader)
-    {
+    public void onLoaderReset(Loader<Cursor> cursorLoader) {
         commentAdapter.changeCursor(null);
     }
 }

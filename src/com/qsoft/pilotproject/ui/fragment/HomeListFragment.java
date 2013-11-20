@@ -13,8 +13,9 @@ import android.view.View;
 import android.widget.AbsListView;
 import android.widget.ListView;
 import com.qsoft.pilotproject.R;
-import com.qsoft.pilotproject.adapter.ArrayFeedAdapter;
-import com.qsoft.pilotproject.model.cc.FeedCCContract;
+import com.qsoft.pilotproject.config.AppSetting;
+import com.qsoft.pilotproject.data.model.entity.FeedCCContract;
+import com.qsoft.pilotproject.ui.adapter.ArrayFeedAdapter;
 import com.qsoft.pilotproject.ui.controller.CommonController;
 import com.qsoft.pilotproject.ui.controller.CommonController_;
 
@@ -23,8 +24,7 @@ import com.qsoft.pilotproject.ui.controller.CommonController_;
  * Date: 11/1/13
  * Time: 10:17 AM
  */
-public class HomeListFragment extends ListFragment implements LoaderManager.LoaderCallbacks<Cursor>, AbsListView.OnScrollListener
-{
+public class HomeListFragment extends ListFragment implements LoaderManager.LoaderCallbacks<Cursor>, AbsListView.OnScrollListener {
     CommonController commonController;
 
     private static final String TAG = "HomeListFragment";
@@ -64,8 +64,7 @@ public class HomeListFragment extends ListFragment implements LoaderManager.Load
 
 
     @Override
-    public void onViewCreated(View view, Bundle savedInstanceState)
-    {
+    public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         feedAdapter = new ArrayFeedAdapter(
                 getActivity(),
@@ -74,12 +73,10 @@ public class HomeListFragment extends ListFragment implements LoaderManager.Load
                 FROM_COLUMNS,
                 TO_FIELDS
         );
-        feedAdapter.setViewBinder(new SimpleCursorAdapter.ViewBinder()
-        {
+        feedAdapter.setViewBinder(new SimpleCursorAdapter.ViewBinder() {
 
             @Override
-            public boolean setViewValue(View view, Cursor cursor, int i)
-            {
+            public boolean setViewValue(View view, Cursor cursor, int i) {
                 return false;  //To change body of implemented methods use File | Settings | File Templates.
             }
         });
@@ -89,8 +86,7 @@ public class HomeListFragment extends ListFragment implements LoaderManager.Load
     }
 
     @Override
-    public void onListItemClick(ListView l, View v, int position, long id)
-    {
+    public void onListItemClick(ListView l, View v, int position, long id) {
         super.onListItemClick(l, v, position, id);
         Bundle bundle = new Bundle();
         bundle.putLong(FEED_ID, id);
@@ -98,8 +94,7 @@ public class HomeListFragment extends ListFragment implements LoaderManager.Load
         programFragment.setArguments(bundle);
         FragmentTransaction fragmentTransaction = getParentFragment().getFragmentManager().beginTransaction();
         Fragment playerFragment = getFragmentManager().findFragmentById(R.id.content_fragment);
-        if (playerFragment != null)
-        {
+        if (playerFragment != null) {
             fragmentTransaction.remove(playerFragment);
         }
         fragmentTransaction.replace(R.id.content_fragment, programFragment).addToBackStack(null);
@@ -108,21 +103,19 @@ public class HomeListFragment extends ListFragment implements LoaderManager.Load
 
 
     @Override
-    public Loader<Cursor> onCreateLoader(int i, Bundle bundle)
-    {
+    public Loader<Cursor> onCreateLoader(int i, Bundle bundle) {
 //        return new CursorLoader(getActivity(), OnlineDioContract.Feed.CONTENT_URI, PROJECTION, null, null, null);
-        return new CursorLoader(getActivity(), FeedCCContract.CONTENT_URI, PROJECTION, null, null, null);
+
+        return new CursorLoader(getActivity(), FeedCCContract.CONTENT_URI, PROJECTION, null, null, FeedCCContract.CREATEDAT + " DESC limit " + AppSetting.VIEW_PAGING);
     }
 
     @Override
-    public void onLoadFinished(Loader<Cursor> cursorLoader, Cursor cursor)
-    {
+    public void onLoadFinished(Loader<Cursor> cursorLoader, Cursor cursor) {
         feedAdapter.changeCursor(cursor);
     }
 
     @Override
-    public void onLoaderReset(Loader<Cursor> cursorLoader)
-    {
+    public void onLoaderReset(Loader<Cursor> cursorLoader) {
         feedAdapter.changeCursor(null);
     }
 
@@ -131,23 +124,19 @@ public class HomeListFragment extends ListFragment implements LoaderManager.Load
     int currentScrollState;
 
     @Override
-    public void onScrollStateChanged(AbsListView absListView, int scrollState)
-    {
+    public void onScrollStateChanged(AbsListView absListView, int scrollState) {
         this.currentScrollState = scrollState;
         isScrollCompleted();
     }
 
     @Override
-    public void onScroll(AbsListView absListView, int firstVisibleItem, int visibleItemCount, int totalItemCount)
-    {
+    public void onScroll(AbsListView absListView, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
         this.currentFirstVisibleItem = firstVisibleItem;
         this.currentVisibleItemCount = visibleItemCount;
     }
 
-    public void isScrollCompleted()
-    {
-        if (currentVisibleItemCount > 0 && currentScrollState == SCROLL_STATE_IDLE)
-        {
+    public void isScrollCompleted() {
+        if (currentVisibleItemCount > 0 && currentScrollState == SCROLL_STATE_IDLE) {
 
             loadMore++;
             String limit = Integer.toString(loadMore * 10 + 10);

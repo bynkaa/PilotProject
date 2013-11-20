@@ -6,15 +6,14 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import com.googlecode.androidannotations.annotations.EBean;
 import com.googlecode.androidannotations.api.Scope;
-import com.qsoft.pilotproject.utils.Utilities;
+import com.qsoft.pilotproject.common.utils.Utilities;
 
 /**
  * User: Le
  * Date: 11/8/13
  */
 @EBean(scope = Scope.Singleton)
-public class UpdateProgressBar implements Runnable
-{
+public class UpdateProgressBar implements Runnable {
 // ------------------------------ FIELDS ------------------------------
 
     private MediaPlayer mediaPlayer;
@@ -26,53 +25,43 @@ public class UpdateProgressBar implements Runnable
 
 // --------------------- GETTER / SETTER METHODS ---------------------
 
-    public Handler getHandler()
-    {
+    public Handler getHandler() {
         return handler;
     }
 
-    public void setHandler(Handler handler)
-    {
+    public void setHandler(Handler handler) {
         this.handler = handler;
     }
 
-    public MediaPlayer getMediaPlayer()
-    {
+    public MediaPlayer getMediaPlayer() {
         return mediaPlayer;
     }
 
-    public void setMediaPlayer(MediaPlayer mediaPlayer)
-    {
+    public void setMediaPlayer(MediaPlayer mediaPlayer) {
         this.mediaPlayer = mediaPlayer;
     }
 
-    public ProgressBar getSongProgressBar()
-    {
+    public ProgressBar getSongProgressBar() {
         return songProgressBar;
     }
 
-    public void setSongProgressBar(ProgressBar songProgressBar)
-    {
+    public void setSongProgressBar(ProgressBar songProgressBar) {
         this.songProgressBar = songProgressBar;
     }
 
-    public TextView getTvCurrentDuration()
-    {
+    public TextView getTvCurrentDuration() {
         return tvCurrentDuration;
     }
 
-    public void setTvCurrentDuration(TextView tvCurrentDuration)
-    {
+    public void setTvCurrentDuration(TextView tvCurrentDuration) {
         this.tvCurrentDuration = tvCurrentDuration;
     }
 
-    public TextView getTvTotalDuration()
-    {
+    public TextView getTvTotalDuration() {
         return tvTotalDuration;
     }
 
-    public void setTvTotalDuration(TextView tvTotalDuration)
-    {
+    public void setTvTotalDuration(TextView tvTotalDuration) {
         this.tvTotalDuration = tvTotalDuration;
     }
 
@@ -82,10 +71,8 @@ public class UpdateProgressBar implements Runnable
 // --------------------- Interface Runnable ---------------------
 
     @Override
-    public void run()
-    {
-        if (mediaPlayer != null)
-        {
+    public void run() {
+        if (mediaPlayer != null) {
             long totalDuration = mediaPlayer.getDuration();
             long currentDuration = mediaPlayer.getCurrentPosition();
             tvTotalDuration.setText("" + Utilities.milliSecondsToTimer(totalDuration));

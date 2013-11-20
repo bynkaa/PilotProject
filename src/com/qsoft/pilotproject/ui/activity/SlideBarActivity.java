@@ -13,10 +13,10 @@ import android.widget.ListView;
 import android.widget.Toast;
 import com.googlecode.androidannotations.annotations.*;
 import com.qsoft.pilotproject.R;
-import com.qsoft.pilotproject.adapter.SideBarItemAdapter;
-import com.qsoft.pilotproject.authenticator.ApplicationAccountManager;
 import com.qsoft.pilotproject.common.CommandExecutor;
+import com.qsoft.pilotproject.common.authenticator.ApplicationAccountManager;
 import com.qsoft.pilotproject.common.commands.GenericStartActivityCommand;
+import com.qsoft.pilotproject.ui.adapter.SideBarItemAdapter;
 import com.qsoft.pilotproject.ui.fragment.Home_;
 
 /**
@@ -25,8 +25,7 @@ import com.qsoft.pilotproject.ui.fragment.Home_;
  * Time: 10:47 AM
  */
 @EActivity(R.layout.slidebar)
-public class SlideBarActivity extends FragmentActivity
-{
+public class SlideBarActivity extends FragmentActivity {
     @SystemService
     AccountManager accountManager;
 
@@ -67,12 +66,10 @@ public class SlideBarActivity extends FragmentActivity
     CommandExecutor commandExecutor;
 
     @AfterViews
-    void afterViews()
-    {
+    void afterViews() {
         Fragment currentFragment = getSupportFragmentManager().findFragmentById(R.id.content_fragment);
 
-        if (currentFragment == null)
-        {
+        if (currentFragment == null) {
             getSupportFragmentManager().beginTransaction().add(R.id.content_fragment, new Home_()).addToBackStack(null).commit();
         }
 
@@ -80,18 +77,15 @@ public class SlideBarActivity extends FragmentActivity
     }
 
     @Click(R.id.ibMyStation)
-    void onClickMyStation(View view)
-    {
+    void onClickMyStation(View view) {
         Log.d(TAG, "profile setup");
         commandExecutor.execute(this,
                 new GenericStartActivityCommand(this, ProfileSetupActivity_.class, RC_PROFILE_SETUP_ACTIVITY), false);
     }
 
     @OnActivityResult(RC_PROFILE_SETUP_ACTIVITY)
-    void onProfileResult(int resultCode, Intent data)
-    {
-        if (resultCode == Activity.RESULT_OK)
-        {
+    void onProfileResult(int resultCode, Intent data) {
+        if (resultCode == Activity.RESULT_OK) {
             // do something here
 
         }
@@ -99,53 +93,41 @@ public class SlideBarActivity extends FragmentActivity
     }
 
     @OnActivityResult(RC_COMMENT_FRAGMENT)
-    void onCommentResult(int resultCode, Intent data)
-    {
-        if (resultCode == Activity.RESULT_OK)
-        {
-            if (data.hasExtra(NewCommentActivity.COMMENT_EXTRA))
-            {
+    void onCommentResult(int resultCode, Intent data) {
+        if (resultCode == Activity.RESULT_OK) {
+            if (data.hasExtra(NewCommentActivity.COMMENT_EXTRA)) {
 //                Comment comment = (Comment) data.getExtras().get(NewCommentActivity.COMMENT_EXTRA);
             }
         }
     }
 
     @ItemClick(R.id.lvSlideBar)
-    void doItemClick()
-    {
+    void doItemClick() {
         // on item click
     }
 
-    public void setListViewSlideBar()
-    {
+    public void setListViewSlideBar() {
         SideBarItemAdapter sideBarItemAdapter = new SideBarItemAdapter(this, R.layout.menu, SIDE_BAR_ITEMS);
         lvSlideBar.setAdapter(sideBarItemAdapter);
     }
 
-    public void setOpenOption()
-    {
+    public void setOpenOption() {
         dlSlideBar.openDrawer(leftDrawerView);
 
     }
 
-    public void setCloseOption()
-    {
+    public void setCloseOption() {
         dlSlideBar.closeDrawer(leftDrawerView);
     }
 
     private boolean lastBack = false;
 
     @Override
-    public void onBackPressed()
-    {
-        if (getFragmentManager().getBackStackEntryCount() > 1)
-        {
+    public void onBackPressed() {
+        if (getFragmentManager().getBackStackEntryCount() > 1) {
             getSupportFragmentManager().popBackStack();
-        }
-        else
-        {
-            if (lastBack)
-            {
+        } else {
+            if (lastBack) {
                 finish();
             }
             Toast toast = Toast.makeText(this, "Press Back again to exit program", Toast.LENGTH_LONG);

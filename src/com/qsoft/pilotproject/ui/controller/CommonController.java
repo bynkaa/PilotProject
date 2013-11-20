@@ -8,12 +8,12 @@ import android.util.Log;
 import com.googlecode.androidannotations.annotations.Bean;
 import com.googlecode.androidannotations.annotations.EBean;
 import com.googlecode.androidannotations.annotations.SystemService;
-import com.qsoft.pilotproject.authenticator.AccountGeneral;
-import com.qsoft.pilotproject.authenticator.ApplicationAccountManager;
+import com.qsoft.pilotproject.common.authenticator.AccountGeneral;
+import com.qsoft.pilotproject.common.authenticator.ApplicationAccountManager;
+import com.qsoft.pilotproject.data.model.dto.SignInDTO;
+import com.qsoft.pilotproject.data.provider.cc.CCContract;
 import com.qsoft.pilotproject.handler.AuthenticatorHandler;
 import com.qsoft.pilotproject.handler.impl.AuthenticatorHandlerImpl;
-import com.qsoft.pilotproject.model.dto.SignInDTO;
-import com.qsoft.pilotproject.provider.cc.CCContract;
 
 /**
  * User: binhtv
@@ -21,8 +21,7 @@ import com.qsoft.pilotproject.provider.cc.CCContract;
  * Time: 11:32 AM
  */
 @EBean
-public class CommonController
-{
+public class CommonController {
     public static final String TAG = "CommonController";
     @Bean
     ApplicationAccountManager applicationAccountManager;
@@ -31,26 +30,20 @@ public class CommonController
     @SystemService
     AccountManager accountManager;
 
-    public void refreshToken()
-    {
+    public void refreshToken() {
         // Refresh token by doing login again
-        try
-        {
+        try {
             Account account = applicationAccountManager.getAccount();
             SignInDTO signInDTO = authenticatorHandler.signIn(account.name, accountManager.getPassword(account), AccountGeneral.AUTHTOKEN_TYPE_FULL_ACCESS);
-            if (signInDTO.getAccessToken() != null)
-            {
+            if (signInDTO.getAccessToken() != null) {
                 accountManager.setAuthToken(account, AccountGeneral.AUTHTOKEN_TYPE_FULL_ACCESS, signInDTO.getAccessToken());
             }
-        }
-        catch (Exception e)
-        {
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
-    public void triggerSync()
-    {
+    public void triggerSync() {
         Log.d(TAG, "TriggerSync > account");
         Bundle bundle = new Bundle();
         bundle.putBoolean(ContentResolver.SYNC_EXTRAS_MANUAL, true);

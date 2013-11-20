@@ -26,7 +26,7 @@
         <activity android:name="com.qsoft.pilotproject.ui.activity.NewCommentActivity_"/>
         <activity android:name="com.qsoft.pilotproject.ui.activity.LaunchActivity_"/>
 
-        <service android:name="com.qsoft.pilotproject.authenticator.AuthenticatorService">
+        <service android:name=".common.authenticator.AuthenticatorService">
             <intent-filter>
                 <action android:name="android.accounts.AccountAuthenticator"/>
             </intent-filter>
@@ -35,7 +35,7 @@
                     android:resource="@xml/authenticator"/>
         </service>
         <service
-                android:name="com.qsoft.pilotproject.sync.SyncService_"
+                android:name=".service.sync.SyncService_"
                 android:exported="true">
             <intent-filter>
                 <action android:name="android.content.SyncAdapter"/>
@@ -46,7 +46,7 @@
         </service>
 
         <provider
-                android:name=".provider.cc.CCContentProvider"
+                android:name=".data.provider.cc.CCContentProvider"
                 android:authorities="com.qsoft.pilotproject"
                 android:exported="false"/>
     </application>
