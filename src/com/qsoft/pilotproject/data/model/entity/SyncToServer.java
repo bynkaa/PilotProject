@@ -29,9 +29,9 @@ public class SyncToServer
     @DatabaseField
     Long recordId;
     @DatabaseField
-    Integer group;
+    int group;
     @DatabaseField
-    Integer priority;
+    int priority;
     @DatabaseField
     String action;
     @DatabaseField

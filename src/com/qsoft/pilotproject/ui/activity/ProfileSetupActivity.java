@@ -9,7 +9,6 @@ import android.content.ContentResolver;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.database.Cursor;
 import android.graphics.*;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
@@ -21,9 +20,7 @@ import com.qsoft.pilotproject.R;
 import com.qsoft.pilotproject.common.SuperAnnotationActivity;
 import com.qsoft.pilotproject.common.authenticator.ApplicationAccountManager;
 import com.qsoft.pilotproject.common.imageloader.ImageLoader;
-import com.qsoft.pilotproject.data.model.dto.ProfileDTO;
 import com.qsoft.pilotproject.data.model.entity.ProfileCC;
-import com.qsoft.pilotproject.data.model.entity.ProfileCCContract;
 import com.qsoft.pilotproject.data.rest.OnlineDioClientProxy;
 import com.qsoft.pilotproject.service.ProfileService;
 import com.qsoft.pilotproject.ui.controller.ProfileController;
@@ -107,39 +104,20 @@ public class ProfileSetupActivity extends SuperAnnotationActivity
         account = applicationAccountManager.getAccount();
         countryList = getResources().getStringArray(R.array.country);
         countryCodes = getResources().getStringArray(R.array.country_codes);
-        contentResolver = getContentResolver();
         Log.d(TAG, "get profile from server and push to local");
-        doGetProfileFromService();
-        Cursor cursor = contentResolver.query(ProfileCCContract.CONTENT_URI, null, null, null, null);
-        if (cursor.moveToFirst())
-        {
-            profile = ProfileCC.fromCursor(cursor);
-            setToView();
-        }
+        syncProfile();
     }
 
     @Background
-    void doGetProfileFromService()
+    void syncProfile()
     {
         Log.d(TAG, "doInBackground: ");
-        String userIdStr = accountManager.getUserData(account, LoginActivity.USER_ID_KEY);
-        long userId = Long.valueOf(userIdStr);
-        ProfileDTO profileDTO = onlineDioClientProxy.getProfile(userId);
-        ProfileCC profileCC = new ProfileCC(profileDTO);
-        updateProfileUI(profileCC);
+        profile = profileService.getProfile();
+        setToView();
     }
+
 
     @UiThread
-    void updateProfileUI(ProfileCC profileCC)
-    {
-        String[] args = {profileCC.getUserId().toString()};
-        int updated = contentResolver.update(ProfileCCContract.CONTENT_URI, profileCC.getContentValues(), "userId=?", args);
-        if (updated == 0)
-        {
-            contentResolver.insert(ProfileCCContract.CONTENT_URI, profileCC.getContentValues());
-        }
-    }
-
     void setToView()
     {
         tvBirthday.setText(profile.getBirthday());
@@ -219,18 +197,17 @@ public class ProfileSetupActivity extends SuperAnnotationActivity
         uiProfileModel.setGender(imMale.isSelected() ? 1 : 0);
         uiProfileModel.setCountryId("SA");
         uiProfileModel.setDescription(etDescription.getText().toString());
-        profileService.updateMyProfile(uiProfileModel);
-//        updateProfile(profileUpdate);
+        updateProfile(uiProfileModel);
 //    }
 
     }
 
-//    @Background
-//    void updateProfile(HashMap profileUpdate)
-//    {
-//        onlineDioClientProxy.updateProfile(profileUpdate, profile.getUserId());
-//        showMessage();
-//    }
+    @Background
+    void updateProfile(UiProfileModel uiProfileModel)
+    {
+        profileService.updateMyProfile(uiProfileModel);
+        showMessage();
+    }
 
     @UiThread
     void showMessage()

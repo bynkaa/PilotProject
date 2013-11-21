@@ -10,14 +10,17 @@ import com.tojc.ormlite.android.framework.MimeTypeVnd;
  * User: Le
  * Date: 11/11/13
  */
-public class CCContentProvider extends OrmLiteSimpleContentProvider<GenericDatabaseHelper> {
+public class CCContentProvider extends OrmLiteSimpleContentProvider<GenericDatabaseHelper>
+{
     @Override
-    protected Class<GenericDatabaseHelper> getHelperClass() {
+    protected Class<GenericDatabaseHelper> getHelperClass()
+    {
         return GenericDatabaseHelper.class;
     }
 
     @Override
-    public boolean onCreate() {
+    public boolean onCreate()
+    {
         setMatcherController(new MatcherController()
                 .add(CommentCC.class, MimeTypeVnd.SubType.DIRECTORY, "", CommentCCContract.CONTENT_URI_PATTERN_MANY)
                 .add(CommentCC.class, MimeTypeVnd.SubType.ITEM, "#", CommentCCContract.CONTENT_URI_PATTERN_ONE)
@@ -25,6 +28,8 @@ public class CCContentProvider extends OrmLiteSimpleContentProvider<GenericDatab
                 .add(FeedCC.class, MimeTypeVnd.SubType.ITEM, "#", FeedCCContract.CONTENT_URI_PATTERN_ONE)
                 .add(ProfileCC.class, MimeTypeVnd.SubType.DIRECTORY, "", ProfileCCContract.CONTENT_URI_PATTERN_MANY)
                 .add(ProfileCC.class, MimeTypeVnd.SubType.ITEM, "#", ProfileCCContract.CONTENT_URI_PATTERN_ONE)
+                .add(SyncToServer.class, MimeTypeVnd.SubType.DIRECTORY, "", SyncToServerContract.CONTENT_URI_PATTERN_MANY)
+                .add(SyncToServer.class, MimeTypeVnd.SubType.ITEM, "#", SyncToServerContract.CONTENT_URI_PATTERN_ONE)
         );
         return true;
     }

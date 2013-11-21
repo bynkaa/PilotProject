@@ -40,7 +40,14 @@ public class ProfileDAO
         contentResolver.update(ProfileCCContract.CONTENT_URI, profile.getContentValues(),
                 ProfileCCContract.USERID + "=?", new String[]{userId.toString()});
 
-        Long id = profile.getId();
+        Cursor cursor = contentResolver.query(ProfileCCContract.CONTENT_URI, new String[]{ProfileCCContract._ID},
+
+                ProfileCCContract.USERID + "=?", new String[]{userId.toString()}, null);
+        Long id = null;
+        if (cursor.moveToFirst())
+        {
+            id = cursor.getLong(0);
+        }
         SyncToServer syncToServer = new SyncToServer();
         syncToServer.setTableName("profiles");
         syncToServer.setRecordId(id);
@@ -60,5 +67,10 @@ public class ProfileDAO
             return ProfileCC.fromCursor(cursor);
         }
         return null;
+    }
+
+    public void insertProfile(ProfileCC profileCC)
+    {
+        contentResolver.insert(ProfileCCContract.CONTENT_URI, profileCC.getContentValues());
     }
 }
