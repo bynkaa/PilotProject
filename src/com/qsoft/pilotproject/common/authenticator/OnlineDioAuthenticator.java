@@ -18,7 +18,8 @@ import com.qsoft.pilotproject.ui.activity.LoginActivity_;
  * Time: 8:45 AM
  */
 @EBean
-public class OnlineDioAuthenticator extends AbstractAccountAuthenticator {
+public class OnlineDioAuthenticator extends AbstractAccountAuthenticator
+{
     public static final String ACCOUNT_TYPE_KEY = "account_type";
     public static final String AUTH_TYPE_KEY = "auth_type";
     public static final String IS_ADDED_ACCOUNT_KEY = "is_added_account";
@@ -28,7 +29,8 @@ public class OnlineDioAuthenticator extends AbstractAccountAuthenticator {
     private String TAG = "Online Dio";
     private final Context context;
 
-    public OnlineDioAuthenticator(Context context) {
+    public OnlineDioAuthenticator(Context context)
+    {
         super(context);
         this.context = context;
     }
@@ -37,12 +39,14 @@ public class OnlineDioAuthenticator extends AbstractAccountAuthenticator {
     OnlineDioClientProxy onlineDioClientProxy;
 
     @Override
-    public Bundle editProperties(AccountAuthenticatorResponse accountAuthenticatorResponse, String s) {
+    public Bundle editProperties(AccountAuthenticatorResponse accountAuthenticatorResponse, String s)
+    {
         return null;  //To change body of implemented methods use File | Settings | File Templates.
     }
 
     @Override
-    public Bundle addAccount(AccountAuthenticatorResponse accountAuthenticatorResponse, String accountType, String authTokenType, String[] requireFeatures, Bundle options) throws NetworkErrorException {
+    public Bundle addAccount(AccountAuthenticatorResponse accountAuthenticatorResponse, String accountType, String authTokenType, String[] requireFeatures, Bundle options) throws NetworkErrorException
+    {
         Log.d(TAG, "add Account(response)");
         final Intent intent = new Intent(context, LoginActivity_.class);
         intent.putExtra(ACCOUNT_TYPE_KEY, accountType);
@@ -55,28 +59,35 @@ public class OnlineDioAuthenticator extends AbstractAccountAuthenticator {
     }
 
     @Override
-    public Bundle confirmCredentials(AccountAuthenticatorResponse accountAuthenticatorResponse, Account account, Bundle bundle) throws NetworkErrorException {
+    public Bundle confirmCredentials(AccountAuthenticatorResponse accountAuthenticatorResponse, Account account, Bundle bundle) throws NetworkErrorException
+    {
         return null;  //To change body of implemented methods use File | Settings | File Templates.
     }
 
-    public Bundle getAuthToken(Account account, String authTokenType) throws NetworkErrorException {
+    public Bundle getAuthToken(Account account, String authTokenType) throws NetworkErrorException
+    {
         Log.d(TAG, "getAuthToken(accountResponse)");
 
         final AccountManager accountManager = AccountManager.get(context);
         String authToken = accountManager.peekAuthToken(account, authTokenType);
-        if (TextUtils.isEmpty(authToken)) {
+        if (TextUtils.isEmpty(authToken))
+        {
             final String password = accountManager.getPassword(account);
-            if (password != null) {
-                try {
+            if (password != null)
+            {
+                try
+                {
                     Log.d(TAG, "authenticating with existing password");
-                    SignInDTO signInDTO = AccountGeneral.onlineDioService.signIn(account.name, password, authTokenType);
-//                    SignInDTO signInDTO = onlineDioClientProxy.signIn(account.name,password);
+                    SignInDTO signInDTO = onlineDioClientProxy.signIn(account.name, password);
                     authToken = signInDTO.getAccessToken();
-                } catch (Exception e) {
+                }
+                catch (Exception e)
+                {
                     e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
                 }
             }
-            if (!TextUtils.isEmpty(authToken)) {
+            if (!TextUtils.isEmpty(authToken))
+            {
                 final Bundle result = new Bundle();
                 result.putString(AccountManager.KEY_ACCOUNT_NAME, account.name);
                 result.putString(AccountManager.KEY_ACCOUNT_TYPE, account.type);
@@ -92,23 +103,30 @@ public class OnlineDioAuthenticator extends AbstractAccountAuthenticator {
     }
 
     @Override
-    public Bundle getAuthToken(AccountAuthenticatorResponse accountAuthenticatorResponse, Account account, String authTokenType, Bundle options) throws NetworkErrorException {
+    public Bundle getAuthToken(AccountAuthenticatorResponse accountAuthenticatorResponse, Account account, String authTokenType, Bundle options) throws NetworkErrorException
+    {
         Log.d(TAG, "getAuthToken(accountResponse)");
 
         final AccountManager accountManager = AccountManager.get(context);
         String authToken = accountManager.peekAuthToken(account, authTokenType);
-        if (TextUtils.isEmpty(authToken)) {
+        if (TextUtils.isEmpty(authToken))
+        {
             final String password = accountManager.getPassword(account);
-            if (password != null) {
-                try {
+            if (password != null)
+            {
+                try
+                {
                     Log.d(TAG, "authenticating with existing password");
-                    SignInDTO signInDTO = AccountGeneral.onlineDioService.signIn(account.name, password, authTokenType);
+                    SignInDTO signInDTO = onlineDioClientProxy.signIn(account.name, password);
                     authToken = signInDTO.getAccessToken();
-                } catch (Exception e) {
+                }
+                catch (Exception e)
+                {
                     e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
                 }
             }
-            if (!TextUtils.isEmpty(authToken)) {
+            if (!TextUtils.isEmpty(authToken))
+            {
                 final Bundle result = new Bundle();
                 result.putString(AccountManager.KEY_ACCOUNT_NAME, account.name);
                 result.putString(AccountManager.KEY_ACCOUNT_TYPE, account.type);
@@ -127,21 +145,27 @@ public class OnlineDioAuthenticator extends AbstractAccountAuthenticator {
     }
 
     @Override
-    public String getAuthTokenLabel(String authTokenType) {
-        if (AccountGeneral.AUTHTOKEN_TYPE_FULL_ACCESS.equals(authTokenType)) {
+    public String getAuthTokenLabel(String authTokenType)
+    {
+        if (AccountGeneral.AUTHTOKEN_TYPE_FULL_ACCESS.equals(authTokenType))
+        {
             return AccountGeneral.AUTHTOKEN_TYPE_FULL_ACCESS;
-        } else {
+        }
+        else
+        {
             return authTokenType + "(x)";
         }
     }
 
     @Override
-    public Bundle updateCredentials(AccountAuthenticatorResponse accountAuthenticatorResponse, Account account, String s, Bundle bundle) throws NetworkErrorException {
+    public Bundle updateCredentials(AccountAuthenticatorResponse accountAuthenticatorResponse, Account account, String s, Bundle bundle) throws NetworkErrorException
+    {
         return null;
     }
 
     @Override
-    public Bundle hasFeatures(AccountAuthenticatorResponse accountAuthenticatorResponse, Account account, String[] strings) throws NetworkErrorException {
+    public Bundle hasFeatures(AccountAuthenticatorResponse accountAuthenticatorResponse, Account account, String[] strings) throws NetworkErrorException
+    {
         final Bundle result = new Bundle();
         result.putBoolean(KEY_BOOLEAN_RESULT, false);
         return result;

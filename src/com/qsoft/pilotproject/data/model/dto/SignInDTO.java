@@ -1,6 +1,6 @@
 package com.qsoft.pilotproject.data.model.dto;
 
-import com.google.gson.annotations.SerializedName;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.io.Serializable;
 
@@ -9,55 +9,66 @@ import java.io.Serializable;
  * Date: 10/29/13
  * Time: 3:18 PM
  */
-public class SignInDTO implements Serializable {
-    @SerializedName("access_token")
+public class SignInDTO implements Serializable
+{
+    @JsonProperty("access_token")
     private String accessToken;
-    @SerializedName("client_id")
+    @JsonProperty("client_id")
     private String clientId;
-    @SerializedName("user_id")
+    @JsonProperty("user_id")
     private String userId;
-    @SerializedName("expires")
+    @JsonProperty("expires")
     private String expires;
-    @SerializedName("scope")
+    @JsonProperty("scope")
     private String scope;
 
-    public String getAccessToken() {
+    public String getAccessToken()
+    {
         return accessToken;
     }
 
-    public void setAccessToken(String accessToken) {
+    public void setAccessToken(String accessToken)
+    {
         this.accessToken = accessToken;
     }
 
-    public String getClientId() {
+    public String getClientId()
+    {
         return clientId;
     }
 
-    public void setClientId(String clientId) {
+    public void setClientId(String clientId)
+    {
         this.clientId = clientId;
     }
 
-    public String getUserId() {
+    public String getUserId()
+    {
         return userId;
     }
 
-    public void setUserId(String userId) {
+    public void setUserId(String userId)
+    {
         this.userId = userId;
     }
 
-    public String getExpires() {
+    public String getExpires()
+    {
         return expires;
     }
 
-    public void setExpires(String expires) {
+    public void setExpires(String expires)
+    {
         this.expires = expires;
     }
 
-    public String getScope() {
+    public String getScope()
+    {
         return scope;
     }
 
-    public void setScope(String scope) {
+    public void setScope(String scope)
+    {
         this.scope = scope;
     }
 }

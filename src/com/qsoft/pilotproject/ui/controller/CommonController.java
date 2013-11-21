@@ -12,8 +12,6 @@ import com.qsoft.pilotproject.common.authenticator.AccountGeneral;
 import com.qsoft.pilotproject.common.authenticator.ApplicationAccountManager;
 import com.qsoft.pilotproject.data.model.dto.SignInDTO;
 import com.qsoft.pilotproject.data.provider.CCContract;
-import com.qsoft.pilotproject.handler.AuthenticatorHandler;
-import com.qsoft.pilotproject.handler.impl.AuthenticatorHandlerImpl;
 
 /**
  * User: binhtv
@@ -26,18 +24,16 @@ public class CommonController
     public static final String TAG = "CommonController";
     @Bean
     ApplicationAccountManager applicationAccountManager;
-    @Bean(value = AuthenticatorHandlerImpl.class)
-    AuthenticatorHandler authenticatorHandler;
     @SystemService
     AccountManager accountManager;
 
-    public void refreshToken()
+
+    public void refreshToken(SignInDTO signInDTO)
     {
         // Refresh token by doing login again
         try
         {
             Account account = applicationAccountManager.getAccount();
-            SignInDTO signInDTO = authenticatorHandler.signIn(account.name, accountManager.getPassword(account), AccountGeneral.AUTHTOKEN_TYPE_FULL_ACCESS);
             if (signInDTO.getAccessToken() != null)
             {
                 accountManager.setAuthToken(account, AccountGeneral.AUTHTOKEN_TYPE_FULL_ACCESS, signInDTO.getAccessToken());

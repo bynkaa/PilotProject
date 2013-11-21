@@ -11,7 +11,6 @@ import org.springframework.http.converter.ResourceHttpMessageConverter;
 import org.springframework.http.converter.StringHttpMessageConverter;
 import org.springframework.http.converter.json.GsonHttpMessageConverter;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
-import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.HashMap;
@@ -27,7 +26,8 @@ import java.util.HashMap;
         GsonHttpMessageConverter.class,
         StringHttpMessageConverter.class,
         ResourceHttpMessageConverter.class})
-public interface OnlineDioRestClient {
+public interface OnlineDioRestClient
+{
     @Get("home-rest?limit=1")
     @Accept(MediaType.ALL)
     String check();
@@ -46,7 +46,7 @@ public interface OnlineDioRestClient {
 
     @Post("auth-rest")
     @Accept(MediaType.APPLICATION_JSON)
-    public SignInDTO signIn(MultiValueMap data);
+    public SignInDTO signIn(HashMap data);
 
     @Put("user-rest/{userId}")
     public void updateProfile(HashMap profile, Long userId);
