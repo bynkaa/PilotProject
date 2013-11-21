@@ -92,7 +92,7 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter
         try
         {
             updateLocalFeedData(account, syncResult, authority);
-//            updateLocalCommentData(account, syncResult);
+            updateLocalCommentData(account, syncResult);
         }
         catch (RemoteException e)
         {
@@ -124,7 +124,7 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter
         //get ofset, limit from setting
 
         List<FeedCC> remoteFeeds = onlineDioClientProxy.getFeeds(AppSetting.SERVICE_PAGING + "", "", updatedDate, "");
-        if (remoteFeeds != null)
+        if (remoteFeeds != null && remoteFeeds.size() > 0)
         {
             Date lastUpdated = Utilities.convertStringToTimeStamp(remoteFeeds.get(0).getUpdatedAt());
             SharedPreferences.Editor editor = preferences.edit();

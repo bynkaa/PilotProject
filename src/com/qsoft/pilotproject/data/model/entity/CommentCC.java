@@ -23,7 +23,7 @@ public class CommentCC
     @DatabaseField(columnName = BaseColumns._ID, generatedId = true)
     @AdditionalAnnotation.DefaultSortOrder
     @Expose
-    private Long id;
+    private Long _id;
     @DatabaseField
     @SerializedName("id")
     private Long commentId;
@@ -54,12 +54,12 @@ public class CommentCC
 
     public Long getId()
     {
-        return id;
+        return _id;
     }
 
-    public void setId(Long id)
+    public void setId(Long _id)
     {
-        this.id = id;
+        this._id = _id;
     }
 
     public Long getCommentId()
@@ -155,7 +155,7 @@ public class CommentCC
     public ContentValues getContentValues()
     {
         ContentValues values = new ContentValues();
-        values.put(CommentCCContract._ID, id);
+        values.put(CommentCCContract._ID, _id);
         values.put(CommentCCContract.COMMENTID, commentId);
         values.put(CommentCCContract.SOUNDID, soundId);
         values.put(CommentCCContract.USERID, userId);
