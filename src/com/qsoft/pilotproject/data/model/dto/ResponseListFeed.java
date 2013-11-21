@@ -1,7 +1,6 @@
 package com.qsoft.pilotproject.data.model.dto;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonProperty;
+import com.google.gson.annotations.SerializedName;
 import com.qsoft.pilotproject.data.model.entity.FeedCC;
 
 import java.util.ArrayList;
@@ -11,16 +10,18 @@ import java.util.ArrayList;
  * Date: 11/11/13
  * Time: 10:04 AM
  */
-@JsonIgnoreProperties(ignoreUnknown = true)
-public class ResponseListFeed {
-    @JsonProperty("data")
+public class ResponseListFeed
+{
+    @SerializedName("data")
     private ArrayList<FeedCC> feedDTOs;
 
-    public ArrayList<FeedCC> getFeedDTOs() {
+    public ArrayList<FeedCC> getFeedDTOs()
+    {
         return feedDTOs;
     }
 
-    public void setFeedDTOs(ArrayList<FeedCC> feedDTOs) {
+    public void setFeedDTOs(ArrayList<FeedCC> feedDTOs)
+    {
         this.feedDTOs = feedDTOs;
     }
 }

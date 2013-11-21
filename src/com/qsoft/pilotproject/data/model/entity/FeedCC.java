@@ -3,8 +3,7 @@ package com.qsoft.pilotproject.data.model.entity;
 import android.content.ContentValues;
 import android.database.Cursor;
 import android.provider.BaseColumns;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonProperty;
+import com.google.gson.annotations.SerializedName;
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
 import com.qsoft.pilotproject.data.provider.CCContract;
@@ -23,56 +22,65 @@ public class FeedCC
 {
     @DatabaseField(columnName = BaseColumns._ID, generatedId = true)
     @AdditionalAnnotation.DefaultSortOrder
-    @JsonIgnore
-    private Long id;
+    private Long _id;
     @DatabaseField
-    @JsonProperty(("id"))
+    @SerializedName("id")
     private long feedId;
     @DatabaseField
-    @JsonProperty("user_id")
+    @SerializedName("user_id")
     private long userId;
     @DatabaseField
-    @JsonProperty("title")
+    @SerializedName("title")
     private String title;
     @DatabaseField
-    @JsonProperty("thumbnail")
+    @SerializedName("thumbnail")
     private String thumbnail;
     @DatabaseField
-    @JsonProperty("description")
+    @SerializedName("description")
     private String description;
     @DatabaseField
-    @JsonProperty("sound_path")
+    @SerializedName("sound_path")
     private String soundPath;
     @DatabaseField
-    @JsonProperty("duration")
+    @SerializedName("duration")
     private String duration;
     @DatabaseField
-    @JsonProperty("played")
+    @SerializedName("played")
     private String played;
     @DatabaseField
-    @JsonProperty("created_at")
+    @SerializedName("created_at")
     private String createdAt;
     @DatabaseField
-    @JsonProperty("updated_at")
+    @SerializedName("updated_at")
     private String updatedAt;
     @DatabaseField
-    @JsonProperty("likes")
+    @SerializedName("likes")
     private int likes;
     @DatabaseField
-    @JsonProperty("viewed")
+    @SerializedName("viewed")
     private int viewed;
     @DatabaseField
-    @JsonProperty("comments")
+    @SerializedName("comments")
     private int comments;
     @DatabaseField
-    @JsonProperty("username")
+    @SerializedName("username")
     private String userName;
     @DatabaseField
-    @JsonProperty("display_name")
+    @SerializedName("display_name")
     private String displayName;
     @DatabaseField
-    @JsonProperty("avatar")
+    @SerializedName("avatar")
     private String avatar;
+
+    public Long get_id()
+    {
+        return _id;
+    }
+
+    public void set_id(Long _id)
+    {
+        this._id = _id;
+    }
 
     public long getFeedId()
     {
@@ -234,20 +242,10 @@ public class FeedCC
         this.avatar = avatar;
     }
 
-    public Long getId()
-    {
-        return id;
-    }
-
-    public void setId(Long id)
-    {
-        this.id = id;
-    }
-
     public ContentValues getContentValues()
     {
         ContentValues values = new ContentValues();
-        values.put(FeedCCContract._ID, id);
+        values.put(FeedCCContract._ID, _id);
         values.put(FeedCCContract.FEEDID, feedId);
         values.put(FeedCCContract.USERID, userId);
         values.put(FeedCCContract.TITLE, title);
@@ -270,7 +268,7 @@ public class FeedCC
     public static FeedCC fromCursor(Cursor cursorFeed)
     {
         FeedCC feed = new FeedCC();
-        feed.setId(cursorFeed.getLong(cursorFeed.getColumnIndex(FeedCCContract._ID)));
+        feed.set_id(cursorFeed.getLong(cursorFeed.getColumnIndex(FeedCCContract._ID)));
         feed.setFeedId(cursorFeed.getLong(cursorFeed.getColumnIndex(FeedCCContract.FEEDID)));
         feed.setUserId(cursorFeed.getLong(cursorFeed.getColumnIndex(FeedCCContract.USERID)));
         feed.setTitle(cursorFeed.getString(cursorFeed.getColumnIndex(FeedCCContract.TITLE)));

@@ -10,7 +10,6 @@ import org.springframework.http.converter.FormHttpMessageConverter;
 import org.springframework.http.converter.ResourceHttpMessageConverter;
 import org.springframework.http.converter.StringHttpMessageConverter;
 import org.springframework.http.converter.json.GsonHttpMessageConverter;
-import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.HashMap;
@@ -21,9 +20,8 @@ import java.util.HashMap;
  * Time: 9:37 AM
  */
 @Rest(rootUrl = "http://113.160.50.84:1009/testing/ica467/trunk/public/", converters = {
-        MappingJackson2HttpMessageConverter.class,
-        FormHttpMessageConverter.class,
         GsonHttpMessageConverter.class,
+        FormHttpMessageConverter.class,
         StringHttpMessageConverter.class,
         ResourceHttpMessageConverter.class})
 public interface OnlineDioRestClient

@@ -1,7 +1,6 @@
 package com.qsoft.pilotproject.data.model.dto;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonProperty;
+import com.google.gson.annotations.SerializedName;
 import com.qsoft.pilotproject.data.model.entity.CommentCC;
 
 import java.util.ArrayList;
@@ -12,43 +11,51 @@ import java.util.List;
  * Date: 11/12/13
  * Time: 10:06 AM
  */
-@JsonIgnoreProperties(ignoreUnknown = true)
-public class ResponseComment {
-    @JsonProperty("data")
+public class ResponseComment
+{
+    @SerializedName("data")
     private CommentData commentData;
 
-    public CommentData getCommentData() {
+    public CommentData getCommentData()
+    {
         return commentData;
     }
 
-    public void setCommentData(CommentData commentData) {
+    public void setCommentData(CommentData commentData)
+    {
         this.commentData = commentData;
     }
 
-    public List<CommentCC> getComments() {
+    public List<CommentCC> getComments()
+    {
         return commentData.getCommentDTOs();
     }
 }
 
-class CommentData {
-    @JsonProperty("total_comments")
+class CommentData
+{
+    @SerializedName("total_comments")
     private int totalComment;
-    @JsonProperty("comments")
+    @SerializedName("comments")
     private ArrayList<CommentCC> commentDTOs;
 
-    int getTotalComment() {
+    int getTotalComment()
+    {
         return totalComment;
     }
 
-    void setTotalComment(int totalComment) {
+    void setTotalComment(int totalComment)
+    {
         this.totalComment = totalComment;
     }
 
-    ArrayList<CommentCC> getCommentDTOs() {
+    ArrayList<CommentCC> getCommentDTOs()
+    {
         return commentDTOs;
     }
 
-    void setCommentDTOs(ArrayList<CommentCC> commentDTOs) {
+    void setCommentDTOs(ArrayList<CommentCC> commentDTOs)
+    {
         this.commentDTOs = commentDTOs;
     }
 }

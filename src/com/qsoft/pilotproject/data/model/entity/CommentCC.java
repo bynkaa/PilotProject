@@ -3,8 +3,8 @@ package com.qsoft.pilotproject.data.model.entity;
 import android.content.ContentValues;
 import android.database.Cursor;
 import android.provider.BaseColumns;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonProperty;
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
 import com.qsoft.pilotproject.data.provider.CCContract;
@@ -18,120 +18,142 @@ import com.tojc.ormlite.android.annotation.AdditionalAnnotation;
 @DatabaseTable(tableName = "comments")
 @AdditionalAnnotation.DefaultContentUri(authority = CCContract.AUTHORITY, path = "comments")
 @AdditionalAnnotation.DefaultContentMimeTypeVnd(name = CCContract.MIME_TYPE_VND, type = "comments")
-public class CommentCC {
+public class CommentCC
+{
     @DatabaseField(columnName = BaseColumns._ID, generatedId = true)
     @AdditionalAnnotation.DefaultSortOrder
-    @JsonIgnore
+    @Expose
     private Long id;
     @DatabaseField
-    @JsonProperty("id")
+    @SerializedName("id")
     private Long commentId;
     @DatabaseField
-    @JsonProperty("sound_id")
+    @SerializedName("sound_id")
     private Long soundId;
     @DatabaseField
-    @JsonProperty("user_id")
+    @SerializedName("user_id")
     private Long userId;
     @DatabaseField
-    @JsonProperty("comment")
+    @SerializedName("comment")
     private String comment;
     @DatabaseField
-    @JsonProperty("created_at")
+    @SerializedName("created_at")
     private String createdAt;
     @DatabaseField
-    @JsonProperty("updated_at")
+    @SerializedName("updated_at")
     private String updatedAt;
     @DatabaseField
-    @JsonProperty("username")
+    @SerializedName("username")
     private String userName;
     @DatabaseField
-    @JsonProperty("display_name")
+    @SerializedName("display_name")
     private String displayName;
     @DatabaseField
-    @JsonProperty("avatar")
+    @SerializedName("avatar")
     private String avatar;
 
-    public Long getId() {
+    public Long getId()
+    {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(Long id)
+    {
         this.id = id;
     }
 
-    public Long getCommentId() {
+    public Long getCommentId()
+    {
         return commentId;
     }
 
-    public void setCommentId(Long commentId) {
+    public void setCommentId(Long commentId)
+    {
         this.commentId = commentId;
     }
 
-    public Long getSoundId() {
+    public Long getSoundId()
+    {
         return soundId;
     }
 
-    public void setSoundId(Long soundId) {
+    public void setSoundId(Long soundId)
+    {
         this.soundId = soundId;
     }
 
-    public Long getUserId() {
+    public Long getUserId()
+    {
         return userId;
     }
 
-    public void setUserId(Long userId) {
+    public void setUserId(Long userId)
+    {
         this.userId = userId;
     }
 
-    public String getComment() {
+    public String getComment()
+    {
         return comment;
     }
 
-    public void setComment(String comment) {
+    public void setComment(String comment)
+    {
         this.comment = comment;
     }
 
-    public String getCreatedAt() {
+    public String getCreatedAt()
+    {
         return createdAt;
     }
 
-    public void setCreatedAt(String createdAt) {
+    public void setCreatedAt(String createdAt)
+    {
         this.createdAt = createdAt;
     }
 
-    public String getUpdatedAt() {
+    public String getUpdatedAt()
+    {
         return updatedAt;
     }
 
-    public void setUpdatedAt(String updatedAt) {
+    public void setUpdatedAt(String updatedAt)
+    {
         this.updatedAt = updatedAt;
     }
 
-    public String getUserName() {
+    public String getUserName()
+    {
         return userName;
     }
 
-    public void setUserName(String userName) {
+    public void setUserName(String userName)
+    {
         this.userName = userName;
     }
 
-    public String getDisplayName() {
+    public String getDisplayName()
+    {
         return displayName;
     }
 
-    public void setDisplayName(String displayName) {
+    public void setDisplayName(String displayName)
+    {
         this.displayName = displayName;
     }
 
-    public String getAvatar() {
+    public String getAvatar()
+    {
         return avatar;
     }
 
-    public void setAvatar(String avatar) {
+    public void setAvatar(String avatar)
+    {
         this.avatar = avatar;
     }
 
-    public ContentValues getContentValues() {
+    public ContentValues getContentValues()
+    {
         ContentValues values = new ContentValues();
         values.put(CommentCCContract._ID, id);
         values.put(CommentCCContract.COMMENTID, commentId);
@@ -146,7 +168,8 @@ public class CommentCC {
         return values;
     }
 
-    public static CommentCC fromCursor(Cursor cursor) {
+    public static CommentCC fromCursor(Cursor cursor)
+    {
         CommentCC comment = new CommentCC();
         comment.setId(cursor.getLong(cursor.getColumnIndex(CommentCCContract._ID)));
         comment.setCommentId(cursor.getLong(cursor.getColumnIndex(CommentCCContract.COMMENTID)));

@@ -1,6 +1,6 @@
 package com.qsoft.pilotproject.data.model.dto;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
+import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
 
@@ -11,15 +11,15 @@ import java.io.Serializable;
  */
 public class SignInDTO implements Serializable
 {
-    @JsonProperty("access_token")
+    @SerializedName("access_token")
     private String accessToken;
-    @JsonProperty("client_id")
+    @SerializedName("client_id")
     private String clientId;
-    @JsonProperty("user_id")
+    @SerializedName("user_id")
     private String userId;
-    @JsonProperty("expires")
+    @SerializedName("expires")
     private String expires;
-    @JsonProperty("scope")
+    @SerializedName("scope")
     private String scope;
 
     public String getAccessToken()
