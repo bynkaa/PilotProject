@@ -29,7 +29,7 @@ public class SyncToServer
     @DatabaseField
     Long recordId;
     @DatabaseField
-    int group;
+    int groupS;
     @DatabaseField
     int priority;
     @DatabaseField
@@ -67,14 +67,14 @@ public class SyncToServer
         this.recordId = recordId;
     }
 
-    public Integer getGroup()
+    public Integer getGroupS()
     {
-        return group;
+        return groupS;
     }
 
-    public void setGroup(Integer group)
+    public void setGroupS(Integer groupS)
     {
-        this.group = group;
+        this.groupS = groupS;
     }
 
     public Integer getPriority()
@@ -113,7 +113,7 @@ public class SyncToServer
         contentValues.put(SyncToServerContract._ID, id);
         contentValues.put(SyncToServerContract.TABLENAME, tableName);
         contentValues.put(SyncToServerContract.RECORDID, recordId);
-        contentValues.put(SyncToServerContract.GROUP, group);
+        contentValues.put(SyncToServerContract.GROUPS, groupS);
         contentValues.put(SyncToServerContract.ACTION, action);
         contentValues.put(SyncToServerContract.PRIORITY, priority);
         contentValues.put(SyncToServerContract.STATUS, status);
@@ -126,7 +126,7 @@ public class SyncToServer
         syncToServer.setId(cursor.getLong(cursor.getColumnIndex(SyncToServerContract._ID)));
         syncToServer.setTableName(cursor.getString(cursor.getColumnIndex(SyncToServerContract.TABLENAME)));
         syncToServer.setRecordId(cursor.getLong(cursor.getColumnIndex(SyncToServerContract.RECORDID)));
-        syncToServer.setGroup(cursor.getInt(cursor.getColumnIndex(SyncToServerContract.GROUP)));
+        syncToServer.setGroupS(cursor.getInt(cursor.getColumnIndex(SyncToServerContract.GROUPS)));
         syncToServer.setAction(cursor.getString(cursor.getColumnIndex(SyncToServerContract.ACTION)));
         syncToServer.setPriority(cursor.getInt(cursor.getColumnIndex(SyncToServerContract.PRIORITY)));
         syncToServer.setStatus(cursor.getString(cursor.getColumnIndex(SyncToServerContract.STATUS)));

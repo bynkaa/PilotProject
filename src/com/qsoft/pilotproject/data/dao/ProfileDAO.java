@@ -51,7 +51,7 @@ public class ProfileDAO
         SyncToServer syncToServer = new SyncToServer();
         syncToServer.setTableName("profiles");
         syncToServer.setRecordId(id);
-        syncToServer.setGroup(0);
+        syncToServer.setGroupS(0);
         syncToServer.setPriority(1);
         syncToServer.setStatus("not sync");
         syncToServer.setAction("update");
