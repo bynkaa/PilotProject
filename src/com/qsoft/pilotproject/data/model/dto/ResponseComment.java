@@ -3,7 +3,6 @@ package com.qsoft.pilotproject.data.model.dto;
 import com.google.gson.annotations.SerializedName;
 import com.qsoft.pilotproject.data.model.entity.CommentCC;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -14,14 +13,14 @@ import java.util.List;
 public class ResponseComment
 {
     @SerializedName("data")
-    private CommentData commentData;
+    private ResponseCommentList commentData;
 
-    public CommentData getCommentData()
+    public ResponseCommentList getCommentData()
     {
         return commentData;
     }
 
-    public void setCommentData(CommentData commentData)
+    public void setCommentData(ResponseCommentList commentData)
     {
         this.commentData = commentData;
     }
@@ -31,32 +30,3 @@ public class ResponseComment
         return commentData.getCommentDTOs();
     }
 }
-
-class CommentData
-{
-    @SerializedName("total_comments")
-    private int totalComment;
-    @SerializedName("comments")
-    private ArrayList<CommentCC> commentDTOs;
-
-    int getTotalComment()
-    {
-        return totalComment;
-    }
-
-    void setTotalComment(int totalComment)
-    {
-        this.totalComment = totalComment;
-    }
-
-    ArrayList<CommentCC> getCommentDTOs()
-    {
-        return commentDTOs;
-    }
-
-    void setCommentDTOs(ArrayList<CommentCC> commentDTOs)
-    {
-        this.commentDTOs = commentDTOs;
-    }
-}
-

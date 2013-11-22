@@ -7,10 +7,10 @@ import com.googlecode.androidannotations.annotations.*;
 import com.googlecode.androidannotations.annotations.rest.RestService;
 import com.qsoft.pilotproject.common.CommandExecutor;
 import com.qsoft.pilotproject.common.authenticator.ApplicationAccountManager;
+import com.qsoft.pilotproject.data.model.dto.FeedDTO;
 import com.qsoft.pilotproject.data.model.dto.ProfileDTO;
 import com.qsoft.pilotproject.data.model.dto.SignInDTO;
 import com.qsoft.pilotproject.data.model.entity.CommentCC;
-import com.qsoft.pilotproject.data.model.entity.FeedCC;
 import com.qsoft.pilotproject.data.rest.interceptor.OnlineDioInterceptor;
 import com.qsoft.pilotproject.ui.controller.CommonController;
 import org.springframework.http.client.ClientHttpRequestInterceptor;
@@ -67,7 +67,7 @@ public class OnlineDioClientProxy
 
     }
 
-    public List<FeedCC> getFeeds(String limit, String offset, String timeFrom, String timeTo)
+    public List<FeedDTO> getFeeds(String limit, String offset, String timeFrom, String timeTo)
     {
         invalidToken();
         return onlineDioRestClient.getFeeds(limit, offset, timeFrom, timeTo).getFeedDTOs();

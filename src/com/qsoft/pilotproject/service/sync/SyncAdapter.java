@@ -15,6 +15,7 @@ import com.googlecode.androidannotations.annotations.UiThread;
 import com.qsoft.pilotproject.common.authenticator.InvalidTokenException;
 import com.qsoft.pilotproject.common.utils.Utilities;
 import com.qsoft.pilotproject.config.AppSetting;
+import com.qsoft.pilotproject.data.model.dto.FeedDTO;
 import com.qsoft.pilotproject.data.model.entity.CommentCC;
 import com.qsoft.pilotproject.data.model.entity.CommentCCContract;
 import com.qsoft.pilotproject.data.model.entity.FeedCC;
@@ -123,7 +124,7 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter
         String updatedDate = preferences.getString(account.name + "_" + authority, "");
         //get ofset, limit from setting
 
-        List<FeedCC> remoteFeeds = onlineDioClientProxy.getFeeds(AppSetting.SERVICE_PAGING + "", "", updatedDate, "");
+        List<FeedDTO> remoteFeeds = onlineDioClientProxy.getFeeds(AppSetting.SERVICE_PAGING + "", "", updatedDate, "");
         if (remoteFeeds != null && remoteFeeds.size() > 0)
         {
             Date lastUpdated = Utilities.convertStringToTimeStamp(remoteFeeds.get(0).getUpdatedAt());
@@ -133,10 +134,10 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter
         }
         Log.d(TAG, "parsing complete. Found : " + remoteFeeds.size());
         ArrayList<ContentProviderOperation> batch = new ArrayList<ContentProviderOperation>();
-        HashMap<Long, FeedCC> feedMap = new HashMap<Long, FeedCC>();
-        for (FeedCC feedCC : remoteFeeds)
+        HashMap<Long, FeedDTO> feedMap = new HashMap<Long, FeedDTO>();
+        for (FeedDTO feedDTO : remoteFeeds)
         {
-            feedMap.put(feedCC.getFeedId(), feedCC);
+            feedMap.put(feedDTO.getFeedId(), feedDTO);
         }
 
         // get list of all items
@@ -152,7 +153,7 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter
             syncResult.stats.numEntries++;
             FeedCC feed = FeedCC.fromCursor(cursor);
 
-            FeedCC match = feedMap.get(feed.getFeedId());
+            FeedDTO match = feedMap.get(feed.getFeedId());
             if (match != null)
             {
                 feedMap.remove(feed.getFeedId());
@@ -163,8 +164,10 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter
                         || match.getLikes() != feed.getLikes() || match.getComments() != feed.getComments())
                 {
                     Log.d(TAG, "Scheduling update: " + existingUri);
+                    FeedCC feedCC = new FeedCC();
+                    Utilities.copyProperties(feedCC, match);
                     batch.add(ContentProviderOperation.newUpdate(existingUri)
-                            .withValues(match.getContentValues()).build());
+                            .withValues(feedCC.getContentValues()).build());
                     syncResult.stats.numUpdates++;
                 }
                 else
@@ -186,9 +189,11 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter
         showMessage();
         cursor.close();
         // add new items
-        for (FeedCC feedCC : feedMap.values())
+        for (FeedDTO feedDTO : feedMap.values())
         {
-            Log.i(TAG, "scheduling insert: entry_id=" + feedCC.getFeedId());
+            Log.i(TAG, "scheduling insert: entry_id=" + feedDTO.getFeedId());
+            FeedCC feedCC = new FeedCC();
+            Utilities.copyProperties(feedCC, feedDTO);
             batch.add(ContentProviderOperation.newInsert(FeedCCContract.CONTENT_URI)
                     .withValues(feedCC.getContentValues()).build());
             syncResult.stats.numInserts++;

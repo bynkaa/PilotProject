@@ -1,7 +1,6 @@
 package com.qsoft.pilotproject.data.model.dto;
 
 import com.google.gson.annotations.SerializedName;
-import com.qsoft.pilotproject.data.model.entity.FeedCC;
 
 import java.util.ArrayList;
 
@@ -13,14 +12,14 @@ import java.util.ArrayList;
 public class ResponseListFeed
 {
     @SerializedName("data")
-    private ArrayList<FeedCC> feedDTOs;
+    private ArrayList<FeedDTO> feedDTOs;
 
-    public ArrayList<FeedCC> getFeedDTOs()
+    public ArrayList<FeedDTO> getFeedDTOs()
     {
         return feedDTOs;
     }
 
-    public void setFeedDTOs(ArrayList<FeedCC> feedDTOs)
+    public void setFeedDTOs(ArrayList<FeedDTO> feedDTOs)
     {
         this.feedDTOs = feedDTOs;
     }
