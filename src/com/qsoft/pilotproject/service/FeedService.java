@@ -12,9 +12,11 @@ import com.qsoft.pilotproject.ui.model.UiFeedModel;
  * Time: 10:15 AM
  * To change this template use File | Settings | File Templates.
  */
-public class FeedService {
+public class FeedService
+{
 
-    public UiFeedModel getModel(Cursor cursor) {
+    public UiFeedModel getModel(Cursor cursor)
+    {
         //get data
         int titleIndex = cursor.getColumnIndexOrThrow(FeedCCContract.TITLE);
         int displayNameIndex = cursor.getColumnIndexOrThrow(FeedCCContract.DISPLAYNAME);

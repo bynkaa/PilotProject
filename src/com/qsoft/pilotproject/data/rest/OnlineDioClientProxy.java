@@ -80,7 +80,7 @@ public class OnlineDioClientProxy
         return onlineDioRestClient.getProfile(userId).getProfile();
     }
 
-    public void updateProfile(HashMap profile, Long userId)
+    public void updateProfile(Object profile, Long userId)
     {
         invalidToken();
         onlineDioRestClient.updateProfile(profile, userId);

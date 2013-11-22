@@ -205,7 +205,7 @@ public class Utilities
         return null;
     }
 
-    public static void copyProperties(Object dest, Object org)
+    public static Object copyProperties(Object dest, Object org)
     {
         Map<String, Object> convertedMap = Utilities.toKeyValueMap(org);
         for (Map.Entry<String, Object> entry : convertedMap.entrySet())
@@ -228,6 +228,7 @@ public class Utilities
             }
 
         }
+        return dest;
     }
 
     public static Map<String, Object> toKeyValueMap(Object obj)
@@ -247,6 +248,28 @@ public class Utilities
         }
         return convertedMap;
 
+    }
+
+    public static String convertFromTableToDAOClassName(String tableName)
+    {
+        return toCamelCase(tableName) + "DAO";
+    }
+
+    static String toCamelCase(String s)
+    {
+        String[] parts = s.split("_");
+        String camelCaseString = "";
+        for (String part : parts)
+        {
+            camelCaseString = camelCaseString + toProperCase(part);
+        }
+        return camelCaseString;
+    }
+
+    static String toProperCase(String s)
+    {
+        return s.substring(0, 1).toUpperCase() +
+                s.substring(1).toLowerCase();
     }
 
 }

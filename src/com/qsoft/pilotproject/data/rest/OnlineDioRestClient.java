@@ -47,7 +47,7 @@ public interface OnlineDioRestClient
     public SignInDTO signIn(HashMap data);
 
     @Put("user-rest/{userId}")
-    public void updateProfile(HashMap profile, Long userId);
+    public void updateProfile(Object profile, Long userId);
 
     RestTemplate getRestTemplate();
 

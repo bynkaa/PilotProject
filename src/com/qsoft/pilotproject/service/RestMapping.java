@@ -12,15 +12,18 @@ import java.util.HashMap;
  * To change this template use File | Settings | File Templates.
  */
 @EBean
-public class ServiceMapping {
+public class RestMapping
+{
     HashMap<String, String> tableMapping = new HashMap<String, String>();
 
-    public ServiceMapping() {
+    public RestMapping()
+    {
         tableMapping.put("profiles", ProfileService.class.getName());
         tableMapping.put("feeds", FeedService.class.getName());
     }
 
-    public String getServiceFromTable(String tableName) {
+    public String getServiceFromTable(String tableName)
+    {
         return tableMapping.get(tableName);
     }
 }
