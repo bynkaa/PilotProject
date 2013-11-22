@@ -5,7 +5,6 @@ import android.database.Cursor;
 import android.provider.BaseColumns;
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
-import com.qsoft.pilotproject.data.model.dto.ProfileDTO;
 import com.qsoft.pilotproject.data.provider.CCContract;
 import com.tojc.ormlite.android.annotation.AdditionalAnnotation;
 
@@ -68,32 +67,6 @@ public class ProfileCC
 
     public ProfileCC()
     {
-
-    }
-
-    public ProfileCC(ProfileDTO profileDTO)
-    {
-        userId = profileDTO.getUserId();
-        facebookId = profileDTO.getFacebookId();
-        userName = profileDTO.getUserName();
-        password = profileDTO.getPassword();
-        avatar = profileDTO.getAvatar();
-        coverImage = profileDTO.getCoverImage();
-        displayName = profileDTO.getDisplayName();
-        fullName = profileDTO.getFullName();
-        phone = profileDTO.getPhone();
-        birthday = profileDTO.getBirthday();
-        gender = profileDTO.getGender();
-        countryId = profileDTO.getCountryId();
-        storagePlanId = profileDTO.getStoragePlanId();
-        description = profileDTO.getDescription();
-        createdAt = profileDTO.getCreatedAt();
-        updatedAt = profileDTO.getUpdatedAt();
-        sound = profileDTO.getSound();
-        favorite = profileDTO.getFavorite();
-        like = profileDTO.getLike();
-        following = profileDTO.getFollowing();
-        audience = profileDTO.getAudience();
     }
 
     public Long getId()
@@ -124,6 +97,7 @@ public class ProfileCC
     public void setFacebookId(Long facebookId)
     {
         this.facebookId = facebookId;
+
     }
 
     public String getUserName()

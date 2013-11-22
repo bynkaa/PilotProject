@@ -5,6 +5,7 @@ import com.googlecode.androidannotations.annotations.Bean;
 import com.googlecode.androidannotations.annotations.EBean;
 import com.googlecode.androidannotations.annotations.RootContext;
 import com.qsoft.pilotproject.common.authenticator.ApplicationAccountManager;
+import com.qsoft.pilotproject.common.utils.Utilities;
 import com.qsoft.pilotproject.data.dao.ProfileDAO;
 import com.qsoft.pilotproject.data.model.dto.ProfileDTO;
 import com.qsoft.pilotproject.data.model.entity.ProfileCC;
@@ -44,7 +45,8 @@ public class ProfileService
     public ProfileCC getProfile()
     {
         ProfileDTO profileDTO = onlineDioClientProxy.getProfile(applicationAccountManager.getUserId());
-        ProfileCC profileCC = new ProfileCC(profileDTO);
+        ProfileCC profileCC = new ProfileCC();
+        Utilities.copyProperties(profileCC, profileDTO);
         // insert or update profile
         ProfileCC profile = profileDAO.getProfile(applicationAccountManager.getUserId());
         if (profile == null)
