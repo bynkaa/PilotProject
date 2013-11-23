@@ -5,6 +5,7 @@ import android.database.Cursor;
 import android.provider.BaseColumns;
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
+import com.qsoft.pilotproject.data.model.dto.UpdateProfileDTO;
 import com.qsoft.pilotproject.data.provider.CCContract;
 import com.tojc.ormlite.android.annotation.AdditionalAnnotation;
 
@@ -17,7 +18,7 @@ import com.tojc.ormlite.android.annotation.AdditionalAnnotation;
 @DatabaseTable(tableName = "profiles")
 @AdditionalAnnotation.DefaultContentUri(authority = CCContract.AUTHORITY, path = "profiles")
 @AdditionalAnnotation.DefaultContentMimeTypeVnd(name = CCContract.MIME_TYPE_VND, type = "profiles")
-public class ProfileCC
+public class ProfileCC implements ITransformableDTO
 {
     @DatabaseField(columnName = BaseColumns._ID, generatedId = true)
     @AdditionalAnnotation.DefaultSortOrder
@@ -344,5 +345,19 @@ public class ProfileCC
         profile.setFollowing(cursor.getInt(cursor.getColumnIndex(ProfileCCContract.FOLLOWING)));
         profile.setAudience(cursor.getInt(cursor.getColumnIndex(ProfileCCContract.AUDIENCE)));
         return profile;
+    }
+
+    @Override
+    public Object transformToDTO()
+    {
+        UpdateProfileDTO updateProfileDTO = new UpdateProfileDTO();
+        updateProfileDTO.setDescription(description);
+        updateProfileDTO.setCountryId(countryId);
+        updateProfileDTO.setGender(gender);
+        updateProfileDTO.setBirthday(birthday);
+        updateProfileDTO.setDisplayName(displayName);
+        updateProfileDTO.setFullName(fullName);
+        updateProfileDTO.setPhone(phone);
+        return updateProfileDTO;
     }
 }

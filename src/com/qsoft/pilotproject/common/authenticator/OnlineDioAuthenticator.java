@@ -8,8 +8,7 @@ import android.text.TextUtils;
 import android.util.Log;
 import com.googlecode.androidannotations.annotations.Bean;
 import com.googlecode.androidannotations.annotations.EBean;
-import com.qsoft.pilotproject.data.model.dto.SignInDTO;
-import com.qsoft.pilotproject.data.rest.OnlineDioClientProxy;
+import com.qsoft.pilotproject.data.rest.InterceptorDecoratorFactory;
 import com.qsoft.pilotproject.ui.activity.LoginActivity_;
 
 /**
@@ -36,7 +35,7 @@ public class OnlineDioAuthenticator extends AbstractAccountAuthenticator
     }
 
     @Bean
-    OnlineDioClientProxy onlineDioClientProxy;
+    InterceptorDecoratorFactory interceptorDecoratorFactory;
 
     @Override
     public Bundle editProperties(AccountAuthenticatorResponse accountAuthenticatorResponse, String s)
@@ -78,8 +77,8 @@ public class OnlineDioAuthenticator extends AbstractAccountAuthenticator
                 try
                 {
                     Log.d(TAG, "authenticating with existing password");
-                    SignInDTO signInDTO = onlineDioClientProxy.signIn(account.name, password);
-                    authToken = signInDTO.getAccessToken();
+//                    SignInDTO signInDTO = interceptorDecoratorFactory.signIn(account.name, password);
+//                    authToken = signInDTO.getAccessToken();
                 }
                 catch (Exception e)
                 {
@@ -117,8 +116,8 @@ public class OnlineDioAuthenticator extends AbstractAccountAuthenticator
                 try
                 {
                     Log.d(TAG, "authenticating with existing password");
-                    SignInDTO signInDTO = onlineDioClientProxy.signIn(account.name, password);
-                    authToken = signInDTO.getAccessToken();
+//                    SignInDTO signInDTO = interceptorDecoratorFactory.signIn(account.name, password);
+//                    authToken = signInDTO.getAccessToken();
                 }
                 catch (Exception e)
                 {

@@ -1,8 +1,10 @@
 package com.qsoft.pilotproject.service;
 
 import com.googlecode.androidannotations.annotations.EBean;
+import com.qsoft.pilotproject.data.rest.OnlineDioRestClient;
 
 import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created with IntelliJ IDEA.
@@ -14,15 +16,14 @@ import java.util.HashMap;
 @EBean
 public class RestMapping
 {
-    HashMap<String, String> tableMapping = new HashMap<String, String>();
+    Map<String, Class> tableMapping = new HashMap<String, Class>();
 
     public RestMapping()
     {
-        tableMapping.put("profiles", ProfileService.class.getName());
-        tableMapping.put("feeds", FeedService.class.getName());
+        tableMapping.put("profiles", OnlineDioRestClient.class);
     }
 
-    public String getServiceFromTable(String tableName)
+    public Class getRestFromTable(String tableName)
     {
         return tableMapping.get(tableName);
     }

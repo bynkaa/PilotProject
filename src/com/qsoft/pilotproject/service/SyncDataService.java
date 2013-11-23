@@ -9,8 +9,11 @@ import com.qsoft.pilotproject.data.dao.FeedDAO;
 import com.qsoft.pilotproject.data.dao.IDao;
 import com.qsoft.pilotproject.data.dao.ProfileDAO;
 import com.qsoft.pilotproject.data.dao.SyncToServiceDAO;
+import com.qsoft.pilotproject.data.model.entity.ITransformableDTO;
 import com.qsoft.pilotproject.data.model.entity.SyncToServer;
-import com.qsoft.pilotproject.data.rest.OnlineDioClientProxy;
+import com.qsoft.pilotproject.data.rest.IRest;
+import com.qsoft.pilotproject.data.rest.InterceptorDecoratorFactory;
+import com.qsoft.pilotproject.data.rest.SingletonFactoryHolder;
 
 import java.util.List;
 
@@ -31,14 +34,13 @@ public class SyncDataService
     @Bean
     FeedDAO feedDAO;
     @Bean
-    OnlineDioClientProxy onlineDioClientProxy;
+    InterceptorDecoratorFactory interceptorDecoratorFactory;
     @Bean
     RestMapping restMapping;
-
     @Bean
     ApplicationAccountManager applicationAccountManager;
 
-    public void performSync()
+    public void performSync() throws Exception
     {
         List<SyncToServer> syncToServers = syncToServiceDAO.getAllData();
 
@@ -47,41 +49,35 @@ public class SyncDataService
             if (syncToServer.getSerial() == 0)
             {
                 Action action = Action.valueOf(syncToServer.getAction());
+                String tableName = syncToServer.getTableName();
+                Long id = syncToServer.getRecordId();
+                Class restClass = restMapping.getRestFromTable(tableName);
+                IRest iRest = (IRest) SingletonFactoryHolder.getSingleton(restClass);
+
                 switch (action)
                 {
                     case UPDATE:
-                        String tableName = syncToServer.getTableName();
-                        Long id = syncToServer.getRecordId();
-                        String restName = restMapping.getServiceFromTable(tableName);
-                        try
-                        {
+
+
 //                            IRest iRest = (IRest) Class.forName(AppSetting.REST_PACKAGE + restName).newInstance();
-                            IDao classDao = (IDao) Class.forName(AppSetting.DAO_PACKAGE
-                                    + Utilities.convertFromTableToDAOClassName(tableName)).newInstance();
-                            Object obj = classDao.get(id);
-
-                            //Todo: need to generic update method
-//                            UpdateProfileDTO updateProfileDTO = new UpdateProfileDTO();
-//                            onlineDioClientProxy.updateProfile(Utilities.copyProperties(updateProfileDTO, obj),applicationAccountManager.getUserId());
-//                            syncToServertatus("synchronized");
-
-                            //Todo; update status to persistent
-
-                        }
-                        catch (ClassNotFoundException e)
-                        {
-                            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
-                        }
-                        catch (InstantiationException e)
-                        {
-                            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
-                        }
-                        catch (IllegalAccessException e)
-                        {
-                            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
-                        }
+                        IDao classDaoUpdate = (IDao) Class.forName(AppSetting.DAO_PACKAGE
+                                + Utilities.convertFromTableToDAOClassName(tableName)).newInstance();
+                        ITransformableDTO transformableDTO = (ITransformableDTO) classDaoUpdate.get(id);
+                        Object obj = transformableDTO.transformToDTO();
+                        iRest.update(obj, id);
+                        break;
+                    case DELETE:
+                        iRest.delete(id);
+                        break;
+                    case INSERT:
+                        IDao classDaoInsert = (IDao) Class.forName(AppSetting.DAO_PACKAGE +
+                                Utilities.convertFromTableToDAOClassName(tableName)).newInstance();
+                        ITransformableDTO transformableDTO1 = (ITransformableDTO) classDaoInsert.get(id);
+                        iRest.create(transformableDTO1.transformToDTO());
 
                 }
+                syncToServer.setStatus("synchronized");
+
             }
             else
             {

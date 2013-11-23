@@ -9,7 +9,7 @@ import com.qsoft.pilotproject.common.utils.Utilities;
 import com.qsoft.pilotproject.data.dao.ProfileDAO;
 import com.qsoft.pilotproject.data.model.dto.ProfileDTO;
 import com.qsoft.pilotproject.data.model.entity.ProfileCC;
-import com.qsoft.pilotproject.data.rest.OnlineDioClientProxy;
+import com.qsoft.pilotproject.data.rest.InterceptorDecoratorFactory;
 import com.qsoft.pilotproject.ui.model.UiProfileModel;
 
 /**
@@ -30,7 +30,7 @@ public class ProfileService
     @Bean
     ApplicationAccountManager applicationAccountManager;
     @Bean
-    OnlineDioClientProxy onlineDioClientProxy;
+    InterceptorDecoratorFactory interceptorDecoratorFactory;
 
 
     public void updateMyProfile(UiProfileModel profileModel)
@@ -40,11 +40,13 @@ public class ProfileService
         profileCC.setDescription(profileModel.getDescription());
         profileCC.setDisplayName(profileModel.getDisplayName());
         profileDAO.updateProfile(profileCC, applicationAccountManager.getUserId());
+
     }
 
     public ProfileCC getProfile()
     {
-        ProfileDTO profileDTO = onlineDioClientProxy.getProfile(applicationAccountManager.getUserId());
+//        ProfileDTO profileDTO = interceptorDecoratorFactory.getProfile(applicationAccountManager.getUserId());
+        ProfileDTO profileDTO = null;
         ProfileCC profileCC = new ProfileCC();
         Utilities.copyProperties(profileCC, profileDTO);
         // insert or update profile

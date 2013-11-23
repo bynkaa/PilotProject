@@ -14,14 +14,13 @@ import com.googlecode.androidannotations.annotations.EBean;
 import com.googlecode.androidannotations.annotations.UiThread;
 import com.qsoft.pilotproject.common.authenticator.InvalidTokenException;
 import com.qsoft.pilotproject.common.utils.Utilities;
-import com.qsoft.pilotproject.config.AppSetting;
 import com.qsoft.pilotproject.data.model.dto.FeedDTO;
 import com.qsoft.pilotproject.data.model.entity.CommentCC;
 import com.qsoft.pilotproject.data.model.entity.CommentCCContract;
 import com.qsoft.pilotproject.data.model.entity.FeedCC;
 import com.qsoft.pilotproject.data.model.entity.FeedCCContract;
 import com.qsoft.pilotproject.data.provider.CCContract;
-import com.qsoft.pilotproject.data.rest.OnlineDioClientProxy;
+import com.qsoft.pilotproject.data.rest.InterceptorDecoratorFactory;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -73,7 +72,7 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter
 
     Context context;
     @Bean
-    OnlineDioClientProxy onlineDioClientProxy;
+    InterceptorDecoratorFactory interceptorDecoratorFactory;
 
     AccountManager accountManager;
 
@@ -124,7 +123,8 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter
         String updatedDate = preferences.getString(account.name + "_" + authority, "");
         //get ofset, limit from setting
 
-        List<FeedDTO> remoteFeeds = onlineDioClientProxy.getFeeds(AppSetting.SERVICE_PAGING + "", "", updatedDate, "");
+//        List<FeedDTO> remoteFeeds = interceptorDecoratorFactory.getFeeds(AppSetting.SERVICE_PAGING + "", "", updatedDate, "");
+        List<FeedDTO> remoteFeeds = null;
         if (remoteFeeds != null && remoteFeeds.size() > 0)
         {
             Date lastUpdated = Utilities.convertStringToTimeStamp(remoteFeeds.get(0).getUpdatedAt());
@@ -213,7 +213,8 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter
     {
         final ContentResolver contentResolver = getContext().getContentResolver();
         Log.d(TAG, "get list feeds from server");
-        List<CommentCC> remoteComments = onlineDioClientProxy.getComments(161L, "", "", "");
+//        List<CommentCC> remoteComments = interceptorDecoratorFactory.getComments(161L, "", "", "");
+        List<CommentCC> remoteComments = null;
         Log.d(TAG, "parsing complete. Found : " + remoteComments.size());
         ArrayList<ContentProviderOperation> batch = new ArrayList<ContentProviderOperation>();
         HashMap<Long, CommentCC> commentMap = new HashMap<Long, CommentCC>();

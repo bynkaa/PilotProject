@@ -21,7 +21,7 @@ import com.qsoft.pilotproject.common.SuperAnnotationActivity;
 import com.qsoft.pilotproject.common.authenticator.ApplicationAccountManager;
 import com.qsoft.pilotproject.common.imageloader.ImageLoader;
 import com.qsoft.pilotproject.data.model.entity.ProfileCC;
-import com.qsoft.pilotproject.data.rest.OnlineDioClientProxy;
+import com.qsoft.pilotproject.data.rest.InterceptorDecoratorFactory;
 import com.qsoft.pilotproject.service.ProfileService;
 import com.qsoft.pilotproject.ui.controller.ProfileController;
 import com.qsoft.pilotproject.ui.model.UiProfileModel;
@@ -84,7 +84,7 @@ public class ProfileSetupActivity extends SuperAnnotationActivity
     ProfileController profileController;
 
     @Bean
-    OnlineDioClientProxy onlineDioClientProxy;
+    InterceptorDecoratorFactory interceptorDecoratorFactory;
 
     Account account;
     @Bean

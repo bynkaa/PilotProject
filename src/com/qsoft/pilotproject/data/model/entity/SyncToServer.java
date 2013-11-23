@@ -113,7 +113,7 @@ public class SyncToServer
         contentValues.put(SyncToServerContract._ID, id);
         contentValues.put(SyncToServerContract.TABLENAME, tableName);
         contentValues.put(SyncToServerContract.RECORDID, recordId);
-        contentValues.put(SyncToServerContract.GROUPS, serial);
+        contentValues.put(SyncToServerContract.SERIAL, serial);
         contentValues.put(SyncToServerContract.ACTION, action);
         contentValues.put(SyncToServerContract.PRIORITY, priority);
         contentValues.put(SyncToServerContract.STATUS, status);
@@ -126,7 +126,7 @@ public class SyncToServer
         syncToServer.setId(cursor.getLong(cursor.getColumnIndex(SyncToServerContract._ID)));
         syncToServer.setTableName(cursor.getString(cursor.getColumnIndex(SyncToServerContract.TABLENAME)));
         syncToServer.setRecordId(cursor.getLong(cursor.getColumnIndex(SyncToServerContract.RECORDID)));
-        syncToServer.setSerial(cursor.getInt(cursor.getColumnIndex(SyncToServerContract.GROUPS)));
+        syncToServer.setSerial(cursor.getInt(cursor.getColumnIndex(SyncToServerContract.SERIAL)));
         syncToServer.setAction(cursor.getString(cursor.getColumnIndex(SyncToServerContract.ACTION)));
         syncToServer.setPriority(cursor.getInt(cursor.getColumnIndex(SyncToServerContract.PRIORITY)));
         syncToServer.setStatus(cursor.getString(cursor.getColumnIndex(SyncToServerContract.STATUS)));

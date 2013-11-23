@@ -96,4 +96,5 @@ public class UpdateProfileDTO
     {
         this.description = description;
     }
+
 }
