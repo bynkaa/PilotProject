@@ -1,7 +1,7 @@
 package com.qsoft.pilotproject.service;
 
 import com.googlecode.androidannotations.annotations.EBean;
-import com.qsoft.pilotproject.data.rest.OnlineDioRestClient;
+import com.qsoft.pilotproject.data.rest.ProfileRestClient;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -20,7 +20,7 @@ public class RestMapping
 
     public RestMapping()
     {
-        tableMapping.put("profiles", OnlineDioRestClient.class);
+        tableMapping.put("profiles", ProfileRestClient.class);
     }
 
     public Class getRestFromTable(String tableName)

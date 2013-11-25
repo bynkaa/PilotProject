@@ -20,7 +20,9 @@ import com.qsoft.pilotproject.common.authenticator.ApplicationAccountManager;
 import com.qsoft.pilotproject.common.authenticator.OnlineDioAuthenticator;
 import com.qsoft.pilotproject.common.commands.GenericStartActivityCommand;
 import com.qsoft.pilotproject.common.utils.Utilities;
+import com.qsoft.pilotproject.data.model.dto.SignInDTO;
 import com.qsoft.pilotproject.data.rest.InterceptorDecoratorFactory;
+import com.qsoft.pilotproject.service.AuthService;
 import com.qsoft.pilotproject.ui.controller.LoginController;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.methods.HttpGet;
@@ -80,6 +82,8 @@ public class LoginActivity extends AccountAuthenticatorActivity
 
     @Bean
     LoginController loginController;
+    @Bean
+    AuthService authService;
 
     public void onCreate(Bundle savedInstanceState)
     {
@@ -146,16 +150,16 @@ public class LoginActivity extends AccountAuthenticatorActivity
         Bundle data = new Bundle();
         try
         {
-//            SignInDTO signInDTO = interceptorDecoratorFactory.signIn(email, pass);
-//            if (signInDTO == null)
-//            {
-//                throw new Exception();
-//            }
-//            data.putLong(USER_ID_KEY, Long.valueOf(signInDTO.getUserId()));
-//            data.putString(AccountManager.KEY_AUTHTOKEN, signInDTO.getAccessToken());
-//            data.putString(AccountManager.KEY_ACCOUNT_NAME, email);
-//            data.putString(AccountManager.KEY_ACCOUNT_TYPE, accountType);
-//            data.putString(KEY_USER_PASSWORD, pass);
+            SignInDTO signInDTO = authService.signIn(email, pass);
+            if (signInDTO == null)
+            {
+                throw new Exception();
+            }
+            data.putLong(USER_ID_KEY, Long.valueOf(signInDTO.getUserId()));
+            data.putString(AccountManager.KEY_AUTHTOKEN, signInDTO.getAccessToken());
+            data.putString(AccountManager.KEY_ACCOUNT_NAME, email);
+            data.putString(AccountManager.KEY_ACCOUNT_TYPE, accountType);
+            data.putString(KEY_USER_PASSWORD, pass);
         }
         catch (Exception e)
         {

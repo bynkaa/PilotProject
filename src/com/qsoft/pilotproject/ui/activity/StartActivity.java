@@ -2,6 +2,7 @@ package com.qsoft.pilotproject.ui.activity;
 
 import android.accounts.Account;
 import android.accounts.AccountManager;
+import android.app.Activity;
 import android.content.Intent;
 import android.util.Log;
 import com.googlecode.androidannotations.annotations.AfterViews;
@@ -10,7 +11,6 @@ import com.googlecode.androidannotations.annotations.EActivity;
 import com.googlecode.androidannotations.annotations.SystemService;
 import com.qsoft.pilotproject.R;
 import com.qsoft.pilotproject.common.CommandExecutor;
-import com.qsoft.pilotproject.common.SuperAnnotationActivity;
 import com.qsoft.pilotproject.common.authenticator.AccountGeneral;
 import com.qsoft.pilotproject.common.authenticator.ApplicationAccountManager;
 import com.qsoft.pilotproject.common.commands.GenericStartActivityCommand;
@@ -21,8 +21,9 @@ import com.qsoft.pilotproject.common.commands.GenericStartActivityCommand;
  * Time: 5:32 PM
  */
 @EActivity(R.layout.main)
-public class StartActivity extends SuperAnnotationActivity
+public class StartActivity extends Activity
 {
+    static String TAG = "StartActivity";
     private static final int RC_SLIDE_BAR_ACTIVITY = 1;
     public static final int RC_LAUCH_ACTIVITY = 2;
     @SystemService

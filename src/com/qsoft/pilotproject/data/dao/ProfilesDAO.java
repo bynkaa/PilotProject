@@ -19,7 +19,7 @@ import com.qsoft.pilotproject.data.model.entity.SyncToServer;
  * To change this template use File | Settings | File Templates.
  */
 @EBean
-public class ProfileDAO
+public class ProfilesDAO implements IDao
 {
 
     @RootContext
@@ -59,7 +59,7 @@ public class ProfileDAO
 
     }
 
-    public ProfileCC getProfile(Long userId)
+    public Object get(Long userId)
     {
         Cursor cursor = contentResolver.query(ProfileCCContract.CONTENT_URI, null, ProfileCCContract.USERID + "=?", new String[]{userId.toString()}, null);
         if (cursor.moveToFirst())
@@ -73,4 +73,12 @@ public class ProfileDAO
     {
         contentResolver.insert(ProfileCCContract.CONTENT_URI, profileCC.getContentValues());
     }
+
+    @Override
+    public void update()
+    {
+        //To change body of implemented methods use File | Settings | File Templates.
+    }
+
+
 }

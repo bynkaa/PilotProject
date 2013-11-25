@@ -9,6 +9,7 @@ package com.qsoft.pilotproject.config;
  */
 public class AppSetting
 {
+    public static final String SYNC_FLAG = "sync_flag";
     public static String BASE_PACKAGE = "com.qsoft.pilotproject.";
     public static String DAO_PACKAGE = BASE_PACKAGE + "data.dao.";
     public static String SERVICE_PACKAGE = BASE_PACKAGE + "service.";

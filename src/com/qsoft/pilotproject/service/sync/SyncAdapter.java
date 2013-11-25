@@ -12,15 +12,19 @@ import android.widget.Toast;
 import com.googlecode.androidannotations.annotations.Bean;
 import com.googlecode.androidannotations.annotations.EBean;
 import com.googlecode.androidannotations.annotations.UiThread;
-import com.qsoft.pilotproject.common.authenticator.InvalidTokenException;
 import com.qsoft.pilotproject.common.utils.Utilities;
+import com.qsoft.pilotproject.config.AppSetting;
 import com.qsoft.pilotproject.data.model.dto.FeedDTO;
 import com.qsoft.pilotproject.data.model.entity.CommentCC;
 import com.qsoft.pilotproject.data.model.entity.CommentCCContract;
 import com.qsoft.pilotproject.data.model.entity.FeedCC;
 import com.qsoft.pilotproject.data.model.entity.FeedCCContract;
 import com.qsoft.pilotproject.data.provider.CCContract;
+import com.qsoft.pilotproject.data.rest.FeedRestClient;
+import com.qsoft.pilotproject.data.rest.FeedRestClientCustom;
 import com.qsoft.pilotproject.data.rest.InterceptorDecoratorFactory;
+import com.qsoft.pilotproject.data.rest.SingletonFactoryHolder;
+import com.qsoft.pilotproject.service.SyncDataService;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -73,6 +77,8 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter
     Context context;
     @Bean
     InterceptorDecoratorFactory interceptorDecoratorFactory;
+    @Bean
+    SyncDataService syncDataService;
 
     AccountManager accountManager;
 
@@ -91,8 +97,23 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter
         Log.d(TAG, "onPerformSync()");
         try
         {
-            updateLocalFeedData(account, syncResult, authority);
-            updateLocalCommentData(account, syncResult);
+
+            Integer flag = bundle.getInt(AppSetting.SYNC_FLAG);
+            if (flag == 0 || flag == null)
+            {
+                getData(account, syncResult, authority);
+                syncDataService.performSync();
+            }
+            else if (flag == 1)
+            {
+                getData(account, syncResult, authority);
+
+            }
+            else if (flag == 2)
+            {
+                syncDataService.performSync();
+            }
+
         }
         catch (RemoteException e)
         {
@@ -102,17 +123,23 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter
         {
             e.printStackTrace();
         }
-        catch (InvalidTokenException e)
-        {
-            e.printStackTrace();
-        }
         catch (InterruptedException e)
         {
             e.printStackTrace();
         }
+        catch (Exception e)
+        {
+            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+        }
     }
 
-    private void updateLocalFeedData(Account account, SyncResult syncResult, String authority) throws RemoteException, OperationApplicationException, InvalidTokenException, InterruptedException
+    private void getData(Account account, SyncResult syncResult, String authority) throws Exception
+    {
+        updateLocalFeedData(account, syncResult, authority);
+//        updateLocalCommentData(account, syncResult);
+    }
+
+    private void updateLocalFeedData(Account account, SyncResult syncResult, String authority) throws Exception
     {
         final ContentResolver contentResolver = getContext().getContentResolver();
 
@@ -123,8 +150,10 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter
         String updatedDate = preferences.getString(account.name + "_" + authority, "");
         //get ofset, limit from setting
 
-//        List<FeedDTO> remoteFeeds = interceptorDecoratorFactory.getFeeds(AppSetting.SERVICE_PAGING + "", "", updatedDate, "");
-        List<FeedDTO> remoteFeeds = null;
+        //todo
+        FeedRestClientCustom feedRestClientCustom = (FeedRestClientCustom) SingletonFactoryHolder.getSingleton(FeedRestClient.class);
+        feedRestClientCustom = (FeedRestClientCustom) interceptorDecoratorFactory.wrap(feedRestClientCustom);
+        List<FeedDTO> remoteFeeds = feedRestClientCustom.getFeeds(AppSetting.SERVICE_PAGING + "", "", updatedDate, "").getFeedDTOs();
         if (remoteFeeds != null && remoteFeeds.size() > 0)
         {
             Date lastUpdated = Utilities.convertStringToTimeStamp(remoteFeeds.get(0).getUpdatedAt());

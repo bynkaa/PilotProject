@@ -7,17 +7,29 @@ package com.qsoft.pilotproject.service;
  * Time: 4:05 PM
  * To change this template use File | Settings | File Templates.
  */
-public enum Action {
+public enum Action
+{
     UPDATE("update"),
     DELETE("delete"),
     INSERT("insert");
     private String alias;
 
-    private Action(String value) {
+    private Action(String value)
+    {
         alias = value;
     }
 
-    public String getValue() {
+    public String getValue()
+    {
         return alias;
+    }
+
+    public static Action getAction(String actionValue)
+    {
+        if (actionValue.equals("update"))
+        {
+            return UPDATE;
+        }
+        return null;
     }
 }

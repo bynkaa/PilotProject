@@ -1,7 +1,5 @@
 package com.qsoft.pilotproject.common.utils;
 
-import com.qsoft.pilotproject.common.annotation.ViewMapping;
-
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -28,15 +26,5 @@ public class ClassUtils
         return results;
     }
 
-    public static int getViewMappingId(Class<?> activityClass)
-    {
-        if (activityClass.isAnnotationPresent(ViewMapping.class))
-        {
-            return activityClass.getAnnotation(ViewMapping.class).value();
-        }
-        else
-        {
-            return -1;
-        }
-    }
+
 }

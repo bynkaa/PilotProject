@@ -7,7 +7,7 @@ import com.qsoft.pilotproject.common.utils.Utilities;
 import com.qsoft.pilotproject.config.AppSetting;
 import com.qsoft.pilotproject.data.dao.FeedDAO;
 import com.qsoft.pilotproject.data.dao.IDao;
-import com.qsoft.pilotproject.data.dao.ProfileDAO;
+import com.qsoft.pilotproject.data.dao.ProfilesDAO;
 import com.qsoft.pilotproject.data.dao.SyncToServiceDAO;
 import com.qsoft.pilotproject.data.model.entity.ITransformableDTO;
 import com.qsoft.pilotproject.data.model.entity.SyncToServer;
@@ -30,7 +30,7 @@ public class SyncDataService
     @Bean
     SyncToServiceDAO syncToServiceDAO;
     @Bean
-    ProfileDAO profileDAO;
+    ProfilesDAO profilesDAO;
     @Bean
     FeedDAO feedDAO;
     @Bean
@@ -48,7 +48,7 @@ public class SyncDataService
         {
             if (syncToServer.getSerial() == 0)
             {
-                Action action = Action.valueOf(syncToServer.getAction());
+                Action action = Action.getAction(syncToServer.getAction());
                 String tableName = syncToServer.getTableName();
                 Long id = syncToServer.getRecordId();
                 Class restClass = restMapping.getRestFromTable(tableName);

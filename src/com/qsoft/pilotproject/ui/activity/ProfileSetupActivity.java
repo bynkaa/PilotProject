@@ -2,6 +2,7 @@ package com.qsoft.pilotproject.ui.activity;
 
 import android.accounts.Account;
 import android.accounts.AccountManager;
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
@@ -17,12 +18,12 @@ import android.util.Log;
 import android.widget.*;
 import com.googlecode.androidannotations.annotations.*;
 import com.qsoft.pilotproject.R;
-import com.qsoft.pilotproject.common.SuperAnnotationActivity;
 import com.qsoft.pilotproject.common.authenticator.ApplicationAccountManager;
 import com.qsoft.pilotproject.common.imageloader.ImageLoader;
 import com.qsoft.pilotproject.data.model.entity.ProfileCC;
 import com.qsoft.pilotproject.data.rest.InterceptorDecoratorFactory;
 import com.qsoft.pilotproject.service.ProfileService;
+import com.qsoft.pilotproject.ui.controller.CommonController;
 import com.qsoft.pilotproject.ui.controller.ProfileController;
 import com.qsoft.pilotproject.ui.model.UiProfileModel;
 
@@ -32,8 +33,9 @@ import com.qsoft.pilotproject.ui.model.UiProfileModel;
  * Time: 3:48 PM
  */
 @EActivity(R.layout.profile_setup)
-public class ProfileSetupActivity extends SuperAnnotationActivity
+public class ProfileSetupActivity extends Activity
 {
+    final String TAG = "ProfileSetupActivity";
     final Context context = this;
     static final int DATE_DIALOG_ID = 999;
     static final int RESULT_LOAD_IMAGE = 1;
@@ -82,6 +84,9 @@ public class ProfileSetupActivity extends SuperAnnotationActivity
 
     @Bean
     ProfileController profileController;
+
+    @Bean
+    CommonController commonController;
 
     @Bean
     InterceptorDecoratorFactory interceptorDecoratorFactory;
@@ -198,6 +203,7 @@ public class ProfileSetupActivity extends SuperAnnotationActivity
         uiProfileModel.setCountryId("SA");
         uiProfileModel.setDescription(etDescription.getText().toString());
         updateProfile(uiProfileModel);
+        commonController.triggerSync();
 //    }
 
     }

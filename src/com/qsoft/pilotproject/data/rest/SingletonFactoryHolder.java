@@ -20,7 +20,7 @@ public class SingletonFactoryHolder
         {
             try
             {
-                Object obj = Class.forName(clazz.getName() + "Customer").newInstance();
+                Object obj = Class.forName(clazz.getName() + "Custom").newInstance();
                 singletonHolder.put(clazz, obj);
                 return obj;
             }

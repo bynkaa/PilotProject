@@ -6,7 +6,7 @@ import com.googlecode.androidannotations.annotations.EBean;
 import com.googlecode.androidannotations.annotations.RootContext;
 import com.qsoft.pilotproject.common.authenticator.ApplicationAccountManager;
 import com.qsoft.pilotproject.common.utils.Utilities;
-import com.qsoft.pilotproject.data.dao.ProfileDAO;
+import com.qsoft.pilotproject.data.dao.ProfilesDAO;
 import com.qsoft.pilotproject.data.model.dto.ProfileDTO;
 import com.qsoft.pilotproject.data.model.entity.ProfileCC;
 import com.qsoft.pilotproject.data.rest.InterceptorDecoratorFactory;
@@ -26,7 +26,7 @@ public class ProfileService
     @RootContext
     Context context;
     @Bean
-    ProfileDAO profileDAO;
+    ProfilesDAO profilesDAO;
     @Bean
     ApplicationAccountManager applicationAccountManager;
     @Bean
@@ -35,25 +35,34 @@ public class ProfileService
 
     public void updateMyProfile(UiProfileModel profileModel)
     {
-        ProfileCC profileCC = profileDAO.getProfile(applicationAccountManager.getUserId());
+        ProfileCC profileCC = (ProfileCC) profilesDAO.get(applicationAccountManager.getUserId());
         profileCC.setBirthday(profileModel.getBirthDay());
         profileCC.setDescription(profileModel.getDescription());
         profileCC.setDisplayName(profileModel.getDisplayName());
-        profileDAO.updateProfile(profileCC, applicationAccountManager.getUserId());
+        profilesDAO.updateProfile(profileCC, applicationAccountManager.getUserId());
 
     }
 
     public ProfileCC getProfile()
     {
-//        ProfileDTO profileDTO = interceptorDecoratorFactory.getProfile(applicationAccountManager.getUserId());
-        ProfileDTO profileDTO = null;
+        //todo
+        ProfileDTO profileDTO = new ProfileDTO();
+        profileDTO.setPhone("123444");
+        profileDTO.setFullName("aaa");
+        profileDTO.setBirthday("1999-01-02");
+        profileDTO.setCountryId("SA");
+        profileDTO.setUserId(545l);
+        profileDTO.setDescription("aabbda");
+        profileDTO.setGender(1);
+        profileDTO.setDisplayName("no");
+
         ProfileCC profileCC = new ProfileCC();
         Utilities.copyProperties(profileCC, profileDTO);
         // insert or update profile
-        ProfileCC profile = profileDAO.getProfile(applicationAccountManager.getUserId());
+        ProfileCC profile = (ProfileCC) profilesDAO.get(applicationAccountManager.getUserId());
         if (profile == null)
         {
-            profileDAO.insertProfile(profileCC);
+            profilesDAO.insertProfile(profileCC);
         }
         return profileCC;
     }

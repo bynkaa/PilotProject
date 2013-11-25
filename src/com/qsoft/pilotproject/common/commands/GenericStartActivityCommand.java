@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.content.Intent;
 import com.qsoft.pilotproject.common.Constants;
 import com.qsoft.pilotproject.common.ICommandExecutable;
-import com.qsoft.pilotproject.common.SuperAnnotationActivity;
 import com.qsoft.pilotproject.common.utils.LogUtils;
 import com.qsoft.pilotproject.common.utils.UniqueRequestCodeGenerator;
 
@@ -31,11 +30,6 @@ public class GenericStartActivityCommand implements ICommandExecutable
     }
 
 // --------------------- GETTER / SETTER METHODS ---------------------
-
-    public void setActivityExchangeEventManageable(SuperAnnotationActivity activityExchangeEventManageable)
-    {
-        this.activityExchangeEventManageable = activityExchangeEventManageable;
-    }
 
     public void setModel(Serializable model)
     {
