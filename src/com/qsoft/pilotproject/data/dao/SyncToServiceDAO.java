@@ -13,11 +13,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created with IntelliJ IDEA.
  * User: Qsoft
  * Date: 11/20/13
  * Time: 3:35 PM
- * To change this template use File | Settings | File Templates.
  */
 @EBean
 public class SyncToServiceDAO
@@ -32,9 +30,22 @@ public class SyncToServiceDAO
         contentResolver = context.getContentResolver();
     }
 
-    public void insertToSync(SyncToServer syncToServer)
+    public void insertOrUpdateToSync(SyncToServer syncToServer)
     {
-        contentResolver.insert(SyncToServerContract.CONTENT_URI, syncToServer.getContentValues());
+        String where = SyncToServerContract.TABLENAME + "=?" + " OR " + SyncToServerContract.RECORDID + "=?";
+        String[] args = new String[]{syncToServer.getTableName(), syncToServer.getRecordId().toString()};
+        Cursor cursor = contentResolver.query(SyncToServerContract.CONTENT_URI,
+                new String[]{SyncToServerContract._ID}, where, args, null);
+        if (cursor.moveToFirst())
+        {
+            Long id = cursor.getLong(0);
+            contentResolver.update(SyncToServerContract.CONTENT_URI, syncToServer.getContentValues(),
+                    SyncToServerContract._ID + "=?", new String[]{id.toString()});
+        }
+        else
+        {
+            contentResolver.insert(SyncToServerContract.CONTENT_URI, syncToServer.getContentValues());
+        }
 
     }
 

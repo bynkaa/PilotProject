@@ -117,7 +117,14 @@ public class ProfileSetupActivity extends Activity
     void syncProfile()
     {
         Log.d(TAG, "doInBackground: ");
-        profile = profileService.getProfile();
+        try
+        {
+            profile = profileService.getProfile();
+        }
+        catch (Exception e)
+        {
+            showMessage("can't get profile");
+        }
         setToView();
     }
 
@@ -203,7 +210,7 @@ public class ProfileSetupActivity extends Activity
         uiProfileModel.setCountryId("SA");
         uiProfileModel.setDescription(etDescription.getText().toString());
         updateProfile(uiProfileModel);
-        commonController.triggerSync();
+        commonController.triggerSync(2);
 //    }
 
     }
@@ -212,13 +219,13 @@ public class ProfileSetupActivity extends Activity
     void updateProfile(UiProfileModel uiProfileModel)
     {
         profileService.updateMyProfile(uiProfileModel);
-        showMessage();
+        showMessage("Save successful");
     }
 
     @UiThread
-    void showMessage()
+    void showMessage(String message)
     {
-        Toast.makeText(getBaseContext(), "Save successful", Toast.LENGTH_LONG).show();
+        Toast.makeText(getBaseContext(), message, Toast.LENGTH_LONG).show();
     }
 
     @Click(R.id.ibProfileCancel)

@@ -110,7 +110,6 @@ public class SyncToServer
     public ContentValues getContentValues()
     {
         ContentValues contentValues = new ContentValues();
-        contentValues.put(SyncToServerContract._ID, id);
         contentValues.put(SyncToServerContract.TABLENAME, tableName);
         contentValues.put(SyncToServerContract.RECORDID, recordId);
         contentValues.put(SyncToServerContract.SERIAL, serial);

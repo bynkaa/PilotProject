@@ -3,7 +3,6 @@ package com.qsoft.pilotproject.ui.activity;
 import android.accounts.Account;
 import android.accounts.AccountManager;
 import android.app.Activity;
-import android.content.Intent;
 import android.util.Log;
 import com.googlecode.androidannotations.annotations.AfterViews;
 import com.googlecode.androidannotations.annotations.Bean;
@@ -63,10 +62,6 @@ public class StartActivity extends Activity
             commandExecutor.execute(this,
                     new GenericStartActivityCommand(this, LaunchActivity_.class, RC_LAUCH_ACTIVITY)
                     {
-                        @Override
-                        public void overrideExtra(Intent intent)
-                        {
-                        }
                     }, false);
         }
     }

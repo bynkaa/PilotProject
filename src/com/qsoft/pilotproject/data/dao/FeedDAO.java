@@ -11,14 +11,18 @@ import com.qsoft.pilotproject.data.model.entity.FeedCC;
  * To change this template use File | Settings | File Templates.
  */
 @EBean
-public class FeedDAO implements IDao {
+public class FeedDAO implements IDao<FeedCC>
+{
+
     @Override
-    public void update() {
+    public void update(FeedCC obj, Long id)
+    {
 
     }
 
     @Override
-    public FeedCC get(Long feedId) {
+    public FeedCC get(Long id)
+    {
         return null;
     }
 }

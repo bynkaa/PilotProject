@@ -1,6 +1,12 @@
 package com.qsoft.pilotproject.data.model.dto;
 
+import android.util.Log;
 import com.google.gson.annotations.SerializedName;
+import com.qsoft.pilotproject.common.utils.ClassUtils;
+
+import java.lang.reflect.Field;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created with IntelliJ IDEA.
@@ -97,4 +103,24 @@ public class UpdateProfileDTO
         this.description = description;
     }
 
+    public Map toMapValues()
+    {
+        Map mapValues = new HashMap();
+        for (Field field : ClassUtils.getAllFields(this.getClass()))
+        {
+            if (field.isAnnotationPresent(SerializedName.class))
+            {
+                try
+                {
+                    mapValues.put(field.getAnnotation(SerializedName.class).value(), field.get(this));
+                }
+                catch (IllegalAccessException e)
+                {
+                    Log.d("UpdateProfileDTO", "unable to convert field");
+                }
+
+            }
+        }
+        return mapValues;
+    }
 }

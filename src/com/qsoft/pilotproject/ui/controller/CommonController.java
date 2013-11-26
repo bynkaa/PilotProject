@@ -10,6 +10,7 @@ import com.googlecode.androidannotations.annotations.EBean;
 import com.googlecode.androidannotations.annotations.SystemService;
 import com.qsoft.pilotproject.common.authenticator.AccountGeneral;
 import com.qsoft.pilotproject.common.authenticator.ApplicationAccountManager;
+import com.qsoft.pilotproject.config.AppSetting;
 import com.qsoft.pilotproject.data.model.dto.SignInDTO;
 import com.qsoft.pilotproject.data.provider.CCContract;
 
@@ -45,10 +46,11 @@ public class CommonController
         }
     }
 
-    public void triggerSync()
+    public void triggerSync(int syncFlag)
     {
         Log.d(TAG, "TriggerSync > account");
         Bundle bundle = new Bundle();
+        bundle.putInt(AppSetting.SYNC_FLAG, syncFlag);
         bundle.putBoolean(ContentResolver.SYNC_EXTRAS_MANUAL, true);
         bundle.putBoolean(ContentResolver.SYNC_EXTRAS_EXPEDITED, true);
         ContentResolver.requestSync(applicationAccountManager.getAccount(), CCContract.AUTHORITY, bundle);

@@ -4,11 +4,9 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * Created with IntelliJ IDEA.
  * User: Qsoft
  * Date: 11/23/13
  * Time: 2:51 PM
- * To change this template use File | Settings | File Templates.
  */
 public class SingletonFactoryHolder
 {

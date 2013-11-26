@@ -12,11 +12,9 @@ import org.springframework.http.converter.json.GsonHttpMessageConverter;
 import org.springframework.web.client.RestTemplate;
 
 /**
- * Created with IntelliJ IDEA.
  * User: Qsoft
  * Date: 11/23/13
  * Time: 3:39 PM
- * To change this template use File | Settings | File Templates.
  */
 @Rest(rootUrl = "http://113.160.50.84:1009/testing/ica467/trunk/public/", converters = {
         GsonHttpMessageConverter.class,

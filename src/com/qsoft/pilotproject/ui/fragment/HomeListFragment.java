@@ -158,7 +158,7 @@ public class HomeListFragment extends ListFragment implements LoaderManager.Load
             Bundle bundle = new Bundle();
             bundle.putString("limit", limit);
             getLoaderManager().restartLoader(0, bundle, this);
-            commonController.triggerSync();
+            commonController.triggerSync(0);
 
 
         }

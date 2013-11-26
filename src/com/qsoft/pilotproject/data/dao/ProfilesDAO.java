@@ -12,14 +12,12 @@ import com.qsoft.pilotproject.data.model.entity.ProfileCCContract;
 import com.qsoft.pilotproject.data.model.entity.SyncToServer;
 
 /**
- * Created with IntelliJ IDEA.
  * User: Qsoft
  * Date: 11/20/13
  * Time: 3:20 PM
- * To change this template use File | Settings | File Templates.
  */
 @EBean
-public class ProfilesDAO implements IDao
+public class ProfilesDAO implements IDao<ProfileCC>
 {
 
     @RootContext
@@ -27,6 +25,12 @@ public class ProfilesDAO implements IDao
     ContentResolver contentResolver;
     @Bean
     SyncToServiceDAO syncToServiceDAO;
+
+    public ProfilesDAO(Context context)
+    {
+        this.context = context;
+        afterInject();
+    }
 
     @AfterInject
     void afterInject()
@@ -36,12 +40,8 @@ public class ProfilesDAO implements IDao
 
     public void updateProfile(ProfileCC profile, Long userId)
     {
-
-        contentResolver.update(ProfileCCContract.CONTENT_URI, profile.getContentValues(),
-                ProfileCCContract.USERID + "=?", new String[]{userId.toString()});
-
-        Cursor cursor = contentResolver.query(ProfileCCContract.CONTENT_URI, new String[]{ProfileCCContract._ID},
-
+        update(profile, userId);
+        Cursor cursor = contentResolver.query(ProfileCCContract.CONTENT_URI, new String[]{ProfileCCContract.USERID},
                 ProfileCCContract.USERID + "=?", new String[]{userId.toString()}, null);
         Long id = null;
         if (cursor.moveToFirst())
@@ -55,11 +55,11 @@ public class ProfilesDAO implements IDao
         syncToServer.setPriority(1);
         syncToServer.setStatus("not sync");
         syncToServer.setAction("update");
-        syncToServiceDAO.insertToSync(syncToServer);
+        syncToServiceDAO.insertOrUpdateToSync(syncToServer);
 
     }
 
-    public Object get(Long userId)
+    public ProfileCC get(Long userId)
     {
         Cursor cursor = contentResolver.query(ProfileCCContract.CONTENT_URI, null, ProfileCCContract.USERID + "=?", new String[]{userId.toString()}, null);
         if (cursor.moveToFirst())
@@ -75,9 +75,10 @@ public class ProfilesDAO implements IDao
     }
 
     @Override
-    public void update()
+    public void update(ProfileCC profile, Long id)
     {
-        //To change body of implemented methods use File | Settings | File Templates.
+        contentResolver.update(ProfileCCContract.CONTENT_URI, profile.getContentValues(),
+                ProfileCCContract.USERID + "=?", new String[]{id.toString()});
     }
 
 

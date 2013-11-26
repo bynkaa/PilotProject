@@ -118,7 +118,7 @@ public class Home extends Fragment
     void doClickNotification()
     {
         progressDialog = ProgressDialog.show(getActivity(), "Progress Dialog", "Loading...");
-        commonController.triggerSync();
+        commonController.triggerSync(0);
     }
 
     @Click(R.id.btMenu)

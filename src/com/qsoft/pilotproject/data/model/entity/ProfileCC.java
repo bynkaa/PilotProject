@@ -294,7 +294,6 @@ public class ProfileCC implements ITransformableDTO
     public ContentValues getContentValues()
     {
         ContentValues values = new ContentValues();
-        values.put(ProfileCCContract._ID, id);
         values.put(ProfileCCContract.USERID, userId);
         values.put(ProfileCCContract.FACEBOOKID, facebookId);
         values.put(ProfileCCContract.USERNAME, userName);

@@ -1,7 +1,9 @@
 package com.qsoft.pilotproject.service;
 
+import android.content.Context;
 import com.googlecode.androidannotations.annotations.Bean;
 import com.googlecode.androidannotations.annotations.EBean;
+import com.googlecode.androidannotations.annotations.RootContext;
 import com.qsoft.pilotproject.common.authenticator.ApplicationAccountManager;
 import com.qsoft.pilotproject.common.utils.Utilities;
 import com.qsoft.pilotproject.config.AppSetting;
@@ -25,8 +27,10 @@ import java.util.List;
  * To change this template use File | Settings | File Templates.
  */
 @EBean
-public class SyncDataService
+public class SyncDataServer
 {
+    @RootContext
+    Context context;
     @Bean
     SyncToServiceDAO syncToServiceDAO;
     @Bean
@@ -53,6 +57,7 @@ public class SyncDataService
                 Long id = syncToServer.getRecordId();
                 Class restClass = restMapping.getRestFromTable(tableName);
                 IRest iRest = (IRest) SingletonFactoryHolder.getSingleton(restClass);
+                iRest = interceptorDecoratorFactory.wrap(iRest);
 
                 switch (action)
                 {
@@ -61,7 +66,7 @@ public class SyncDataService
 
 //                            IRest iRest = (IRest) Class.forName(AppSetting.REST_PACKAGE + restName).newInstance();
                         IDao classDaoUpdate = (IDao) Class.forName(AppSetting.DAO_PACKAGE
-                                + Utilities.convertFromTableToDAOClassName(tableName)).newInstance();
+                                + Utilities.convertFromTableToDAOClassName(tableName)).getDeclaredConstructor(Context.class).newInstance(context);
                         ITransformableDTO transformableDTO = (ITransformableDTO) classDaoUpdate.get(id);
                         Object obj = transformableDTO.transformToDTO();
                         iRest.update(obj, id);

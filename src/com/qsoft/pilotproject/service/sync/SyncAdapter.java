@@ -9,22 +9,19 @@ import android.os.Bundle;
 import android.os.RemoteException;
 import android.util.Log;
 import android.widget.Toast;
+import com.googlecode.androidannotations.annotations.AfterInject;
 import com.googlecode.androidannotations.annotations.Bean;
 import com.googlecode.androidannotations.annotations.EBean;
 import com.googlecode.androidannotations.annotations.UiThread;
+import com.qsoft.pilotproject.common.authenticator.ApplicationAccountManager;
 import com.qsoft.pilotproject.common.utils.Utilities;
 import com.qsoft.pilotproject.config.AppSetting;
 import com.qsoft.pilotproject.data.model.dto.FeedDTO;
-import com.qsoft.pilotproject.data.model.entity.CommentCC;
-import com.qsoft.pilotproject.data.model.entity.CommentCCContract;
-import com.qsoft.pilotproject.data.model.entity.FeedCC;
-import com.qsoft.pilotproject.data.model.entity.FeedCCContract;
+import com.qsoft.pilotproject.data.model.dto.ProfileDTO;
+import com.qsoft.pilotproject.data.model.entity.*;
 import com.qsoft.pilotproject.data.provider.CCContract;
-import com.qsoft.pilotproject.data.rest.FeedRestClient;
-import com.qsoft.pilotproject.data.rest.FeedRestClientCustom;
-import com.qsoft.pilotproject.data.rest.InterceptorDecoratorFactory;
-import com.qsoft.pilotproject.data.rest.SingletonFactoryHolder;
-import com.qsoft.pilotproject.service.SyncDataService;
+import com.qsoft.pilotproject.data.rest.*;
+import com.qsoft.pilotproject.service.SyncDataServer;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -78,9 +75,19 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter
     @Bean
     InterceptorDecoratorFactory interceptorDecoratorFactory;
     @Bean
-    SyncDataService syncDataService;
+    SyncDataServer syncDataServer;
+    @Bean
+    ApplicationAccountManager applicationAccountManager;
 
     AccountManager accountManager;
+    ContentResolver contentResolver;
+
+    @AfterInject
+    void init()
+    {
+        contentResolver = getContext().getContentResolver();
+
+    }
 
     public SyncAdapter(Context context)
     {
@@ -101,17 +108,17 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter
             Integer flag = bundle.getInt(AppSetting.SYNC_FLAG);
             if (flag == 0 || flag == null)
             {
-                getData(account, syncResult, authority);
-                syncDataService.performSync();
+                getDataFromServer(account, syncResult, authority);
+                syncDataServer.performSync();
             }
             else if (flag == 1)
             {
-                getData(account, syncResult, authority);
+                getDataFromServer(account, syncResult, authority);
 
             }
             else if (flag == 2)
             {
-                syncDataService.performSync();
+                syncDataServer.performSync();
             }
 
         }
@@ -133,18 +140,44 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter
         }
     }
 
-    private void getData(Account account, SyncResult syncResult, String authority) throws Exception
+    private void getDataFromServer(Account account, SyncResult syncResult, String authority) throws Exception
     {
-        updateLocalFeedData(account, syncResult, authority);
+        getFeedFromServer(account, syncResult, authority);
+        getProfileFromServer(account, syncResult, authority);
 //        updateLocalCommentData(account, syncResult);
     }
 
-    private void updateLocalFeedData(Account account, SyncResult syncResult, String authority) throws Exception
+    private void getProfileFromServer(Account account, SyncResult syncResult, String authority) throws Exception
     {
-        final ContentResolver contentResolver = getContext().getContentResolver();
+        Log.d(TAG, "get profile from server");
+        ProfileRestClientCustom profileRestClientCustom = (ProfileRestClientCustom) SingletonFactoryHolder.getSingleton(ProfileRestClient.class);
+        profileRestClientCustom = (ProfileRestClientCustom) interceptorDecoratorFactory.wrap(profileRestClientCustom);
+        ProfileDTO remoteProfile = profileRestClientCustom.get(applicationAccountManager.getUserId()).getProfile();
 
+        Log.d(TAG, "fetching local profile for merger");
+        String selection = ProfileCCContract.USERID + "=?";
+        String[] selectionArgs = new String[]{applicationAccountManager.getUserId().toString()};
+        Cursor cursor = contentResolver.query(ProfileCCContract.CONTENT_URI, new String[]{ProfileCCContract._ID},
+                selection, selectionArgs, null);
+        ProfileCC newProfile = new ProfileCC();
+        Utilities.copyProperties(newProfile, remoteProfile);
+        if (cursor.moveToFirst())
+        {
+            Long id = cursor.getLong(cursor.getColumnIndex(ProfileCCContract._ID));
+
+            contentResolver.update(ProfileCCContract.CONTENT_URI, newProfile.getContentValues(), ProfileCCContract._ID + "=?", new String[]{id.toString()});
+        }
+        else
+        {
+            contentResolver.insert(ProfileCCContract.CONTENT_URI, newProfile.getContentValues());
+        }
+        contentResolver.notifyChange(ProfileCCContract.CONTENT_URI, null, false);
+
+    }
+
+    private void getFeedFromServer(Account account, SyncResult syncResult, String authority) throws Exception
+    {
         Log.d(TAG, "get list feeds from server");
-
         //get updated date from preference
         SharedPreferences preferences = getContext().getSharedPreferences("", Context.MODE_PRIVATE);
         String updatedDate = preferences.getString(account.name + "_" + authority, "");
@@ -154,13 +187,15 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter
         FeedRestClientCustom feedRestClientCustom = (FeedRestClientCustom) SingletonFactoryHolder.getSingleton(FeedRestClient.class);
         feedRestClientCustom = (FeedRestClientCustom) interceptorDecoratorFactory.wrap(feedRestClientCustom);
         List<FeedDTO> remoteFeeds = feedRestClientCustom.getFeeds(AppSetting.SERVICE_PAGING + "", "", updatedDate, "").getFeedDTOs();
-        if (remoteFeeds != null && remoteFeeds.size() > 0)
+        if (remoteFeeds == null || remoteFeeds.size() == 0)
         {
-            Date lastUpdated = Utilities.convertStringToTimeStamp(remoteFeeds.get(0).getUpdatedAt());
-            SharedPreferences.Editor editor = preferences.edit();
-            editor.putString(account.name + "_" + authority, lastUpdated.toString());
-            editor.commit();
+            return;
         }
+
+        Date lastUpdated = Utilities.convertStringToTimeStamp(remoteFeeds.get(0).getUpdatedAt());
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.putString(account.name + "_" + authority, lastUpdated.toString());
+        editor.commit();
         Log.d(TAG, "parsing complete. Found : " + remoteFeeds.size());
         ArrayList<ContentProviderOperation> batch = new ArrayList<ContentProviderOperation>();
         HashMap<Long, FeedDTO> feedMap = new HashMap<Long, FeedDTO>();
@@ -238,9 +273,8 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter
         Toast.makeText(context, "abc", Toast.LENGTH_LONG).show();
     }
 
-    private void updateLocalCommentData(Account account, SyncResult syncResult)
+    private void getCommentFromServer(Account account, SyncResult syncResult)
     {
-        final ContentResolver contentResolver = getContext().getContentResolver();
         Log.d(TAG, "get list feeds from server");
 //        List<CommentCC> remoteComments = interceptorDecoratorFactory.getComments(161L, "", "", "");
         List<CommentCC> remoteComments = null;

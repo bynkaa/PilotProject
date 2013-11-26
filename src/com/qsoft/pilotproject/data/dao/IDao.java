@@ -1,16 +1,14 @@
 package com.qsoft.pilotproject.data.dao;
 
 /**
- * Created with IntelliJ IDEA.
  * User: Qsoft
  * Date: 11/20/13
  * Time: 4:39 PM
- * To change this template use File | Settings | File Templates.
  */
-public interface IDao
+public interface IDao<T>
 {
 
-    void update();
+    void update(T obj, Long id);
 
-    Object get(Long id);
+    T get(Long id);
 }
