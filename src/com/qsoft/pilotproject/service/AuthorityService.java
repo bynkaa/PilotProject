@@ -5,7 +5,7 @@ import com.googlecode.androidannotations.annotations.EBean;
 import com.googlecode.androidannotations.annotations.RootContext;
 import com.googlecode.androidannotations.annotations.rest.RestService;
 import com.qsoft.pilotproject.data.model.dto.SignInDTO;
-import com.qsoft.pilotproject.data.rest.AuthorityRestClient;
+import com.qsoft.pilotproject.data.rest.AuthRestClient;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -21,7 +21,7 @@ public class AuthorityService
     @RootContext
     Context context;
     @RestService
-    AuthorityRestClient authorityRestClient;
+    AuthRestClient authorityRestClient;
 
     public SignInDTO signIn(String email, String password)
     {
